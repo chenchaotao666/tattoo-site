@@ -1,0 +1,41 @@
+{
+  "name": "tattoo-frontend",
+  "type": "module",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
+  "dependencies": {
+    "@paypal/paypal-js": "^8.2.0",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tooltip": "^1.2.7",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.1",
+    "autoprefixer": "^10.4.16",
+    "axios": "^1.9.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "jspdf": "^3.0.1",
+    "postcss": "^8.4.31",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.2",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^5.8.3",
+    "vite": "^6.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "@types/react": "^19.1.6"
+  },
+  "scripts": {
+    "dev": "vite",
+    "start": "vite",
+    "build": "npx vite build",
+    "build-with-types": "tsc -b && npx vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "check-google-oauth": "node scripts/check-google-oauth.cjs"
+  }
+}

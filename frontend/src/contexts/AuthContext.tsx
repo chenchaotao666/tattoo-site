@@ -1,0 +1,241 @@
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { UserService, User } from '../services/userService';
+import { tokenRefreshService } from '../services/tokenRefreshService';
+import { redirectToHomeIfNeeded } from '../utils/navigationUtils';
+
+interface AuthContextType {
+  user: User | null;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  login: (email: string, password: string, rememberMe?: boolean) => Promise<void>;
+  googleLogin: (token: string, rememberMe?: boolean) => Promise<void>;
+  register: (username: string, email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
+  googleLogout: () => Promise<void>;
+  updateUser: (userData: Partial<User>) => void;
+  refreshUser: () => Promise<void>;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  // 通过同步检查token来设置初始loading状态，减少不必要的加载闪烁
+  const [isLoading, setIsLoading] = useState(() => {
+    // 如果没有token，直接返回false，避免loading状态
+    return UserService.isLoggedIn();
+  });
+  // 单独维护认证状态，基于token存在而不是用户数据存在
+  const [isAuthenticated, setIsAuthenticated] = useState(() => UserService.isLoggedIn());
+
+  // 检查用户是否已登录
+  useEffect(() => {
+    checkAuthStatus();
+  }, []);
+
+  // 监听token刷新事件
+  useEffect(() => {
+    const handleTokenRefreshed = (event: CustomEvent) => {
+      console.log('🔄 Token已刷新:', event.detail);
+      // Token刷新成功，可以在这里做一些处理，比如更新用户信息
+    };
+
+    const handleTokenExpired = (event: CustomEvent) => {
+      console.log('❌ AuthContext: Token已过期事件触发:', event.detail);
+      // Token过期，清除用户状态并可能需要重新登录
+      setUser(null);
+      setIsAuthenticated(false);
+      tokenRefreshService.stop();
+      
+      // 跳转到首页
+      const redirected = redirectToHomeIfNeeded();
+      console.log('🔄 AuthContext: Token过期时尝试跳转:', redirected);
+    };
+
+    // 添加事件监听器
+    window.addEventListener('tokenRefreshed', handleTokenRefreshed as EventListener);
+    window.addEventListener('tokenExpired', handleTokenExpired as EventListener);
+
+    // 清理事件监听器
+    return () => {
+      window.removeEventListener('tokenRefreshed', handleTokenRefreshed as EventListener);
+      window.removeEventListener('tokenExpired', handleTokenExpired as EventListener);
+    };
+  }, []);
+
+  const checkAuthStatus = async () => {
+    try {
+      // 先检查是否有访问令牌，避免不必要的API请求
+      const hasToken = UserService.isLoggedIn();
+      
+      if (!hasToken) {
+        console.log('✅ AuthContext: 无token，用户未登录状态正常');
+        setUser(null);
+        setIsAuthenticated(false);
+        setIsLoading(false);
+        return;
+      }
+      
+      // 有token，设置为已认证状态，然后异步获取用户信息
+      setIsAuthenticated(true);
+      setIsLoading(true);
+      
+      // 有token，尝试获取用户信息
+      const userData = await UserService.getCurrentUser();
+      
+      // 如果用户已登录，启动token自动刷新服务
+      if (userData) {
+        setUser(userData);
+        tokenRefreshService.start();
+      } else {
+        // 有token但获取用户信息失败，可能是token过期
+        console.log('❌ AuthContext: 有token但获取用户信息失败，token可能已过期');
+        setUser(null);
+        setIsAuthenticated(false);
+        tokenRefreshService.stop();
+        
+        // 不要在页面刷新时自动跳转，让用户自己处理
+        console.log('⚠️ AuthContext: token可能过期，但不自动跳转，让用户自己处理');
+      }
+    } catch (error) {
+      console.error('❌ AuthContext: 检查认证状态异常:', error);
+      setUser(null);
+      // 认证失败，停止token刷新服务
+      tokenRefreshService.stop();
+      
+      // 不要在认证异常时自动跳转，让用户自己处理
+      console.log('⚠️ AuthContext: 认证异常，但不自动跳转，让用户自己处理');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const login = async (email: string, password: string, rememberMe: boolean = true) => {
+    await UserService.login({ email, password }, rememberMe);
+    // 登录成功后立即设置认证状态
+    setIsAuthenticated(true);
+    
+    // 登录成功后获取用户信息
+    const userData = await UserService.getCurrentUser();
+    setUser(userData);
+    
+    // 登录成功后启动token自动刷新服务
+    if (userData) {
+      tokenRefreshService.start();
+    }
+  };
+
+  const googleLogin = async (token: string, rememberMe: boolean = true) => {
+    await UserService.googleLogin(token, rememberMe);
+    // 登录成功后立即设置认证状态
+    setIsAuthenticated(true);
+    
+    // 登录成功后获取用户信息，与普通登录保持一致
+    const userData = await UserService.getCurrentUser();
+    setUser(userData);
+    
+    // 登录成功后启动token自动刷新服务
+    if (userData) {
+      tokenRefreshService.start();
+    }
+  };
+
+  const register = async (username: string, email: string, password: string) => {
+    await UserService.register({ username, email, password });
+    // 注册成功后不自动登录，让用户手动登录
+  };
+
+  const logout = async () => {
+    await UserService.logout();
+    setUser(null);
+    setIsAuthenticated(false);
+    
+    // 登出时停止token自动刷新服务
+    tokenRefreshService.stop();
+    
+    // 退出登录时总是跳转到首页
+    if (typeof window !== 'undefined') {
+      window.location.href = '/';
+    }
+  };
+
+  const googleLogout = async () => {
+    await UserService.googleLogout();
+    setUser(null);
+    setIsAuthenticated(false);
+    
+    // 登出时停止token自动刷新服务
+    tokenRefreshService.stop();
+    
+    // 退出登录时总是跳转到首页
+    if (typeof window !== 'undefined') {
+      window.location.href = '/';
+    }
+  };
+
+  const updateUser = (userData: Partial<User>) => {
+    if (user) {
+      setUser({ ...user, ...userData });
+    }
+  };
+
+  const refreshUser = async () => {
+    try {
+      // 先检查是否有访问令牌，避免不必要的API请求
+      const hasToken = UserService.isLoggedIn();
+      
+      if (!hasToken) {
+        setUser(null);
+        return;
+      }
+      
+      const userData = await UserService.getCurrentUser();
+      setUser(userData);
+      
+      // 如果有token但获取用户信息失败，说明token可能无效
+      if (!userData) {
+        console.log('❌ AuthContext: refreshUser - 有token但刷新用户信息失败');
+        console.log('⚠️ AuthContext: refreshUser - 不自动跳转，让用户自己处理');
+      }
+    } catch (error) {
+      console.error('❌ AuthContext: refreshUser - 异常:', error);
+      setUser(null);
+      
+      // 刷新用户信息失败，不自动跳转，让用户自己处理
+      console.log('⚠️ AuthContext: refreshUser - 异常时不自动跳转，让用户自己处理');
+    }
+  };
+
+  const value: AuthContextType = {
+    user,
+    isLoading,
+    isAuthenticated, // 使用状态而不是实时检查
+    login,
+    googleLogin,
+    register,
+    logout,
+    googleLogout,
+    updateUser,
+    refreshUser
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = (): AuthContextType => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+
+export default AuthContext; 

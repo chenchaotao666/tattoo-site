@@ -1,0 +1,161 @@
+{
+  "buttons": {
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "download": "Download",
+    "upload": "Upload",
+    "search": "Search",
+    "retry": "Retry",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset",
+    "generate": "Generate",
+    "create": "Create",
+    "update": "Update",
+    "refresh": "Refresh",
+    "clear": "Clear",
+    "copy": "Copy",
+    "share": "Share",
+    "print": "Print",
+    "viewMore": "View More",
+    "loadMore": "Load More",
+    "showAll": "Show All",
+    "hideAll": "Hide All"
+  },
+  "seo": {
+    "home": {
+      "title": "AI Coloring Pages - Free Printable Generator",
+      "description": "Create unlimited free AI-generated coloring pages instantly! Convert text or images to printable coloring pages. Perfect for kids, parents, and teachers. Print PDF & PNG formats.",
+      "keywords": "AI coloring pages, free coloring pages, printable coloring pages, coloring book generator, kids coloring pages, custom coloring pages, AI art generator"
+    },
+    "generate": {
+      "title": "AI Coloring Generator - Text & Image to Coloring Page",
+      "description": "Generate unique coloring pages with AI! Transform text prompts or upload images to create personalized coloring pages. Fast, free, and printable in high quality.",
+      "keywords": "AI coloring generator, text to coloring page, image to coloring page, custom coloring pages, AI art generator, printable coloring pages"
+    },
+    "categories": {
+      "title": "Free Coloring Categories - Disney, Animals & More",
+      "description": "Browse our collection of free printable coloring pages by category. Disney characters, animals, superheroes, and more. Download PDF and PNG formats instantly.",
+      "keywords": "coloring page categories, Disney coloring pages, animal coloring pages, character coloring pages, free printable coloring pages"
+    },
+    "creations": {
+      "title": "AI Coloring Gallery - User Creations & Inspiration",
+      "description": "Explore amazing AI-generated coloring pages created by our community. Get inspired and discover new ideas for your next coloring project.",
+      "keywords": "AI coloring gallery, user creations, coloring page inspiration, AI-generated art, community coloring pages"
+    },
+    "pricing": {
+      "title": "Pricing Plans - Premium AI Coloring Features",
+      "description": "Choose the perfect plan for unlimited AI coloring page generation. Free trial available with premium features for unlimited creativity.",
+      "keywords": "coloring page pricing, AI generator subscription, premium coloring features, unlimited coloring pages"
+    },
+    "profile": {
+      "title": "Profile - Account Management",
+      "description": "Manage your account information and settings. Update username, password, avatar and other personal information.",
+      "keywords": "profile, account management, user settings, password change, avatar upload"
+    }
+  },
+  "status": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "failed": "Failed",
+    "completed": "Completed",
+    "pending": "Pending",
+    "processing": "Processing",
+    "cancelled": "Cancelled",
+    "timeout": "Timeout",
+    "connecting": "Connecting...",
+    "uploading": "Uploading...",
+    "downloading": "Downloading...",
+    "generating": "Generating...",
+    "saving": "Saving..."
+  },
+  "messages": {
+    "noData": "No data available",
+    "noResults": "No results found",
+    "networkError": "Network connection failed",
+    "serverError": "Server error",
+    "unknownError": "Unknown error",
+    "operationSuccess": "Operation successful",
+    "operationFailed": "Operation failed",
+    "saveSuccess": "Saved successfully",
+    "deleteSuccess": "Deleted successfully",
+    "updateSuccess": "Updated successfully",
+    "uploadSuccess": "Uploaded successfully",
+    "downloadSuccess": "Downloaded successfully",
+    "copySuccess": "Copied successfully",
+    "shareSuccess": "Shared successfully",
+    "pleaseWait": "Please wait...",
+    "processing": "Processing, please wait...",
+    "confirmDelete": "Are you sure you want to delete?",
+    "confirmAction": "Are you sure you want to perform this action?",
+    "unsavedChanges": "You have unsaved changes. Are you sure you want to leave?",
+    "orderHistoryNotAvailable": "Order history feature is not available yet",
+    "loadOrdersFailed": "Failed to load order history",
+    "loadUserFailed": "Failed to load user information, please refresh the page and try again",
+    "loginRequired": "Please login to access your profile"
+  },
+  "time": {
+    "now": "Just now",
+    "minute": "1 minute ago",
+    "minutes": "{count} minutes ago",
+    "hour": "1 hour ago",
+    "hours": "{count} hours ago",
+    "day": "1 day ago",
+    "days": "{count} days ago",
+    "week": "1 week ago",
+    "weeks": "{count} weeks ago",
+    "month": "1 month ago",
+    "months": "{count} months ago",
+    "year": "1 year ago",
+    "years": "{count} years ago",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "tomorrow": "Tomorrow"
+  },
+  "units": {
+    "credits": "credits",
+    "images": "images",
+    "users": "users",
+    "days": "days",
+    "hours": "hours",
+    "minutes": "minutes",
+    "seconds": "seconds",
+    "mb": "MB",
+    "kb": "KB",
+    "gb": "GB"
+  },
+  "difficulty": {
+    "easy": "Easy",
+    "medium": "Medium",
+    "advanced": "Advanced"
+  },
+  "blog": {
+    "title": "Blog",
+    "by": "By",
+    "author": "By",
+    "publishedOn": "Published on",
+    "readMore": "Read More",
+    "backToBlog": "Back to Blog",
+    "totalArticles": "Total {count} articles",
+    "noPosts": "No blog posts found.",
+    "notFound": "Article not found",
+    "notFoundMessage": "The article you are looking for does not exist.",
+    "errorLoading": "Error loading article",
+    "errorMessage": "Failed to load the article. Please try again.",
+    "seo": {
+      "title": "Blog - AI Coloring Pages",
+      "description": "Discover the latest insights, tips, and tutorials about AI coloring pages, digital art, and creative technology.",
+      "keywords": "blog, AI coloring pages, digital art, tutorials, tips"
+    }
+  },
+  "coloringPageTool": {
+    "createdBy": "Created By Colorpages"
+  }
+} 

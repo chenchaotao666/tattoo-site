@@ -1,0 +1,161 @@
+{
+  "buttons": {
+    "confirm": "确认",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "download": "下载",
+    "upload": "上传",
+    "search": "搜索",
+    "retry": "重试",
+    "close": "关闭",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "submit": "提交",
+    "reset": "重置",
+    "generate": "生成",
+    "create": "创建",
+    "update": "更新",
+    "refresh": "刷新",
+    "clear": "清空",
+    "copy": "复制",
+    "share": "分享",
+    "print": "打印",
+    "viewMore": "查看更多",
+    "loadMore": "加载更多",
+    "showAll": "显示全部",
+    "hideAll": "隐藏全部"
+  },
+  "seo": {
+    "home": {
+      "title": "AI涂色页 - 免费可打印生成器",
+      "description": "瞬间生成无限免费AI涂色页！将文字或图片转换为可打印涂色页。适合儿童、家长和老师。支持PDF和PNG格式打印。",
+      "keywords": "AI涂色页, 免费涂色页, 可打印涂色页, 涂色本生成器, 儿童涂色页, 定制涂色页, AI艺术生成器"
+    },
+    "generate": {
+      "title": "AI涂色生成器 - 文字图片转涂色页",
+      "description": "使用AI生成独特涂色页！转换文字提示或上传图片创建个性化涂色页。快速、免费、高质量可打印。",
+      "keywords": "AI涂色生成器, 文字转涂色页, 图片转涂色页, 定制涂色页, AI艺术生成器, 可打印涂色页"
+    },
+    "categories": {
+      "title": "免费涂色分类 - 迪士尼、动物等",
+      "description": "按分类浏览我们的免费可打印涂色页集合。迪士尼角色、动物、超级英雄等。立即下载PDF和PNG格式。",
+      "keywords": "涂色页分类, 迪士尼涂色页, 动物涂色页, 角色涂色页, 免费可打印涂色页"
+    },
+    "creations": {
+      "title": "AI涂色画廊 - 用户作品与灵感",
+      "description": "探索我们社区创建的精彩AI生成涂色页。获得灵感，发现下一个涂色项目的新想法。",
+      "keywords": "AI涂色画廊, 用户作品, 涂色页灵感, AI生成艺术, 社区涂色页"
+    },
+    "pricing": {
+      "title": "价格方案 - 高级AI涂色功能",
+      "description": "选择完美方案，享受无限AI涂色页生成。提供免费试用，高级功能助您无限创作。",
+      "keywords": "涂色页价格, AI生成器订阅, 高级涂色功能, 无限涂色页"
+    },
+    "profile": {
+      "title": "个人资料 - 账户管理",
+      "description": "管理您的账户信息和设置。修改用户名、密码、头像等个人信息。",
+      "keywords": "个人资料, 账户管理, 用户设置, 密码修改, 头像上传"
+    }
+  },
+  "status": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "failed": "失败",
+    "completed": "已完成",
+    "pending": "等待中",
+    "processing": "处理中",
+    "cancelled": "已取消",
+    "timeout": "超时",
+    "connecting": "连接中...",
+    "uploading": "上传中...",
+    "downloading": "下载中...",
+    "generating": "生成中...",
+    "saving": "保存中..."
+  },
+  "messages": {
+    "noData": "暂无数据",
+    "noResults": "没有找到结果",
+    "networkError": "网络连接失败",
+    "serverError": "服务器错误",
+    "unknownError": "未知错误",
+    "operationSuccess": "操作成功",
+    "operationFailed": "操作失败",
+    "saveSuccess": "保存成功",
+    "deleteSuccess": "删除成功",
+    "updateSuccess": "更新成功",
+    "uploadSuccess": "上传成功",
+    "downloadSuccess": "下载成功",
+    "copySuccess": "复制成功",
+    "shareSuccess": "分享成功",
+    "pleaseWait": "请稍等...",
+    "processing": "正在处理，请稍候...",
+    "confirmDelete": "确定要删除吗？",
+    "confirmAction": "确定要执行此操作吗？",
+    "unsavedChanges": "您有未保存的更改，确定要离开吗？",
+    "orderHistoryNotAvailable": "订单历史功能暂未开放",
+    "loadOrdersFailed": "加载订单历史失败",
+    "loadUserFailed": "加载用户信息失败，请刷新页面重试",
+    "loginRequired": "请先登录以访问个人资料"
+  },
+  "time": {
+    "now": "刚刚",
+    "minute": "分钟前",
+    "minutes": "分钟前",
+    "hour": "小时前",
+    "hours": "小时前",
+    "day": "天前",
+    "days": "天前",
+    "week": "周前",
+    "weeks": "周前",
+    "month": "月前",
+    "months": "月前",
+    "year": "年前",
+    "years": "年前",
+    "today": "今天",
+    "yesterday": "昨天",
+    "tomorrow": "明天"
+  },
+  "units": {
+    "credits": "积分",
+    "images": "张图片",
+    "users": "用户",
+    "days": "天",
+    "hours": "小时",
+    "minutes": "分钟",
+    "seconds": "秒",
+    "mb": "MB",
+    "kb": "KB",
+    "gb": "GB"
+  },
+  "difficulty": {
+    "easy": "容易",
+    "medium": "中等难度",
+    "advanced": "进阶"
+  },
+  "blog": {
+    "title": "博客",
+    "by": "作者",
+    "author": "作者",
+    "publishedOn": "发布于",
+    "readMore": "阅读更多",
+    "backToBlog": "返回博客",
+    "totalArticles": "共 {count} 篇文章",
+    "noPosts": "未找到博客文章。",
+    "notFound": "文章未找到",
+    "notFoundMessage": "您要查找的文章不存在。",
+    "errorLoading": "加载文章出错",
+    "errorMessage": "加载文章失败，请重试。",
+    "seo": {
+      "title": "博客 - AI 涂色页面",
+      "description": "发现关于AI涂色页面、数字艺术和创意技术的最新见解、提示和教程。",
+      "keywords": "博客, AI涂色页面, 数字艺术, 教程, 提示"
+    }
+  },
+  "coloringPageTool": {
+    "createdBy": "由 Colorpages 创建"
+  }
+} 

@@ -91,7 +91,7 @@ export class UserService {
    */
   static async register(data: RegisterRequest): Promise<User> {
     try {
-      const response = await ApiUtils.post<User>('/api/auth/register', data);
+      const response = await ApiUtils.post<User>('/api/users', data);
       return response;
     } catch (error) {
       if (error instanceof ApiError) {
@@ -106,10 +106,8 @@ export class UserService {
    */
   static async login(data: LoginRequest, rememberMe: boolean = true): Promise<LoginResponse> {
     try {
-      const loginData = await ApiUtils.post<{user: User, accessToken: string, refreshToken: string, expiresIn: string}>('/api/auth/login', data);
+      const loginData = await ApiUtils.post<{user: User, accessToken: string, refreshToken: string, expiresIn: string}>('/api/users/login', data);
 
-      console.log('loginData: ', loginData);
-      
       // 保存令牌，根据rememberMe决定存储方式
       ApiUtils.setTokens({
         accessToken: loginData.accessToken,

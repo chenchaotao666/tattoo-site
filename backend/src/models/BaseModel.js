@@ -16,7 +16,10 @@ class BaseModel {
     buildSortQuery(sortBy, sortOrder = 'ASC') {
         if (!sortBy) return '';
         const validOrders = ['ASC', 'DESC'];
-        const order = validOrders.includes(sortOrder.toUpperCase()) ? sortOrder.toUpperCase() : 'ASC';
+        
+        // 确保 sortOrder 是字符串
+        const orderStr = typeof sortOrder === 'string' ? sortOrder : (Array.isArray(sortOrder) ? sortOrder[0] || 'ASC' : String(sortOrder));
+        const order = validOrders.includes(orderStr.toUpperCase()) ? orderStr.toUpperCase() : 'ASC';
         
         // 验证字段名，只允许字母、数字、下划线和点
         const sanitizeField = (field) => {
@@ -32,7 +35,9 @@ class BaseModel {
                 const sanitizedField = sanitizeField(field);
                 if (!sanitizedField) return null;
                 const fieldOrder = Array.isArray(sortOrder) ? (sortOrder[index] || 'ASC') : order;
-                const validOrder = validOrders.includes(fieldOrder.toUpperCase()) ? fieldOrder.toUpperCase() : 'ASC';
+                // 确保 fieldOrder 是字符串
+                const fieldOrderStr = typeof fieldOrder === 'string' ? fieldOrder : String(fieldOrder);
+                const validOrder = validOrders.includes(fieldOrderStr.toUpperCase()) ? fieldOrderStr.toUpperCase() : 'ASC';
                 return `${sanitizedField} ${validOrder}`;
             }).filter(Boolean);
             
@@ -70,7 +75,8 @@ class BaseModel {
                     values.push(...value);
                 } else if (typeof value === 'object' && value.operator) {
                     // 自定义操作符 - 验证操作符安全性
-                    const operator = value.operator.toUpperCase();
+                    const operatorStr = typeof value.operator === 'string' ? value.operator : String(value.operator);
+                    const operator = operatorStr.toUpperCase();
                     if (validOperators.includes(operator)) {
                         conditions.push(`${sanitizedKey} ${operator} ?`);
                         values.push(value.value);

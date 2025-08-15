@@ -1,0 +1,648 @@
+const { v4: uuidv4 } = require('uuid');
+const fs = require('fs');
+const path = require('path');
+const fetch = require('node-fetch');
+
+class ImageGenerateService {
+    constructor(imageModel = null) {
+        // Store the image model for database operations
+        this.imageModel = imageModel;
+        
+        // Initialize with default parameters for SDXL Fresh Ink model
+        this.defaultParams = {
+            width: 1024,
+            height: 1024,
+            num_outputs: 1,
+            scheduler: "K_EULER",
+            guidance_scale: 7.5,
+            num_inference_steps: 50,
+            negative_prompt: "ugly, broken, distorted, blurry, low quality, bad anatomy",
+            lora_scale: 0.6,
+            refine: "expert_ensemble_refiner",
+            high_noise_frac: 0.9,
+            apply_watermark: false
+        };
+        
+        // 使用完整的模型版本ID
+        this.modelVersion = "fofr/sdxl-fresh-ink:8515c238222fa529763ec99b4ba1fa9d32ab5d6ebc82b4281de99e4dbdcec943";
+        
+        // 设置图片保存目录
+        this.uploadDir = path.join(__dirname, '../../uploads/generated');
+        this.ensureUploadDir();
+    }
+
+    // 异步生成纹身图像（启动任务，立即返回）
+    async generateTattooAsync(params) {
+        try {
+            // 验证必需参数
+            if (!params.prompt) {
+                throw new Error('Prompt is required');
+            }
+
+            // 检查 Replicate API Token
+            if (!process.env.REPLICATE_API_TOKEN) {
+                throw new Error('REPLICATE_API_TOKEN environment variable is required');
+            }
+
+            // 合并参数
+            const input = {
+                ...this.defaultParams,
+                ...params,
+                // 确保 prompt 包含 TOK 关键词以激活模型特性
+                prompt: this.enhancePrompt(params.prompt)
+            };
+
+            // 验证参数范围
+            this.validateParams(input);
+
+            // 启动异步生成任务
+            const result = await this.startGeneration(input);
+            
+            return this.formatResponse(true, result, 'Generation task started successfully');
+        } catch (error) {
+            throw new Error(`Start generation task failed: ${error.message}`);
+        }
+    }
+
+    // 同步生成纹身图像（等待完成）
+    async generateTattoo(params) {
+        try {
+            // 验证必需参数
+            if (!params.prompt) {
+                throw new Error('Prompt is required');
+            }
+
+            // 检查 Replicate API Token
+            if (!process.env.REPLICATE_API_TOKEN) {
+                throw new Error('REPLICATE_API_TOKEN environment variable is required');
+            }
+
+            // 合并参数
+            const input = {
+                ...this.defaultParams,
+                ...params,
+                // 确保 prompt 包含 TOK 关键词以激活模型特性
+                prompt: this.enhancePrompt(params.prompt)
+            };
+
+            // 验证参数范围
+            this.validateParams(input);
+
+            // 调用 Replicate API（同步等待）
+            const result = await this.callReplicateAPI(input);
+            
+            // 下载并保存生成的图片
+            const savedImages = await this.downloadAndSaveImages(result.output, result.id);
+            
+            // 更新结果，包含本地文件路径
+            result.localImages = savedImages;
+            
+            // 保存到数据库
+            if (this.imageModel && savedImages.length > 0) {
+                const savedToDb = await this.saveToDatabase(result, savedImages, params);
+                result.databaseRecords = savedToDb;
+            }
+            
+            return this.formatResponse(true, result, 'Image generated successfully');
+        } catch (error) {
+            throw new Error(`Generate tattoo image failed: ${error.message}`);
+        }
+    }
+
+    // 增强提示词，确保包含TOK关键词
+    enhancePrompt(prompt) {
+        // 如果提示词中没有包含TOK，则添加
+        if (!prompt.toLowerCase().includes('tok')) {
+            return `A fresh ink TOK tattoo ${prompt}`;
+        }
+        return prompt;
+    }
+
+    // 验证参数
+    validateParams(params) {
+        const errors = [];
+
+        // 验证尺寸
+        if (params.width && (params.width < 256 || params.width > 2048)) {
+            errors.push('Width must be between 256 and 2048');
+        }
+        if (params.height && (params.height < 256 || params.height > 2048)) {
+            errors.push('Height must be between 256 and 2048');
+        }
+
+        // 验证输出数量
+        if (params.num_outputs && (params.num_outputs < 1 || params.num_outputs > 4)) {
+            errors.push('Number of outputs must be between 1 and 4');
+        }
+
+        // 验证引导尺度
+        if (params.guidance_scale && (params.guidance_scale < 1 || params.guidance_scale > 20)) {
+            errors.push('Guidance scale must be between 1 and 20');
+        }
+
+        // 验证推理步数
+        if (params.num_inference_steps && (params.num_inference_steps < 1 || params.num_inference_steps > 100)) {
+            errors.push('Number of inference steps must be between 1 and 100');
+        }
+
+        // 验证LoRA缩放
+        if (params.lora_scale && (params.lora_scale < 0 || params.lora_scale > 1)) {
+            errors.push('LoRA scale must be between 0 and 1');
+        }
+
+        // 验证高噪声比例
+        if (params.high_noise_frac && (params.high_noise_frac < 0 || params.high_noise_frac > 1)) {
+            errors.push('High noise fraction must be between 0 and 1');
+        }
+
+        if (errors.length > 0) {
+            throw new Error(`Parameter validation failed: ${errors.join(', ')}`);
+        }
+    }
+
+    // 启动异步生成任务
+    async startGeneration(input) {
+        try {
+            // 检查是否安装了replicate包
+            let Replicate;
+            try {
+                Replicate = require('replicate');
+            } catch (error) {
+                throw new Error('Replicate package not found. Please install: npm install replicate');
+            }
+
+            const replicate = new Replicate({
+                auth: process.env.REPLICATE_API_TOKEN,
+            });
+
+            // 创建预测任务（异步）
+            const prediction = await replicate.predictions.create({
+                version: this.modelVersion.split(':')[1], // 只需要版本ID部分
+                input: input
+            });
+
+            return {
+                id: prediction.id,
+                status: prediction.status,
+                input: prediction.input,
+                output: prediction.output,
+                error: prediction.error,
+                logs: prediction.logs,
+                created_at: prediction.created_at,
+                started_at: prediction.started_at,
+                completed_at: prediction.completed_at,
+                urls: prediction.urls
+            };
+        } catch (error) {
+            if (error.message.includes('Replicate package not found')) {
+                throw error;
+            }
+            throw new Error(`Replicate API call failed: ${error.message}`);
+        }
+    }
+
+    // 同步生成（等待完成）
+    async callReplicateAPI(input) {
+        try {
+            // 检查是否安装了replicate包
+            let Replicate;
+            try {
+                Replicate = require('replicate');
+            } catch (error) {
+                throw new Error('Replicate package not found. Please install: npm install replicate');
+            }
+
+            const replicate = new Replicate({
+                auth: process.env.REPLICATE_API_TOKEN,
+            });
+
+            // 运行模型（同步等待）
+            const output = await replicate.run(this.modelVersion, { input });
+
+            return {
+                id: this.generateId(),
+                status: 'succeeded',
+                input: input,
+                output: output,
+                created_at: new Date().toISOString(),
+                completed_at: new Date().toISOString()
+            };
+        } catch (error) {
+            if (error.message.includes('Replicate package not found')) {
+                throw error;
+            }
+            throw new Error(`Replicate API call failed: ${error.message}`);
+        }
+    }
+
+    // 获取生成任务状态
+    async getGenerationStatus(predictionId) {
+        try {
+            if (!predictionId) {
+                throw new Error('Prediction ID is required');
+            }
+
+            if (!process.env.REPLICATE_API_TOKEN) {
+                throw new Error('REPLICATE_API_TOKEN environment variable is required');
+            }
+
+            let Replicate;
+            try {
+                Replicate = require('replicate');
+            } catch (error) {
+                throw new Error('Replicate package not found. Please install: npm install replicate');
+            }
+
+            const replicate = new Replicate({
+                auth: process.env.REPLICATE_API_TOKEN,
+            });
+
+            const prediction = await replicate.predictions.get(predictionId);
+            
+            // 格式化状态响应
+            const statusInfo = {
+                id: prediction.id,
+                status: prediction.status,
+                input: prediction.input,
+                output: prediction.output,
+                error: prediction.error,
+                logs: prediction.logs,
+                created_at: prediction.created_at,
+                started_at: prediction.started_at,
+                completed_at: prediction.completed_at,
+                progress: this.calculateProgress(prediction.status, prediction.logs),
+                urls: prediction.urls
+            };
+            
+            return this.formatResponse(true, statusInfo, 'Status retrieved successfully');
+        } catch (error) {
+            throw new Error(`Get generation status failed: ${error.message}`);
+        }
+    }
+
+    // 计算生成进度
+    calculateProgress(status, logs = '') {
+        switch (status) {
+            case 'starting':
+                return { percentage: 5, message: 'Initializing...' };
+            case 'processing':
+                // 尝试从日志中解析进度
+                const logMatch = logs.match(/(\d+)%/);
+                if (logMatch) {
+                    const percentage = Math.min(95, Math.max(10, parseInt(logMatch[1])));
+                    return { percentage, message: 'Generating image...' };
+                }
+                return { percentage: 50, message: 'Processing...' };
+            case 'succeeded':
+                return { percentage: 100, message: 'Completed successfully' };
+            case 'failed':
+                return { percentage: 0, message: 'Generation failed' };
+            case 'canceled':
+                return { percentage: 0, message: 'Generation canceled' };
+            default:
+                return { percentage: 0, message: 'Unknown status' };
+        }
+    }
+
+    // 完成异步生成任务的后处理（下载保存）
+    async completeGeneration(predictionId, originalParams = {}) {
+        try {
+            // 获取生成状态
+            const statusResponse = await this.getGenerationStatus(predictionId);
+            const prediction = statusResponse.data;
+
+            if (prediction.status !== 'succeeded') {
+                throw new Error(`Generation not completed. Status: ${prediction.status}`);
+            }
+
+            if (!prediction.output || !Array.isArray(prediction.output)) {
+                throw new Error('No output images found');
+            }
+
+            // 下载并保存生成的图片
+            const savedImages = await this.downloadAndSaveImages(prediction.output, prediction.id);
+            
+            // 更新结果，包含本地文件路径
+            prediction.localImages = savedImages;
+            
+            // 保存到数据库
+            if (this.imageModel && savedImages.length > 0) {
+                const savedToDb = await this.saveToDatabase(prediction, savedImages, originalParams);
+                prediction.databaseRecords = savedToDb;
+            }
+            
+            return this.formatResponse(true, prediction, 'Generation completed and saved successfully');
+        } catch (error) {
+            throw new Error(`Complete generation failed: ${error.message}`);
+        }
+    }
+
+    // 批量生成
+    async batchGenerate(prompts, commonParams = {}) {
+        try {
+            if (!Array.isArray(prompts) || prompts.length === 0) {
+                throw new Error('Prompts array is required');
+            }
+
+            if (prompts.length > 10) {
+                throw new Error('Batch generation is limited to 10 prompts at once');
+            }
+
+            const results = [];
+            const errors = [];
+
+            // 并发生成
+            const promises = prompts.map(async (prompt, index) => {
+                try {
+                    const params = { ...commonParams, prompt };
+                    const result = await this.generateTattoo(params);
+                    return { index, result };
+                } catch (error) {
+                    return { index, error: error.message };
+                }
+            });
+
+            const responses = await Promise.allSettled(promises);
+
+            responses.forEach((response) => {
+                if (response.status === 'fulfilled') {
+                    if (response.value.error) {
+                        errors.push(`Prompt ${response.value.index + 1}: ${response.value.error}`);
+                    } else {
+                        results.push(response.value.result);
+                    }
+                } else {
+                    errors.push(`Unexpected error: ${response.reason}`);
+                }
+            });
+
+            return this.formatResponse(
+                results.length > 0,
+                {
+                    successful: results,
+                    failed: errors.length,
+                    errors: errors
+                },
+                `Batch generation completed: ${results.length} successful, ${errors.length} failed`
+            );
+        } catch (error) {
+            throw new Error(`Batch generation failed: ${error.message}`);
+        }
+    }
+
+    // 获取预设样式参数
+    getStylePresets() {
+        return {
+            traditional: {
+                prompt_suffix: "traditional tattoo style, bold lines, classic colors",
+                guidance_scale: 8.0,
+                num_inference_steps: 30
+            },
+            realistic: {
+                prompt_suffix: "realistic tattoo, detailed shading, photorealistic",
+                guidance_scale: 7.5,
+                num_inference_steps: 35
+            },
+            minimalist: {
+                prompt_suffix: "minimalist tattoo, simple lines, clean design",
+                guidance_scale: 7.0,
+                num_inference_steps: 25
+            },
+            geometric: {
+                prompt_suffix: "geometric tattoo pattern, precise lines, symmetrical",
+                guidance_scale: 8.5,
+                num_inference_steps: 30
+            },
+            blackAndGrey: {
+                prompt_suffix: "black and grey tattoo, no color, detailed shading",
+                guidance_scale: 7.5,
+                num_inference_steps: 30,
+                negative_prompt: "ugly, broken, distorted, blurry, low quality, bad anatomy, colorful, bright colors"
+            }
+        };
+    }
+
+    // 应用样式预设
+    applyStylePreset(params, stylePreset) {
+        const presets = this.getStylePresets();
+        const preset = presets[stylePreset];
+
+        if (!preset) {
+            throw new Error(`Style preset '${stylePreset}' not found. Available presets: ${Object.keys(presets).join(', ')}`);
+        }
+
+        return {
+            ...params,
+            prompt: `${params.prompt}, ${preset.prompt_suffix}`,
+            guidance_scale: preset.guidance_scale,
+            num_inference_steps: preset.num_inference_steps,
+            ...(preset.negative_prompt && { negative_prompt: preset.negative_prompt })
+        };
+    }
+
+    // 生成唯一ID
+    generateId() {
+        return uuidv4();
+    }
+
+    // 标准化响应格式
+    formatResponse(success, data = null, message = '', errors = []) {
+        return {
+            status: success ? 'success' : 'error',
+            message,
+            data,
+            ...(errors.length > 0 && { errors })
+        };
+    }
+
+    // 确保上传目录存在
+    ensureUploadDir() {
+        if (!fs.existsSync(this.uploadDir)) {
+            fs.mkdirSync(this.uploadDir, { recursive: true });
+            console.log(`Created upload directory: ${this.uploadDir}`);
+        }
+    }
+
+    // 下载并保存图片到本地
+    async downloadAndSaveImages(imageUrls, generationId) {
+        if (!Array.isArray(imageUrls) || imageUrls.length === 0) {
+            throw new Error('No image URLs provided');
+        }
+
+        const savedImages = [];
+
+        for (let i = 0; i < imageUrls.length; i++) {
+            const imageUrl = imageUrls[i];
+            const filename = `${generationId}_${i}.png`;
+            const filepath = path.join(this.uploadDir, filename);
+
+            try {
+                // 下载图片
+                const response = await fetch(imageUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to download image: ${response.status} ${response.statusText}`);
+                }
+
+                // 创建写入流并保存文件
+                const fileStream = fs.createWriteStream(filepath);
+                response.body.pipe(fileStream);
+
+                // 等待文件写入完成
+                await new Promise((resolve, reject) => {
+                    fileStream.on('finish', resolve);
+                    fileStream.on('error', reject);
+                });
+
+                // 生成访问URL
+                const relativePath = `/uploads/generated/${filename}`;
+                
+                // 构建完整的访问URL，优先使用环境变量，否则根据端口生成
+                const port = process.env.PORT || 3002;
+                const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+                
+                savedImages.push({
+                    filename: filename,
+                    filepath: filepath,
+                    relativePath: relativePath,
+                    url: `${baseUrl}${relativePath}`,
+                    originalUrl: imageUrl,
+                    size: fs.statSync(filepath).size
+                });
+
+                console.log(`Image saved: ${filename}`);
+            } catch (error) {
+                console.error(`Failed to save image ${i}:`, error.message);
+                // 继续处理其他图片，不中断整个流程
+                savedImages.push({
+                    error: error.message,
+                    originalUrl: imageUrl
+                });
+            }
+        }
+
+        return savedImages;
+    }
+
+    // 保存生成结果到数据库
+    async saveToDatabase(generationResult, savedImages, originalParams) {
+        if (!this.imageModel) {
+            throw new Error('Image model not provided - cannot save to database');
+        }
+
+        const savedRecords = [];
+
+        for (let i = 0; i < savedImages.length; i++) {
+            const savedImage = savedImages[i];
+            
+            // 跳过下载失败的图片
+            if (savedImage.error) {
+                continue;
+            }
+
+            try {
+                // 构建数据库记录数据
+                const imageData = {
+                    id: this.generateId(),
+                    name: JSON.stringify({
+                        en: `Generated Tattoo ${generationResult.id}_${i}`,
+                        zh: `生成纹身 ${generationResult.id}_${i}`
+                    }),
+                    slug: `generated-tattoo-${generationResult.id}-${i}`,
+                    tattooUrl: savedImage.relativePath, // 使用相对路径
+                    scourceUrl: savedImage.originalUrl, // 原始Replicate URL
+                    title: JSON.stringify({
+                        en: `AI Generated Tattoo`,
+                        zh: `AI生成纹身`
+                    }),
+                    description: JSON.stringify({
+                        en: `AI generated tattoo image using prompt: ${originalParams.prompt}`,
+                        zh: `使用提示词生成的AI纹身图片：${originalParams.prompt}`
+                    }),
+                    type: 'text2image', // 生成类型
+                    styleId: originalParams.styleId || null, // 如果有样式ID
+                    isColor: this.detectColor(originalParams), // 检测是否彩色
+                    isPublic: false, // 默认不公开
+                    isOnline: false, // 默认不上线
+                    hotness: 0,
+                    prompt: JSON.stringify({
+                        en: originalParams.prompt,
+                        zh: originalParams.prompt
+                    }),
+                    userId: originalParams.userId || null, // 如果有用户ID
+                    categoryId: originalParams.categoryId || null, // 如果有分类ID
+                    additionalInfo: JSON.stringify({
+                        generationId: generationResult.id,
+                        generationParams: generationResult.input,
+                        fileSize: savedImage.size,
+                        dimensions: {
+                            width: originalParams.width || 1024,
+                            height: originalParams.height || 1024
+                        },
+                        model: this.modelVersion
+                    })
+                };
+
+                // 保存到数据库
+                const savedRecord = await this.imageModel.create(imageData);
+                savedRecords.push({
+                    id: savedRecord.id,
+                    slug: savedRecord.slug,
+                    localImage: savedImage,
+                    databaseData: savedRecord
+                });
+
+                console.log(`Image saved to database: ${savedRecord.id}`);
+            } catch (error) {
+                console.error(`Failed to save image ${i} to database:`, error.message);
+                savedRecords.push({
+                    error: error.message,
+                    localImage: savedImage
+                });
+            }
+        }
+
+        return savedRecords;
+    }
+
+    // 检测是否彩色图片（基于提示词）
+    detectColor(params) {
+        const prompt = (params.prompt || '').toLowerCase();
+        const negativePrompt = (params.negative_prompt || '').toLowerCase();
+        
+        // 如果负面提示词包含颜色相关禁用词，认为是黑白
+        if (negativePrompt.includes('colorful') || negativePrompt.includes('bright colors') || 
+            negativePrompt.includes('color')) {
+            return false;
+        }
+        
+        // 如果提示词包含颜色相关词汇，认为是彩色
+        const colorKeywords = ['colorful', 'color', 'bright', 'vibrant', 'red', 'blue', 'green', 
+                              'yellow', 'purple', 'orange', 'pink', 'rainbow'];
+        const hasColorKeywords = colorKeywords.some(keyword => prompt.includes(keyword));
+        
+        // 如果明确提到黑白，返回false
+        if (prompt.includes('black and grey') || prompt.includes('black and white') || 
+            prompt.includes('monochrome')) {
+            return false;
+        }
+        
+        return hasColorKeywords;
+    }
+
+    // 获取模型信息
+    getModelInfo() {
+        return {
+            name: this.modelVersion,
+            description: "SDXL model fine-tuned on fresh tattoo photographs for realistic tattoo generation",
+            version: "8515c238222fa529763ec99b4ba1fa9d32ab5d6ebc82b4281de99e4dbdcec943",
+            defaultParams: this.defaultParams,
+            supportedParams: [
+                'prompt', 'negative_prompt', 'width', 'height', 'num_outputs',
+                'scheduler', 'guidance_scale', 'num_inference_steps',
+                'lora_scale', 'refine', 'high_noise_frac', 'apply_watermark', 'seed'
+            ]
+        };
+    }
+}
+
+module.exports = ImageGenerateService;

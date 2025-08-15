@@ -1,7 +1,9 @@
 const express = require('express');
 const { createModels } = require('../models');
 const BaseService = require('../services/BaseService');
+const ImageGenerateService = require('../services/ImageGenerateService');
 const { createBaseRoutes, validateBody, validateUUID } = require('./baseRoutes');
+const { optionalAuth } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -179,11 +181,199 @@ function createImageRoutes(app) {
     const db = app.locals.db;
     const models = createModels(db);
     const imageService = new ImageService(models.Image);
+    const imageGenerateService = new ImageGenerateService(models.Image);
 
     // 使用基础CRUD路由
     const baseRoutes = createBaseRoutes(imageService, 'Image');
     router.use('/', baseRoutes);
 
+    // POST /api/images/generate-tattoo - 生成纹身图片（同步，等待完成）
+    router.post('/generate-tattoo', optionalAuth, validateBody(['prompt']), async (req, res) => {
+        try {
+            const {
+                prompt,
+                width = 1024,
+                height = 1024,
+                num_outputs = 1,
+                scheduler = "K_EULER",
+                guidance_scale = 7.5,
+                num_inference_steps = 25,
+                negative_prompt = "ugly, broken, distorted, blurry, low quality, bad anatomy",
+                lora_scale = 0.6,
+                refine = "expert_ensemble_refiner",
+                high_noise_frac = 0.9,
+                apply_watermark = false,
+                style_preset,
+                seed
+            } = req.body;
+
+            // 构建参数对象
+            const params = {
+                prompt,
+                width: parseInt(width),
+                height: parseInt(height),
+                num_outputs: parseInt(num_outputs),
+                scheduler,
+                guidance_scale: parseFloat(guidance_scale),
+                num_inference_steps: parseInt(num_inference_steps),
+                negative_prompt,
+                lora_scale: parseFloat(lora_scale),
+                refine,
+                high_noise_frac: parseFloat(high_noise_frac),
+                apply_watermark: Boolean(apply_watermark),
+                // 添加用户信息和其他元数据
+                userId: req.userId || null, // 从认证中间件获取
+                categoryId: req.body.categoryId || null,
+                styleId: req.body.styleId || null
+            };
+
+            // 如果提供了种子，添加到参数中
+            if (seed !== undefined) {
+                params.seed = parseInt(seed);
+            }
+
+            // 如果提供了样式预设，应用样式
+            if (style_preset) {
+                const styledParams = imageGenerateService.applyStylePreset(params, style_preset);
+                Object.assign(params, styledParams);
+            }
+
+            const result = await imageGenerateService.generateTattoo(params);
+            res.json(result);
+        } catch (error) {
+            console.error('Generate tattoo error:', error);
+            res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // POST /api/images/generate-tattoo/async - 异步生成纹身图片（立即返回任务ID）
+    router.post('/generate-tattoo/async', optionalAuth, validateBody(['prompt']), async (req, res) => {
+        try {
+            const {
+                prompt,
+                width = 1024,
+                height = 1024,
+                num_outputs = 1,
+                scheduler = "K_EULER",
+                guidance_scale = 7.5,
+                num_inference_steps = 50,
+                negative_prompt = "ugly, broken, distorted, blurry, low quality, bad anatomy",
+                lora_scale = 0.6,
+                refine = "expert_ensemble_refiner",
+                high_noise_frac = 0.9,
+                apply_watermark = false,
+                style_preset,
+                seed
+            } = req.body;
+
+            // 构建参数对象
+            const params = {
+                prompt,
+                width: parseInt(width),
+                height: parseInt(height),
+                num_outputs: parseInt(num_outputs),
+                scheduler,
+                guidance_scale: parseFloat(guidance_scale),
+                num_inference_steps: parseInt(num_inference_steps),
+                negative_prompt,
+                lora_scale: parseFloat(lora_scale),
+                refine,
+                high_noise_frac: parseFloat(high_noise_frac),
+                apply_watermark: Boolean(apply_watermark),
+                // 添加用户信息和其他元数据
+                userId: req.userId || null,
+                categoryId: req.body.categoryId || null,
+                styleId: req.body.styleId || null
+            };
+
+            // 如果提供了种子，添加到参数中
+            if (seed !== undefined) {
+                params.seed = parseInt(seed);
+            }
+
+            // 如果提供了样式预设，应用样式
+            if (style_preset) {
+                const styledParams = imageGenerateService.applyStylePreset(params, style_preset);
+                Object.assign(params, styledParams);
+            }
+
+            // 启动异步生成任务
+            const result = await imageGenerateService.generateTattooAsync(params);
+            res.json(result);
+        } catch (error) {
+            console.error('Generate tattoo async error:', error);
+            res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // POST /api/images/generate-tattoo/complete - 完成异步生成任务
+    router.post('/generate-tattoo/complete', optionalAuth, validateBody(['predictionId']), async (req, res) => {
+        try {
+            const { predictionId, originalParams = {} } = req.body;
+            
+            // 合并参数
+            const params = {
+                userId: req.userId || null,
+                categoryId: originalParams.categoryId || req.body.categoryId || null,
+                styleId: originalParams.styleId || req.body.styleId || null,
+                prompt: originalParams.prompt || req.body.prompt || 'Generated tattoo',
+                ...originalParams
+            };
+
+            const result = await imageGenerateService.completeGeneration(predictionId, params);
+            res.json(result);
+        } catch (error) {
+            console.error('Complete generation error:', error);
+            res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // POST /api/images/generate-tattoo/batch - 批量生成纹身图片
+    router.post('/generate-tattoo/batch', validateBody(['prompts']), async (req, res) => {
+        try {
+            const { prompts, ...commonParams } = req.body;
+
+            const result = await imageGenerateService.batchGenerate(prompts, commonParams);
+            res.json(result);
+        } catch (error) {
+            console.error('Batch generate tattoo error:', error);
+            res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // GET /api/images/generate-tattoo/status/:predictionId - 获取生成状态
+    router.get('/generate-tattoo/status/:predictionId', async (req, res) => {
+        try {
+            const { predictionId } = req.params;
+            const result = await imageGenerateService.getGenerationStatus(predictionId);
+            res.json(result);
+        } catch (error) {
+            console.error('Get generation status error:', error);
+            res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // GET /api/images/generate-tattoo/model-info - 获取模型信息
+    router.get('/generate-tattoo/model-info', async (req, res) => {
+        try {
+            const modelInfo = imageGenerateService.getModelInfo();
+            res.json(imageGenerateService.formatResponse(true, modelInfo, 'Model info retrieved successfully'));
+        } catch (error) {
+            console.error('Get model info error:', error);
+            res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // GET /api/images/generate-tattoo/style-presets - 获取样式预设
+    router.get('/generate-tattoo/style-presets', async (req, res) => {
+        try {
+            const stylePresets = imageGenerateService.getStylePresets();
+            res.json(imageGenerateService.formatResponse(true, stylePresets, 'Style presets retrieved successfully'));
+        } catch (error) {
+            console.error('Get style presets error:', error);
+            res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
+        }
+    });
 
     // GET /api/images/public - 获取公开图片
     router.get('/public', async (req, res) => {

@@ -21,6 +21,59 @@ export interface GenerateImageToImageRequest {
   userId?: string;
 }
 
+export interface GenerateTattooRequest {
+  prompt: string;
+  width?: number;
+  height?: number;
+  num_outputs?: number;
+  scheduler?: string;
+  guidance_scale?: number;
+  num_inference_steps?: number;
+  negative_prompt?: string;
+  lora_scale?: number;
+  refine?: string;
+  high_noise_frac?: number;
+  apply_watermark?: boolean;
+  style_preset?: 'traditional' | 'realistic' | 'minimalist' | 'geometric' | 'blackAndGrey';
+  seed?: number;
+}
+
+export interface TattooGenerationResponse {
+  id: string;
+  status: string;
+  input: any;
+  output?: string[];
+  created_at: string;
+  started_at?: string;
+  completed_at?: string;
+  progress?: {
+    percentage: number;
+    message: string;
+  };
+  urls?: any;
+  error?: any;
+  logs?: string;
+  localImages?: any[];
+  databaseRecords?: any[];
+}
+
+export interface TattooGenerationStatusResponse {
+  id: string;
+  status: 'starting' | 'processing' | 'succeeded' | 'failed' | 'canceled';
+  input: any;
+  output?: string[];
+  error?: any;
+  logs?: string;
+  created_at: string;
+  started_at?: string;
+  completed_at?: string;
+  progress: {
+    percentage: number;
+    message: string;
+  };
+  urls?: any;
+}
+
 export interface GenerateResponse {
   status: 'success' | 'fail';
   data: {
@@ -84,6 +137,256 @@ export interface UserTasksResponse {
 
 // ==================== 主要服务类 ====================
 class GenerateService {
+
+  /**
+   * 纹身图片生成（同步，等待完成）
+   */
+  async generateTattoo(data: GenerateTattooRequest): Promise<TattooGenerationResponse> {
+    try {
+      const requestBody = {
+        prompt: data.prompt,
+        width: data.width || 1024,
+        height: data.height || 1024,
+        num_outputs: data.num_outputs || 1,
+        scheduler: data.scheduler || "K_EULER",
+        guidance_scale: data.guidance_scale || 7.5,
+        num_inference_steps: data.num_inference_steps || 25,
+        negative_prompt: data.negative_prompt || "ugly, broken, distorted, blurry, low quality, bad anatomy",
+        lora_scale: data.lora_scale || 0.6,
+        refine: data.refine || "expert_ensemble_refiner",
+        high_noise_frac: data.high_noise_frac || 0.9,
+        apply_watermark: data.apply_watermark || false,
+        ...(data.style_preset && { style_preset: data.style_preset }),
+        ...(data.seed && { seed: data.seed })
+      };
+      
+      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/images/generate-tattoo', requestBody, true);
+      
+      return responseData;
+    } catch (error) {
+      console.error('Generate tattoo error:', error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError('2009', '纹身生成失败');
+    }
+  }
+
+  /**
+   * 纹身图片异步生成（立即返回，需要后续查询进度）
+   */
+  async generateTattooAsync(data: GenerateTattooRequest): Promise<TattooGenerationResponse> {
+    try {
+      const requestBody = {
+        prompt: data.prompt,
+        width: data.width || 1024,
+        height: data.height || 1024,
+        num_outputs: data.num_outputs || 1,
+        scheduler: data.scheduler || "K_EULER",
+        guidance_scale: data.guidance_scale || 7.5,
+        num_inference_steps: data.num_inference_steps || 25,
+        negative_prompt: data.negative_prompt || "ugly, broken, distorted, blurry, low quality, bad anatomy",
+        lora_scale: data.lora_scale || 0.6,
+        refine: data.refine || "expert_ensemble_refiner",
+        high_noise_frac: data.high_noise_frac || 0.9,
+        apply_watermark: data.apply_watermark || false,
+        ...(data.style_preset && { style_preset: data.style_preset }),
+        ...(data.seed && { seed: data.seed })
+      };
+      
+      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/images/generate-tattoo/async', requestBody, true);
+      
+      return responseData;
+    } catch (error) {
+      console.error('Generate tattoo async error:', error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError('2014', '异步纹身生成失败');
+    }
+  }
+
+  /**
+   * 批量纹身图片生成
+   */
+  async batchGenerateTattoo(prompts: string[], commonParams: Partial<GenerateTattooRequest> = {}): Promise<TattooGenerationResponse> {
+    try {
+      const requestBody = {
+        prompts,
+        ...commonParams
+      };
+      
+      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/images/generate-tattoo/batch', requestBody, true);
+      
+      return responseData;
+    } catch (error) {
+      console.error('Batch generate tattoo error:', error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError('2010', '批量纹身生成失败');
+    }
+  }
+
+  /**
+   * 获取纹身生成状态
+   */
+  async getTattooGenerationStatus(predictionId: string): Promise<TattooGenerationStatusResponse> {
+    try {
+      const responseData = await ApiUtils.get<TattooGenerationStatusResponse>(`/api/images/generate-tattoo/status/${predictionId}`, {}, true);
+      
+      return responseData;
+    } catch (error) {
+      console.error('Get tattoo generation status error:', error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError('2011', '获取生成状态失败');
+    }
+  }
+
+  /**
+   * 完成纹身生成任务（下载保存图片）
+   */
+  async completeTattooGeneration(predictionId: string, originalParams: Partial<GenerateTattooRequest> = {}): Promise<TattooGenerationResponse> {
+    try {
+      const requestBody = {
+        predictionId,
+        originalParams
+      };
+      
+      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/images/generate-tattoo/complete', requestBody, true);
+      
+      return responseData;
+    } catch (error) {
+      console.error('Complete tattoo generation error:', error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError('2015', '完成纹身生成失败');
+    }
+  }
+
+  /**
+   * 轮询纹身生成状态直到完成
+   * @param predictionId 预测任务ID
+   * @param onProgress 进度回调函数
+   * @param maxRetries 最大重试次数，默认60次（约5分钟）
+   * @param retryInterval 重试间隔（毫秒），默认5秒
+   * @returns 最终生成结果
+   */
+  async pollTattooGenerationStatus(
+    predictionId: string, 
+    onProgress?: (progress: { percentage: number; message: string; status: string }) => void,
+    maxRetries: number = 60,
+    retryInterval: number = 5000
+  ): Promise<TattooGenerationStatusResponse> {
+    let retries = 0;
+    
+    while (retries < maxRetries) {
+      try {
+        const statusResponse = await this.getTattooGenerationStatus(predictionId);
+        const { status, progress } = statusResponse;
+        
+        // 调用进度回调
+        if (onProgress) {
+          onProgress({
+            percentage: progress.percentage,
+            message: progress.message,
+            status: status
+          });
+        }
+        
+        // 如果任务完成（成功或失败），返回结果
+        if (status === 'succeeded' || status === 'failed' || status === 'canceled') {
+          return statusResponse;
+        }
+        
+        // 等待后继续轮询
+        await new Promise(resolve => setTimeout(resolve, retryInterval));
+        retries++;
+        
+      } catch (error) {
+        console.error(`Poll attempt ${retries + 1} failed:`, error);
+        retries++;
+        
+        // 如果是网络错误，等待后重试
+        if (retries < maxRetries) {
+          await new Promise(resolve => setTimeout(resolve, retryInterval));
+        }
+      }
+    }
+    
+    throw new ApiError('2016', '轮询超时，生成任务可能仍在进行中');
+  }
+
+  /**
+   * 全流程异步生成纹身（启动 -> 轮询 -> 完成）
+   * @param data 生成参数
+   * @param onProgress 进度回调
+   * @returns 最终生成结果
+   */
+  async generateTattooWithProgress(
+    data: GenerateTattooRequest,
+    onProgress?: (progress: { percentage: number; message: string; status: string }) => void
+  ): Promise<TattooGenerationResponse> {
+    try {
+      // 1. 启动异步生成任务
+      const startResponse = await this.generateTattooAsync(data);
+      const predictionId = startResponse.id;
+      
+      // 2. 轮询状态直到完成
+      const statusResponse = await this.pollTattooGenerationStatus(predictionId, onProgress);
+      
+      // 3. 如果生成成功，完成后处理（下载保存）
+      if (statusResponse.status === 'succeeded') {
+        const completeResponse = await this.completeTattooGeneration(predictionId, data);
+        return completeResponse;
+      } else {
+        // 生成失败，返回状态信息
+        throw new ApiError('2017', `生成失败: ${statusResponse.error || '未知错误'}`);
+      }
+      
+    } catch (error) {
+      console.error('Generate tattoo with progress error:', error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError('2018', '纹身生成流程失败');
+    }
+  }
+
+  /**
+   * 获取模型信息
+   */
+  async getModelInfo(): Promise<any> {
+    try {
+      const responseData = await ApiUtils.get<any>('/api/images/generate-tattoo/model-info');
+      return responseData.data;
+    } catch (error) {
+      console.error('Get model info error:', error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError('2012', '获取模型信息失败');
+    }
+  }
+
+  /**
+   * 获取样式预设
+   */
+  async getStylePresets(): Promise<any> {
+    try {
+      const responseData = await ApiUtils.get<any>('/api/images/generate-tattoo/style-presets');
+      return responseData.data;
+    } catch (error) {
+      console.error('Get style presets error:', error);
+      if (error instanceof ApiError) {
+        throw error;
+      }
+      throw new ApiError('2013', '获取样式预设失败');
+    }
+  }
 
   /**
    * 文本生成图片

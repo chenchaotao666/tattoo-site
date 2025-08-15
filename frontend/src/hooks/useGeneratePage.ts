@@ -2,8 +2,6 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import GenerateServiceInstance, { StyleSuggestion, AspectRatio } from '../services/generateService';
 
-// 难度类型定义
-export type DifficultyLevel = 'toddler' | 'children' | 'teen' | 'adult';
 import { HomeImage } from '../services/imageService';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getLocalizedText } from '../utils/textUtils';
@@ -13,7 +11,8 @@ export interface UseGeneratePageState {
   prompt: string;
   selectedTab: 'text' | 'image';
   selectedRatio: AspectRatio;
-  selectedDifficulty: DifficultyLevel;
+  selectedColor: boolean; // true for colorful, false for black & white
+  selectedQuantity: number; // 1 or 4 images to generate
   textPublicVisibility: boolean;   // Text to Image 的 Public Visibility
   imagePublicVisibility: boolean;  // Image to Image 的 Public Visibility
   selectedImage: string | null;
@@ -55,7 +54,8 @@ export interface UseGeneratePageActions {
   setPrompt: (prompt: string) => void;
   setSelectedTab: (tab: 'text' | 'image') => void;
   setSelectedRatio: (ratio: AspectRatio) => void;
-  setSelectedDifficulty: (difficulty: DifficultyLevel) => void;
+  setSelectedColor: (isColor: boolean) => void;
+  setSelectedQuantity: (quantity: number) => void;
   setTextPublicVisibility: (visible: boolean) => void;
   setImagePublicVisibility: (visible: boolean) => void;
   setSelectedImage: (imageUrl: string | null) => void;
@@ -299,7 +299,8 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     prompt: getInitialPrompt(),
     selectedTab: initialTab,
     selectedRatio: getInitialRatio(),
-    selectedDifficulty: 'children',
+    selectedColor: true, // Default to colorful
+    selectedQuantity: 1, // Default to 1 image
     textPublicVisibility: searchParams.get('isPublic') ? getInitialIsPublic() : true,
     imagePublicVisibility: searchParams.get('isPublic') ? getInitialIsPublic() : true,
     selectedImage: null,
@@ -377,8 +378,13 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     updateState({ selectedRatio });
   }, [updateState]);
 
-  const setSelectedDifficulty = useCallback((selectedDifficulty: DifficultyLevel) => {
-    updateState({ selectedDifficulty });
+
+  const setSelectedColor = useCallback((selectedColor: boolean) => {
+    updateState({ selectedColor });
+  }, [updateState]);
+
+  const setSelectedQuantity = useCallback((selectedQuantity: number) => {
+    updateState({ selectedQuantity });
   }, [updateState]);
 
   const setTextPublicVisibility = useCallback((textPublicVisibility: boolean) => {
@@ -663,13 +669,78 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
           throw new Error('Please enter a prompt');
         }
         
-        response = await GenerateServiceInstance.generateTextToImage({
+        // Use the new asynchronous tattoo generation API with progress
+        const tattooResponse = await GenerateServiceInstance.generateTattooWithProgress({
           prompt: state.prompt,
-          ratio: state.selectedRatio,
-          isPublic: state.textPublicVisibility,
-          userId: user.userId, // 使用真实用户ID
-          difficulty: state.selectedDifficulty,
+          width: 1024,
+          height: 1024,
+          num_outputs: state.selectedQuantity,
+          // Apply color settings
+          ...(state.selectedColor ? {} : { 
+            negative_prompt: "ugly, broken, distorted, blurry, low quality, bad anatomy, colorful, bright colors",
+            style_preset: 'blackAndGrey' as const
+          })
+        }, (progress) => {
+          // Update progress in real-time
+          console.log(`Generation progress: ${progress.percentage}% - ${progress.message}`);
+          currentProgress.current = progress.percentage;
+          targetProgress.current = progress.percentage;
+          updateState({ generationProgress: progress.percentage });
         });
+        
+        // Handle completed generation
+        if (tattooResponse && tattooResponse.localImages) {
+          // Create a HomeImage object from the tattoo response
+          const localImages = tattooResponse.localImages || [];
+          if (localImages.length > 0) {
+            const newImage: HomeImage = {
+              id: tattooResponse.id,
+              name: { zh: state.prompt, en: state.prompt },
+              slug: `generated-tattoo-${tattooResponse.id}`,
+              tattooUrl: localImages[0].url,
+              title: { zh: state.prompt, en: state.prompt },
+              description: { zh: state.prompt, en: state.prompt },
+              prompt: { zh: state.prompt, en: state.prompt },
+              type: 'text2image' as const,
+              styleId: '',
+              isColor: state.selectedColor,
+              isPublic: state.textPublicVisibility,
+              isOnline: false,
+              hotness: 0,
+              userId: '',
+              categoryId: '',
+              ratio: '1:1' as const,
+              createdAt: tattooResponse.created_at || new Date().toISOString(),
+              updatedAt: tattooResponse.created_at || new Date().toISOString()
+            };
+            
+            // Immediately add the image to state
+            setState(prevState => ({
+              ...prevState,
+              textGeneratedImages: [newImage, ...prevState.textGeneratedImages],
+              generatedImages: [newImage, ...prevState.generatedImages],
+              hasTextToImageHistory: true,
+              selectedImage: newImage.id,
+              isGenerating: false,
+              currentTaskId: null,
+              generationProgress: 100,
+            }));
+            
+            // Refresh user credits
+            checkUserCredits();
+            if (refreshUser) {
+              try {
+                await refreshUser();
+              } catch (error) {
+                console.error('Failed to refresh global user state:', error);
+              }
+            }
+            return; // Exit early since generation is complete
+          }
+        }
+        
+        // If we get here, something went wrong
+        throw new Error('Generation failed - no local images received');
       } else {
         if (!state.uploadedFile) {
           throw new Error('Please upload an image');
@@ -682,15 +753,16 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
         });
       }
       
-      if (response.status === 'success' && response.data.taskId) {
+      // For image2image, we still use the old polling system
+      if (state.selectedTab === 'image' && response.status === 'success' && response.data.taskId) {
         updateState({
           currentTaskId: response.data.taskId,
         });
         
         // 开始轮询任务状态
-        const taskType = state.selectedTab === 'text' ? 'text2image' : 'image2image';
+        const taskType = 'image2image';
         pollTaskStatus(response.data.taskId, taskType);
-      } else {
+      } else if (state.selectedTab === 'image') {
         throw new Error(response.message || 'Generation failed');
       }
     } catch (error) {
@@ -1339,7 +1411,8 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     setPrompt,
     setSelectedTab,
     setSelectedRatio,
-    setSelectedDifficulty,
+    setSelectedColor,
+    setSelectedQuantity,
     setTextPublicVisibility,
     setImagePublicVisibility,
     setSelectedImage,

@@ -38,6 +38,29 @@ class User extends BaseModel {
         }
     }
 
+    // 验证用户密码
+    async verifyPassword(email, password) {
+        try {
+            const user = await this.findByEmail(email);
+            if (!user || !user.passwordHash) {
+                return null;
+            }
+
+            const bcrypt = require('bcrypt');
+            const isValid = await bcrypt.compare(password, user.passwordHash);
+            
+            if (isValid) {
+                // 返回用户信息（不包含密码哈希）
+                const { passwordHash, ...userWithoutPassword } = user;
+                return userWithoutPassword;
+            }
+            
+            return null;
+        } catch (error) {
+            throw new Error(`Verify password failed: ${error.message}`);
+        }
+    }
+
     // 更新用户积分
     async updateCredits(userId, creditsChange) {
         try {

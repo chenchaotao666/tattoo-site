@@ -195,17 +195,18 @@ class BaseService {
     // 标准API响应格式
     formatResponse(success, data = null, message = '', errors = []) {
         return {
-            success,
+            status: success ? 'success' : 'error',
             message,
             data,
-            ...(errors.length > 0 && { errors })
+            ...(errors.length > 0 && { errors }),
+            ...(success === false && { errorCode: errors.length > 0 ? '9002' : '9001' })
         };
     }
 
     // 分页响应格式
     formatPaginatedResponse(result, message = 'Data retrieved successfully') {
         return {
-            success: true,
+            status: 'success',
             message,
             data: result.data,
             pagination: result.pagination

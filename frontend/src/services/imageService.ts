@@ -438,12 +438,10 @@ export class ImageService {
       const url = queryString ? `/api/images/count?${queryString}` : '/api/images/count';
       
       const response = await ApiUtils.get<{
-        success: boolean;
-        message: string;
-        data: { count: number };
+        count: number;
       }>(url);
       
-      return response.data.count;
+      return response.count;
     } catch (error) {
       console.error('Failed to fetch image count:', error);
       return 0;

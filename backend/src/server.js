@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -9,6 +10,9 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// 静态文件服务 - 提供生成的图片访问
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // 数据库连接池
 const pool = mysql.createPool({

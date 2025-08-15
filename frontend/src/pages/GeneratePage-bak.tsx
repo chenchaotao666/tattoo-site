@@ -25,6 +25,7 @@ import {
   getImageContainerSize,
   getGeneratingContainerSize,
 } from '../utils/imageUtils';
+const addImageIcon = '/images/add-image.svg';
 const refreshIcon = '/images/refresh.svg';
 const crownIcon = '/images/crown.svg';
 const tipIcon = '/images/tip.svg';
@@ -190,8 +191,8 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     // 状态
     prompt,
     selectedTab,
-    selectedColor,
-    selectedQuantity,
+    selectedRatio,
+    selectedDifficulty,
     textPublicVisibility,
     imagePublicVisibility,
     selectedImage,
@@ -214,8 +215,8 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     // 操作
     setPrompt,
     setSelectedTab,
-    setSelectedColor,
-    setSelectedQuantity,
+    setSelectedRatio,
+    setSelectedDifficulty,
     setTextPublicVisibility,
     setImagePublicVisibility,
     setSelectedImage,
@@ -810,6 +811,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     // 检查是否有URL参数，如果有则不要覆盖
     const searchParams = new URLSearchParams(window.location.search);
     const hasPromptParam = searchParams.has('prompt');
+    const hasRatioParam = searchParams.has('ratio');
     const hasIsPublicParam = searchParams.has('isPublic');
     
     if (selectedImageData) {
@@ -819,6 +821,13 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
         setPrompt(promptValue);
       }
       
+      // 回填 ratio（没有URL参数时才回填）
+      if (!hasRatioParam) {
+        const validRatios = ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', '16:21'];
+        if (selectedImageData.ratio && validRatios.includes(selectedImageData.ratio)) {
+          setSelectedRatio(selectedImageData.ratio as any);
+        }
+      }
       
       // 回填 isPublic（没有URL参数时才回填）
       if (!hasIsPublicParam) {
@@ -828,6 +837,17 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
           setImagePublicVisibility(selectedImageData.isPublic);
         }
       }
+      
+      // 对于 Image to Image 模式，选择历史图片时不清空上传的文件
+      // 用户可能希望在上传图片和历史图片之间切换，保持上传图片不变
+      // 注释掉清空上传图片的逻辑
+      // const sourceImageUrl = searchParams.get('sourceImageUrl');
+      // const hasAnyUrlParams = hasPromptParam || hasRatioParam || hasIsPublicParam || sourceImageUrl;
+      
+      // 不再清空上传文件，让用户自主选择使用上传图片还是历史图片
+      // if (selectedTab === 'image' && uploadedFile && !hasAnyUrlParams) {
+      //   setUploadedImageWithDimensions(null, null);
+      // }
     }
   };
 
@@ -946,8 +966,8 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     }
 
     // 2. 检查输入是否有效
-    if (!(typeof prompt === 'string' ? prompt.trim() : '')) {
-      // 如果prompt为空，聚焦到输入框并显示错误
+    if (selectedTab === 'text' && !(typeof prompt === 'string' ? prompt.trim() : '')) {
+      // 如果是text模式且prompt为空，聚焦到输入框并显示错误
       setInputError(t('prompt.required') || 'Please enter a prompt to generate coloring pages');
       setTimeout(() => {
         promptInputRef.current?.focus();
@@ -955,6 +975,11 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
       return;
     }
 
+    if (selectedTab === 'image' && !uploadedFile) {
+      // 如果是image模式且没有上传文件，显示错误
+      setInputError(t('upload.required') || 'Please upload an image to generate coloring pages');
+      return;
+    }
 
     // 清除错误状态
     setInputError('');
@@ -1021,6 +1046,36 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     }
   };
 
+  // 移动端标签切换处理函数 - 添加滚动到顶部功能
+  const handleMobileTabChange = (tab: 'text' | 'image') => {
+    // 检查是否是移动端
+    const isMobile = window.innerWidth < 1024; // lg断点
+    
+    // 如果是移动端且标签发生变化，则滚动到顶部
+    if (isMobile && tab !== selectedTab) {
+      // 使用ref直接访问移动端内容容器
+      if (mobileContentRef.current) {
+        mobileContentRef.current.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        });
+      } else {
+        // 备用方案：滚动整个窗口
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        });
+      }
+    }
+    
+    // 设置选中的标签
+    setSelectedTab(tab);
+    
+    // 清除错误状态
+    setInputError('');
+  };
 
   // 通用内容渲染方法
   const renderContent = (mode: 'text' | 'image') => {
@@ -1089,7 +1144,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
                             src={(() => {
                               // 根据当前标签页选择对应的图片数组
                               const currentImages = selectedTab === 'text' ? textGeneratedImages : imageGeneratedImages;
-                              return currentImages.find(img => img.id === selectedImage)?.tattooUrl;
+                              return currentImages.find(img => img.id === selectedImage)?.defaultUrl;
                             })()}
                             alt="Generated coloring page"
                             className="w-full h-full object-contain rounded-2xl"
@@ -1159,7 +1214,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
                   title={config[mode].title}
                   description={config[mode].description}
                   images={currentExampleImages.map(example => ({
-                    url: example.tattooUrl,
+                    url: example.defaultUrl,
                     prompt: getLocalizedText(example.description, language) || `Example ${example.id}`
                   }))}
                 />
@@ -1172,7 +1227,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
                   title={config[mode].title}
                   description={config[mode].description}
                   images={currentExampleImages.map(example => ({
-                    url: example.tattooUrl,
+                    url: example.defaultUrl,
                     colorUrl: example.colorUrl,
                     coloringUrl: example.coloringUrl,
                     prompt: getLocalizedText(example.description, language) || `Example ${example.id}`
@@ -1212,7 +1267,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
                       onClick={() => handleImageSelectWithTabMemory(image.id)}
                     >
                       <img
-                        src={image.tattooUrl}
+                        src={image.defaultUrl}
                         alt={getLocalizedText(image.description, language) || `Generated ${index + 1}`}
                         className="w-full h-full rounded-md object-cover"
                       />
@@ -1240,7 +1295,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
               <textarea
                 ref={promptInputRef}
                 className={`w-full h-[120px] sm:h-[150px] lg:h-[200px] bg-[#F2F3F5] rounded-lg border border-[#EDEEF0] p-3 pr-10 text-sm resize-none focus:outline-none ${
-                  inputError ? 'outline outline-1 outline-red-500' : ''
+                  inputError && selectedTab === 'text' ? 'outline outline-1 outline-red-500' : ''
                 }`}
                 placeholder={t('prompt.placeholder')}
                 value={prompt}
@@ -1276,7 +1331,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
             </div>
             
             {/* Error message - show below the prompt input */}
-            {inputError && (
+            {inputError && selectedTab === 'text' && (
               <div className="mt-2 text-red-500 text-sm px-1">
                 {inputError}
               </div>
@@ -1304,96 +1359,282 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
             </div>
           </div>
 
-
-          {/* Color Selector */}
+          {/* Difficulty Selector */}
           <div className="lg:mx-5 mt-6 lg:mt-10">
-            <div className="text-sm font-bold text-[#161616] mb-2">Color</div>
-            <div className="bg-[#26262D] rounded-lg p-1 relative" style={{height: '48px'}}>
+            <div className="text-sm font-bold text-[#161616] mb-2">{t('settings.difficulty')}</div>
+            <div className="bg-[#F2F3F5] rounded-lg p-1 relative">
               {/* 滑动指示器 */}
               <div
-                className={`absolute rounded-lg transition-all duration-200 bg-[#393B42] ${
-                  selectedColor ? 'w-[calc(50%-4px)] h-[calc(100%-8px)] left-[4px] top-[4px]' :
-                  'w-[calc(50%-4px)] h-[calc(100%-8px)] left-[calc(50%+2px)] top-[4px]'
+                className={`absolute rounded-md transition-all duration-200 bg-white shadow-sm ${
+                  selectedDifficulty === 'toddler' ? 'w-[calc(25%-4px)] h-[calc(100%-8px)] left-[4px] top-[4px]' :
+                  selectedDifficulty === 'children' ? 'w-[calc(25%-4px)] h-[calc(100%-8px)] left-[calc(25%+2px)] top-[4px]' :
+                  selectedDifficulty === 'teen' ? 'w-[calc(25%-4px)] h-[calc(100%-8px)] left-[calc(50%+2px)] top-[4px]' :
+                  selectedDifficulty === 'adult' ? 'w-[calc(25%-6px)] h-[calc(100%-8px)] left-[calc(75%+2px)] top-[4px]' :
+                  'w-0 opacity-0'
                 }`}
               ></div>
               
-              {/* 颜色选项 */}
-              <div className="grid grid-cols-2 gap-0 relative z-10 h-full">
+              {/* 难度选项 */}
+              <div className="grid grid-cols-4 gap-0 relative z-10">
                 <button
-                  className={`h-full flex items-center justify-center text-sm font-bold transition-all duration-200 ${
-                    selectedColor ? 'text-[#98FF59]' : 'text-[#C8C8C8] hover:text-white'
+                  className={`h-16 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedDifficulty === 'toddler' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
                   }`}
-                  onClick={() => setSelectedColor(true)}
+                  onClick={() => setSelectedDifficulty('toddler')}
                 >
-                  Colorful
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-primary-600 mb-1">{t('difficulty.toddler')}</div>
+                    <div className="text-[10px] text-gray-500">{t('difficulty.toddlerAge')}</div>
+                  </div>
                 </button>
                 <button
-                  className={`h-full flex items-center justify-center text-sm font-medium transition-all duration-200 ${
-                    !selectedColor ? 'text-[#98FF59]' : 'text-[#C8C8C8] hover:text-white'
+                  className={`h-16 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedDifficulty === 'children' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
                   }`}
-                  onClick={() => setSelectedColor(false)}
+                  onClick={() => setSelectedDifficulty('children')}
                 >
-                  Black & White
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Quantity Selector */}
-          <div className="lg:mx-5 mt-6 lg:mt-10">
-            <div className="text-sm font-bold text-[#ECECEC] mb-2">Quantity</div>
-            <div className="bg-[#26262D] rounded-lg p-1 relative" style={{height: '48px'}}>
-              {/* 滑动指示器 */}
-              <div
-                className={`absolute rounded-lg transition-all duration-200 bg-[#393B42] ${
-                  selectedQuantity === 1 ? 'w-[calc(50%-4px)] h-[calc(100%-8px)] left-[4px] top-[4px]' :
-                  'w-[calc(50%-4px)] h-[calc(100%-8px)] left-[calc(50%+2px)] top-[4px]'
-                }`}
-              ></div>
-              
-              {/* 数量选项 */}
-              <div className="grid grid-cols-2 gap-0 relative z-10 h-full">
-                <button
-                  className={`h-full flex items-center justify-center text-sm font-bold transition-all duration-200 ${
-                    selectedQuantity === 1 ? 'text-[#98FF59]' : 'text-[#C8C8C8] hover:text-white'
-                  }`}
-                  onClick={() => setSelectedQuantity(1)}
-                >
-                  1
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-primary-600 mb-1">{t('difficulty.children')}</div>
+                    <div className="text-[10px] text-gray-500">{t('difficulty.childrenAge')}</div>
+                  </div>
                 </button>
                 <button
-                  className={`h-full flex items-center justify-center text-sm font-medium transition-all duration-200 ${
-                    selectedQuantity === 4 ? 'text-[#98FF59]' : 'text-[#C8C8C8] hover:text-white'
+                  className={`h-16 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedDifficulty === 'teen' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
                   }`}
-                  onClick={() => setSelectedQuantity(4)}
+                  onClick={() => setSelectedDifficulty('teen')}
                 >
-                  <div className="flex items-center gap-1">
-                    <span>4</span>
-                    {/* Premium Crown Icon */}
-                    <div className="w-[18px] h-[18px] relative overflow-hidden">
-                      <div 
-                        className="w-[16.5px] h-[15px] absolute left-[0.75px] top-[1.5px] rounded-sm"
-                        style={{
-                          background: 'linear-gradient(90deg, #FFF8B9 0%, #EFC364 25%, #FFE1AF 50%, #DE8D50 75%, #FFF2A9 100%)'
-                        }}
-                      ></div>
-                    </div>
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-primary-600 mb-1">{t('difficulty.teen')}</div>
+                    <div className="text-[10px] text-gray-500">{t('difficulty.teenAge')}</div>
+                  </div>
+                </button>
+                <button
+                  className={`h-16 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedDifficulty === 'adult' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
+                  }`}
+                  onClick={() => setSelectedDifficulty('adult')}
+                >
+                  <div className="text-center">
+                    <div className="text-lg font-bold text-primary-600 mb-1">{t('difficulty.adult')}</div>
+                    <div className="text-[10px] text-gray-500">{t('difficulty.adultAge')}</div>
                   </div>
                 </button>
               </div>
             </div>
           </div>
 
+          {/* Ratio Selector */}
+          <div className="lg:mx-5 mt-6 lg:mt-10">
+            <div className="text-sm font-bold text-[#161616] mb-2">{t('settings.ratio')}</div>
+            {/* 统一的灰色块包含所有比例选项 */}
+            <div className="bg-[#F2F3F5] rounded-lg p-1 relative">
+              {/* 滑动指示器 */}
+              <div
+                className={`absolute rounded-md transition-all duration-200 bg-white shadow-sm ${
+                  selectedRatio === '21:9' ? 'w-[calc(25%-4px)] h-[calc(50%-6px)] left-[4px] top-[4px]' :
+                  selectedRatio === '16:9' ? 'w-[calc(25%-4px)] h-[calc(50%-6px)] left-[calc(25%+2px)] top-[4px]' :
+                  selectedRatio === '4:3' ? 'w-[calc(25%-4px)] h-[calc(50%-6px)] left-[calc(50%+2px)] top-[4px]' :
+                  selectedRatio === '1:1' ? 'w-[calc(25%-6px)] h-[calc(50%-6px)] left-[calc(75%+2px)] top-[4px]' :
+                  selectedRatio === '3:4' ? 'w-[calc(25%-4px)] h-[calc(50%-3px)] left-[4px] top-[calc(50%-1px)]' :
+                  selectedRatio === '9:16' ? 'w-[calc(25%-4px)] h-[calc(50%-3px)] left-[calc(25%+2px)] top-[calc(50%-1px)]' :
+                  selectedRatio === '16:21' ? 'w-[calc(25%-4px)] h-[calc(50%-3px)] left-[calc(50%+2px)] top-[calc(50%-1px)]' :
+                  'w-0 opacity-0'
+                }`}
+              ></div>
+
+              {/* 第一行：4个项目 */}
+              <div className="grid grid-cols-4 gap-0 relative z-10">
+                <button
+                  className={`h-12 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedRatio === '21:9' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
+                  }`}
+                  onClick={() => setSelectedRatio('21:9')}
+                >
+                  <div 
+                    className={`border-2 mb-1 ${
+                      selectedRatio === '21:9' ? 'border-[#FF5C07]' : 'border-[#272F3E]'
+                    }`}
+                    style={{width: '28px', height: '12px'}}
+                  ></div>
+                  21:9
+                </button>
+                <button
+                  className={`h-12 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedRatio === '16:9' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
+                  }`}
+                  onClick={() => setSelectedRatio('16:9')}
+                >
+                  <div 
+                    className={`border-2 mb-1 ${
+                      selectedRatio === '16:9' ? 'border-[#FF5C07]' : 'border-[#272F3E]'
+                    }`}
+                    style={{width: '24px', height: '14px'}}
+                  ></div>
+                  16:9
+                </button>
+                <button
+                  className={`h-12 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedRatio === '4:3' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
+                  }`}
+                  onClick={() => setSelectedRatio('4:3')}
+                >
+                  <div 
+                    className={`border-2 mb-1 ${
+                      selectedRatio === '4:3' ? 'border-[#FF5C07]' : 'border-[#272F3E]'
+                    }`}
+                    style={{width: '20px', height: '15px'}}
+                  ></div>
+                  4:3
+                </button>
+                <button
+                  className={`h-12 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedRatio === '1:1' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
+                  }`}
+                  onClick={() => setSelectedRatio('1:1')}
+                >
+                  <div 
+                    className={`border-2 mb-1 ${
+                      selectedRatio === '1:1' ? 'border-[#FF5C07]' : 'border-[#272F3E]'
+                    }`}
+                    style={{width: '16px', height: '16px'}}
+                  ></div>
+                  1:1
+                </button>
+              </div>
+
+              {/* 第二行：3个项目，和第一排前3个对齐 */}
+              <div className="grid grid-cols-4 gap-0 relative z-10">
+                <button
+                  className={`h-12 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedRatio === '3:4' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
+                  }`}
+                  onClick={() => setSelectedRatio('3:4')}
+                >
+                  <div 
+                    className={`border-2 mb-1 ${
+                      selectedRatio === '3:4' ? 'border-[#FF5C07]' : 'border-[#272F3E]'
+                    }`}
+                    style={{width: '15px', height: '20px'}}
+                  ></div>
+                  3:4
+                </button>
+                <button
+                  className={`h-12 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedRatio === '9:16' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
+                  }`}
+                  onClick={() => setSelectedRatio('9:16')}
+                >
+                  <div 
+                    className={`border-2 mb-1 ${
+                      selectedRatio === '9:16' ? 'border-[#FF5C07]' : 'border-[#272F3E]'
+                    }`}
+                    style={{width: '14px', height: '24px'}}
+                  ></div>
+                  9:16
+                </button>
+                <button
+                  className={`h-12 flex flex-col items-center justify-center text-xs font-medium leading-none transition-all duration-200 ${
+                    selectedRatio === '16:21' ? 'text-[#FF5C07]' : 'text-[#6B7280] hover:text-[#161616]'
+                  }`}
+                  onClick={() => setSelectedRatio('16:21')}
+                >
+                  <div 
+                    className={`border-2 mb-1 ${
+                      selectedRatio === '16:21' ? 'border-[#FF5C07]' : 'border-[#272F3E]'
+                    }`}
+                    style={{width: '12px', height: '18px'}}
+                  ></div>
+                  16:21
+                </button>
+                {/* 空占位符，保持和第一行对齐 */}
+                <div className="h-12"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
+        {/* Image to Image Section */}
+        <div className={`${selectedTab === 'image' ? 'block' : 'hidden'}`}>
+          {/* Image Upload Section */}
+          <div className="lg:mx-5 lg:mt-7">
+            <div className="text-sm font-bold text-[#161616] mb-2">{t('upload.title')}</div>
+            <div
+              className={`w-full h-[150px] sm:h-[180px] lg:h-[202px] bg-[#F2F3F5] rounded-lg border border-[#EDEEF0] flex flex-col items-center justify-center cursor-pointer hover:bg-[#E5E7EB] transition-colors relative ${
+                inputError && selectedTab === 'image' ? 'outline outline-1 outline-red-500' : ''
+              }`}
+              onClick={() => document.getElementById('imageUpload')?.click()}
+            >
+              {uploadedFile ? (
+                <div className="w-full h-full relative flex items-center justify-center">
+                  <img
+                    src={URL.createObjectURL(uploadedFile)}
+                    alt="Uploaded"
+                    className="max-w-full max-h-full object-contain rounded-lg"
+                  />
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setUploadedImageWithDimensions(null, null);
+                    }}
+                    className="absolute top-2 right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600"
+                  >
+                    ×
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-[46px] lg:h-[46px] mb-3 sm:mb-4">
+                    <img src={addImageIcon} alt="Upload" className="w-full h-full" />
+                  </div>
+                  <div className="text-[#A4A4A4] text-xs sm:text-sm">{t('upload.clickToUpload')}</div>
+                </>
+              )}
+              <input
+                id="imageUpload"
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    // 清除错误状态
+                    if (inputError) setInputError('');
+                    // 创建图片对象来获取尺寸
+                    const img = new Image();
+                    img.onload = () => {
+                      // 设置文件和尺寸
+                      setUploadedImageWithDimensions(file, {
+                        width: img.width,
+                        height: img.height
+                      });
+                    };
+                    img.onerror = () => {
+                      // 如果无法获取尺寸，仍然设置文件但不设置尺寸
+                      setUploadedImageWithDimensions(file, null);
+                    };
+                    img.src = URL.createObjectURL(file);
+                  }
+                }}
+              />
+            </div>
+            
+            {/* Error message - show below the image upload */}
+            {inputError && selectedTab === 'image' && (
+              <div className="mt-2 text-red-500 text-sm px-1">
+                {inputError}
+              </div>
+            )}
+          </div>
+        </div>
       </>
     );
   };
 
   // Render right sidebar with generated images
   const renderRightSidebar = () => {
-    // 只使用 text-to-image 生成的图片
-    const currentImages = textGeneratedImages;
+    // 根据当前选中的标签页选择对应的图片数组
+    const currentImages = selectedTab === 'text' ? textGeneratedImages : imageGeneratedImages;
 
     return (
       <div className="w-[140px] border-l border-[#E3E4E5] pt-5 pb-16 px-2 overflow-y-auto overflow-x-hidden h-full flex flex-col items-center max-w-[140px]">
@@ -1438,7 +1679,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
                   onClick={() => handleImageSelectWithTabMemory(image.id)}
                 >
                   <img
-                    src={image.tattooUrl}
+                    src={image.defaultUrl}
                     alt={getLocalizedText(image.description, language) || `Generated ${index + 1}`}
                     className="w-full h-full rounded-lg object-cover"
                   />
@@ -1448,14 +1689,14 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
         ) : !isGenerating && isInitialDataLoaded ? (
           // 空状态 - 只有在初始数据加载完成且确实没有历史图片时才显示
           <div className="text-center text-[#6B7280] text-xs mt-8">
-            {t('states.noTextToImageYet')}
+            {selectedTab === 'text' ? t('states.noTextToImageYet') : t('states.noImageToImageYet')}
           </div>
         ) : null}
       </div>
     );
   };
 
-  const handleVisibilityToggle = () => {
+  const handleVisibilityToggle = (isText: boolean) => {
     // Check if user is not premium (free or expired membership)
     const isNotPremium = !user?.membershipLevel || user?.membershipLevel === 'free';
     
@@ -1465,8 +1706,12 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
       return;
     }
 
-    // Premium users can toggle visibility for text mode
-    setTextPublicVisibility(!textPublicVisibility);
+    // Premium users can toggle visibility
+    if (isText) {
+      setTextPublicVisibility(!textPublicVisibility);
+    } else {
+      setImagePublicVisibility(!imagePublicVisibility);
+    }
   };
 
   return (
@@ -1501,6 +1746,38 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
         <div className="hidden lg:block w-[600px] bg-white h-[1200px] relative flex flex-col">
           {/* Scrollable content area */}
           <div className="flex-1 overflow-y-auto">
+            {/* Tab Selector */}
+            <div className="mx-5">
+            <div className="bg-[#F2F3F5] h-12 rounded-lg flex items-center relative">
+              <div
+                className={`h-10 rounded-lg absolute transition-all duration-200 ${selectedTab === 'text' ? 'w-[calc(50%-4px)] bg-white left-1' :
+                    selectedTab === 'image' ? 'w-[calc(50%-4px)] bg-white right-1' : ''
+                  }`}
+              ></div>
+              <button
+                type="button"
+                className={`flex-1 h-10 z-10 flex items-center justify-center ${selectedTab === 'text' ? 'text-[#FF5C07] font-bold' : 'text-[#6B7280]'
+                  }`}
+                onClick={() => {
+                  setSelectedTab('text');
+                  setInputError('');
+                }}
+              >
+                {t('tabs.textToImage')}
+              </button>
+              <button
+                type="button"
+                className={`flex-1 h-10 z-10 flex items-center justify-center ${selectedTab === 'image' ? 'text-[#FF5C07] font-bold' : 'text-[#6B7280]'
+                  }`}
+                onClick={() => {
+                  setSelectedTab('image');
+                  setInputError('');
+                }}
+              >
+                {t('tabs.imageToImage')}
+              </button>
+            </div>
+          </div>
 
           {/* Dynamic Left Sidebar Content */}
           {renderLeftSidebar()}
@@ -1533,13 +1810,17 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
               </Tooltip>
               <button
                 className={`w-[30px] h-4 rounded-lg relative ${
-                  textPublicVisibility ? 'bg-[#FF5C07]' : 'bg-gray-300'
+                  selectedTab === 'text' 
+                    ? (textPublicVisibility ? 'bg-[#FF5C07]' : 'bg-gray-300') 
+                    : (imagePublicVisibility ? 'bg-[#FF5C07]' : 'bg-gray-300')
                 } cursor-pointer`}
-                onClick={() => handleVisibilityToggle()}
+                onClick={() => handleVisibilityToggle(selectedTab === 'text')}
               >
                 <div
                   className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[1px] transition-all duration-200 ${
-                    textPublicVisibility ? 'right-[1px]' : 'left-[1px]'
+                    selectedTab === 'text' 
+                      ? (textPublicVisibility ? 'right-[1px]' : 'left-[1px]') 
+                      : (imagePublicVisibility ? 'right-[1px]' : 'left-[1px]')
                   }`}
                 ></div>
               </button>
@@ -1581,18 +1862,27 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
           {/* 移动端标签选择器 */}
           <div className="bg-white px-4 pb-4 border-b border-gray-200 flex-shrink-0">
             <div className="bg-[#F2F3F5] h-12 rounded-lg flex items-center relative max-w-md mx-auto">
-              <div className="w-full h-10 rounded-lg bg-white mx-1"></div>
-              <div className="absolute inset-0 z-10 flex items-center justify-center">
-                <span className="text-[#FF5C07] font-bold text-sm">
-                  {t('tabs.textToImage')}
-                </span>
-              </div>
+              <div
+                className={`h-10 rounded-lg absolute transition-all duration-200 ${selectedTab === 'text' ? 'w-[calc(50%-4px)] bg-white left-1' : 'w-[calc(50%-4px)] bg-white right-1'}`}
+              ></div>
+              <button
+                className={`flex-1 h-10 z-10 flex items-center justify-center text-sm ${selectedTab === 'text' ? 'text-[#FF5C07] font-bold' : 'text-[#6B7280]'}`}
+                onClick={() => handleMobileTabChange('text')}
+              >
+{t('tabs.textToImage')}
+              </button>
+              <button
+                className={`flex-1 h-10 z-10 flex items-center justify-center text-sm ${selectedTab === 'image' ? 'text-[#FF5C07] font-bold' : 'text-[#6B7280]'}`}
+                onClick={() => handleMobileTabChange('image')}
+              >
+{t('tabs.imageToImage')}
+              </button>
             </div>
           </div>
 
           {/* 移动端内容 - 可滚动区域 */}
           <div ref={mobileContentRef} className="flex-1 overflow-y-auto pb-48">
-            {renderContent('text')}
+            {renderContent(selectedTab)}
             
             {/* 移动端控制面板 */}
             <div className="bg-white border-t border-gray-200 p-4">
@@ -1626,13 +1916,17 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
                   </Tooltip>
                   <button
                     className={`w-[30px] h-4 rounded-lg relative ${
-                      textPublicVisibility ? 'bg-[#FF5C07]' : 'bg-gray-300'
+                      selectedTab === 'text' 
+                        ? (textPublicVisibility ? 'bg-[#FF5C07]' : 'bg-gray-300') 
+                        : (imagePublicVisibility ? 'bg-[#FF5C07]' : 'bg-gray-300')
                     } cursor-pointer`}
-                    onClick={() => handleVisibilityToggle()}
+                    onClick={() => handleVisibilityToggle(selectedTab === 'text')}
                   >
                     <div
                       className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[1px] transition-all duration-200 ${
-                        textPublicVisibility ? 'right-[1px]' : 'left-[1px]'
+                        selectedTab === 'text' 
+                          ? (textPublicVisibility ? 'right-[1px]' : 'left-[1px]') 
+                          : (imagePublicVisibility ? 'right-[1px]' : 'left-[1px]')
                       }`}
                     ></div>
                   </button>
@@ -1672,7 +1966,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
 
         {/* 桌面端中间内容区域 */}
         <div className="hidden lg:flex lg:flex-1 lg:h-[1200px]">
-          {renderContent('text')}
+          {renderContent(selectedTab)}
         </div>
 
         {/* Right Sidebar - Generated Images - 桌面端显示 */}
@@ -1685,56 +1979,123 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
 
       {/* TextToColoringPage and WhyChoose components - Full width below main layout */}
       <div className="w-full bg-white">
-          {/* ColoringPageTool component */}
-          <div className="py-8 lg:pb-12 lg:pt-24">
-            <ColoringPageTool data={textColoringPageToolData} />
-          </div>
+          {/* ColoringPageTool component - only show for text mode */}
+          {selectedTab === 'text' && (
+            <div className="py-8 lg:pb-12 lg:pt-24">
+              <ColoringPageTool data={textColoringPageToolData} />
+            </div>
+          )}
 
+          {/* ColoringPageTool component - only show for image mode */}
+          {selectedTab === 'image' && (
+            <div className="py-8 lg:pb-12 lg:pt-24">
+              <ColoringPageTool data={imageColoringPageToolData} />
+            </div>
+          )}
 
-          {/* WhyChoose component */}
-          <div className="py-8 lg:py-12 bg-white">
-            <WhyChoose data={textWhyChooseData} />
-          </div>
+          {/* WhyChoose component - only show for text mode */}
+          {selectedTab === 'text' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <WhyChoose data={textWhyChooseData} />
+            </div>
+          )}
 
+          {/* WhyChoose component - only show for image mode */}
+          {selectedTab === 'image' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <WhyChoose data={imageWhyChooseData} />
+            </div>
+          )}
 
+          {/* ColoringPageConversion component - only show for image mode */}
+          {selectedTab === 'image' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <ColoringPageConversion data={coloringPageConversionData} />
+            </div>
+          )}
 
+          {/* HowToCreate component - only show for image mode */}
+          {selectedTab === 'image' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <HowToCreate data={imageHowToCreateData} />
+            </div>
+          )}
 
+          {/* CanCreate component - only show for image mode */}
+          {selectedTab === 'image' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <CanCreate data={imageCanCreateData} />
+            </div>
+          )}
 
+          {/* UserSaying component - only show for image mode */}
+          {selectedTab === 'image' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <UserSaying testimonials={imageUserSayingTestimonials} />
+            </div>
+          )}
 
+          {/* GenerateFAQ component - only show for image mode */}
+          {selectedTab === 'image' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <GenerateFAQ faqData={imageFAQData} />
+            </div>
+          )}
 
-          {/* CanCreate component */}
-          <div className="py-8 lg:py-12 bg-white">
-            <CanCreate data={textCanCreateData} />
-          </div>
+          {/* CanCreate component - only show for text mode */}
+          {selectedTab === 'text' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <CanCreate data={textCanCreateData} />
+            </div>
+          )}
 
-          {/* HowToCreate component */}
-          <div className="py-8 lg:py-12 bg-white">
-            <HowToCreate data={howToCreateData} />
-          </div>
+          {/* HowToCreate component - only show for text mode */}
+          {selectedTab === 'text' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <HowToCreate data={howToCreateData} />
+            </div>
+          )}
 
-          {/* Second CanCreate component */}
-          <div className="py-8 lg:py-12 bg-white">
-            <CanCreate data={textCanCreateData2} />
-          </div>
+          {/* Second CanCreate component - only show for text mode */}
+          {selectedTab === 'text' && (
+            <div className="py-8 lg:py-12 bg-white">
+              <CanCreate data={textCanCreateData2} />
+            </div>
+          )}
 
-          {/* UserSaying component */}
-          <div className="pt-8 lg:pt-12 bg-white">
-            <UserSaying testimonials={sampleTestimonials} />
-          </div>
+          {/* UserSaying component - only show for text mode */}
+          {selectedTab === 'text' && (
+            <div className="pt-8 lg:pt-12 bg-white">
+              <UserSaying testimonials={sampleTestimonials} />
+            </div>
+          )}
 
-          {/* GenerateFAQ component */}
-          <div className="pt-8 lg:pt-12 bg-white">
-            <GenerateFAQ faqData={textFAQData} />
-          </div>
+          {/* GenerateFAQ component - only show for text mode */}
+          {selectedTab === 'text' && (
+            <div className="pt-8 lg:pt-12 bg-white">
+              <GenerateFAQ faqData={textFAQData} />
+            </div>
+          )}
 
-          {/* TryNow component */}
-          <TryNow
-            title={t('tryNow.text.title')}
-            description={t('tryNow.text.description')}
-            buttonText={t('tryNow.text.buttonText')}
-            onButtonClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          />
+          {/* TryNow component - only show for text mode */}
+          {selectedTab === 'text' && (
+            <TryNow
+              title={t('tryNow.text.title')}
+              description={t('tryNow.text.description')}
+              buttonText={t('tryNow.text.buttonText')}
+              onButtonClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            />
+          )}
 
+          {/* TryNow component - only show for image mode */}
+          {selectedTab === 'image' && (
+            <TryNow
+              title={t('tryNow.image.title')}
+              description={t('tryNow.image.description')}
+              buttonText={t('tryNow.image.buttonText')}
+              onButtonClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            />
+          )}
 
 
         </div>

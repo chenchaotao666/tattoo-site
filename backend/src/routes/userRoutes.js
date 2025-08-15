@@ -1,7 +1,8 @@
 const express = require('express');
 const { createModels } = require('../models');
 const UserService = require('../services/UserService');
-const { createBaseRoutes, validateBody, validateUUID } = require('./baseRoutes');
+const { validateBody, validateUUID } = require('./baseRoutes');
+const { generateTokens, authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -11,9 +12,44 @@ function createUserRoutes(app) {
     const models = createModels(db);
     const userService = new UserService(models.User);
 
-    // 使用基础CRUD路由
-    const baseRoutes = createBaseRoutes(userService, 'User');
-    router.use('/', baseRoutes);
+    // 特定路由（必须在参数化路由之前定义）
+
+    // POST /api/users/login - 用户登录
+    router.post('/login', validateBody(['email', 'password']), async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            const user = await userService.loginUser(email, password);
+            
+            // 生成JWT tokens
+            const { accessToken, refreshToken } = generateTokens(user);
+            
+            const loginResponse = {
+                user: user,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+                expiresIn: '7d'
+            };
+            
+            res.json(userService.formatResponse(true, loginResponse, 'Login successful'));
+        } catch (error) {
+            console.error('User login error:', error);
+            const statusCode = error.message.includes('Invalid') ? 401 : 500;
+            res.status(statusCode).json(userService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // GET /api/users/profile - 获取当前登录用户的个人资料
+    router.get('/profile', authenticateToken, async (req, res) => {
+        try {
+            const userId = req.userId;
+            const userProfile = await userService.getUserProfile(userId);
+            res.json(userService.formatResponse(true, userProfile, 'User profile retrieved successfully'));
+        } catch (error) {
+            console.error('Get user profile error:', error);
+            const statusCode = error.message.includes('not found') ? 404 : 500;
+            res.status(statusCode).json(userService.formatResponse(false, null, error.message));
+        }
+    });
 
     // GET /api/users/email/:email - 根据邮箱查找用户
     router.get('/email/:email', async (req, res) => {
@@ -149,7 +185,20 @@ function createUserRoutes(app) {
         }
     });
 
-    // POST /api/users - 创建用户（重写以添加验证）
+    // 基础CRUD路由（放在最后，避免路由冲突）
+
+    // GET /api/users - 获取所有用户
+    router.get('/', async (req, res) => {
+        try {
+            const result = await userService.getAll(req.query);
+            res.json(userService.formatPaginatedResponse(result, 'Users retrieved successfully'));
+        } catch (error) {
+            console.error('Get all users error:', error);
+            res.status(500).json(userService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // POST /api/users - 创建用户（自定义实现）
     router.post('/', validateBody(['username', 'email']), async (req, res) => {
         try {
             const user = await userService.createUser(req.body);
@@ -161,7 +210,20 @@ function createUserRoutes(app) {
         }
     });
 
-    // PUT /api/users/:id - 更新用户（重写以添加验证）
+    // GET /api/users/:id - 根据ID获取用户  
+    router.get('/:id', validateUUID, async (req, res) => {
+        try {
+            const { id } = req.params;
+            const user = await userService.getById(id);
+            res.json(userService.formatResponse(true, user, 'User retrieved successfully'));
+        } catch (error) {
+            console.error('Get user by ID error:', error);
+            const statusCode = error.message.includes('not found') ? 404 : 500;
+            res.status(statusCode).json(userService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // PUT /api/users/:id - 更新用户（自定义实现）
     router.put('/:id', validateUUID, async (req, res) => {
         try {
             const { id } = req.params;
@@ -171,6 +233,19 @@ function createUserRoutes(app) {
             console.error('Update user error:', error);
             const statusCode = error.message.includes('not found') ? 404 : 
                               error.message.includes('already exists') || error.message.includes('Validation failed') ? 400 : 500;
+            res.status(statusCode).json(userService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // DELETE /api/users/:id - 删除用户
+    router.delete('/:id', validateUUID, async (req, res) => {
+        try {
+            const { id } = req.params;
+            const success = await userService.delete(id);
+            res.json(userService.formatResponse(true, success, 'User deleted successfully'));
+        } catch (error) {
+            console.error('Delete user error:', error);
+            const statusCode = error.message.includes('not found') ? 404 : 500;
             res.status(statusCode).json(userService.formatResponse(false, null, error.message));
         }
     });

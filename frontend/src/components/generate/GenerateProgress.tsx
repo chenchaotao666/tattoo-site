@@ -1,13 +1,13 @@
 import React from 'react';
 
-interface CircularProgressProps {
+interface GenerateProgressProps {
   progress: number; // 0-100
   size?: 'small' | 'large';
   showPercentage?: boolean;
   className?: string;
 }
 
-const CircularProgress: React.FC<CircularProgressProps> = ({ 
+const GenerateProgress: React.FC<GenerateProgressProps> = ({ 
   progress, 
   size = 'large', 
   showPercentage = false,
@@ -45,4 +45,4 @@ const CircularProgress: React.FC<CircularProgressProps> = ({
   );
 };
 
-export default CircularProgress; 
+export default GenerateProgress; 

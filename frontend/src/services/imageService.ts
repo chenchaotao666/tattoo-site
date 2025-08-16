@@ -31,6 +31,7 @@ export interface HomeImage {
   isOnline: boolean;                         // 是否上线（审核状态）
   hotness: number;                           // 热度值 0-1000
   prompt: MultilingualText;                  // JSON 多语言提示词
+  batchId?: string;                          // 批次ID，用于标识一次生成的多张图片
   userId: string;                            // 用户ID
   categoryId: string;                        // 分类ID
   additionalInfo?: any;                      // JSON 额外信息
@@ -340,7 +341,6 @@ export class ImageService {
       query,
       categoryId,
       tags,
-      ratio,
       type,
       isPublic,
       currentPage,
@@ -356,7 +356,6 @@ export class ImageService {
       if (query) searchParams.append('query', query);
       if (categoryId) searchParams.append('categoryId', categoryId);
       if (tags) searchParams.append('tags', tags);
-      if (ratio) searchParams.append('ratio', ratio);
       if (type) searchParams.append('type', type);
       if (isPublic !== undefined) searchParams.append('isPublic', isPublic.toString());
       if (sortBy) searchParams.append('sortBy', sortBy);
@@ -367,7 +366,7 @@ export class ImageService {
 
       // 调用专用的用户图片接口，需要认证
       const response = await ApiUtils.get<{images: HomeImage[], total: number}>(
-        `/api/images/userImg?${searchParams.toString()}`, 
+        `/api/images/generated?${searchParams.toString()}`, 
         undefined, 
         true // 需要认证
       );

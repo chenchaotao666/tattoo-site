@@ -55,6 +55,7 @@ export interface TattooGenerationResponse {
   logs?: string;
   localImages?: any[];
   databaseRecords?: any[];
+  batchId?: string;
 }
 
 export interface TattooGenerationStatusResponse {

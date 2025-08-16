@@ -9,29 +9,21 @@ import { getLocalizedText } from '../utils/textUtils';
 export interface UseGeneratePageState {
   // 基础状态
   prompt: string;
-  selectedTab: 'text' | 'image';
   selectedRatio: AspectRatio;
   selectedColor: boolean; // true for colorful, false for black & white
   selectedQuantity: number; // 1 or 4 images to generate
-  textPublicVisibility: boolean;   // Text to Image 的 Public Visibility
-  imagePublicVisibility: boolean;  // Image to Image 的 Public Visibility
-  selectedImage: string | null;
-  uploadedFile: File | null;
+  publicVisibility: boolean; // Public Visibility
   
   // 数据状态
-  generatedImages: HomeImage[];  // 保留用于兼容性，包含所有图片
-  textGeneratedImages: HomeImage[];   // Text to Image 生成的图片
-  imageGeneratedImages: HomeImage[];  // Image to Image 生成的图片
-  textExampleImages: HomeImage[];     // Text to Image 示例图片
-  imageExampleImages: HomeImage[];    // Image to Image 示例图片
+  generatedImages: HomeImage[]; // 生成的图片
+  exampleImages: HomeImage[]; // 示例图片
   styleSuggestions: StyleSuggestion[];
   
   // 加载状态
   isGenerating: boolean;
-  isLoadingTextExamples: boolean;  // Text to Image 加载状态（包括示例和生成历史）
-  isLoadingImageExamples: boolean; // Image to Image 加载状态（包括示例和生成历史）
+  isLoadingExamples: boolean; // 加载状态（包括示例和生成历史）
   isLoadingStyles: boolean;
-  isInitialDataLoaded: boolean;    // 初始数据（生成历史）是否已加载完成
+  isInitialDataLoaded: boolean; // 初始数据（生成历史）是否已加载完成
   
   // 错误状态
   error: string | null;
@@ -45,22 +37,16 @@ export interface UseGeneratePageState {
   canGenerate: boolean;
 
   // 用户生成历史状态
-  hasTextToImageHistory: boolean;  // 用户是否有 text to image 生成历史
-  hasImageToImageHistory: boolean; // 用户是否有 image to image 生成历史
+  hasGenerationHistory: boolean; // 用户是否有生成历史
 }
 
 export interface UseGeneratePageActions {
   // 基础操作
   setPrompt: (prompt: string) => void;
-  setSelectedTab: (tab: 'text' | 'image') => void;
   setSelectedRatio: (ratio: AspectRatio) => void;
   setSelectedColor: (isColor: boolean) => void;
   setSelectedQuantity: (quantity: number) => void;
-  setTextPublicVisibility: (visible: boolean) => void;
-  setImagePublicVisibility: (visible: boolean) => void;
-  setSelectedImage: (imageUrl: string | null) => void;
-  setUploadedFile: (file: File | null) => void;
-  setUploadedImageWithDimensions: (file: File | null, dimensions: { width: number; height: number } | null) => void;
+  setPublicVisibility: (visible: boolean) => void;
   
   // API 操作
   generateImages: () => Promise<void>;
@@ -82,22 +68,12 @@ export interface UseGeneratePageActions {
   handleInsufficientCredits: () => void;
 }
 
-export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUser?: () => Promise<void>): UseGeneratePageState & UseGeneratePageActions => {
+export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGeneratePageState & UseGeneratePageActions => {
   const [searchParams] = useSearchParams();
   const { language } = useLanguage();
   
   // 缓存引用
-  const textExampleCache = useRef<{
-    allImages: HomeImage[];
-    isLoaded: boolean;
-    isLoading: boolean;
-  }>({
-    allImages: [],
-    isLoaded: false,
-    isLoading: false
-  });
-
-  const imageExampleCache = useRef<{
+  const exampleCache = useRef<{
     allImages: HomeImage[];
     isLoaded: boolean;
     isLoading: boolean;
@@ -108,8 +84,7 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
   });
 
   // 添加初始化标记，防止重复加载
-  const textInitialized = useRef(false);
-  const imageInitialized = useRef(false);
+  const examplesInitialized = useRef(false);
   
   // 从URL参数获取初始值
   const getInitialPrompt = () => searchParams.get('prompt') || '';
@@ -122,43 +97,7 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     const isPublic = searchParams.get('isPublic');
     return isPublic === 'true';
   };
-  const getSourceImageUrl = (): string | null => {
-    return searchParams.get('sourceImageUrl');
-  };
 
-  // 从URL下载图片并转换为File对象
-  const downloadImageAsFile = async (imageUrl: string): Promise<File | null> => {
-    try {
-      // 处理相对路径，转换为绝对路径
-      const absoluteUrl = imageUrl.startsWith('/') 
-        ? `${window.location.origin}${imageUrl}`
-        : imageUrl;
-      
-      console.log('Starting to fetch image from:', absoluteUrl);
-      const response = await fetch(absoluteUrl);
-      console.log('Fetch response status:', response.status, response.statusText);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch image: ${response.status}`);
-      }
-      
-      const blob = await response.blob();
-      console.log('Blob created:', blob.size, 'bytes, type:', blob.type);
-      
-      // 从URL中提取文件名，如果没有则使用默认名称
-      const urlPath = imageUrl.includes('/') ? imageUrl : absoluteUrl;
-      const fileName = urlPath.split('/').pop() || 'recreated-image.jpg';
-      console.log('Generated filename:', fileName);
-      
-      // 创建File对象
-      const file = new File([blob], fileName, { type: blob.type });
-      console.log('File created:', file.name, file.size, 'bytes, type:', file.type);
-      return file;
-    } catch (error) {
-      console.error('Error downloading image as file:', error);
-      return null;
-    }
-  };
   
   // 预设的50种常用图片生成建议
   const STYLE_SUGGESTIONS = {
@@ -297,27 +236,19 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
   const initialState: UseGeneratePageState = {
     // 基础状态
     prompt: getInitialPrompt(),
-    selectedTab: initialTab,
     selectedRatio: getInitialRatio(),
     selectedColor: true, // Default to colorful
     selectedQuantity: 1, // Default to 1 image
-    textPublicVisibility: searchParams.get('isPublic') ? getInitialIsPublic() : true,
-    imagePublicVisibility: searchParams.get('isPublic') ? getInitialIsPublic() : true,
-    selectedImage: null,
-    uploadedFile: null,
+    publicVisibility: searchParams.get('isPublic') ? getInitialIsPublic() : true,
     
     // 数据状态
     generatedImages: [],
-    textGeneratedImages: [],
-    imageGeneratedImages: [],
-    textExampleImages: [],
-    imageExampleImages: [],
+    exampleImages: [],
     styleSuggestions: [],
     
     // 加载状态
     isGenerating: false,
-    isLoadingTextExamples: initialTab === 'text',  // 只有当前标签页设为true，避免显示空状态
-    isLoadingImageExamples: initialTab === 'image', // 只有当前标签页设为true，避免显示空状态
+    isLoadingExamples: true, // 设为true，避免显示空状态
     isLoadingStyles: false,
     isInitialDataLoaded: false,
     
@@ -333,8 +264,7 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     canGenerate: true,
 
     // 用户生成历史状态
-    hasTextToImageHistory: false,  // 用户是否有 text to image 生成历史
-    hasImageToImageHistory: false, // 用户是否有 image to image 生成历史
+    hasGenerationHistory: false, // 用户是否有生成历史
   };
 
   // 状态定义
@@ -350,29 +280,6 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     updateState({ prompt });
   }, [updateState]);
 
-  const setSelectedTab = useCallback((selectedTab: 'text' | 'image') => {
-    // 使用函数式更新来检查是否真的需要更新
-    setState(prevState => {
-      // 只有当标签页真的发生变化时才重置相关状态
-      if (prevState.selectedTab !== selectedTab) {
-        // 根据切换的目标标签页，只清空与当前模式不相关的状态
-        if (selectedTab === 'text') {
-          // 切换到 Text to Image，保留选中的历史图片
-          return {
-            ...prevState,
-            selectedTab,
-          };
-        } else {
-          // 切换到 Image to Image，保留上传的文件
-          return {
-            ...prevState,
-            selectedTab,
-          };
-        }
-      }
-      return prevState;
-    });
-  }, []);
 
   const setSelectedRatio = useCallback((selectedRatio: AspectRatio) => {
     updateState({ selectedRatio });
@@ -387,24 +294,8 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     updateState({ selectedQuantity });
   }, [updateState]);
 
-  const setTextPublicVisibility = useCallback((textPublicVisibility: boolean) => {
-    updateState({ textPublicVisibility });
-  }, [updateState]);
-
-  const setImagePublicVisibility = useCallback((imagePublicVisibility: boolean) => {
-    updateState({ imagePublicVisibility });
-  }, [updateState]);
-
-  const setSelectedImage = useCallback((selectedImage: string | null) => {
-    updateState({ selectedImage });
-  }, [updateState]);
-
-  const setUploadedFile = useCallback((uploadedFile: File | null) => {
-    updateState({ uploadedFile });
-  }, [updateState]);
-
-  const setUploadedImageWithDimensions = useCallback((uploadedFile: File | null, _dimensions: { width: number; height: number } | null) => {
-    updateState({ uploadedFile });
+  const setPublicVisibility = useCallback((publicVisibility: boolean) => {
+    updateState({ publicVisibility });
   }, [updateState]);
 
   // 检查用户积分 - 优化：使用传入的用户数据而不是重新请求
@@ -446,42 +337,42 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     return shuffled.slice(0, count);
   }, []);
 
-  // 加载Text to Image示例图片
-  const loadTextExamplesIfNeeded = useCallback(async (hasHistory: boolean) => {
-    if (!textInitialized.current) {
-      textInitialized.current = true;
+  // 加载示例图片
+  const loadExamplesIfNeeded = useCallback(async (hasHistory: boolean) => {
+    if (!examplesInitialized.current) {
+      examplesInitialized.current = true;
       
-      // 如果用户已有Text to Image历史图片，跳过示例加载
+      // 如果用户已有生成历史图片，跳过示例加载
       if (hasHistory) {
         setState(prev => ({ 
           ...prev, 
-          textExampleImages: [],
-          isLoadingTextExamples: false 
+          exampleImages: [],
+          isLoadingExamples: false 
         }));
         return;
       }
       
       // 如果缓存中有图片，从缓存中随机选择
-      if (textExampleCache.current.isLoaded && textExampleCache.current.allImages.length > 0) {
-        const randomImages = getRandomImages(textExampleCache.current.allImages);
+      if (exampleCache.current.isLoaded && exampleCache.current.allImages.length > 0) {
+        const randomImages = getRandomImages(exampleCache.current.allImages);
         setState(prev => ({ 
           ...prev, 
-          textExampleImages: randomImages,
-          isLoadingTextExamples: false 
+          exampleImages: randomImages,
+          isLoadingExamples: false 
         }));
         return;
       }
       
       // 如果没有缓存且未在加载，开始加载示例
-      if (!textExampleCache.current.isLoading) {
+      if (!exampleCache.current.isLoading) {
         try {
-          textExampleCache.current.isLoading = true;
-          setState(prev => ({ ...prev, isLoadingTextExamples: true, error: null }));
+          exampleCache.current.isLoading = true;
+          setState(prev => ({ ...prev, isLoadingExamples: true, error: null }));
           
           const examples = await GenerateServiceInstance.getExampleImages('text', 6);
           
           // 更新缓存
-          textExampleCache.current = {
+          exampleCache.current = {
             allImages: examples,
             isLoaded: true,
             isLoading: false
@@ -489,73 +380,15 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
           
           setState(prev => ({ 
             ...prev, 
-            textExampleImages: examples, 
-            isLoadingTextExamples: false 
+            exampleImages: examples, 
+            isLoadingExamples: false 
           }));
         } catch (error) {
-          textExampleCache.current.isLoading = false;
+          exampleCache.current.isLoading = false;
           setState(prev => ({
             ...prev,
-            error: error instanceof Error ? error.message : 'Failed to load text examples',
-            isLoadingTextExamples: false,
-          }));
-        }
-      }
-    }
-  }, [getRandomImages]);
-
-  // 加载Image to Image示例图片
-  const loadImageExamplesIfNeeded = useCallback(async (hasHistory: boolean) => {
-    if (!imageInitialized.current) {
-      imageInitialized.current = true;
-      
-      // 如果用户已有Image to Image历史图片，跳过示例加载
-      if (hasHistory) {
-        setState(prev => ({ 
-          ...prev, 
-          imageExampleImages: [],
-          isLoadingImageExamples: false 
-        }));
-        return;
-      }
-      
-      // 如果缓存中有图片，从缓存中随机选择
-      if (imageExampleCache.current.isLoaded && imageExampleCache.current.allImages.length > 0) {
-        const randomImages = getRandomImages(imageExampleCache.current.allImages);
-        setState(prev => ({ 
-          ...prev, 
-          imageExampleImages: randomImages,
-          isLoadingImageExamples: false 
-        }));
-        return;
-      }
-      
-      // 如果没有缓存且未在加载，开始加载示例
-      if (!imageExampleCache.current.isLoading) {
-        try {
-          imageExampleCache.current.isLoading = true;
-          setState(prev => ({ ...prev, isLoadingImageExamples: true, error: null }));
-          
-          const examples = await GenerateServiceInstance.getExampleImages('image', 6);
-          
-          // 更新缓存
-          imageExampleCache.current = {
-            allImages: examples,
-            isLoaded: true,
-            isLoading: false
-          };
-          
-          setState(prev => ({ 
-            ...prev, 
-            imageExampleImages: examples, 
-            isLoadingImageExamples: false 
-          }));
-        } catch (error) {
-          imageExampleCache.current.isLoading = false;
-          setState(prev => ({
-            ...prev,
-            error: error instanceof Error ? error.message : 'Failed to load image examples',
-            isLoadingImageExamples: false,
+            error: error instanceof Error ? error.message : 'Failed to load examples',
+            isLoadingExamples: false,
           }));
         }
       }
@@ -569,67 +402,41 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
         // 如果用户未登录，清空生成历史，但不影响示例图片的加载状态
         updateState({ 
           generatedImages: [], 
-          textGeneratedImages: [],
-          imageGeneratedImages: [],
           isInitialDataLoaded: true,  // 即使没有用户也标记为加载完成
-          hasTextToImageHistory: false,
-          hasImageToImageHistory: false
+          hasGenerationHistory: false
         });
         
-        // 用户未登录，加载对应的示例图片
-        if (state.selectedTab === 'text') {
-          loadTextExamplesIfNeeded(false);
-        } else if (state.selectedTab === 'image') {
-          loadImageExamplesIfNeeded(false);
-        }
+        // 用户未登录，加载示例图片
+        loadExamplesIfNeeded(false);
         return;
       }
       
       // 获取所有生成的图片
       const images = await GenerateServiceInstance.getUserGeneratedImages(user.userId);
       
-      // 按类型分离图片
-      const textImages = images.filter(img => img.type === 'text2image');
-      const imageImages = images.filter(img => img.type === 'image2image');
-      
-      // 检查用户是否有不同类型的生成历史
-      const hasTextToImageHistory = textImages.length > 0;
-      const hasImageToImageHistory = imageImages.length > 0;
+      // 检查用户是否有生成历史
+      const hasGenerationHistory = images.length > 0;
       
       updateState({ 
-        generatedImages: images,  // 保留所有图片用于兼容性
-        textGeneratedImages: textImages,
-        imageGeneratedImages: imageImages,
+        generatedImages: images,
         isInitialDataLoaded: true,  // 标记初始数据加载完成
-        hasTextToImageHistory,
-        hasImageToImageHistory
+        hasGenerationHistory
       });
       
-      // 历史图片加载完成后，根据当前标签页和历史情况决定是否加载示例
-      if (state.selectedTab === 'text') {
-        loadTextExamplesIfNeeded(hasTextToImageHistory);
-      } else if (state.selectedTab === 'image') {
-        loadImageExamplesIfNeeded(hasImageToImageHistory);
-      }
+      // 历史图片加载完成后，根据历史情况决定是否加载示例
+      loadExamplesIfNeeded(hasGenerationHistory);
     } catch (error) {
       console.error('Failed to load generated images:', error);
       updateState({ 
         generatedImages: [], 
-        textGeneratedImages: [],
-        imageGeneratedImages: [],
         isInitialDataLoaded: true,  // 即使出错也标记为加载完成
-        hasTextToImageHistory: false,
-        hasImageToImageHistory: false
+        hasGenerationHistory: false
       });
       
-      // 加载出错时，加载对应的示例图片
-      if (state.selectedTab === 'text') {
-        loadTextExamplesIfNeeded(false);
-      } else if (state.selectedTab === 'image') {
-        loadImageExamplesIfNeeded(false);
-      }
+      // 加载出错时，加载示例图片
+      loadExamplesIfNeeded(false);
     }
-  }, [updateState, state.selectedTab, loadTextExamplesIfNeeded, loadImageExamplesIfNeeded]);
+  }, [updateState, loadExamplesIfNeeded]);
 
   // 生成图片
   const generateImages = useCallback(async () => {
@@ -657,121 +464,94 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
       if (!user) {
         throw new Error('请先登录');
       }
-      
-      let response;
 
       // 立即开始进度推进
       currentProgress.current = 0;
       smoothProgressUpdate(20);
       
-      if (state.selectedTab === 'text') {
-        if (!state.prompt.trim()) {
-          throw new Error('Please enter a prompt');
-        }
-        
-        // Use the new asynchronous tattoo generation API with progress
-        const tattooResponse = await GenerateServiceInstance.generateTattooWithProgress({
-          prompt: state.prompt,
-          width: 1024,
-          height: 1024,
-          num_outputs: state.selectedQuantity,
-          // Apply color settings
-          ...(state.selectedColor ? {} : { 
-            negative_prompt: "ugly, broken, distorted, blurry, low quality, bad anatomy, colorful, bright colors",
-            style_preset: 'blackAndGrey' as const
-          })
-        }, (progress) => {
-          // Update progress in real-time
-          console.log(`Generation progress: ${progress.percentage}% - ${progress.message}`);
-          currentProgress.current = progress.percentage;
-          targetProgress.current = progress.percentage;
-          updateState({ generationProgress: progress.percentage });
-        });
-        
-        // Handle completed generation
-        if (tattooResponse && tattooResponse.localImages) {
-          // Create a HomeImage object from the tattoo response
-          const localImages = tattooResponse.localImages || [];
-          if (localImages.length > 0) {
-            const newImage: HomeImage = {
-              id: tattooResponse.id,
-              name: { zh: state.prompt, en: state.prompt },
-              slug: `generated-tattoo-${tattooResponse.id}`,
-              tattooUrl: localImages[0].url,
-              title: { zh: state.prompt, en: state.prompt },
-              description: { zh: state.prompt, en: state.prompt },
-              prompt: { zh: state.prompt, en: state.prompt },
-              type: 'text2image' as const,
-              styleId: '',
-              isColor: state.selectedColor,
-              isPublic: state.textPublicVisibility,
-              isOnline: false,
-              hotness: 0,
-              userId: '',
-              categoryId: '',
-              ratio: '1:1' as const,
-              createdAt: tattooResponse.created_at || new Date().toISOString(),
-              updatedAt: tattooResponse.created_at || new Date().toISOString()
-            };
-            
-            // Immediately add the image to state
-            setState(prevState => ({
-              ...prevState,
-              textGeneratedImages: [newImage, ...prevState.textGeneratedImages],
-              generatedImages: [newImage, ...prevState.generatedImages],
-              hasTextToImageHistory: true,
-              selectedImage: newImage.id,
-              isGenerating: false,
-              currentTaskId: null,
-              generationProgress: 100,
-            }));
-            
-            // Refresh user credits
-            checkUserCredits();
-            if (refreshUser) {
-              try {
-                await refreshUser();
-              } catch (error) {
-                console.error('Failed to refresh global user state:', error);
-              }
-            }
-            return; // Exit early since generation is complete
-          }
-        }
-        
-        // If we get here, something went wrong
-        throw new Error('Generation failed - no local images received');
-      } else {
-        if (!state.uploadedFile) {
-          throw new Error('Please upload an image');
-        }
-        
-        response = await GenerateServiceInstance.generateImageToImage({
-          imageFile: state.uploadedFile,
-          isPublic: state.imagePublicVisibility,
-          userId: user.userId, // 使用真实用户ID
-        });
+      if (!state.prompt.trim()) {
+        throw new Error('Please enter a prompt');
       }
       
-      // For image2image, we still use the old polling system
-      if (state.selectedTab === 'image' && response.status === 'success' && response.data.taskId) {
-        updateState({
-          currentTaskId: response.data.taskId,
-        });
-        
-        // 开始轮询任务状态
-        const taskType = 'image2image';
-        pollTaskStatus(response.data.taskId, taskType);
-      } else if (state.selectedTab === 'image') {
-        throw new Error(response.message || 'Generation failed');
+      // Use the new asynchronous tattoo generation API with progress
+      const tattooResponse = await GenerateServiceInstance.generateTattooWithProgress({
+        prompt: state.prompt,
+        width: 1024,
+        height: 1024,
+        num_outputs: state.selectedQuantity,
+        // Apply color settings
+        ...(state.selectedColor ? {} : { 
+          negative_prompt: "ugly, broken, distorted, blurry, low quality, bad anatomy, colorful, bright colors",
+          style_preset: 'blackAndGrey' as const
+        })
+      }, (progress) => {
+        // Update progress in real-time
+        console.log(`Generation progress: ${progress.percentage}% - ${progress.message}`);
+        currentProgress.current = progress.percentage;
+        targetProgress.current = progress.percentage;
+        updateState({ generationProgress: progress.percentage });
+      });
+      
+      // Handle completed generation
+      if (tattooResponse && tattooResponse.localImages) {
+        // Create HomeImage objects from all generated images
+        const localImages = tattooResponse.localImages || [];
+        if (localImages.length > 0) {
+          const batchId = tattooResponse.batchId || tattooResponse.id;
+          const newImages: HomeImage[] = localImages.map((localImage, index) => ({
+            id: `${tattooResponse.id}_${index}`,
+            name: { zh: `${state.prompt} (${index + 1})`, en: `${state.prompt} (${index + 1})` },
+            slug: `generated-tattoo-${tattooResponse.id}-${index}`,
+            tattooUrl: localImage.url,
+            title: { zh: state.prompt, en: state.prompt },
+            description: { zh: state.prompt, en: state.prompt },
+            prompt: { zh: state.prompt, en: state.prompt },
+            type: 'text2image' as const,
+            styleId: '',
+            isColor: state.selectedColor,
+            isPublic: state.publicVisibility,
+            isOnline: false,
+            hotness: 0,
+            userId: '',
+            categoryId: '',
+            ratio: '1:1' as const,
+            batchId: batchId,
+            createdAt: tattooResponse.created_at || new Date().toISOString(),
+            updatedAt: tattooResponse.created_at || new Date().toISOString()
+          }));
+          
+          // Immediately add all images to state
+          setState(prevState => ({
+            ...prevState,
+            generatedImages: [...newImages, ...prevState.generatedImages],
+            hasGenerationHistory: true,
+            isGenerating: false,
+            currentTaskId: null,
+            generationProgress: 100,
+          }));
+          
+          // Refresh user credits
+          checkUserCredits();
+          if (refreshUser) {
+            try {
+              await refreshUser();
+            } catch (error) {
+              console.error('Failed to refresh global user state:', error);
+            }
+          }
+          return; // Exit early since generation is complete
+        }
       }
+      
+      // If we get here, something went wrong
+      throw new Error('Generation failed - no local images received');
     } catch (error) {
       updateState({
         error: error instanceof Error ? error.message : 'An error occurred',
         isGenerating: false,
       });
     }
-  }, [state.isGenerating, state.selectedTab, state.prompt, state.selectedRatio, state.textPublicVisibility, state.imagePublicVisibility, state.uploadedFile, state.canGenerate, updateState, handleInsufficientCredits]);
+  }, [state.isGenerating, state.prompt, state.selectedRatio, state.publicVisibility, state.canGenerate, updateState, handleInsufficientCredits]);
 
   // 优化的进度管理
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
@@ -827,191 +607,6 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     }, 50); // 每50ms更新一次，更流畅
   }, [updateState]);
 
-  // 轮询任务状态完成后刷新积分
-  const pollTaskStatus = useCallback(async (taskId: string, type: 'text2image' | 'image2image' | 'image2coloring') => {
-    const maxAttempts = 60; // 最多轮询60次（5分钟）
-    let attempts = 0;
-    let hasReceived50 = false;
-    let hasReceived100 = false;
-    
-    // 进度已在generateImages中初始化，这里不再重复
-    
-    // 启动持续的自动推进定时器
-    const autoAdvanceInterval = setInterval(() => {
-      if (!hasReceived50) {
-        // 每500ms推进1%，直到45%
-        const newProgress = Math.min(45, currentProgress.current + 1);
-        if (newProgress > currentProgress.current) {
-          smoothProgressUpdate(newProgress);
-        }
-      } else if (hasReceived50 && !hasReceived100) {
-        // 收到50%后，每300ms推进1.5%，直到95%
-        const newProgress = Math.min(95, currentProgress.current + 1.5);
-        if (newProgress > currentProgress.current) {
-          smoothProgressUpdate(newProgress);
-        }
-      }
-      
-      if (hasReceived100) {
-        clearInterval(autoAdvanceInterval);
-      }
-    }, 300); // 每300ms推进一次
-
-    const poll = async () => {
-      try {
-        attempts++;
-        const taskStatus = await GenerateServiceInstance.getTaskStatus(taskId, type);
-        
-        // 根据后台返回的进度更新目标进度
-        const backendProgress = taskStatus.progress || 0;
-        
-        if (backendProgress >= 100 && !hasReceived100) {
-          // 收到100%，立即完成
-          hasReceived100 = true;
-          smoothProgressUpdate(100);
-        } else if (backendProgress >= 50 && !hasReceived50) {
-          // 收到50%，快进到50%
-          hasReceived50 = true;
-          smoothProgressUpdate(50);
-        }
-
-        if (taskStatus.status === 'completed') {
-          // 清理自动推进定时器
-          clearInterval(autoAdvanceInterval);
-          
-          // 如果还没有推进到100%，先推进到100%
-          if (!hasReceived100) {
-            hasReceived100 = true;
-            smoothProgressUpdate(100);
-          } else {
-            // 如果已经收到100%，直接设置为100%
-            currentProgress.current = 100;
-            targetProgress.current = 100;
-            updateState({ generationProgress: 100 });
-          }
-          
-          // 等待进度条动画完成后再显示图片
-          setTimeout(async () => {
-            // 清理进度条定时器并确保显示100%
-            if (progressInterval.current) {
-              clearInterval(progressInterval.current);
-              progressInterval.current = null;
-            }
-            currentProgress.current = 100;
-            targetProgress.current = 100;
-            updateState({ generationProgress: 100 });
-            
-            // 任务完成，立即将新图片添加到状态中
-            if (taskStatus.result || taskStatus.image) {
-              const completedImage = taskStatus.result || taskStatus.image;
-              
-              // 立即将新图片添加到对应的数组中，并设置为选中状态
-              setState(prevState => {
-              // 确保 completedImage 不为 undefined
-              if (!completedImage) {
-                return {
-                  ...prevState,
-                  isGenerating: false,
-                  currentTaskId: null,
-                  generationProgress: 100,
-                };
-              }
-              
-              const newImage = completedImage;
-              let newTextImages = [...prevState.textGeneratedImages];
-              let newImageImages = [...prevState.imageGeneratedImages];
-              let newGeneratedImages = [...prevState.generatedImages];
-              
-              // 根据当前标签页添加到对应的数组中
-              if (prevState.selectedTab === 'text') {
-                // 检查是否已经存在，避免重复添加
-                if (!newTextImages.some(img => img.id === newImage.id)) {
-                  newTextImages.unshift(newImage); // 添加到数组开头
-                }
-              } else {
-                // 检查是否已经存在，避免重复添加
-                if (!newImageImages.some(img => img.id === newImage.id)) {
-                  newImageImages.unshift(newImage); // 添加到数组开头
-                }
-              }
-              
-              // 也添加到总数组中
-              if (!newGeneratedImages.some(img => img.id === newImage.id)) {
-                newGeneratedImages.unshift(newImage);
-              }
-              
-              return {
-                ...prevState,
-                generatedImages: newGeneratedImages,
-                textGeneratedImages: newTextImages,
-                imageGeneratedImages: newImageImages,
-                hasTextToImageHistory: newTextImages.length > 0,
-                hasImageToImageHistory: newImageImages.length > 0,
-                selectedImage: newImage.id,
-                isGenerating: false,
-                currentTaskId: null,
-                generationProgress: 100,
-              };
-              });
-            } else {
-              updateState({
-                isGenerating: false,
-                currentTaskId: null,
-                generationProgress: 100,
-              });
-            }
-            
-            // 后台刷新积分和全局状态
-            checkUserCredits();
-            if (refreshUser) {
-              try {
-                await refreshUser();
-              } catch (error) {
-                console.error('Failed to refresh global user state:', error);
-              }
-            }
-          }, 500); // 等待500ms让进度条动画完成
-        } else if (taskStatus.status === 'failed') {
-          // 清理所有定时器
-          clearInterval(autoAdvanceInterval);
-          if (progressInterval.current) {
-            clearInterval(progressInterval.current);
-            progressInterval.current = null;
-          }
-          updateState({
-            error: taskStatus.message || 'Generation failed',
-            isGenerating: false,
-            currentTaskId: null,
-          });
-        } else if (attempts >= maxAttempts) {
-          // 清理所有定时器
-          clearInterval(autoAdvanceInterval);
-          if (progressInterval.current) {
-            clearInterval(progressInterval.current);
-            progressInterval.current = null;
-          }
-          updateState({
-            error: 'Generation timeout',
-            isGenerating: false,
-            currentTaskId: null,
-          });
-        } else {
-          // 继续轮询
-          setTimeout(poll, 2000); // 2秒后再次轮询
-        }
-      } catch (error) {
-        console.error('Poll task status error:', error);
-        updateState({
-          error: 'Failed to check generation status',
-          isGenerating: false,
-          currentTaskId: null,
-        });
-      }
-    };
-
-    // 开始轮询
-    poll();
-  }, [updateState, loadGeneratedImages, checkUserCredits, smoothProgressUpdate]);
 
   // 加载风格建议
   const loadStyleSuggestions = useCallback(async () => {
@@ -1037,139 +632,67 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
   // 重新创建示例
   const recreateExample = useCallback(async (exampleId: string) => {
     try {
-      // 根据当前标签页找到对应的示例图片
-      let exampleImage: HomeImage | undefined;
+      // 从示例图片中查找
+      let exampleImage = state.exampleImages.find(img => img.id === exampleId);
       
-      if (state.selectedTab === 'text') {
-        // 从 Text to Image 的示例图片中查找
-        exampleImage = state.textExampleImages.find(img => img.id === exampleId);
-        
-        // 如果当前显示的示例中没有，从缓存中查找
-        if (!exampleImage && textExampleCache.current.allImages.length > 0) {
-          exampleImage = textExampleCache.current.allImages.find(img => img.id === exampleId);
-        }
-      } else {
-        // 从 Image to Image 的示例图片中查找
-        exampleImage = state.imageExampleImages.find(img => img.id === exampleId);
-        
-        // 如果当前显示的示例中没有，从缓存中查找
-        if (!exampleImage && imageExampleCache.current.allImages.length > 0) {
-          exampleImage = imageExampleCache.current.allImages.find(img => img.id === exampleId);
-        }
+      // 如果当前显示的示例中没有，从缓存中查找
+      if (!exampleImage && exampleCache.current.allImages.length > 0) {
+        exampleImage = exampleCache.current.allImages.find(img => img.id === exampleId);
       }
       
       if (!exampleImage) {
         throw new Error('Example image not found');
       }
       
-      if (state.selectedTab === 'text') {
-        // Text to Image: 回填示例图片的信息到界面
-        const promptToUse = getLocalizedText(exampleImage.prompt, language) || 
-                           getLocalizedText(exampleImage.title, language) || 
-                           getLocalizedText(exampleImage.description, language) || '';
-        
-        if (!promptToUse.trim()) {
-          throw new Error('No prompt information available for this example');
-        }
-        
-        // 回填 prompt、ratio、isPublic 到界面，不调用生成方法
-        const validRatios: AspectRatio[] = ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', '16:21'];
-        const ratio = validRatios.includes(exampleImage.ratio as AspectRatio) ? (exampleImage.ratio as AspectRatio) : '1:1';
-        updateState({ 
-          prompt: promptToUse,
-          selectedRatio: ratio,
-          textPublicVisibility: exampleImage.isPublic || false,
-          error: null
-        });
-        
-      } else {
-        // Image to Image: 将示例图片转换为 File 对象并填充到上传表单
-        try {
-          // 使用 colorUrl 作为要上传的图片（因为用户看到的 example 是彩色版本）
-          const imageUrl = exampleImage.colorUrl;
-          
-          // 从 URL 获取图片并转换为 File 对象
-          const response = await fetch(imageUrl, {
-            mode: 'cors',
-            credentials: 'omit'
-          });
-          
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          
-          const blob = await response.blob();
-          
-          // 创建 File 对象
-          const fileExtension = blob.type.split('/')[1] || 'jpg';
-          const titleText = getLocalizedText(exampleImage.title, language) || exampleImage.id;
-          const fileName = `example-${titleText}.${fileExtension}`;
-          const file = new File([blob], fileName, { type: blob.type });
-          
-          // 创建图片对象来获取尺寸
-          const img = new Image();
-          img.onload = () => {
-            // 设置文件、尺寸和其他属性
-            const validRatios: AspectRatio[] = ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', '16:21'];
-            const ratio = validRatios.includes(exampleImage.ratio as AspectRatio) ? (exampleImage.ratio as AspectRatio) : '1:1';
-            updateState({
-              uploadedFile: file,
-              selectedRatio: ratio,
-              imagePublicVisibility: exampleImage.isPublic || false,
-              selectedImage: null, // 清空选中的图片，因为现在是上传模式
-              error: null
-            });
-          };
-          img.onerror = () => {
-            throw new Error('Failed to load image dimensions');
-          };
-          img.src = URL.createObjectURL(blob); // 使用 blob URL 避免 CORS 问题
-          
-        } catch (fetchError) {
-          console.error('Failed to fetch example image:', fetchError);
-          // 如果获取图片失败，回退到原来的逻辑
-          const validRatios: AspectRatio[] = ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', '16:21'];
-          const ratio = validRatios.includes(exampleImage.ratio as AspectRatio) ? (exampleImage.ratio as AspectRatio) : '1:1';
-          updateState({
-            selectedImage: exampleImage.defaultUrl,
-            selectedRatio: ratio,
-            imagePublicVisibility: exampleImage.isPublic || false,
-            error: 'Failed to load example image. Please try uploading your own image.',
-          });
-        }
+      // Text to Image: 回填示例图片的信息到界面
+      const promptToUse = getLocalizedText(exampleImage.prompt, language) || 
+                         getLocalizedText(exampleImage.title, language) || 
+                         getLocalizedText(exampleImage.description, language) || '';
+      
+      if (!promptToUse.trim()) {
+        throw new Error('No prompt information available for this example');
       }
+      
+      // 回填 prompt、ratio、isPublic 到界面，不调用生成方法
+      const validRatios: AspectRatio[] = ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', '16:21'];
+      const ratio = validRatios.includes(exampleImage.ratio as AspectRatio) ? (exampleImage.ratio as AspectRatio) : '1:1';
+      updateState({ 
+        prompt: promptToUse,
+        selectedRatio: ratio,
+        publicVisibility: exampleImage.isPublic || false,
+        error: null
+      });
     } catch (error) {
       updateState({
         error: error instanceof Error ? error.message : 'Failed to load example data',
       });
     }
-  }, [updateState, state.selectedTab, state.textExampleImages, state.imageExampleImages]);
+  }, [updateState, state.exampleImages, language]);
 
   // 下载图片
   const downloadImage = useCallback(async (imageId: string, format: 'png' | 'pdf') => {
     try {
       updateState({ error: null }); // 清除之前的错误
       
-      // 根据当前标签页选择对应的图片数组查找图片信息
-      const currentImages = state.selectedTab === 'text' ? state.textGeneratedImages : state.imageGeneratedImages;
-      const imageData = currentImages.find(img => img.id === imageId);
+      // 从生成的图片中查找图片信息
+      const imageData = state.generatedImages.find(img => img.id === imageId);
       if (!imageData) {
         throw new Error('Image not found');
       }
       
       // 生成文件名
       const imageTitle = getLocalizedText(imageData.title, language) || 'untitled';
-      const fileName = `coloring-page-${imageTitle.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 20)}-${imageId.slice(-8)}.${format}`;
+      const fileName = `tattoo-${imageTitle.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 20)}-${imageId.slice(-8)}.${format}`;
       
       // 根据格式选择不同的下载方式
       if (format === 'png') {
         // PNG格式直接通过URL下载
         const { downloadImageByUrl } = await import('../utils/downloadUtils');
-        await downloadImageByUrl(imageData.defaultUrl, fileName);
+        await downloadImageByUrl(imageData.tattooUrl, fileName);
       } else {
         // PDF格式将图片转换为PDF
         const { downloadImageAsPdf } = await import('../utils/downloadUtils');
-        await downloadImageAsPdf(imageData.defaultUrl, fileName);
+        await downloadImageAsPdf(imageData.tattooUrl, fileName);
       }
       
     } catch (error) {
@@ -1178,7 +701,7 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
         error: error instanceof Error ? error.message : 'Download failed',
       });
     }
-  }, [updateState, state.selectedTab, state.textGeneratedImages, state.imageGeneratedImages]);
+  }, [updateState, state.generatedImages, language]);
 
   // 清除错误
   const clearError = useCallback(() => {
@@ -1197,13 +720,8 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     
     updateState({
       prompt: '',
-      selectedImage: null,
-      uploadedFile: null,
       generatedImages: [],
-      textGeneratedImages: [],
-      imageGeneratedImages: [],
-      hasTextToImageHistory: false,
-      hasImageToImageHistory: false,
+      hasGenerationHistory: false,
       error: null,
       currentTaskId: null,
       generationProgress: 0,
@@ -1214,66 +732,34 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
   const refreshExamples = useCallback(() => {
     const isMobile = window.innerWidth < 640;
     
-    if (state.selectedTab === 'text') {
-      // Text to Image 刷新逻辑
-      if (textExampleCache.current.allImages.length > 0) {
-        let randomImages: HomeImage[];
+    if (exampleCache.current.allImages.length > 0) {
+      let randomImages: HomeImage[];
+      
+      if (isMobile && state.exampleImages.length > 0) {
+        // 移动端：避免显示相同的图片
+        const currentImageIds = state.exampleImages.map(img => img.id);
+        const availableImages = exampleCache.current.allImages.filter(img => !currentImageIds.includes(img.id));
         
-        if (isMobile && state.textExampleImages.length > 0) {
-          // 移动端：避免显示相同的图片
-          const currentImageIds = state.textExampleImages.map(img => img.id);
-          const availableImages = textExampleCache.current.allImages.filter(img => !currentImageIds.includes(img.id));
-          
-          if (availableImages.length > 0) {
-            // 从未显示的图片中选择
-            randomImages = getRandomImages(availableImages);
-          } else {
-            // 如果所有图片都显示过了，重新开始
-            randomImages = getRandomImages(textExampleCache.current.allImages);
-          }
+        if (availableImages.length > 0) {
+          // 从未显示的图片中选择
+          randomImages = getRandomImages(availableImages);
         } else {
-          // 桌面端或首次加载：正常随机选择
-          randomImages = getRandomImages(textExampleCache.current.allImages);
+          // 如果所有图片都显示过了，重新开始
+          randomImages = getRandomImages(exampleCache.current.allImages);
         }
-        
-        setState(prev => ({ 
-          ...prev,
-          textExampleImages: randomImages
-        }));
       } else {
-        console.warn('Text example cache is empty, cannot refresh');
+        // 桌面端或首次加载：正常随机选择
+        randomImages = getRandomImages(exampleCache.current.allImages);
       }
+      
+      setState(prev => ({ 
+        ...prev,
+        exampleImages: randomImages
+      }));
     } else {
-      // Image to Image 刷新逻辑
-      if (imageExampleCache.current.allImages.length > 0) {
-        let randomImages: HomeImage[];
-        
-        if (isMobile && state.imageExampleImages.length > 0) {
-          // 移动端：避免显示相同的图片
-          const currentImageIds = state.imageExampleImages.map(img => img.id);
-          const availableImages = imageExampleCache.current.allImages.filter(img => !currentImageIds.includes(img.id));
-          
-          if (availableImages.length > 0) {
-            // 从未显示的图片中选择
-            randomImages = getRandomImages(availableImages);
-          } else {
-            // 如果所有图片都显示过了，重新开始
-            randomImages = getRandomImages(imageExampleCache.current.allImages);
-          }
-        } else {
-          // 桌面端或首次加载：正常随机选择
-          randomImages = getRandomImages(imageExampleCache.current.allImages);
-        }
-        
-        setState(prev => ({ 
-          ...prev,
-          imageExampleImages: randomImages
-        }));
-      } else {
-        console.warn('Image example cache is empty, cannot refresh');
-      }
+      console.warn('Example cache is empty, cannot refresh');
     }
-  }, [state.selectedTab, state.textExampleImages, state.imageExampleImages]);
+  }, [state.exampleImages, getRandomImages]);
 
   // 刷新风格建议
   const refreshStyleSuggestions = useCallback(async () => {
@@ -1292,21 +778,14 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
         // 从生成的图片列表中移除
         setState(prevState => {
           const newGeneratedImages = prevState.generatedImages.filter(img => img.id !== imageId);
-          const newTextGeneratedImages = prevState.textGeneratedImages.filter(img => img.id !== imageId);
-          const newImageGeneratedImages = prevState.imageGeneratedImages.filter(img => img.id !== imageId);
           
           // 重新计算历史状态
-          const hasTextToImageHistory = newTextGeneratedImages.length > 0;
-          const hasImageToImageHistory = newImageGeneratedImages.length > 0;
+          const hasGenerationHistory = newGeneratedImages.length > 0;
           
           return {
             ...prevState,
             generatedImages: newGeneratedImages,
-            textGeneratedImages: newTextGeneratedImages,
-            imageGeneratedImages: newImageGeneratedImages,
-            hasTextToImageHistory,
-            hasImageToImageHistory,
-            selectedImage: prevState.selectedImage === imageId ? null : prevState.selectedImage
+            hasGenerationHistory
           };
         });
       }
@@ -1332,59 +811,12 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     updateState({ styleSuggestions: randomSuggestions });
   }, [language, updateState]);
 
-  // 当标签切换且初始数据已加载时，加载对应的示例图片
+  // 当初始数据已加载时，加载示例图片
   useEffect(() => {
     if (state.isInitialDataLoaded) {
-      if (state.selectedTab === 'text') {
-        loadTextExamplesIfNeeded(state.hasTextToImageHistory);
-      } else if (state.selectedTab === 'image') {
-        loadImageExamplesIfNeeded(state.hasImageToImageHistory);
-      }
+      loadExamplesIfNeeded(state.hasGenerationHistory);
     }
-  }, [state.selectedTab, state.isInitialDataLoaded, state.hasTextToImageHistory, state.hasImageToImageHistory, loadTextExamplesIfNeeded, loadImageExamplesIfNeeded]);
-
-  // 处理从URL参数中获取的源图片
-  useEffect(() => {
-    const sourceImageUrl = getSourceImageUrl();
-    console.log('Source image URL from params:', sourceImageUrl);
-    console.log('Initial tab:', initialTab);
-    
-    if (sourceImageUrl && initialTab === 'image') {
-      console.log('Loading source image for Image to Image mode...');
-      // 只有当前是Image to Image模式且有源图片URL时才处理
-      const loadSourceImage = async () => {
-        try {
-          console.log('Downloading image from URL:', sourceImageUrl);
-          const file = await downloadImageAsFile(sourceImageUrl);
-          console.log('Downloaded file:', file);
-          
-          if (file) {
-            // 获取图片尺寸
-            const img = new Image();
-            img.onload = () => {
-              console.log('Image loaded successfully, dimensions:', img.width, 'x', img.height);
-              setUploadedImageWithDimensions(file, {
-                width: img.width,
-                height: img.height
-              });
-            };
-            img.onerror = () => {
-              console.log('Failed to get image dimensions, setting file without dimensions');
-              // 如果无法获取尺寸，仍然设置文件但不设置尺寸
-              setUploadedImageWithDimensions(file, null);
-            };
-            img.src = URL.createObjectURL(file);
-          } else {
-            console.log('Failed to download image file');
-          }
-        } catch (error) {
-          console.error('Failed to load source image:', error);
-        }
-      };
-      
-      loadSourceImage();
-    }
-  }, [initialTab, setUploadedImageWithDimensions]); // 只在初始化时执行一次
+  }, [state.isInitialDataLoaded, state.hasGenerationHistory, loadExamplesIfNeeded]);
 
   // 手动加载示例图片的函数（用于外部调用）
   const loadExampleImages = useCallback(async () => {
@@ -1409,15 +841,10 @@ export const useGeneratePage = (initialTab: 'text' | 'image' = 'text', refreshUs
     
     // 操作
     setPrompt,
-    setSelectedTab,
     setSelectedRatio,
     setSelectedColor,
     setSelectedQuantity,
-    setTextPublicVisibility,
-    setImagePublicVisibility,
-    setSelectedImage,
-    setUploadedFile,
-    setUploadedImageWithDimensions,
+    setPublicVisibility,
     generateImages,
     loadExampleImages,
     loadStyleSuggestions,

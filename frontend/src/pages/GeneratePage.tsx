@@ -4,45 +4,32 @@ import Layout from '../components/layout/Layout';
 import useGeneratePage from '../hooks/useGeneratePage';
 import { useAuth } from '../contexts/AuthContext';
 import { getLocalizedText } from '../utils/textUtils';
-import CircularProgress from '../components/ui/CircularProgress';
 import DeleteImageConfirmDialog from '../components/ui/DeleteImageConfirmDialog';
 import Tooltip from '../components/ui/Tooltip';
 import ColoringPageTool, { ColoringPageToolData } from '../components/common/ColoringPageTool';
-import GenerateExample from '../components/common/GenerateExample';
 import WhyChoose, { WhyChooseData } from '../components/common/WhyChoose';
 import CanCreate, { CanCreateData } from '../components/common/CanCreate';
 import HowToCreate, { HowToCreateData } from '../components/common/HowToCreate';
 import UserSaying, { TestimonialItem } from '../components/common/UserSaying';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
-import ColoringPageConversion, { ColoringPageConversionData } from '../components/common/ColoringPageConversion';
+import { ColoringPageConversionData } from '../components/common/ColoringPageConversion';
 import PricingSection from '../components/common/PricingSection';
+import GenerateRightSidebar from '../components/generate/GenerateRightSidebar';
+import GenerateLeftSidebar from '../components/generate/GenerateLeftSidebar';
+import GenerateCenterSidebar from '../components/generate/GenerateCenterSidebar';
 
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation, useLanguage } from '../contexts/LanguageContext';
-import {
-  getCenterImageSize,
-  getImageContainerSize,
-  getGeneratingContainerSize,
-} from '../utils/imageUtils';
-const refreshIcon = '/images/refresh.svg';
-const crownIcon = '/images/crown.svg';
+
+// 移动端还需要的图标
 const tipIcon = '/images/tip.svg';
-const subtractColorIcon = '/images/subtract-color.svg';
-const subtractIcon = '/images/subtract.svg';
-const downloadIcon = '/images/download.svg';
-const moreIcon = '/images/more.svg';
-const deleteIcon = '/images/delete.svg';
-const textCountIcon = '/images/text-count.svg';
-const generateFailIcon = '/images/generate-fail.svg';
+const crownIcon = '/images/generate/crown.svg';
+const subtractColorIcon = '/images/generate/subtract-color.svg';
+const subtractIcon = '/images/generate/generate-star.png';
 
-import { useUploadImage } from '../contexts/UploadImageContext';
 
-interface GeneratePageProps {
-  initialTab?: 'text' | 'image';
-}
-
-const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
+const GeneratePage: React.FC = () => {
   // 获取翻译函数
   const { t } = useAsyncTranslation('generate');
   const { language } = useLanguage();
@@ -137,6 +124,9 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
 
   // 控制删除确认对话框的显示
   const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
+  
+  // 存储要删除的图片ID数组
+  const [imagesToDelete, setImagesToDelete] = React.useState<string[]>([]);
 
   // 控制定价弹窗的显示
   const [showPricingModal, setShowPricingModal] = React.useState(false);
@@ -184,23 +174,21 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
   const promptInputRef = React.useRef<HTMLTextAreaElement>(null);
   // 输入验证错误状态
   const [inputError, setInputError] = React.useState<string>('');
+  // Style 选择状态
+  const [selectedStyle, setSelectedStyle] = React.useState<string>('no-style');
+  
+  // 临时状态变量以保持向后兼容性
+  const selectedTab = 'text'; // 固定为text模式
 
   // 使用我们创建的 Hook 来管理状态和 API 调用
   const {
     // 状态
     prompt,
-    selectedTab,
     selectedColor,
     selectedQuantity,
-    textPublicVisibility,
-    imagePublicVisibility,
-    selectedImage,
-    uploadedFile,
-
-    textGeneratedImages,    // Text to Image 生成的图片
-    imageGeneratedImages,   // Image to Image 生成的图片
-    textExampleImages,      // 直接使用分离的变量
-    imageExampleImages,     // 直接使用分离的变量
+    publicVisibility,
+    generatedImages,
+    exampleImages,
     styleSuggestions,
     isGenerating,
     isInitialDataLoaded,    // 初始数据是否已加载完成
@@ -208,18 +196,13 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     generationProgress,
 
     // 用户生成历史状态
-    hasTextToImageHistory,
-    hasImageToImageHistory,
+    hasGenerationHistory,
 
     // 操作
     setPrompt,
-    setSelectedTab,
     setSelectedColor,
     setSelectedQuantity,
-    setTextPublicVisibility,
-    setImagePublicVisibility,
-    setSelectedImage,
-    setUploadedImageWithDimensions,
+    setPublicVisibility,
     generateImages,
     downloadImage,
     clearError,
@@ -227,7 +210,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     deleteImage,
     checkUserCredits,
     loadGeneratedImages,
-  } = useGeneratePage(initialTab, refreshUser);
+  } = useGeneratePage(refreshUser);
   
   // 当AuthContext完成初始化且有用户数据时，初始化用户相关数据
   useEffect(() => {
@@ -241,7 +224,6 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     }
   }, [user, checkUserCredits, loadGeneratedImages]);
 
-  const { uploadedImage: globalUploadedImage, setUploadedImage: setGlobalUploadedImage } = useUploadImage();
 
   // Data for ColoringPageTool component - Text to Image mode
   const textColoringPageToolData: ColoringPageToolData = {
@@ -634,51 +616,6 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     }
   ];
 
-  // FAQ data for GenerateFAQ component - Image to Image mode
-  const imageFAQData: FAQData[] = [
-    {
-      question: t('imageFAQ.0.question'),
-      answer: t('imageFAQ.0.answer')
-    },
-    {
-      question: t('imageFAQ.1.question'),
-      answer: t('imageFAQ.1.answer')
-    },
-    {
-      question: t('imageFAQ.2.question'),
-      answer: t('imageFAQ.2.answer')
-    },
-    {
-      question: t('imageFAQ.3.question'),
-      answer: t('imageFAQ.3.answer')
-    },
-    {
-      question: t('imageFAQ.4.question'),
-      answer: t('imageFAQ.4.answer')
-    },
-    {
-      question: t('imageFAQ.5.question'),
-      answer: t('imageFAQ.5.answer')
-    },
-    {
-      question: t('imageFAQ.6.question'),
-      answer: t('imageFAQ.6.answer')
-    },
-    {
-      question: t('imageFAQ.7.question'),
-      answer: t('imageFAQ.7.answer')
-    },
-    {
-      question: t('imageFAQ.8.question'),
-      answer: t('imageFAQ.8.answer')
-    },
-    {
-      question: t('imageFAQ.9.question'),
-      answer: t('imageFAQ.9.answer')
-    }
-  ];
-
-  // Categories data for CanCreate component
   const textCanCreateData: CanCreateData = {
     title: t('textCanCreate.title'),
     subtitle: t('textCanCreate.subtitle'),
@@ -766,22 +703,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     ]
   };
 
-  // 当有全局上传的图片时，自动设置到组件状态
-  useEffect(() => {
-    if (globalUploadedImage && initialTab === 'image') {
-      setUploadedImageWithDimensions(globalUploadedImage, null);
-      // 清除全局状态
-      setGlobalUploadedImage(null);
-    }
-  }, [globalUploadedImage, initialTab]);
-
-  // 当initialTab变化时更新selectedTab
-  useEffect(() => {
-    // 只有当当前标签页与初始标签页不同时才更新
-    if (selectedTab !== initialTab) {
-      setSelectedTab(initialTab);
-    }
-  }, [initialTab]);
+  // 移除了图片上传和标签页相关的逻辑，现在只支持文本生成
 
   // 点击外部关闭更多选项菜单
   useEffect(() => {
@@ -800,11 +722,9 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     };
   }, [showMoreMenu]);
 
-
-
   // 回填图片属性的辅助函数
   const fillImageAttributes = (imageId: string) => {
-    const currentImages = selectedTab === 'text' ? textGeneratedImages : imageGeneratedImages;
+    const currentImages = generatedImages;
     const selectedImageData = currentImages.find(img => img.id === imageId);
     
     // 检查是否有URL参数，如果有则不要覆盖
@@ -822,37 +742,27 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
       
       // 回填 isPublic（没有URL参数时才回填）
       if (!hasIsPublicParam) {
-        if (selectedTab === 'text') {
-          setTextPublicVisibility(selectedImageData.isPublic);
-        } else {
-          setImagePublicVisibility(selectedImageData.isPublic);
-        }
+        setPublicVisibility(selectedImageData.isPublic);
       }
     }
   };
 
-  // 为每个tab单独维护选中图片的状态
-  const [textSelectedImage, setTextSelectedImage] = React.useState<string | null>(null);
-  const [imageSelectedImage, setImageSelectedImage] = React.useState<string | null>(null);
+  // 简化为单一的选中图片状态
+  const [currentSelectedImage, setCurrentSelectedImage] = React.useState<string | null>(null);
 
   // 跟踪图片数组长度变化，用于检测新生成的图片
-  const prevLengths = React.useRef<{text: number, image: number}>({text: 0, image: 0});
+  const prevLength = React.useRef<number>(0);
 
   // 标签切换时的图片选择逻辑：为每个tab记住其选中状态，同时处理新生成的图片
   useEffect(() => {
-    const currentImages = selectedTab === 'text' ? textGeneratedImages : imageGeneratedImages;
-    const currentSelectedImage = selectedTab === 'text' ? textSelectedImage : imageSelectedImage;
+    const currentImages = generatedImages;
+    // currentSelectedImage is now defined above
     const currentLength = currentImages.length;
-    const prevLength = selectedTab === 'text' ? prevLengths.current.text : prevLengths.current.image;
-    const hasNewImage = currentLength > prevLength;
+    const previousLength = prevLength.current;
+    const hasNewImage = currentLength > previousLength;
     
     // 更新长度记录
-    if (selectedTab === 'text') {
-      prevLengths.current.text = currentLength;
-    } else {
-      prevLengths.current.image = currentLength;
-    }
-    
+    prevLength.current = currentLength;
     
     if (currentImages.length > 0) {
       const latestImage = currentImages[0];
@@ -878,42 +788,30 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
         } else {
           // 保持当前记忆的选择，不做改变
           targetImageId = currentSelectedImage;
-          // 只有当全局selectedImage不匹配时才更新
-          if (selectedImage !== currentSelectedImage) {
-            shouldUpdate = true;
-          }
+          // 保持当前记忆的选择，不需要更新
+          shouldUpdate = false;
         }
       }
       
       // 更新状态（只在需要时）
       if (shouldUpdate && targetImageId) {
-        if (selectedTab === 'text') {
-          setTextSelectedImage(targetImageId);
-        } else {
-          setImageSelectedImage(targetImageId);
-        }
-        setSelectedImage(targetImageId);
+        setCurrentSelectedImage(targetImageId);
         
         // 切换tab时不应该填充任何属性，保持用户的当前设置
         // fillImageAttributes 只应该在用户手动点击图片时调用
       }
     }
-  }, [selectedTab, textGeneratedImages, imageGeneratedImages, textSelectedImage, imageSelectedImage, setSelectedImage]);
+  }, [selectedTab, generatedImages]);
 
-  // 当用户选择图片时，更新对应tab的选中状态
+  // 当用户选择图片时，更新选中状态
   const handleImageSelectWithTabMemory = (imageId: string) => {
-    if (selectedTab === 'text') {
-      setTextSelectedImage(imageId);
-    } else {
-      setImageSelectedImage(imageId);
-    }
+    setCurrentSelectedImage(imageId);
     handleImageSelect(imageId);
   };
 
   // Set public visibility to true by default when component mounts
   useEffect(() => {
-    setTextPublicVisibility(true);
-    setImagePublicVisibility(true);
+    setPublicVisibility(true);
   }, []);
 
   // 事件处理函数
@@ -930,9 +828,6 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     if (error) {
       clearError();
     }
-    
-    // 设置选中的图片
-    setSelectedImage(imageId);
     
     // 回填图片属性到表单
     fillImageAttributes(imageId);
@@ -973,10 +868,21 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     await generateImages();
   };
 
-  const handleDownload = async (format: 'png' | 'pdf') => {
-    if (selectedImage) {
-      // selectedImage 现在存储的就是图片的 id
-      await downloadImage(selectedImage, format);
+  const handleDownload = async (format: 'png' | 'pdf', imageIds?: string[]) => {
+    if (imageIds && imageIds.length > 0) {
+      // 批次下载多张图片
+      for (const imageId of imageIds) {
+        try {
+          await downloadImage(imageId, format);
+          // 添加短暂延迟，避免同时下载太多文件
+          await new Promise(resolve => setTimeout(resolve, 500));
+        } catch (error) {
+          console.error(`Failed to download image ${imageId}:`, error);
+        }
+      }
+    } else if (currentSelectedImage) {
+      // 单张图片下载
+      await downloadImage(currentSelectedImage, format);
     }
   };
 
@@ -995,465 +901,59 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     setShowMoreMenu(!showMoreMenu);
   };
 
-  const handleDelete = () => {
-    if (selectedImage) {
+  const handleDelete = (imageIds?: string[]) => {
+    if (imageIds && imageIds.length > 0) {
+      // 批次删除
+      setImagesToDelete(imageIds);
+      setShowMoreMenu(false);
+      setShowDeleteConfirm(true);
+    } else if (currentSelectedImage) {
+      // 单张删除
+      setImagesToDelete([currentSelectedImage]);
       setShowMoreMenu(false);
       setShowDeleteConfirm(true);
     }
   };
 
   const handleConfirmDelete = async () => {
-    if (selectedImage) {
+    if (imagesToDelete.length > 0) {
       try {
-        // 调用删除方法
-        const success = await deleteImage(selectedImage);
+        let successCount = 0;
+        let failCount = 0;
         
-        if (success) {
-          // 显示成功提示
-          console.log('图片删除成功！');
+        for (const imageId of imagesToDelete) {
+          try {
+            const success = await deleteImage(imageId);
+            if (success) {
+              successCount++;
+            } else {
+              failCount++;
+            }
+          } catch (error) {
+            console.error(`Delete image ${imageId} error:`, error);
+            failCount++;
+          }
+        }
+        
+        if (successCount > 0) {
+          console.log(`成功删除 ${successCount} 张图片！`);
+          if (failCount > 0) {
+            console.warn(`${failCount} 张图片删除失败`);
+          }
         } else {
-          // 删除失败
           console.error('删除图片失败，请稍后重试。');
         }
+        
+        // 清空删除列表
+        setImagesToDelete([]);
       } catch (error) {
-        console.error('Delete image error:', error);
+        console.error('Delete images error:', error);
       }
     }
   };
 
 
-  // 通用内容渲染方法
-  const renderContent = (mode: 'text' | 'image') => {
-        const config = {
-      text: {
-        title: t('textToImage.title'),
-        description: t('textToImage.description')
-      },
-      image: {
-        title: t('imageToImage.title'),
-        description: t('imageToImage.description')
-      }
-    };
 
-    // 根据模式选择对应的示例图片和加载状态
-    const currentExampleImages = mode === 'text' ? textExampleImages : imageExampleImages;
-
-    return (
-      <div className="flex-1 px-4 sm:px-6 lg:px-10 flex flex-col pt-4 lg:pb-56 relative bg-[#F9FAFB]">
-        {/* 图片内容区域 - 移动端固定高度，桌面端flex-1 */}
-        <div className="h-[390px] lg:flex-1 lg:h-auto flex flex-col justify-center">
-          {/* 移动端为历史图片预留右侧空间 */}
-          <div className="w-full">
-            {error ? (
-              // 生成失败状态 - 独立显示，居中，不在图片框中
-              <div className="flex flex-col items-center text-center pt-8 pb-16">
-                <div className="w-20 h-20 mb-6">
-                  <img src={generateFailIcon} alt="Generation failed" className="w-full h-full" />
-                </div>
-                <div className="text-[#6B7280] text-sm leading-relaxed max-w-md">
-                  {t('error.generationFailed')}<br />
-                  {t('error.tryAgain')}
-                </div>
-              </div>
-            ) : selectedImage || isGenerating ? (
-              <div className="flex flex-col items-center">
-                {(() => {
-                  // 根据当前标签页选择对应的图片数组
-                  const currentImages = mode === 'text' ? textGeneratedImages : imageGeneratedImages;
-                  const imageSize = getCenterImageSize(mode, isGenerating, selectedImage, currentImages, dynamicImageDimensions, setDynamicImageDimensions);
-                  return (
-                    <div 
-                      className="bg-[#F2F3F5] rounded-2xl border border-[#EDEEF0] relative flex items-center justify-center transition-all duration-300"
-                      style={imageSize.style}
-                    >
-                      {isGenerating ? (
-                        <div className="flex flex-col items-center relative">
-                          <div className="relative">
-                            <CircularProgress
-                              progress={generationProgress}
-                              size="large"
-                              showPercentage={false}
-                            />
-                          </div>
-                          <div className="mt-6 text-center">
-                            {/* 进度数值显示 */}
-                            <div className="text-[#161616] text-2xl font-semibold">
-                              {Math.round(generationProgress)}%
-                            </div>
-                            <div className="text-[#6B7280] text-sm">{t('generating.description')}</div>
-                          </div>
-                        </div>
-                      ) : selectedImage ? (
-                        <>
-                          <img
-                            src={(() => {
-                              // 根据当前标签页选择对应的图片数组
-                              const currentImages = selectedTab === 'text' ? textGeneratedImages : imageGeneratedImages;
-                              return currentImages.find(img => img.id === selectedImage)?.tattooUrl;
-                            })()}
-                            alt="Generated coloring page"
-                            className="w-full h-full object-contain rounded-2xl"
-                          />
-                        </>
-                      ) : null}
-                    </div>
-                  );
-                })()}
-                
-                {/* Download and More Options - 只在有选中图片时显示 */}
-                {selectedImage && (
-                  <div className="flex flex-row gap-3 mt-6 px-4 sm:px-0">
-                    {/* Download PNG Button */}
-                    <button 
-                      onClick={() => handleDownload('png')}
-                      className="bg-[#F2F3F5] hover:bg-[#E5E7EB] border border-[#E5E7EB] rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-center gap-2 transition-all duration-200 flex-1 sm:flex-none"
-                    >
-                      <img src={downloadIcon} alt="Download" className="w-5 h-5 sm:w-6 sm:h-6" />
-                      <span className="text-[#161616] text-sm font-medium">{t('formats.png')}</span>
-                    </button>
-
-                    {/* Download PDF Button */}
-                    <button 
-                      onClick={() => handleDownload('pdf')}
-                      className="bg-[#F2F3F5] hover:bg-[#E5E7EB] border border-[#E5E7EB] rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-center gap-2 transition-all duration-200 flex-1 sm:flex-none"
-                    >
-                      <img src={downloadIcon} alt="Download" className="w-5 h-5 sm:w-6 sm:h-6" />
-                      <span className="text-[#161616] text-sm font-medium">{t('formats.pdf')}</span>
-                    </button>
-
-                    {/* More Options Button */}
-                    <div className="relative more-menu-container flex-1 sm:flex-none">
-                      <button 
-                        onClick={handleMoreMenuToggle}
-                        className="bg-[#F2F3F5] hover:bg-[#E5E7EB] border border-[#E5E7EB] rounded-lg p-2 sm:p-3 transition-all duration-200 w-full sm:w-auto flex items-center justify-center"
-                      >
-                        <img src={moreIcon || refreshIcon} alt="More options" className="w-5 h-5 sm:w-6 sm:h-6" />
-                      </button>
-
-                      {/* 下拉菜单 */}
-                      {showMoreMenu && (
-                        <div className="absolute top-full mt-2 right-0 bg-white border border-[#E5E7EB] rounded-lg shadow-lg py-2 min-w-[120px] z-50">
-                          <button
-                            onClick={handleDelete}
-                            className="w-full px-4 py-2 text-left text-[#161616] hover:bg-gray-50 flex items-center gap-2 transition-colors"
-                          >
-                            <img src={deleteIcon} alt="Delete" className="w-4 h-4" />
-                            <span className="text-sm">{t('actions.delete')}</span>
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-              </div>
-            ) : (
-              // 根据当前模式判断是否显示Example
-              // 只有在初始数据加载完成后才决定是否显示 example 图片
-              // Text to Image 模式：用户没有 text to image 历史时显示 example
-              // Image to Image 模式：用户没有 image to image 历史时显示 example
-              // Text mode - 使用 GenerateExample 组件
-              isInitialDataLoaded && mode === 'text' && !hasTextToImageHistory && (
-                <GenerateExample 
-                  type="text"
-                  title={config[mode].title}
-                  description={config[mode].description}
-                  images={currentExampleImages.map(example => ({
-                    url: example.tattooUrl,
-                    prompt: getLocalizedText(example.description, language) || `Example ${example.id}`
-                  }))}
-                />
-              )
-            ) || (
-              // Image mode - 使用 GenerateExample 组件
-              isInitialDataLoaded && mode === 'image' && !hasImageToImageHistory && (
-                <GenerateExample 
-                  type="image"
-                  title={config[mode].title}
-                  description={config[mode].description}
-                  images={currentExampleImages.map(example => ({
-                    url: example.tattooUrl,
-                    colorUrl: example.colorUrl,
-                    coloringUrl: example.coloringUrl,
-                    prompt: getLocalizedText(example.description, language) || `Example ${example.id}`
-                  }))}
-                />
-              )
-            )}
-          </div>
-          
-
-        </div>
-        
-        {/* 移动端横向历史图片 - 浮动在外层容器下方 */}
-        {(() => {
-          const currentImages = mode === 'text' ? textGeneratedImages : imageGeneratedImages;
-          return currentImages.length > 0 && (
-            <div className="lg:hidden mt-4 px-4 sm:px-6">
-              <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
-                {currentImages.slice(0, 10).map((image, index) => {
-                  // 如果有错误则不选中任何图片
-                  const isSelected = !error && selectedImage === image.id;
-                  
-                  return (
-                    <div
-                      key={image.id}
-                      className={`rounded-lg cursor-pointer relative transition-all border-2 bg-white shadow-sm flex-shrink-0 ${
-                        isSelected ? 'border-[#FF5C07] shadow-lg' : 'border-transparent hover:border-gray-200'
-                      }`}
-                      style={{
-                        ...getImageContainerSize(image, dynamicImageDimensions, setDynamicImageDimensions, {
-                          maxWidth: 80,   // 移动端横向最大宽度80px
-                          maxHeight: 80,  // 移动端横向最大高度80px  
-                          minWidth: 60,   // 移动端横向最小宽度60px
-                          minHeight: 60   // 移动端横向最小高度60px
-                        })
-                      }}
-                      onClick={() => handleImageSelectWithTabMemory(image.id)}
-                    >
-                      <img
-                        src={image.tattooUrl}
-                        alt={getLocalizedText(image.description, language) || `Generated ${index + 1}`}
-                        className="w-full h-full rounded-md object-cover"
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })()}
-      </div>
-    );
-  };
-
-  // Render left sidebar based on selected tab
-  const renderLeftSidebar = () => {
-    return (
-      <>
-        {/* Text to Image Section */}
-        <div className={`${selectedTab === 'text' ? 'block' : 'hidden'}`}>
-          {/* Prompt Section */}
-          <div className="lg:mx-5 lg:mt-7">
-            <div className="text-sm font-bold text-[#161616] mb-2">{t('prompt.title')}</div>
-            <div className="relative">
-              <textarea
-                ref={promptInputRef}
-                className={`w-full h-[120px] sm:h-[150px] lg:h-[200px] bg-[#F2F3F5] rounded-lg border border-[#EDEEF0] p-3 pr-10 text-sm resize-none focus:outline-none ${
-                  inputError ? 'outline outline-1 outline-red-500' : ''
-                }`}
-                placeholder={t('prompt.placeholder')}
-                value={prompt}
-                onChange={(e) => {
-                  handlePromptChange(e);
-                  if (inputError) setInputError('');
-                }}
-                maxLength={1000}
-              ></textarea>
-
-              {/* Clear button - 只在有内容时显示 */}
-              {prompt && (
-                <button
-                  onClick={handleClearPrompt}
-                  className="absolute top-3 right-3 w-5 h-5 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full transition-colors"
-                  title={t('prompt.clear')}
-                >
-                  <img src="/images/close-x.svg" alt="Clear" className="w-3 h-3" />
-                </button>
-              )}
-
-              <div className="absolute bottom-2 right-3 text-xs sm:text-sm text-[#A4A4A4] flex mb-2 sm:mb-3 items-center gap-1">
-                {prompt.length}/1000
-                <img src={textCountIcon} alt="Text count" className="w-3 h-3" />
-              </div>
-
-              {/* <div className="absolute bottom-2 left-3 bg-white rounded-full px-2 sm:px-3 py-1 mb-2 sm:mb-3 flex items-center">
-                <span className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2">
-                  <img src={aiGenerateIcon} alt="AI Generate" className="w-3 h-3 sm:w-4 sm:h-4" />
-                </span>
-                <span className="text-[#6B7280] text-xs sm:text-sm">{t('prompt.generateWithAI')}</span>
-              </div> */}
-            </div>
-            
-            {/* Error message - show below the prompt input */}
-            {inputError && (
-              <div className="mt-2 text-red-500 text-sm px-1">
-                {inputError}
-              </div>
-            )}
-          </div>
-
-          {/* Ideas Section */}
-          <div className="lg:mx-5 mt-5">
-            <div className="flex justify-between items-start gap-2">
-              <div className="text-[#6B7280] text-xs flex flex-wrap items-center gap-2 flex-1">
-                <span className="shrink-0">{t('prompt.ideas')}：</span>
-                {styleSuggestions.map((style) => (
-                  <span
-                    key={style.id}
-                    className="cursor-pointer hover:text-[#FF5C07] transition-colors bg-gray-100 px-2 py-1 rounded text-xs"
-                    onClick={() => handleStyleSuggestionClick(style.content)}
-                  >
-                    {style.name}
-                  </span>
-                ))}
-              </div>
-              <span className="cursor-pointer hover:opacity-70 transition-opacity shrink-0 mt-0.5" onClick={handleRefreshStyleSuggestions}>
-                <img src={refreshIcon} alt="Refresh" className="w-4 h-4" />
-              </span>
-            </div>
-          </div>
-
-
-          {/* Color Selector */}
-          <div className="lg:mx-5 mt-6 lg:mt-10">
-            <div className="text-sm font-bold text-[#161616] mb-2">Color</div>
-            <div className="bg-[#26262D] rounded-lg p-1 relative" style={{height: '48px'}}>
-              {/* 滑动指示器 */}
-              <div
-                className={`absolute rounded-lg transition-all duration-200 bg-[#393B42] ${
-                  selectedColor ? 'w-[calc(50%-4px)] h-[calc(100%-8px)] left-[4px] top-[4px]' :
-                  'w-[calc(50%-4px)] h-[calc(100%-8px)] left-[calc(50%+2px)] top-[4px]'
-                }`}
-              ></div>
-              
-              {/* 颜色选项 */}
-              <div className="grid grid-cols-2 gap-0 relative z-10 h-full">
-                <button
-                  className={`h-full flex items-center justify-center text-sm font-bold transition-all duration-200 ${
-                    selectedColor ? 'text-[#98FF59]' : 'text-[#C8C8C8] hover:text-white'
-                  }`}
-                  onClick={() => setSelectedColor(true)}
-                >
-                  Colorful
-                </button>
-                <button
-                  className={`h-full flex items-center justify-center text-sm font-medium transition-all duration-200 ${
-                    !selectedColor ? 'text-[#98FF59]' : 'text-[#C8C8C8] hover:text-white'
-                  }`}
-                  onClick={() => setSelectedColor(false)}
-                >
-                  Black & White
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Quantity Selector */}
-          <div className="lg:mx-5 mt-6 lg:mt-10">
-            <div className="text-sm font-bold text-[#ECECEC] mb-2">Quantity</div>
-            <div className="bg-[#26262D] rounded-lg p-1 relative" style={{height: '48px'}}>
-              {/* 滑动指示器 */}
-              <div
-                className={`absolute rounded-lg transition-all duration-200 bg-[#393B42] ${
-                  selectedQuantity === 1 ? 'w-[calc(50%-4px)] h-[calc(100%-8px)] left-[4px] top-[4px]' :
-                  'w-[calc(50%-4px)] h-[calc(100%-8px)] left-[calc(50%+2px)] top-[4px]'
-                }`}
-              ></div>
-              
-              {/* 数量选项 */}
-              <div className="grid grid-cols-2 gap-0 relative z-10 h-full">
-                <button
-                  className={`h-full flex items-center justify-center text-sm font-bold transition-all duration-200 ${
-                    selectedQuantity === 1 ? 'text-[#98FF59]' : 'text-[#C8C8C8] hover:text-white'
-                  }`}
-                  onClick={() => setSelectedQuantity(1)}
-                >
-                  1
-                </button>
-                <button
-                  className={`h-full flex items-center justify-center text-sm font-medium transition-all duration-200 ${
-                    selectedQuantity === 4 ? 'text-[#98FF59]' : 'text-[#C8C8C8] hover:text-white'
-                  }`}
-                  onClick={() => setSelectedQuantity(4)}
-                >
-                  <div className="flex items-center gap-1">
-                    <span>4</span>
-                    {/* Premium Crown Icon */}
-                    <div className="w-[18px] h-[18px] relative overflow-hidden">
-                      <div 
-                        className="w-[16.5px] h-[15px] absolute left-[0.75px] top-[1.5px] rounded-sm"
-                        style={{
-                          background: 'linear-gradient(90deg, #FFF8B9 0%, #EFC364 25%, #FFE1AF 50%, #DE8D50 75%, #FFF2A9 100%)'
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-      </>
-    );
-  };
-
-  // Render right sidebar with generated images
-  const renderRightSidebar = () => {
-    // 只使用 text-to-image 生成的图片
-    const currentImages = textGeneratedImages;
-
-    return (
-      <div className="w-[140px] border-l border-[#E3E4E5] pt-5 pb-16 px-2 overflow-y-auto overflow-x-hidden h-full flex flex-col items-center max-w-[140px]">
-        {/* 生成中的 loading 圆圈 - 使用智能计算的尺寸 */}
-        {isGenerating && (
-          <div
-            className="mb-4 rounded-lg border border-[#FF5C07] bg-[#F2F3F5]"
-            style={{
-              width: getGeneratingContainerSize().width,
-              height: getGeneratingContainerSize().height,
-              minHeight: getGeneratingContainerSize().height,
-              maxHeight: getGeneratingContainerSize().height,
-              flexShrink: 0,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxSizing: 'border-box',
-            }}
-          >
-            <CircularProgress
-              progress={generationProgress}
-              size="small"
-              showPercentage={false}
-            />
-          </div>
-        )}
-
-        {/* 生成的图片历史 - 使用分离的图片状态 */}
-        {currentImages.length > 0 ? (
-          currentImages
-            .map((image, index) => {
-              // 使用图片的 id 进行选中状态判断，但如果有错误则不选中任何图片
-              const isSelected = !error && selectedImage === image.id;
-              const isLastImage = index === currentImages.length - 1;
-              
-              return (
-                <div
-                  key={image.id}
-                  className={`${isLastImage ? 'mb-12' : 'mb-4'} rounded-lg cursor-pointer relative transition-all border-2 ${isSelected ? 'border-[#FF5C07] shadow-lg' : 'border-transparent hover:border-gray-200'
-                    }`}
-                  style={getImageContainerSize(image, dynamicImageDimensions, setDynamicImageDimensions)}
-                  onClick={() => handleImageSelectWithTabMemory(image.id)}
-                >
-                  <img
-                    src={image.tattooUrl}
-                    alt={getLocalizedText(image.description, language) || `Generated ${index + 1}`}
-                    className="w-full h-full rounded-lg object-cover"
-                  />
-                </div>
-              );
-            })
-        ) : !isGenerating && isInitialDataLoaded ? (
-          // 空状态 - 只有在初始数据加载完成且确实没有历史图片时才显示
-          <div className="text-center text-[#6B7280] text-xs mt-8">
-            {t('states.noTextToImageYet')}
-          </div>
-        ) : null}
-      </div>
-    );
-  };
 
   const handleVisibilityToggle = () => {
     // Check if user is not premium (free or expired membership)
@@ -1466,7 +966,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
     }
 
     // Premium users can toggle visibility for text mode
-    setTextPublicVisibility(!textPublicVisibility);
+    setPublicVisibility(!publicVisibility);
   };
 
   return (
@@ -1480,100 +980,33 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
         ogDescription={t('seo.generate.description')}
         noIndex={true}
       />
-      {/* 错误提示 */}
-      {/* {error && (
-        <div className="fixed top-4 right-4 z-50 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg max-w-md">
-          <div className="flex items-center justify-between">
-            <span className="text-sm">{error}</span>
-            <button
-              onClick={clearError}
-              className="ml-4 text-red-500 hover:text-red-700 font-bold text-lg"
-            >
-              ×
-            </button>
-          </div>
-        </div>
-      )} */}
 
-      <div className="flex flex-col bg-[#F9FAFB] relative">
-        <div className="flex flex-col lg:flex-row h-[1200px] bg-[#F9FAFB] relative">
+      <div className="flex flex-col bg-[#030414] relative">
+        <div className="flex flex-col lg:flex-row h-[1200px] bg-[#030414] relative">
         {/* Left Sidebar - 移动端隐藏，桌面端显示 */}
-        <div className="hidden lg:block w-[600px] bg-white h-[1200px] relative flex flex-col">
-          {/* Scrollable content area */}
-          <div className="flex-1 overflow-y-auto">
-
-          {/* Dynamic Left Sidebar Content */}
-          {renderLeftSidebar()}
-
-          {/* Public Visibility - Common for both tabs */}
-          <div className="mx-5 mt-5 lg:mt-8 flex items-center justify-between">
-            <div className="text-[14px] font-bold text-[#161616] flex items-center">
-              {t('settings.visibility')}
-              <Tooltip 
-                content={t('settings.visibilityTip')}
-                side="top"
-                align="start"
-                className="ml-1"
-              >
-                <span className="w-[18px] h-[18px] cursor-help inline-block">
-                  <img src={tipIcon} alt="Info" className="w-[18px] h-[18px]" />
-                </span>
-              </Tooltip>
-            </div>
-            <div className="flex items-center">
-              <Tooltip
-                content="Premium Feature"
-                side="top"
-                align="center"
-                className="mr-2"
-              >
-                <span className="w-[18px] h-[18px] cursor-help inline-block">
-                  <img src={crownIcon} alt="Premium" className="w-[18px] h-[18px]" />
-                </span>
-              </Tooltip>
-              <button
-                className={`w-[30px] h-4 rounded-lg relative ${
-                  textPublicVisibility ? 'bg-[#FF5C07]' : 'bg-gray-300'
-                } cursor-pointer`}
-                onClick={() => handleVisibilityToggle()}
-              >
-                <div
-                  className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[1px] transition-all duration-200 ${
-                    textPublicVisibility ? 'right-[1px]' : 'left-[1px]'
-                  }`}
-                ></div>
-              </button>
-            </div>
-          </div>
-          </div>
-
-          {/* Desktop Generate Button - Fixed at bottom of 1200px sidebar */}
-          <div className="absolute bottom-0 left-0 right-0 bg-white p-5 border-t border-gray-100">
-            <button
-              onClick={handleGenerate}
-              disabled={isGenerating}
-              className={`w-full h-12 rounded-lg flex items-center justify-center gap-2 transition-colors ${
-                isGenerating
-                  ? 'bg-[#F2F3F5] text-[#A4A4A4] cursor-not-allowed'
-                  : 'bg-[#FF5C07] text-white hover:bg-[#FF7A47]'
-                }`}
-            >
-              <img
-                src={isGenerating
-                  ? subtractIcon
-                  : subtractColorIcon
-                }
-                alt="Subtract"
-                className="w-5 h-5 mr-1"
-              />
-              <span className="font-bold text-lg">20</span>
-              <span className="font-bold text-lg">
-                {isGenerating ? t('generating.title') : 
-                 error ? t('actions.regenerate') :
-                 t('actions.generate')}
-              </span>
-            </button>
-          </div>
+        <div className="hidden lg:block w-[600px] bg-[#19191F] h-[1200px] relative rounded-r-2xl overflow-hidden">
+          <GenerateLeftSidebar
+            prompt={prompt}
+            selectedColor={selectedColor}
+            selectedQuantity={selectedQuantity}
+            selectedStyle={selectedStyle}
+            inputError={inputError}
+            publicVisibility={publicVisibility}
+            isGenerating={isGenerating}
+            error={error}
+            styleSuggestions={styleSuggestions}
+            promptInputRef={promptInputRef}
+            handlePromptChange={handlePromptChange}
+            handleClearPrompt={handleClearPrompt}
+            handleStyleSuggestionClick={handleStyleSuggestionClick}
+            handleRefreshStyleSuggestions={handleRefreshStyleSuggestions}
+            handleVisibilityToggle={handleVisibilityToggle}
+            handleGenerate={handleGenerate}
+            setSelectedColor={setSelectedColor}
+            setSelectedQuantity={setSelectedQuantity}
+            setSelectedStyle={setSelectedStyle}
+            setInputError={setInputError}
+          />
         </div>
 
         {/* 移动端主要内容区域 */}
@@ -1592,11 +1025,49 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
 
           {/* 移动端内容 - 可滚动区域 */}
           <div ref={mobileContentRef} className="flex-1 overflow-y-auto pb-48">
-            {renderContent('text')}
+            <GenerateCenterSidebar
+              mode="text"
+              error={error}
+              currentSelectedImage={currentSelectedImage}
+              isGenerating={isGenerating}
+              generationProgress={generationProgress}
+              generatedImages={generatedImages}
+              exampleImages={exampleImages}
+              hasGenerationHistory={hasGenerationHistory}
+              isInitialDataLoaded={isInitialDataLoaded}
+              dynamicImageDimensions={dynamicImageDimensions}
+              setDynamicImageDimensions={setDynamicImageDimensions}
+              showMoreMenu={showMoreMenu}
+              onDownload={handleDownload}
+              onMoreMenuToggle={handleMoreMenuToggle}
+              onDelete={handleDelete}
+              onImageSelect={handleImageSelectWithTabMemory}
+            />
             
             {/* 移动端控制面板 */}
-            <div className="bg-white border-t border-gray-200 p-4">
-              {renderLeftSidebar()}
+            <div className="bg-[#19191F] p-4">
+              <GenerateLeftSidebar
+                prompt={prompt}
+                selectedColor={selectedColor}
+                selectedQuantity={selectedQuantity}
+                selectedStyle={selectedStyle}
+                inputError={inputError}
+                publicVisibility={publicVisibility}
+                isGenerating={isGenerating}
+                error={error}
+                styleSuggestions={styleSuggestions}
+                promptInputRef={promptInputRef}
+                handlePromptChange={handlePromptChange}
+                handleClearPrompt={handleClearPrompt}
+                handleStyleSuggestionClick={handleStyleSuggestionClick}
+                handleRefreshStyleSuggestions={handleRefreshStyleSuggestions}
+                handleVisibilityToggle={handleVisibilityToggle}
+                handleGenerate={handleGenerate}
+                setSelectedColor={setSelectedColor}
+                setSelectedQuantity={setSelectedQuantity}
+                setSelectedStyle={setSelectedStyle}
+                setInputError={setInputError}
+              />
               
               {/* Public Visibility - Mobile */}
               <div className="mt-5 flex items-center justify-between">
@@ -1626,13 +1097,13 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
                   </Tooltip>
                   <button
                     className={`w-[30px] h-4 rounded-lg relative ${
-                      textPublicVisibility ? 'bg-[#FF5C07]' : 'bg-gray-300'
+                      publicVisibility ? 'bg-lime-300' : 'bg-gray-300'
                     } cursor-pointer`}
                     onClick={() => handleVisibilityToggle()}
                   >
                     <div
                       className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[1px] transition-all duration-200 ${
-                        textPublicVisibility ? 'right-[1px]' : 'left-[1px]'
+                        publicVisibility ? 'right-[1px]' : 'left-[1px]'
                       }`}
                     ></div>
                   </button>
@@ -1642,7 +1113,7 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
           </div>
 
           {/* 移动端生成按钮 - 固定在底部 */}
-          <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-white border-t border-gray-200 p-4 z-50">
+          <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-[#19191F] p-4 z-50">
             <button
               onClick={handleGenerate}
               disabled={isGenerating}
@@ -1672,35 +1143,55 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
 
         {/* 桌面端中间内容区域 */}
         <div className="hidden lg:flex lg:flex-1 lg:h-[1200px]">
-          {renderContent('text')}
+          <GenerateCenterSidebar
+            mode="text"
+            error={error}
+            currentSelectedImage={currentSelectedImage}
+            isGenerating={isGenerating}
+            generationProgress={generationProgress}
+            generatedImages={generatedImages}
+            exampleImages={exampleImages}
+            hasGenerationHistory={hasGenerationHistory}
+            isInitialDataLoaded={isInitialDataLoaded}
+            dynamicImageDimensions={dynamicImageDimensions}
+            setDynamicImageDimensions={setDynamicImageDimensions}
+            showMoreMenu={showMoreMenu}
+            onDownload={handleDownload}
+            onMoreMenuToggle={handleMoreMenuToggle}
+            onDelete={handleDelete}
+            onImageSelect={handleImageSelectWithTabMemory}
+          />
         </div>
 
         {/* Right Sidebar - Generated Images - 桌面端显示 */}
         <div className="hidden lg:block">
-          {renderRightSidebar()}
+          <GenerateRightSidebar
+            images={generatedImages}
+            selectedImageId={currentSelectedImage}
+            isGenerating={isGenerating}
+            generationProgress={generationProgress}
+            isInitialDataLoaded={isInitialDataLoaded}
+            error={error}
+            dynamicImageDimensions={dynamicImageDimensions}
+            setDynamicImageDimensions={setDynamicImageDimensions}
+            onImageSelect={handleImageSelectWithTabMemory}
+          />
         </div>
 
         </div>
       </div>
 
       {/* TextToColoringPage and WhyChoose components - Full width below main layout */}
-      <div className="w-full bg-white">
+      <div className="w-full bg-[#030414]">
           {/* ColoringPageTool component */}
           <div className="py-8 lg:pb-12 lg:pt-24">
             <ColoringPageTool data={textColoringPageToolData} />
           </div>
 
-
           {/* WhyChoose component */}
           <div className="py-8 lg:py-12 bg-white">
             <WhyChoose data={textWhyChooseData} />
           </div>
-
-
-
-
-
-
 
           {/* CanCreate component */}
           <div className="py-8 lg:py-12 bg-white">
@@ -1734,9 +1225,6 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
             buttonText={t('tryNow.text.buttonText')}
             onButtonClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           />
-
-
-
         </div>
 
       {/* 删除确认对话框 */}
@@ -1745,7 +1233,6 @@ const GeneratePage: React.FC<GeneratePageProps> = ({ initialTab = 'text' }) => {
         onClose={() => setShowDeleteConfirm(false)}
         onConfirm={handleConfirmDelete}
       />
-
     </Layout>
 
     {/* Full Screen Pricing Interface - Outside Layout */}

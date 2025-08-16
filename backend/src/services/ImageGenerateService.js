@@ -77,6 +77,9 @@ class ImageGenerateService {
                 throw new Error('REPLICATE_API_TOKEN environment variable is required');
             }
 
+            // 生成批次ID（如果没有提供）
+            const batchId = params.batchId || this.generateId();
+
             // 合并参数
             const input = {
                 ...this.defaultParams,
@@ -92,14 +95,15 @@ class ImageGenerateService {
             const result = await this.callReplicateAPI(input);
             
             // 下载并保存生成的图片
-            const savedImages = await this.downloadAndSaveImages(result.output, result.id);
+            const savedImages = await this.downloadAndSaveImages(result.output, result.id, batchId);
             
-            // 更新结果，包含本地文件路径
+            // 更新结果，包含本地文件路径和批次ID
             result.localImages = savedImages;
+            result.batchId = batchId;
             
             // 保存到数据库
             if (this.imageModel && savedImages.length > 0) {
-                const savedToDb = await this.saveToDatabase(result, savedImages, params);
+                const savedToDb = await this.saveToDatabase(result, savedImages, { ...params, batchId });
                 result.databaseRecords = savedToDb;
             }
             
@@ -319,15 +323,19 @@ class ImageGenerateService {
                 throw new Error('No output images found');
             }
 
+            // 生成批次ID（如果没有提供）
+            const batchId = originalParams.batchId || this.generateId();
+
             // 下载并保存生成的图片
-            const savedImages = await this.downloadAndSaveImages(prediction.output, prediction.id);
+            const savedImages = await this.downloadAndSaveImages(prediction.output, prediction.id, batchId);
             
-            // 更新结果，包含本地文件路径
+            // 更新结果，包含本地文件路径和批次ID
             prediction.localImages = savedImages;
+            prediction.batchId = batchId;
             
             // 保存到数据库
             if (this.imageModel && savedImages.length > 0) {
-                const savedToDb = await this.saveToDatabase(prediction, savedImages, originalParams);
+                const savedToDb = await this.saveToDatabase(prediction, savedImages, { ...originalParams, batchId });
                 prediction.databaseRecords = savedToDb;
             }
             
@@ -348,13 +356,16 @@ class ImageGenerateService {
                 throw new Error('Batch generation is limited to 10 prompts at once');
             }
 
+            // 为批量生成创建统一的批次ID
+            const batchId = commonParams.batchId || this.generateId();
+
             const results = [];
             const errors = [];
 
             // 并发生成
             const promises = prompts.map(async (prompt, index) => {
                 try {
-                    const params = { ...commonParams, prompt };
+                    const params = { ...commonParams, prompt, batchId };
                     const result = await this.generateTattoo(params);
                     return { index, result };
                 } catch (error) {
@@ -381,7 +392,8 @@ class ImageGenerateService {
                 {
                     successful: results,
                     failed: errors.length,
-                    errors: errors
+                    errors: errors,
+                    batchId: batchId
                 },
                 `Batch generation completed: ${results.length} successful, ${errors.length} failed`
             );
@@ -464,7 +476,7 @@ class ImageGenerateService {
     }
 
     // 下载并保存图片到本地
-    async downloadAndSaveImages(imageUrls, generationId) {
+    async downloadAndSaveImages(imageUrls, generationId, batchId) {
         if (!Array.isArray(imageUrls) || imageUrls.length === 0) {
             throw new Error('No image URLs provided');
         }
@@ -473,7 +485,7 @@ class ImageGenerateService {
 
         for (let i = 0; i < imageUrls.length; i++) {
             const imageUrl = imageUrls[i];
-            const filename = `${generationId}_${i}.png`;
+            const filename = `${batchId}_${generationId}_${i}.png`;
             const filepath = path.join(this.uploadDir, filename);
 
             try {
@@ -506,7 +518,8 @@ class ImageGenerateService {
                     relativePath: relativePath,
                     url: `${baseUrl}${relativePath}`,
                     originalUrl: imageUrl,
-                    size: fs.statSync(filepath).size
+                    size: fs.statSync(filepath).size,
+                    batchId: batchId
                 });
 
                 console.log(`Image saved: ${filename}`);
@@ -570,6 +583,7 @@ class ImageGenerateService {
                     }),
                     userId: originalParams.userId || null, // 如果有用户ID
                     categoryId: originalParams.categoryId || null, // 如果有分类ID
+                    batchId: originalParams.batchId,
                     additionalInfo: JSON.stringify({
                         generationId: generationResult.id,
                         generationParams: generationResult.input,
@@ -578,7 +592,8 @@ class ImageGenerateService {
                             width: originalParams.width || 1024,
                             height: originalParams.height || 1024
                         },
-                        model: this.modelVersion
+                        model: this.modelVersion,
+                        batchId: originalParams.batchId
                     })
                 };
 

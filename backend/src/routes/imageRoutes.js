@@ -1,180 +1,13 @@
 const express = require('express');
 const { createModels } = require('../models');
 const BaseService = require('../services/BaseService');
+const ImageService = require('../services/ImageService');
 const ImageGenerateService = require('../services/ImageGenerateService');
 const { createBaseRoutes, validateBody, validateUUID } = require('./baseRoutes');
-const { optionalAuth } = require('../middleware/auth');
+const { optionalAuth, authenticateToken } = require('../middleware/auth');
 
 const router = express.Router();
 
-// 图片服务类
-class ImageService extends BaseService {
-    constructor(imageModel) {
-        super(imageModel);
-    }
-
-    // 根据slug获取图片
-    async getBySlug(slug) {
-        try {
-            if (!slug) {
-                throw new Error('Slug is required');
-            }
-
-            const image = await this.model.findBySlug(slug);
-            if (!image) {
-                throw new Error('Image not found');
-            }
-
-            return image;
-        } catch (error) {
-            throw new Error(`Get image by slug failed: ${error.message}`);
-        }
-    }
-
-    // 获取用户的图片
-    async getUserImages(userId, query = {}) {
-        try {
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = { ...pagination, ...sort, filters };
-            return await this.model.findByUserId(userId, options);
-        } catch (error) {
-            throw new Error(`Get user images failed: ${error.message}`);
-        }
-    }
-
-    // 获取分类的图片
-    async getCategoryImages(categoryId, query = {}) {
-        try {
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = { ...pagination, ...sort, filters };
-            return await this.model.findByCategoryId(categoryId, options);
-        } catch (error) {
-            throw new Error(`Get category images failed: ${error.message}`);
-        }
-    }
-
-    // 获取样式的图片
-    async getStyleImages(styleId, query = {}) {
-        try {
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = { ...pagination, ...sort, filters };
-            return await this.model.findByStyleId(styleId, options);
-        } catch (error) {
-            throw new Error(`Get style images failed: ${error.message}`);
-        }
-    }
-
-    // 获取公开图片
-    async getPublicImages(query = {}) {
-        try {
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = { ...pagination, ...sort, filters };
-            return await this.model.findPublicImages(options);
-        } catch (error) {
-            throw new Error(`Get public images failed: ${error.message}`);
-        }
-    }
-
-    // 获取热门图片
-    async getHotImages(query = {}) {
-        try {
-            const { limit = 20, ...options } = query;
-            return await this.model.findHotImages(parseInt(limit), options);
-        } catch (error) {
-            throw new Error(`Get hot images failed: ${error.message}`);
-        }
-    }
-
-    // 更新热度
-    async updateHotness(imageId, hotnessChange) {
-        try {
-            if (!imageId) {
-                throw new Error('Image ID is required');
-            }
-
-            if (typeof hotnessChange !== 'number') {
-                throw new Error('Hotness change must be a number');
-            }
-
-            return await this.model.updateHotness(imageId, hotnessChange);
-        } catch (error) {
-            throw new Error(`Update image hotness failed: ${error.message}`);
-        }
-    }
-
-    // 获取图片标签
-    async getImageTags(imageId) {
-        try {
-            if (!imageId) {
-                throw new Error('Image ID is required');
-            }
-
-            return await this.model.getImageTags(imageId);
-        } catch (error) {
-            throw new Error(`Get image tags failed: ${error.message}`);
-        }
-    }
-
-    // 更新图片标签
-    async updateImageTags(imageId, tagIds) {
-        try {
-            if (!imageId) {
-                throw new Error('Image ID is required');
-            }
-
-            return await this.model.addTags(imageId, tagIds);
-        } catch (error) {
-            throw new Error(`Update image tags failed: ${error.message}`);
-        }
-    }
-
-    // 获取相似图片
-    async getSimilarImages(imageId, limit = 6) {
-        try {
-            if (!imageId) {
-                throw new Error('Image ID is required');
-            }
-
-            return await this.model.getSimilarImages(imageId, limit);
-        } catch (error) {
-            throw new Error(`Get similar images failed: ${error.message}`);
-        }
-    }
-
-    // 更新在线状态
-    async updateOnlineStatus(imageId, isOnline) {
-        try {
-            if (!imageId) {
-                throw new Error('Image ID is required');
-            }
-
-            return await this.model.updateOnlineStatus(imageId, isOnline);
-        } catch (error) {
-            throw new Error(`Update online status failed: ${error.message}`);
-        }
-    }
-
-    // 批量更新状态
-    async batchUpdateStatus(imageIds, updates) {
-        try {
-            return await this.model.batchUpdateStatus(imageIds, updates);
-        } catch (error) {
-            throw new Error(`Batch update status failed: ${error.message}`);
-        }
-    }
-}
 
 // 创建图片路由
 function createImageRoutes(app) {
@@ -183,9 +16,19 @@ function createImageRoutes(app) {
     const imageService = new ImageService(models.Image);
     const imageGenerateService = new ImageGenerateService(models.Image);
 
-    // 使用基础CRUD路由
-    const baseRoutes = createBaseRoutes(imageService, 'Image');
-    router.use('/', baseRoutes);
+    // 先定义具体的路由，再定义通用路由，避免路径冲突
+
+    // GET /api/images/generated - 获取当前用户生成的图片
+    router.get('/generated', authenticateToken, async (req, res) => {
+        try {
+            const userId = req.userId; // 从认证中间件获取用户ID
+            const result = await imageService.getUserGeneratedImages(userId, req.query);
+            res.json(result);
+        } catch (error) {
+            console.error('Get user generated images error:', error);
+            res.status(500).json(imageService.formatResponse(false, null, error.message));
+        }
+    });
 
     // POST /api/images/generate-tattoo - 生成纹身图片（同步，等待完成）
     router.post('/generate-tattoo', optionalAuth, validateBody(['prompt']), async (req, res) => {
@@ -410,18 +253,6 @@ function createImageRoutes(app) {
         }
     });
 
-    // GET /api/images/user/:userId - 获取用户的图片
-    router.get('/user/:userId', validateUUID, async (req, res) => {
-        try {
-            const { userId } = req.params;
-            const result = await imageService.getUserImages(userId, req.query);
-            res.json(imageService.formatPaginatedResponse(result, 'User images retrieved successfully'));
-        } catch (error) {
-            console.error('Get user images error:', error);
-            res.status(500).json(imageService.formatResponse(false, null, error.message));
-        }
-    });
-
     // GET /api/images/category/:categoryId - 获取分类的图片
     router.get('/category/:categoryId', validateUUID, async (req, res) => {
         try {
@@ -523,6 +354,10 @@ function createImageRoutes(app) {
             res.status(500).json(imageService.formatResponse(false, null, error.message));
         }
     });
+
+    // 最后添加基础CRUD路由，避免与具体路由冲突
+    const baseRoutes = createBaseRoutes(imageService, 'Image');
+    router.use('/', baseRoutes);
 
     return router;
 }

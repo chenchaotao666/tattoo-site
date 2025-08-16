@@ -83,6 +83,7 @@ CREATE TABLE images (
     isOnline BOOLEAN DEFAULT FALSE,             -- 是否上线（审核通过且可在前端展示）
     hotness INT DEFAULT 0,                      -- 热度值，范围 0-1000
     prompt JSON,                                -- 多语言生成提示词 { "en": "prompt", "zh": "提示词" }
+    batchId VARCHAR(36),                        -- 批次ID，用于标识一次生成的多张图片
     userId VARCHAR(36),                        -- 用户ID
     categoryId VARCHAR(36),                    -- 分类ID
     additionalInfo JSON,                        -- 额外信息
@@ -222,6 +223,7 @@ CREATE INDEX idx_images_created_at ON images(createdAt DESC);
 CREATE INDEX idx_images_public_online ON images(isPublic, isOnline);
 CREATE INDEX idx_images_category_hotness ON images(categoryId, hotness DESC);
 CREATE INDEX idx_images_user_created ON images(userId, createdAt DESC);
+CREATE INDEX idx_images_batch_id ON images(batchId);
 
 -- image_reports表索引
 CREATE INDEX idx_image_reports_image_id ON image_reports(imageId);

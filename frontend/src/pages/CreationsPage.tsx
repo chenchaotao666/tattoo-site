@@ -83,21 +83,39 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
       // 使用新的专用用户图片接口
       const result = await ImageService.getUserOwnImages(searchParams);
       
-      // 保存所有图片到缓存
-      setAllImages(result.images);
+      // 过滤批次图片：每个批次只保留第一张图片用于历史显示
+      const filteredImages = result.images.reduce((acc: HomeImage[], image: HomeImage) => {
+        // 如果图片有批次ID
+        if (image.batchId) {
+          // 检查是否已经有同批次的图片
+          const existingBatchImage = acc.find(img => img.batchId === image.batchId);
+          if (!existingBatchImage) {
+            // 如果没有同批次图片，添加这张图片
+            acc.push(image);
+          }
+          // 如果已有同批次图片，跳过当前图片
+        } else {
+          // 如果没有批次ID，直接添加
+          acc.push(image);
+        }
+        return acc;
+      }, []);
+      
+      // 保存所有图片到缓存（包含批次处理后的）
+      setAllImages(filteredImages);
       
       // 根据当前选择的类型设置显示的图片
       if (selectedType === 'all') {
-        setImages(result.images);
+        setImages(filteredImages);
       } else {
-        setImages(result.images.filter(img => img.type === selectedType));
+        setImages(filteredImages.filter(img => img.type === selectedType));
       }
       
-      // 更新计数
+      // 更新计数（基于过滤后的图片）
       setTypeCounts({
-        all: result.images.length,
-        text2image: result.images.filter(img => img.type === 'text2image').length,
-        image2image: result.images.filter(img => img.type === 'image2image').length
+        all: filteredImages.length,
+        text2image: filteredImages.filter(img => img.type === 'text2image').length,
+        image2image: filteredImages.filter(img => img.type === 'image2image').length
       });
       
     } catch (err) {

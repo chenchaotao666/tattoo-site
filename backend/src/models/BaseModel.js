@@ -7,9 +7,12 @@ class BaseModel {
     }
 
     // 分页查询构建器
-    buildPaginationQuery(baseQuery, currentPage = 1, pageSize = 10) {
-        const offset = (currentPage - 1) * pageSize;
-        return `${baseQuery} LIMIT ${pageSize} OFFSET ${offset}`;
+    buildPaginationQuery(baseQuery, currentPage, pageSize) {
+        if (currentPage && pageSize) {
+            const offset = (currentPage - 1) * pageSize;
+            return `${baseQuery} LIMIT ${pageSize} OFFSET ${offset}`;
+        }
+        return baseQuery;
     }
 
     // 排序构建器
@@ -133,7 +136,7 @@ class BaseModel {
     // 查找所有记录（支持分页、排序、过滤）
     async findAll(options = {}) {
         try {
-            const { currentPage = 1, pageSize = 10, sortBy, sortOrder, filters = {} } = options;
+            const { currentPage, pageSize, sortBy, sortOrder, filters = {} } = options;
 
             // 构建过滤条件
             const { where, values } = this.buildFilterQuery(filters);
@@ -146,24 +149,29 @@ class BaseModel {
                 baseQuery += ` ${this.buildSortQuery(sortBy, sortOrder)}`;
             }
 
-            // 获取总数
-            const countQuery = `SELECT COUNT(*) as total FROM ${this.tableName} ${where}`;
-            const [countResult] = await this.db.execute(countQuery, values);
-            const total = countResult[0].total;
-
             // 添加分页
             const query = this.buildPaginationQuery(baseQuery, currentPage, pageSize);
             const [rows] = await this.db.execute(query, values);
 
-            return {
-                data: rows,
-                pagination: {
+            const result = {
+                data: rows
+            };
+
+            // 只有在提供分页参数时才返回分页信息
+            if (currentPage && pageSize) {
+                const countQuery = `SELECT COUNT(*) as total FROM ${this.tableName} ${where}`;
+                const [countResult] = await this.db.execute(countQuery, values);
+                const total = countResult[0].total;
+                
+                result.pagination = {
                     currentPage: parseInt(currentPage),
                     pageSize: parseInt(pageSize),
                     total,
                     totalPages: Math.ceil(total / pageSize)
-                }
-            };
+                };
+            }
+
+            return result;
         } catch (error) {
             throw new Error(`Find all ${this.tableName} failed: ${error.message}`);
         }

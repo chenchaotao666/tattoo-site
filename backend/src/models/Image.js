@@ -115,7 +115,7 @@ class Image extends BaseModel {
     // 搜索图片（支持多语言）
     async search(keyword, options = {}) {
         try {
-            const { currentPage = 1, pageSize = 12, categoryId, styleId, isColor, type } = options;
+            const { currentPage, pageSize, categoryId, styleId, isColor, type } = options;
 
             let baseQuery = `
                 SELECT i.*, 

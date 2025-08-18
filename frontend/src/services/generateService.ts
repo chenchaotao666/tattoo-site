@@ -29,13 +29,16 @@ export interface GenerateTattooRequest {
   scheduler?: string;
   guidance_scale?: number;
   num_inference_steps?: number;
+  style?: string;
+  styleNote?: string;
+  isColor?: boolean;
+  isPublic?: boolean;
   negative_prompt?: string;
+  seed?: number;
   lora_scale?: number;
   refine?: string;
   high_noise_frac?: number;
   apply_watermark?: boolean;
-  style_preset?: 'traditional' | 'realistic' | 'minimalist' | 'geometric' | 'blackAndGrey';
-  seed?: number;
 }
 
 export interface TattooGenerationResponse {
@@ -152,12 +155,15 @@ class GenerateService {
         scheduler: data.scheduler || "K_EULER",
         guidance_scale: data.guidance_scale || 7.5,
         num_inference_steps: data.num_inference_steps || 25,
-        negative_prompt: data.negative_prompt || "ugly, broken, distorted, blurry, low quality, bad anatomy",
         lora_scale: data.lora_scale || 0.6,
         refine: data.refine || "expert_ensemble_refiner",
         high_noise_frac: data.high_noise_frac || 0.9,
         apply_watermark: data.apply_watermark || false,
-        ...(data.style_preset && { style_preset: data.style_preset }),
+        ...(data.style && { style: data.style }),
+        ...(data.styleNote && { styleNote: data.styleNote }),
+        ...(data.isColor !== undefined && { isColor: data.isColor }),
+        ...(data.isPublic !== undefined && { isPublic: data.isPublic }),
+        ...(data.negative_prompt && { negative_prompt: data.negative_prompt }),
         ...(data.seed && { seed: data.seed })
       };
       
@@ -186,12 +192,15 @@ class GenerateService {
         scheduler: data.scheduler || "K_EULER",
         guidance_scale: data.guidance_scale || 7.5,
         num_inference_steps: data.num_inference_steps || 25,
-        negative_prompt: data.negative_prompt || "ugly, broken, distorted, blurry, low quality, bad anatomy",
         lora_scale: data.lora_scale || 0.6,
         refine: data.refine || "expert_ensemble_refiner",
         high_noise_frac: data.high_noise_frac || 0.9,
         apply_watermark: data.apply_watermark || false,
-        ...(data.style_preset && { style_preset: data.style_preset }),
+        ...(data.style && { style: data.style }),
+        ...(data.styleNote && { styleNote: data.styleNote }),
+        ...(data.isColor !== undefined && { isColor: data.isColor }),
+        ...(data.isPublic !== undefined && { isPublic: data.isPublic }),
+        ...(data.negative_prompt && { negative_prompt: data.negative_prompt }),
         ...(data.seed && { seed: data.seed })
       };
       
@@ -511,7 +520,7 @@ class GenerateService {
   /**
    * 检查用户是否可以生成图片（积分检查）
    */
-  async canUserGenerate(): Promise<{ canGenerate: boolean; reason?: string }> {
+  async canUserGenerate(quantity: number = 1): Promise<{ canGenerate: boolean; reason?: string }> {
     try {
       const { UserService } = await import('./userService');
       
@@ -526,9 +535,10 @@ class GenerateService {
         return { canGenerate: false, reason: '请先登录' };
       }
 
-      // 检查积分（文本生成和图片转换都需要20积分）
-      if (user.credits < 20) {
-        return { canGenerate: false, reason: '积分不足，需要20积分' };
+      // 检查积分（根据生成数量计算所需积分）
+      const requiredCredits = 20 * quantity;
+      if (user.credits < requiredCredits) {
+        return { canGenerate: false, reason: `积分不足，需要${requiredCredits}积分` };
       }
 
       return { canGenerate: true };

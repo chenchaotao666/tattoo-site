@@ -49,7 +49,7 @@ class ImageGenerateService {
                 ...this.defaultParams,
                 ...params,
                 // 确保 prompt 包含 TOK 关键词以激活模型特性
-                prompt: this.enhancePrompt(params.prompt)
+                prompt: this.enhancePrompt(params.prompt, params.style, params.isColor, params.styleNote)
             };
 
             // 验证参数范围
@@ -85,7 +85,7 @@ class ImageGenerateService {
                 ...this.defaultParams,
                 ...params,
                 // 确保 prompt 包含 TOK 关键词以激活模型特性
-                prompt: this.enhancePrompt(params.prompt)
+                prompt: this.enhancePrompt(params.prompt, params.style || 'traditional', params.isColor || true, params.styleNote || '')
             };
 
             // 验证参数范围
@@ -113,13 +113,51 @@ class ImageGenerateService {
         }
     }
 
-    // 增强提示词，确保包含TOK关键词
-    enhancePrompt(prompt) {
-        // 如果提示词中没有包含TOK，则添加
-        if (!prompt.toLowerCase().includes('tok')) {
-            return `A fresh ink TOK tattoo ${prompt}`;
+    // 增强提示词，生成专业的纹身设计提示词
+    enhancePrompt(prompt, style, isColor, styleNote) {
+        // 处理空的 style 参数
+        const hasStyle = style && style.trim() !== '';
+        const styleText = hasStyle ? `${style} style` : 'professional tattoo';
+        const artStyleText = hasStyle ? `- Art style: ${style}` : '- Art style: Professional tattoo design';
+        
+        // 处理空的 styleNote 参数
+        const hasStyleNote = styleNote && styleNote.trim() !== '';
+        const styleNotesSection = hasStyleNote ? `\nAdditional style notes:\n${styleNote}` : '';
+        
+        // 优化颜色描述和指令
+        let colorInstructions;
+        if (isColor) {
+            colorInstructions = `- IMPORTANT: Full color tattoo with BRIGHT, VIBRANT, SATURATED colors
+- Rich color palette with strong saturation and contrast
+- Colorful design with multiple distinct colors
+- Vivid and eye-catching color scheme
+- NEVER use black and grey only - must include bright colors`;
+        } else {
+            colorInstructions = `- IMPORTANT: Black and grey monochrome tattoo ONLY
+- Use only black ink with grey shading and highlights
+- NO color whatsoever - pure black and grey design
+- Focus on detailed shading, gradients, and contrast
+- Traditional black and grey tattoo style`;
         }
-        return prompt;
+        
+        const enhancedPrompt = `Create a ${styleText} tattoo design based on: "${prompt}"
+
+Style specifications:
+${artStyleText}
+${colorInstructions}
+- Format: Clean tattoo design suitable for transfer to skin
+- Composition: Well-balanced and proportioned for tattoo application
+
+Technical requirements:
+- High contrast and clear line definition
+- Appropriate level of detail for tattoo medium
+- Consider how the design will age over time
+- Ensure all elements are tattoo-appropriate
+${isColor ? '- Emphasize the vibrant colors throughout the entire design' : '- Focus on rich black and grey tonal variations'}
+
+The design should be professional quality, original, and ready for use as a tattoo reference. Focus on creating bold, clean artwork that will translate well from digital design to actual skin application.${styleNotesSection}`;
+
+        return enhancedPrompt;
     }
 
     // 验证参数
@@ -573,8 +611,8 @@ class ImageGenerateService {
                     }),
                     type: 'text2image', // 生成类型
                     styleId: originalParams.styleId || null, // 如果有样式ID
-                    isColor: this.detectColor(originalParams), // 检测是否彩色
-                    isPublic: false, // 默认不公开
+                    isColor: originalParams.isColor !== undefined ? originalParams.isColor : this.detectColor(originalParams), // 使用传入的参数或检测
+                    isPublic: originalParams.isPublic !== undefined ? originalParams.isPublic : false, // 使用传入的参数或默认不公开
                     isOnline: false, // 默认不上线
                     hotness: 0,
                     prompt: JSON.stringify({
@@ -619,8 +657,13 @@ class ImageGenerateService {
         return savedRecords;
     }
 
-    // 检测是否彩色图片（基于提示词）
+    // 检测是否彩色图片（基于新的参数或提示词）
     detectColor(params) {
+        // 如果直接传入了 isColor 参数，优先使用
+        if (params.isColor !== undefined) {
+            return params.isColor;
+        }
+        
         const prompt = (params.prompt || '').toLowerCase();
         const negativePrompt = (params.negative_prompt || '').toLowerCase();
         

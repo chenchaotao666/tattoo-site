@@ -5,9 +5,17 @@ class BaseService {
 
     // 标准化分页参数
     normalizePaginationParams(query) {
-        const currentPage = Math.max(1, parseInt(query.currentPage) || 1);
-        const pageSize = Math.min(100, Math.max(1, parseInt(query.pageSize) || 10));
-        return { currentPage, pageSize };
+        const params = {};
+        
+        if (query.currentPage !== undefined) {
+            params.currentPage = Math.max(1, parseInt(query.currentPage));
+        }
+        
+        if (query.pageSize !== undefined) {
+            params.pageSize = Math.min(100, Math.max(1, parseInt(query.pageSize)));
+        }
+        
+        return params;
     }
 
     // 标准化排序参数

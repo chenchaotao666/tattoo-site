@@ -26,13 +26,18 @@ CREATE TABLE users (
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- 创建 styles 表
+-- 创建 styles 表 (更新版本)
 CREATE TABLE styles (
   id VARCHAR(36) PRIMARY KEY,
   title JSON,                                -- 多语言标题 { "en": "Style Title", "zh": "样式标题" }
   prompt JSON,                               -- 多语言提示词 { "en": "Prompt text", "zh": "提示词文本" }
+  imageUrl VARCHAR(500),                     -- 风格示例图片URL
+  sortOrder INT DEFAULT 0,                   -- 排序字段，数字越小排序越靠前
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  
+  -- 添加索引以提高查询性能
+  INDEX idx_sort_order (sortOrder)
 );
 
 -- 创建 ideas 表

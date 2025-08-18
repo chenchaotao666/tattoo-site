@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { HomeImage } from '../../services/imageService';
 import GenerateExample from '../common/GenerateExample';
-import CircularProgress from '../ui/CircularProgress';
+import GenerateProgress from './GenerateProgress';
 import { getImageContainerSize } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
@@ -91,7 +91,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                   <>
                     {isGenerating ? (
                       <div className="flex flex-col items-center relative">
-                        <CircularProgress
+                        <GenerateProgress
                           progress={generationProgress}
                           size="large"
                           showPercentage={true}
@@ -271,8 +271,6 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
             // 根据当前模式判断是否显示Example
             // 只有在初始数据加载完成后才决定是否显示 example 图片
             // Text to Image 模式：用户没有 text to image 历史时显示 example
-            // Image to Image 模式：用户没有 image to image 历史时显示 example
-            // Text mode - 使用 GenerateExample 组件
             isInitialDataLoaded && mode === 'text' && !hasGenerationHistory && (
               <GenerateExample 
                 type="text"

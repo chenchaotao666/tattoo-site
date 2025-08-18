@@ -46,7 +46,10 @@ function createImageRoutes(app) {
                 refine = "expert_ensemble_refiner",
                 high_noise_frac = 0.9,
                 apply_watermark = false,
-                style_preset,
+                style,
+                styleNote,
+                isColor = true,
+                isPublic = false,
                 seed
             } = req.body;
 
@@ -59,11 +62,15 @@ function createImageRoutes(app) {
                 scheduler,
                 guidance_scale: parseFloat(guidance_scale),
                 num_inference_steps: parseInt(num_inference_steps),
-                negative_prompt,
                 lora_scale: parseFloat(lora_scale),
                 refine,
                 high_noise_frac: parseFloat(high_noise_frac),
                 apply_watermark: Boolean(apply_watermark),
+                style: style || '',
+                styleNote: styleNote || '',
+                isColor: Boolean(isColor),
+                isPublic: Boolean(isPublic),
+                negative_prompt: negative_prompt || '',
                 // 添加用户信息和其他元数据
                 userId: req.userId || null, // 从认证中间件获取
                 categoryId: req.body.categoryId || null,
@@ -73,12 +80,6 @@ function createImageRoutes(app) {
             // 如果提供了种子，添加到参数中
             if (seed !== undefined) {
                 params.seed = parseInt(seed);
-            }
-
-            // 如果提供了样式预设，应用样式
-            if (style_preset) {
-                const styledParams = imageGenerateService.applyStylePreset(params, style_preset);
-                Object.assign(params, styledParams);
             }
 
             const result = await imageGenerateService.generateTattoo(params);
@@ -100,12 +101,15 @@ function createImageRoutes(app) {
                 scheduler = "K_EULER",
                 guidance_scale = 7.5,
                 num_inference_steps = 50,
-                negative_prompt = "ugly, broken, distorted, blurry, low quality, bad anatomy",
                 lora_scale = 0.6,
                 refine = "expert_ensemble_refiner",
                 high_noise_frac = 0.9,
                 apply_watermark = false,
-                style_preset,
+                style,
+                styleNote,
+                isColor = true,
+                isPublic = false,
+                negative_prompt,
                 seed
             } = req.body;
 
@@ -118,11 +122,15 @@ function createImageRoutes(app) {
                 scheduler,
                 guidance_scale: parseFloat(guidance_scale),
                 num_inference_steps: parseInt(num_inference_steps),
-                negative_prompt,
                 lora_scale: parseFloat(lora_scale),
                 refine,
                 high_noise_frac: parseFloat(high_noise_frac),
                 apply_watermark: Boolean(apply_watermark),
+                style: style || '',
+                styleNote: styleNote || '',
+                isColor: Boolean(isColor),
+                isPublic: Boolean(isPublic),
+                negative_prompt: negative_prompt || '',
                 // 添加用户信息和其他元数据
                 userId: req.userId || null,
                 categoryId: req.body.categoryId || null,
@@ -132,12 +140,6 @@ function createImageRoutes(app) {
             // 如果提供了种子，添加到参数中
             if (seed !== undefined) {
                 params.seed = parseInt(seed);
-            }
-
-            // 如果提供了样式预设，应用样式
-            if (style_preset) {
-                const styledParams = imageGenerateService.applyStylePreset(params, style_preset);
-                Object.assign(params, styledParams);
             }
 
             // 启动异步生成任务

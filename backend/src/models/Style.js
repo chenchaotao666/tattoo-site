@@ -8,7 +8,7 @@ class Style extends BaseModel {
     // 搜索样式（支持多语言）
     async search(keyword, options = {}) {
         try {
-            const { currentPage = 1, pageSize = 10 } = options;
+            const { currentPage, pageSize } = options;
 
             const baseQuery = `
                 SELECT * FROM ${this.tableName} 
@@ -97,7 +97,7 @@ class Style extends BaseModel {
     // 获取样式的所有图片
     async getStyleImages(styleId, options = {}) {
         try {
-            const { currentPage = 1, pageSize = 12, isOnline = true } = options;
+            const { currentPage, pageSize, isOnline = true } = options;
 
             let baseQuery = `
                 SELECT i.*, 

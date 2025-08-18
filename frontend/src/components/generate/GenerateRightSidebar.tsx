@@ -3,7 +3,7 @@ import { HomeImage } from '../../services/imageService';
 import { getLocalizedText } from '../../utils/textUtils';
 import { getImageContainerSize } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
-import CircularProgress from '../ui/CircularProgress';
+import GenerateProgress from './GenerateProgress';
 
 interface GenerateRightSidebarProps {
   images: HomeImage[];
@@ -90,7 +90,7 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
       {/* 生成中的 loading 圆圈 - 无背景 */}
       {isGenerating && (
         <div className="mb-4 flex items-center justify-center">
-          <CircularProgress
+          <GenerateProgress
             progress={generationProgress}
             size="small"
             showPercentage={false}
@@ -109,7 +109,7 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
             <div
               key={image.id}
               className={`${isLastImage ? 'mb-12' : 'mb-4'} rounded-lg cursor-pointer relative transition-all border-2 ${
-                isSelected ? 'border-[#FF5C07] shadow-lg' : 'border-transparent hover:border-gray-200'
+                isSelected ? 'border-[#98FF59] shadow-lg' : 'border-transparent hover:border-gray-200'
               }`}
               style={getImageContainerSize(image, dynamicImageDimensions, setDynamicImageDimensions)}
               onClick={() => onImageSelect(image.id)}

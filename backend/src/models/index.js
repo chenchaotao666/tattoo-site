@@ -13,7 +13,7 @@ class Idea extends BaseModel {
     // 搜索创意（支持多语言）
     async search(keyword, options = {}) {
         try {
-            const { currentPage = 1, pageSize = 10 } = options;
+            const { currentPage, pageSize } = options;
 
             const baseQuery = `
                 SELECT * FROM ${this.tableName} 
@@ -108,7 +108,7 @@ class Tag extends BaseModel {
     // 搜索标签（支持多语言）
     async search(keyword, options = {}) {
         try {
-            const { currentPage = 1, pageSize = 20 } = options;
+            const { currentPage, pageSize } = options;
 
             const baseQuery = `
                 SELECT * FROM ${this.tableName} 
@@ -195,7 +195,7 @@ class Post extends BaseModel {
     // 搜索文章（支持多语言）
     async search(keyword, options = {}) {
         try {
-            const { currentPage = 1, pageSize = 10, status = 'published' } = options;
+            const { currentPage, pageSize, status = 'published' } = options;
 
             let baseQuery = `
                 SELECT * FROM ${this.tableName} 

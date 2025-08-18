@@ -34,7 +34,7 @@ class Category extends BaseModel {
     // 获取分类及其图片统计
     async findWithImageCount(options = {}) {
         try {
-            const { currentPage = 1, pageSize = 10, sortBy = 'hotness', sortOrder = 'DESC' } = options;
+            const { currentPage, pageSize, sortBy = 'hotness', sortOrder = 'DESC' } = options;
 
             // 构建查询
             let baseQuery = `
@@ -128,7 +128,7 @@ class Category extends BaseModel {
     // 搜索分类（支持多语言）
     async search(keyword, options = {}) {
         try {
-            const { currentPage = 1, pageSize = 10 } = options;
+            const { currentPage, pageSize } = options;
 
             const baseQuery = `
                 SELECT * FROM ${this.tableName} 

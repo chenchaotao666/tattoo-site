@@ -33,10 +33,10 @@ const GenerateProgress: React.FC<GenerateProgressProps> = ({
       {/* 百分比文字和生成状态文字 (仅大尺寸显示) */}
       {showPercentage && !isSmall && (
         <div className="mt-4 flex flex-col items-center">
-          <div className="justify-start text-white-200 text-4xl font-semibold font-['PingFang_SC']">
+          <div className="justify-start text-[#ECECEC] text-[36px] font-semibold font-['PingFang_SC'] leading-none">
             {Math.round(progress)}%
           </div>
-          <div className="justify-start text-white-400 text-xl font-normal font-['PingFang_SC'] mt-2">
+          <div className="justify-start text-[#A5A5A5] text-[20px] font-normal font-['PingFang_SC'] mt-2">
             Generating...
           </div>
         </div>

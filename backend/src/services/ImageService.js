@@ -72,14 +72,12 @@ class ImageService extends BaseService {
             };
             const totalResult = await this.count(countQuery);
             
-            // 按批次ID分组图片
+            // 直接返回图片列表，不进行批次分组
             const images = paginatedResult.data || [];
-            const groupedByBatch = this.groupImagesByBatch(images);
             
             // 返回包含images和total字段的结构，方便分页
             const responseData = {
                 images: images,
-                batches: groupedByBatch,
                 total: totalResult || 0
             };
             
@@ -89,32 +87,6 @@ class ImageService extends BaseService {
         }
     }
 
-    // 按批次ID分组图片
-    groupImagesByBatch(images) {
-        const batches = {};
-        
-        images.forEach(image => {
-            const batchId = image.batchId || 'unknown';
-            if (!batches[batchId]) {
-                batches[batchId] = {
-                    batchId: batchId,
-                    images: [],
-                    count: 0,
-                    createdAt: image.createdAt
-                };
-            }
-            batches[batchId].images.push(image);
-            batches[batchId].count++;
-            
-            // 更新批次的创建时间为最早的图片时间
-            if (image.createdAt < batches[batchId].createdAt) {
-                batches[batchId].createdAt = image.createdAt;
-            }
-        });
-        
-        // 转换为数组并按创建时间排序
-        return Object.values(batches).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    }
 
     // 获取分类的图片
     async getCategoryImages(categoryId, query = {}) {

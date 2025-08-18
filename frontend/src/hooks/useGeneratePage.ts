@@ -6,18 +6,36 @@ import { HomeImage } from '../services/imageService';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getLocalizedText } from '../utils/textUtils';
 
+// Style接口定义 - 与stylesService保持一致
+export interface Style {
+  id: string;
+  name: { en: string; zh: string };
+  description: { en: string; zh: string };
+  slug: string;
+  iconUrl?: string;
+  // 从API来的字段
+  title?: { en: string; zh: string };
+  prompt?: { en: string; zh: string };
+  imageUrl?: string;
+}
+
 export interface UseGeneratePageState {
   // 基础状态
   prompt: string;
   selectedRatio: AspectRatio;
   selectedColor: boolean; // true for colorful, false for black & white
   selectedQuantity: number; // 1 or 4 images to generate
+  selectedStyle: Style | null; // 选中的风格
   publicVisibility: boolean; // Public Visibility
   
   // 数据状态
   generatedImages: HomeImage[]; // 生成的图片
   exampleImages: HomeImage[]; // 示例图片
   styleSuggestions: StyleSuggestion[];
+  styles: Style[]; // 风格列表
+  
+  // UI状态
+  showStyleSelector: boolean; // 是否显示风格选择器
   
   // 加载状态
   isGenerating: boolean;
@@ -46,12 +64,15 @@ export interface UseGeneratePageActions {
   setSelectedRatio: (ratio: AspectRatio) => void;
   setSelectedColor: (isColor: boolean) => void;
   setSelectedQuantity: (quantity: number) => void;
+  setSelectedStyle: (style: Style | null) => void;
   setPublicVisibility: (visible: boolean) => void;
+  setShowStyleSelector: (show: boolean) => void;
   
   // API 操作
   generateImages: () => Promise<void>;
   loadExampleImages: () => Promise<void>;
   loadStyleSuggestions: () => Promise<void>;
+  loadStyles: () => Promise<void>;
   recreateExample: (exampleId: string) => Promise<void>;
   downloadImage: (imageId: string, format: 'png' | 'pdf') => Promise<void>;
   
@@ -239,12 +260,17 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     selectedRatio: getInitialRatio(),
     selectedColor: true, // Default to colorful
     selectedQuantity: 1, // Default to 1 image
+    selectedStyle: null, // Default to no style
     publicVisibility: searchParams.get('isPublic') ? getInitialIsPublic() : true,
     
     // 数据状态
     generatedImages: [],
     exampleImages: [],
     styleSuggestions: [],
+    styles: [], // 风格列表
+    
+    // UI状态
+    showStyleSelector: false, // 默认不显示风格选择器
     
     // 加载状态
     isGenerating: false,
@@ -271,8 +297,12 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
   const [state, setState] = useState<UseGeneratePageState>(initialState);
 
   // 更新状态的辅助函数
-  const updateState = useCallback((updates: Partial<UseGeneratePageState>) => {
-    setState(prev => ({ ...prev, ...updates }));
+  const updateState = useCallback((updates: Partial<UseGeneratePageState> | ((prev: UseGeneratePageState) => Partial<UseGeneratePageState>)) => {
+    if (typeof updates === 'function') {
+      setState(prev => ({ ...prev, ...updates(prev) }));
+    } else {
+      setState(prev => ({ ...prev, ...updates }));
+    }
   }, []);
 
   // 基础操作
@@ -291,11 +321,26 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
   }, [updateState]);
 
   const setSelectedQuantity = useCallback((selectedQuantity: number) => {
-    updateState({ selectedQuantity });
+    updateState(prevState => {
+      const newState: Partial<UseGeneratePageState> = { selectedQuantity };
+      // 当数量改变时，重新检查是否有足够积分
+      if (prevState.userCredits !== null) {
+        newState.canGenerate = prevState.userCredits >= (20 * selectedQuantity);
+      }
+      return newState;
+    });
+  }, [updateState]);
+
+  const setSelectedStyle = useCallback((selectedStyle: Style | null) => {
+    updateState({ selectedStyle });
   }, [updateState]);
 
   const setPublicVisibility = useCallback((publicVisibility: boolean) => {
     updateState({ publicVisibility });
+  }, [updateState]);
+
+  const setShowStyleSelector = useCallback((showStyleSelector: boolean) => {
+    updateState({ showStyleSelector });
   }, [updateState]);
 
   // 检查用户积分 - 优化：使用传入的用户数据而不是重新请求
@@ -309,7 +354,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         return;
       }
       
-      const canGenerate = user.credits >= 20; // 需要20积分
+      const canGenerate = user.credits >= (20 * state.selectedQuantity); // 根据生成数量计算所需积分
       updateState({ 
         userCredits: user.credits, 
         canGenerate
@@ -474,16 +519,22 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
       }
       
       // Use the new asynchronous tattoo generation API with progress
+      // Debug logging for style selection
+      console.log('🔍 Debug - selectedStyle:', state.selectedStyle);
+      const styleValue = state.selectedStyle ? getLocalizedText(state.selectedStyle.name, 'en') : '';
+      const styleNoteValue = state.selectedStyle ? getLocalizedText(state.selectedStyle.description, 'en') : '';
+      console.log('🔍 Debug - style value:', styleValue);
+      console.log('🔍 Debug - styleNote value:', styleNoteValue);
+
       const tattooResponse = await GenerateServiceInstance.generateTattooWithProgress({
         prompt: state.prompt,
-        width: 1024,
-        height: 1024,
         num_outputs: state.selectedQuantity,
+        // Apply style settings (black&white overrides style for color settings)
+        style: styleValue,
+        styleNote: styleNoteValue,
         // Apply color settings
-        ...(state.selectedColor ? {} : { 
-          negative_prompt: "ugly, broken, distorted, blurry, low quality, bad anatomy, colorful, bright colors",
-          style_preset: 'blackAndGrey' as const
-        })
+        isColor: state.selectedColor,
+        isPublic: state.publicVisibility
       }, (progress) => {
         // Update progress in real-time
         console.log(`Generation progress: ${progress.percentage}% - ${progress.message}`);
@@ -551,7 +602,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         isGenerating: false,
       });
     }
-  }, [state.isGenerating, state.prompt, state.selectedRatio, state.publicVisibility, state.canGenerate, updateState, handleInsufficientCredits]);
+  }, [state.isGenerating, state.prompt, state.selectedQuantity, state.selectedColor, state.selectedRatio, state.publicVisibility, state.canGenerate, updateState, handleInsufficientCredits]);
 
   // 优化的进度管理
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
@@ -624,6 +675,50 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
       updateState({
         error: error instanceof Error ? error.message : 'Failed to load styles',
       });
+    } finally {
+      updateState({ isLoadingStyles: false });
+    }
+  }, [updateState]);
+
+  // 加载风格列表
+  const loadStyles = useCallback(async () => {
+    try {
+      updateState({ isLoadingStyles: true, error: null });
+      
+      // 调用 stylesService 获取风格列表
+      const { default: stylesService } = await import('../services/stylesService');
+      const apiStyles = await stylesService.getAll();
+      
+      // Debug logging for loaded styles
+      console.log('🔍 Debug - API styles loaded:', apiStyles);
+      
+      // 将API数据转换为本地Style接口格式
+      const styles: Style[] = apiStyles.map(apiStyle => {
+        // 确保title和prompt字段正确转换
+        const name = apiStyle.title || { en: '', zh: '' };
+        const description = apiStyle.prompt || { en: '', zh: '' };
+        
+        return {
+          id: apiStyle.id,
+          name: name,
+          description: description,
+          slug: apiStyle.id, // 使用id作为slug
+          iconUrl: apiStyle.imageUrl || undefined,
+          // 保留原始字段用于调试
+          title: apiStyle.title,
+          prompt: apiStyle.prompt,
+          imageUrl: apiStyle.imageUrl
+        };
+      });
+      
+      console.log('🔍 Debug - Converted styles:', styles);
+      
+      updateState({ 
+        styles: styles,
+      });
+    } catch (error) {
+      console.error('Load styles error:', error);
+      updateState({ error: error instanceof Error ? error.message : 'Failed to load styles' });
     } finally {
       updateState({ isLoadingStyles: false });
     }
@@ -803,6 +898,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
   // 初始化加载（只执行一次）
   useEffect(() => {
     loadStyleSuggestions(); // 风格建议也只需要加载一次
+    loadStyles(); // 加载风格列表
   }, []); // 空依赖数组，确保只执行一次
 
   // 当语言切换时重新加载风格建议
@@ -844,10 +940,13 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     setSelectedRatio,
     setSelectedColor,
     setSelectedQuantity,
+    setSelectedStyle,
     setPublicVisibility,
+    setShowStyleSelector,
     generateImages,
     loadExampleImages,
     loadStyleSuggestions,
+    loadStyles,
     recreateExample,
     downloadImage,
     clearError,

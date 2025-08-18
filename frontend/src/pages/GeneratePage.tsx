@@ -174,8 +174,6 @@ const GeneratePage: React.FC = () => {
   const promptInputRef = React.useRef<HTMLTextAreaElement>(null);
   // 输入验证错误状态
   const [inputError, setInputError] = React.useState<string>('');
-  // Style 选择状态
-  const [selectedStyle, setSelectedStyle] = React.useState<string>('no-style');
   
   // 临时状态变量以保持向后兼容性
   const selectedTab = 'text'; // 固定为text模式
@@ -186,10 +184,13 @@ const GeneratePage: React.FC = () => {
     prompt,
     selectedColor,
     selectedQuantity,
+    selectedStyle,
     publicVisibility,
     generatedImages,
     exampleImages,
     styleSuggestions,
+    styles,
+    showStyleSelector,
     isGenerating,
     isInitialDataLoaded,    // 初始数据是否已加载完成
     error,
@@ -202,7 +203,9 @@ const GeneratePage: React.FC = () => {
     setPrompt,
     setSelectedColor,
     setSelectedQuantity,
+    setSelectedStyle,
     setPublicVisibility,
+    setShowStyleSelector,
     generateImages,
     downloadImage,
     clearError,
@@ -739,7 +742,6 @@ const GeneratePage: React.FC = () => {
         setPrompt(promptValue);
       }
       
-      
       // 回填 isPublic（没有URL参数时才回填）
       if (!hasIsPublicParam) {
         setPublicVisibility(selectedImageData.isPublic);
@@ -796,9 +798,6 @@ const GeneratePage: React.FC = () => {
       // 更新状态（只在需要时）
       if (shouldUpdate && targetImageId) {
         setCurrentSelectedImage(targetImageId);
-        
-        // 切换tab时不应该填充任何属性，保持用户的当前设置
-        // fillImageAttributes 只应该在用户手动点击图片时调用
       }
     }
   }, [selectedTab, generatedImages]);
@@ -854,8 +853,9 @@ const GeneratePage: React.FC = () => {
     // 清除错误状态
     setInputError('');
 
-    // 3. 检查用户是否有足够积分
-    if (user && user.credits < 20) {
+    // 3. 检查用户是否有足够积分（根据生成数量计算所需积分）
+    const requiredCredits = 20 * selectedQuantity;
+    if (user && user.credits < requiredCredits) {
       navigate('/price');
       return;
     }
@@ -995,6 +995,8 @@ const GeneratePage: React.FC = () => {
             isGenerating={isGenerating}
             error={error}
             styleSuggestions={styleSuggestions}
+            styles={styles}
+            showStyleSelector={showStyleSelector}
             promptInputRef={promptInputRef}
             handlePromptChange={handlePromptChange}
             handleClearPrompt={handleClearPrompt}
@@ -1006,6 +1008,7 @@ const GeneratePage: React.FC = () => {
             setSelectedQuantity={setSelectedQuantity}
             setSelectedStyle={setSelectedStyle}
             setInputError={setInputError}
+            setShowStyleSelector={setShowStyleSelector}
           />
         </div>
 
@@ -1056,6 +1059,8 @@ const GeneratePage: React.FC = () => {
                 isGenerating={isGenerating}
                 error={error}
                 styleSuggestions={styleSuggestions}
+                styles={styles}
+                showStyleSelector={showStyleSelector}
                 promptInputRef={promptInputRef}
                 handlePromptChange={handlePromptChange}
                 handleClearPrompt={handleClearPrompt}
@@ -1067,6 +1072,7 @@ const GeneratePage: React.FC = () => {
                 setSelectedQuantity={setSelectedQuantity}
                 setSelectedStyle={setSelectedStyle}
                 setInputError={setInputError}
+                setShowStyleSelector={setShowStyleSelector}
               />
               
               {/* Public Visibility - Mobile */}
@@ -1131,7 +1137,7 @@ const GeneratePage: React.FC = () => {
                 alt="Subtract"
                 className="w-5 h-5 mr-1"
               />
-              <span className="font-bold text-lg">20</span>
+              <span className="font-bold text-lg">{20 * selectedQuantity}</span>
               <span className="font-bold text-lg">
                 {isGenerating ? t('generating.title') : 
                  error ? t('actions.regenerate') :

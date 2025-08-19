@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { HomeImage } from '../../services/imageService';
-import GenerateExample from '../common/GenerateExample';
+import GenerateExample from './GenerateExample';
 import GenerateProgress from './GenerateProgress';
 import { getImageContainerSize } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
@@ -17,7 +17,6 @@ interface GenerateCenterSidebarProps {
   isGenerating: boolean;
   generationProgress: number;
   generatedImages: HomeImage[];
-  exampleImages: HomeImage[];
   hasGenerationHistory: boolean;
   isInitialDataLoaded: boolean;
   dynamicImageDimensions: { [key: string]: { width: number; height: number } };
@@ -36,7 +35,6 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
   isGenerating,
   generationProgress,
   generatedImages,
-  exampleImages,
   hasGenerationHistory,
   isInitialDataLoaded,
   dynamicImageDimensions,
@@ -50,21 +48,37 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
   const { t } = useAsyncTranslation('generate');
   const { language } = useLanguage();
   
-  console.log('GenerateCenterSidebar render - showMoreMenu:', showMoreMenu, 'currentSelectedImage:', currentSelectedImage);
-
   const config = {
     text: {
-      title: t('textToImage.title'),
-      description: t('textToImage.description')
-    },
-    image: {
-      title: t('imageToImage.title'),
-      description: t('imageToImage.description')
+      title: 'AI Tattoo Generator',
+      description: 'Create unique tattoo designs effortlessly with AI. Customize styles, explore endless options, and instantly preview your ideas.'
     }
   };
 
   // 根据模式选择对应的示例图片和加载状态
-  const currentExampleImages = exampleImages;
+  const currentExampleImages = [
+    {
+      url: "/images/text-examples/cross-and-rose-on-arm.png",
+      prompt: {
+        zh: "手臂上的十字架和玫瑰纹身",
+        en: "Tattoos of a cross and a rose on the arm"
+      }
+    },
+    {
+      url: "/images/text-examples/rose-on-back.png", 
+      prompt: {
+        zh: "背部玫瑰和骷髅纹身",
+        en: "A tattoo of a rose and a skull on the back"
+      }
+    },
+    {
+      url: "/images/text-examples/english-on-wrist.png",
+      prompt: {
+        zh: "手腕上的英文纹身",
+        en: "There is an English tattoo on the wrist"
+      }
+    }
+  ];
 
   return (
     <div className="flex-1 px-4 sm:px-6 lg:px-10 flex flex-col pt-4 lg:pb-36 relative bg-[#030414]">
@@ -113,7 +127,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                         if (batchImages.length === 1) {
                           return (
                             <div 
-                              className="bg-[#F2F3F5] rounded-2xl border border-[#EDEEF0] relative flex items-center justify-center transition-all duration-300"
+                              className="bg-[#F2F3F5] rounded-2xl relative flex items-center justify-center transition-all duration-300"
                               style={{ width: '600px', height: '600px' }}
                             >
                               <img
@@ -153,8 +167,8 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                 );
               })()}
               
-              {/* Download and More Options - 只在有选中图片时显示 */}
-              {currentSelectedImage && (() => {
+              {/* Download and More Options - 只在有选中图片且不在生成过程中时显示 */}
+              {currentSelectedImage && !isGenerating && (() => {
                 // 判断是否为批次图片
                 const selectedImage = generatedImages.find(img => img.id === currentSelectedImage);
                 const batchId = selectedImage?.batchId;
@@ -212,7 +226,6 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                               onDelete(batchImages.map(img => img?.id).filter((id): id is string => Boolean(id)));
                             }}
                             isBatch={true}
-                            batchImages={batchImages.filter(Boolean)}
                           />
                         )}
                       </div>
@@ -277,30 +290,13 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                 title={config[mode].title}
                 description={config[mode].description}
                 images={currentExampleImages.map(example => ({
-                  url: example.tattooUrl,
-                  prompt: getLocalizedText(example.description, language) || `Example ${example.id}`
-                }))}
-              />
-            )
-          ) || (
-            // Image mode - 使用 GenerateExample 组件
-            isInitialDataLoaded && mode === 'image' && !hasGenerationHistory && (
-              <GenerateExample 
-                type="image"
-                title={config[mode].title}
-                description={config[mode].description}
-                images={currentExampleImages.map(example => ({
-                  url: example.tattooUrl,
-                  colorUrl: example.colorUrl,
-                  coloringUrl: example.coloringUrl,
-                  prompt: getLocalizedText(example.description, language) || `Example ${example.id}`
+                  url: example.url,
+                  prompt: getLocalizedText(example.prompt, language)
                 }))}
               />
             )
           )}
         </div>
-        
-
       </div>
       
       {/* 移动端横向历史图片 - 浮动在外层容器下方 */}

@@ -30,7 +30,6 @@ export interface UseGeneratePageState {
   
   // 数据状态
   generatedImages: HomeImage[]; // 生成的图片
-  exampleImages: HomeImage[]; // 示例图片
   styleSuggestions: StyleSuggestion[];
   styles: Style[]; // 风格列表
   
@@ -39,7 +38,7 @@ export interface UseGeneratePageState {
   
   // 加载状态
   isGenerating: boolean;
-  isLoadingExamples: boolean; // 加载状态（包括示例和生成历史）
+  isLoadingGenerated: boolean; // 加载状态（生成历史）
   isLoadingStyles: boolean;
   isInitialDataLoaded: boolean; // 初始数据（生成历史）是否已加载完成
   
@@ -70,7 +69,6 @@ export interface UseGeneratePageActions {
   
   // API 操作
   generateImages: () => Promise<void>;
-  loadExampleImages: () => Promise<void>;
   loadStyleSuggestions: () => Promise<void>;
   loadStyles: () => Promise<void>;
   recreateExample: (exampleId: string) => Promise<void>;
@@ -79,10 +77,10 @@ export interface UseGeneratePageActions {
   // 工具操作
   clearError: () => void;
   resetForm: () => void;
-  refreshExamples: () => void;
   refreshStyleSuggestions: () => void;
   loadGeneratedImages: (user?: any) => Promise<void>;
   deleteImage: (imageId: string) => Promise<boolean>;
+  deleteImagesBatch: (imageIds: string[]) => Promise<{successIds: string[], failedIds: string[]}>;
   
   // 积分相关操作
   checkUserCredits: (user?: any) => void;
@@ -93,19 +91,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
   const [searchParams] = useSearchParams();
   const { language } = useLanguage();
   
-  // 缓存引用
-  const exampleCache = useRef<{
-    allImages: HomeImage[];
-    isLoaded: boolean;
-    isLoading: boolean;
-  }>({
-    allImages: [],
-    isLoaded: false,
-    isLoading: false
-  });
-
-  // 添加初始化标记，防止重复加载
-  const examplesInitialized = useRef(false);
   
   // 从URL参数获取初始值
   const getInitialPrompt = () => searchParams.get('prompt') || '';
@@ -265,7 +250,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     
     // 数据状态
     generatedImages: [],
-    exampleImages: [],
     styleSuggestions: [],
     styles: [], // 风格列表
     
@@ -274,7 +258,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     
     // 加载状态
     isGenerating: false,
-    isLoadingExamples: true, // 设为true，避免显示空状态
+    isLoadingGenerated: false,
     isLoadingStyles: false,
     isInitialDataLoaded: false,
     
@@ -374,71 +358,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     window.location.href = '/price';
   }, []);
 
-  // 从所有图片中随机选择（移动端1张，桌面端3张）
-  const getRandomImages = useCallback((allImages: HomeImage[]): HomeImage[] => {
-    const shuffled = [...allImages].sort(() => 0.5 - Math.random());
-    const isMobile = window.innerWidth < 640;
-    const count = isMobile ? 2 : 3;
-    return shuffled.slice(0, count);
-  }, []);
 
-  // 加载示例图片
-  const loadExamplesIfNeeded = useCallback(async (hasHistory: boolean) => {
-    if (!examplesInitialized.current) {
-      examplesInitialized.current = true;
-      
-      // 如果用户已有生成历史图片，跳过示例加载
-      if (hasHistory) {
-        setState(prev => ({ 
-          ...prev, 
-          exampleImages: [],
-          isLoadingExamples: false 
-        }));
-        return;
-      }
-      
-      // 如果缓存中有图片，从缓存中随机选择
-      if (exampleCache.current.isLoaded && exampleCache.current.allImages.length > 0) {
-        const randomImages = getRandomImages(exampleCache.current.allImages);
-        setState(prev => ({ 
-          ...prev, 
-          exampleImages: randomImages,
-          isLoadingExamples: false 
-        }));
-        return;
-      }
-      
-      // 如果没有缓存且未在加载，开始加载示例
-      if (!exampleCache.current.isLoading) {
-        try {
-          exampleCache.current.isLoading = true;
-          setState(prev => ({ ...prev, isLoadingExamples: true, error: null }));
-          
-          const examples = await GenerateServiceInstance.getExampleImages('text', 6);
-          
-          // 更新缓存
-          exampleCache.current = {
-            allImages: examples,
-            isLoaded: true,
-            isLoading: false
-          };
-          
-          setState(prev => ({ 
-            ...prev, 
-            exampleImages: examples, 
-            isLoadingExamples: false 
-          }));
-        } catch (error) {
-          exampleCache.current.isLoading = false;
-          setState(prev => ({
-            ...prev,
-            error: error instanceof Error ? error.message : 'Failed to load examples',
-            isLoadingExamples: false,
-          }));
-        }
-      }
-    }
-  }, [getRandomImages]);
 
   // 加载生成历史 - 优化：使用传入的用户数据而不是重新请求
   const loadGeneratedImages = useCallback(async (user: any = null) => {
@@ -450,9 +370,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
           isInitialDataLoaded: true,  // 即使没有用户也标记为加载完成
           hasGenerationHistory: false
         });
-        
-        // 用户未登录，加载示例图片
-        loadExamplesIfNeeded(false);
         return;
       }
       
@@ -467,9 +384,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         isInitialDataLoaded: true,  // 标记初始数据加载完成
         hasGenerationHistory
       });
-      
-      // 历史图片加载完成后，根据历史情况决定是否加载示例
-      loadExamplesIfNeeded(hasGenerationHistory);
     } catch (error) {
       console.error('Failed to load generated images:', error);
       updateState({ 
@@ -477,11 +391,8 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         isInitialDataLoaded: true,  // 即使出错也标记为加载完成
         hasGenerationHistory: false
       });
-      
-      // 加载出错时，加载示例图片
-      loadExamplesIfNeeded(false);
     }
-  }, [updateState, loadExamplesIfNeeded]);
+  }, [updateState]);
 
   // 生成图片
   const generateImages = useCallback(async () => {
@@ -727,13 +638,8 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
   // 重新创建示例
   const recreateExample = useCallback(async (exampleId: string) => {
     try {
-      // 从示例图片中查找
-      let exampleImage = state.exampleImages.find(img => img.id === exampleId);
-      
-      // 如果当前显示的示例中没有，从缓存中查找
-      if (!exampleImage && exampleCache.current.allImages.length > 0) {
-        exampleImage = exampleCache.current.allImages.find(img => img.id === exampleId);
-      }
+      // 从生成的图片中查找
+      const exampleImage = state.generatedImages.find(img => img.id === exampleId);
       
       if (!exampleImage) {
         throw new Error('Example image not found');
@@ -762,7 +668,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         error: error instanceof Error ? error.message : 'Failed to load example data',
       });
     }
-  }, [updateState, state.exampleImages, language]);
+  }, [updateState, state.generatedImages, language]);
 
   // 下载图片
   const downloadImage = useCallback(async (imageId: string, format: 'png' | 'pdf') => {
@@ -823,38 +729,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     });
   }, [updateState]);
 
-  // 刷新示例（只有点击 Change 按钮时才调用）
-  const refreshExamples = useCallback(() => {
-    const isMobile = window.innerWidth < 640;
-    
-    if (exampleCache.current.allImages.length > 0) {
-      let randomImages: HomeImage[];
-      
-      if (isMobile && state.exampleImages.length > 0) {
-        // 移动端：避免显示相同的图片
-        const currentImageIds = state.exampleImages.map(img => img.id);
-        const availableImages = exampleCache.current.allImages.filter(img => !currentImageIds.includes(img.id));
-        
-        if (availableImages.length > 0) {
-          // 从未显示的图片中选择
-          randomImages = getRandomImages(availableImages);
-        } else {
-          // 如果所有图片都显示过了，重新开始
-          randomImages = getRandomImages(exampleCache.current.allImages);
-        }
-      } else {
-        // 桌面端或首次加载：正常随机选择
-        randomImages = getRandomImages(exampleCache.current.allImages);
-      }
-      
-      setState(prev => ({ 
-        ...prev,
-        exampleImages: randomImages
-      }));
-    } else {
-      console.warn('Example cache is empty, cannot refresh');
-    }
-  }, [state.exampleImages, getRandomImages]);
 
   // 刷新风格建议
   const refreshStyleSuggestions = useCallback(async () => {
@@ -895,6 +769,64 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     }
   }, [updateState]);
 
+  // 批量删除图片（优化版本）
+  const deleteImagesBatch = useCallback(async (imageIds: string[]): Promise<{successIds: string[], failedIds: string[]}> => {
+    const successIds: string[] = [];
+    const failedIds: string[] = [];
+    
+    try {
+      const { ImageService } = await import('../services/imageService');
+      
+      // 并行执行所有删除操作
+      const deletePromises = imageIds.map(async (imageId) => {
+        try {
+          const success = await ImageService.deleteImage(imageId);
+          return { imageId, success };
+        } catch (error) {
+          console.error(`Delete image ${imageId} error:`, error);
+          return { imageId, success: false };
+        }
+      });
+      
+      const results = await Promise.all(deletePromises);
+      
+      // 分离成功和失败的图片ID
+      results.forEach(({ imageId, success }) => {
+        if (success) {
+          successIds.push(imageId);
+        } else {
+          failedIds.push(imageId);
+        }
+      });
+      
+      // 只在最后一次性更新状态（如果有成功删除的图片）
+      if (successIds.length > 0) {
+        setState(prevState => {
+          const newGeneratedImages = prevState.generatedImages.filter(
+            img => !successIds.includes(img.id)
+          );
+          
+          // 重新计算历史状态
+          const hasGenerationHistory = newGeneratedImages.length > 0;
+          
+          return {
+            ...prevState,
+            generatedImages: newGeneratedImages,
+            hasGenerationHistory
+          };
+        });
+      }
+      
+      return { successIds, failedIds };
+    } catch (error) {
+      console.error('Batch delete images error:', error);
+      updateState({
+        error: error instanceof Error ? error.message : 'Failed to delete images',
+      });
+      return { successIds, failedIds: imageIds };
+    }
+  }, [updateState]);
+
   // 初始化加载（只执行一次）
   useEffect(() => {
     loadStyleSuggestions(); // 风格建议也只需要加载一次
@@ -907,18 +839,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     updateState({ styleSuggestions: randomSuggestions });
   }, [language, updateState]);
 
-  // 当初始数据已加载时，加载示例图片
-  useEffect(() => {
-    if (state.isInitialDataLoaded) {
-      loadExamplesIfNeeded(state.hasGenerationHistory);
-    }
-  }, [state.isInitialDataLoaded, state.hasGenerationHistory, loadExamplesIfNeeded]);
 
-  // 手动加载示例图片的函数（用于外部调用）
-  const loadExampleImages = useCallback(async () => {
-    // 这个函数主要用于外部手动调用，实际的自动加载在 useEffect 中处理
-    console.log('Manual load example images');
-  }, []);
 
   // 清理定时器
   useEffect(() => {
@@ -944,17 +865,16 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     setPublicVisibility,
     setShowStyleSelector,
     generateImages,
-    loadExampleImages,
     loadStyleSuggestions,
     loadStyles,
     recreateExample,
     downloadImage,
     clearError,
     resetForm,
-    refreshExamples,
     refreshStyleSuggestions,
     loadGeneratedImages,
     deleteImage,
+    deleteImagesBatch,
     checkUserCredits,
     handleInsufficientCredits,
   };

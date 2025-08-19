@@ -187,7 +187,6 @@ const GeneratePage: React.FC = () => {
     selectedStyle,
     publicVisibility,
     generatedImages,
-    exampleImages,
     styleSuggestions,
     styles,
     showStyleSelector,
@@ -210,7 +209,7 @@ const GeneratePage: React.FC = () => {
     downloadImage,
     clearError,
     refreshStyleSuggestions,
-    deleteImage,
+    deleteImagesBatch,
     checkUserCredits,
     loadGeneratedImages,
   } = useGeneratePage(refreshUser);
@@ -918,42 +917,24 @@ const GeneratePage: React.FC = () => {
   const handleConfirmDelete = async () => {
     if (imagesToDelete.length > 0) {
       try {
-        let successCount = 0;
-        let failCount = 0;
-        
-        for (const imageId of imagesToDelete) {
-          try {
-            const success = await deleteImage(imageId);
-            if (success) {
-              successCount++;
-            } else {
-              failCount++;
-            }
-          } catch (error) {
-            console.error(`Delete image ${imageId} error:`, error);
-            failCount++;
-          }
-        }
-        
-        if (successCount > 0) {
-          console.log(`成功删除 ${successCount} 张图片！`);
-          if (failCount > 0) {
-            console.warn(`${failCount} 张图片删除失败`);
-          }
-        } else {
-          console.error('删除图片失败，请稍后重试。');
-        }
+        // 使用批量删除优化版本
+        const { successIds, failedIds } = await deleteImagesBatch(imagesToDelete);
         
         // 清空删除列表
         setImagesToDelete([]);
+        
+        // 可选：显示删除结果
+        if (failedIds.length > 0) {
+          console.warn(`${failedIds.length} images failed to delete:`, failedIds);
+        }
+        if (successIds.length > 0) {
+          console.log(`Successfully deleted ${successIds.length} images`);
+        }
       } catch (error) {
         console.error('Delete images error:', error);
       }
     }
-  };
-
-
-
+  };;
 
   const handleVisibilityToggle = () => {
     // Check if user is not premium (free or expired membership)
@@ -1035,7 +1016,6 @@ const GeneratePage: React.FC = () => {
               isGenerating={isGenerating}
               generationProgress={generationProgress}
               generatedImages={generatedImages}
-              exampleImages={exampleImages}
               hasGenerationHistory={hasGenerationHistory}
               isInitialDataLoaded={isInitialDataLoaded}
               dynamicImageDimensions={dynamicImageDimensions}
@@ -1156,7 +1136,6 @@ const GeneratePage: React.FC = () => {
             isGenerating={isGenerating}
             generationProgress={generationProgress}
             generatedImages={generatedImages}
-            exampleImages={exampleImages}
             hasGenerationHistory={hasGenerationHistory}
             isInitialDataLoaded={isInitialDataLoaded}
             dynamicImageDimensions={dynamicImageDimensions}

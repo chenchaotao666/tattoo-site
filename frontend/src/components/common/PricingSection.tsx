@@ -444,7 +444,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
         
         {/* CTA Section - 可选 */}
         {showCTA && (
-          <div className="w-full bg-[#F9FAFB] py-12 sm:py-16 md:py-24 border-t border-b border-[#F3F4F6]">
+          <div className="w-full bg-[#030414] py-12 sm:py-16 md:py-24 border-t border-b border-[#F3F4F6]">
             <div className="max-w-[800px] mx-auto flex flex-col items-center gap-4 sm:gap-6 px-4">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#111928] text-center">{t('cta.title')}</h2>
               <p className="text-[#6B7280] text-center text-sm sm:text-base">

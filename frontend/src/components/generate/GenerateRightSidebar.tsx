@@ -124,7 +124,7 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
         })
       ) : !isGenerating && isInitialDataLoaded ? (
         // 空状态 - 只有在初始数据加载完成且确实没有历史图片时才显示
-        <div className="text-center text-white-500 text-xs mt-8">
+        <div className="text-center text-[#A5A5A5] text-xs mt-8">
           {t('states.noTextToImageYet')}
         </div>
       ) : null}

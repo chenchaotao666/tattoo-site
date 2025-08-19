@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { HomeImage } from '../../services/imageService';
 
 interface MoreMenuProps {
   onReportClick: () => void;
   onDeleteClick: () => void;
   isBatch?: boolean;
-  batchImages?: HomeImage[];
-  currentSelectedImage?: string | null;
 }
 
 const MoreMenu: React.FC<MoreMenuProps> = ({
   onReportClick,
   onDeleteClick,
   isBatch = false,
-  batchImages = [],
-  currentSelectedImage
 }) => {
   const [showShareSubmenu, setShowShareSubmenu] = useState(false);
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -36,11 +31,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
 
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isBatch) {
-      console.log('Delete batch clicked', batchImages.map(img => img?.id));
-    } else {
-      console.log('Delete single clicked', currentSelectedImage);
-    }
+
     onDeleteClick();
   };
 

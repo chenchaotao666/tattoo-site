@@ -309,7 +309,7 @@ const CategoriesPage: React.FC = () => {
         ogDescription={tCommon('seo.categories.description')}
         noIndex={true}
       />
-      <div className="w-full bg-[#F9FAFB] pb-12 md:pb-[120px]">
+      <div className="w-full bg-[#030414] pb-12 md:pb-[120px]">
         {/* Breadcrumb */}
         <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1380px]">
           <Breadcrumb 

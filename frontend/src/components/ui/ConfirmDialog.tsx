@@ -42,53 +42,43 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       <div className="absolute inset-0 bg-black opacity-70"></div>
       
       {/* 对话框 */}
-      <div className="relative bg-white rounded-2xl border border-[#EDEEF0] w-[490px] h-[190px] flex flex-col">
+      <div className="relative bg-[#19191F] rounded-2xl border border-[#393B42] w-[490px] h-[190px] flex flex-col">
         {/* 关闭按钮 */}
         <button
           onClick={onClose}
           className="absolute top-5 right-5 w-4 h-4 flex items-center justify-center hover:opacity-70 transition-opacity"
         >
-          <img src="/images/close-x.svg" alt="Close" className="w-4 h-4" />
+          <img src="/images/close-x.svg" alt="Close" className="w-4 h-4 filter brightness-0 invert" />
         </button>
 
         {/* 内容区域 */}
-        <div className="flex-1 flex flex-col justify-center px-8">
-          {/* 图标和标题 */}
-          <div className="flex items-center mb-4">
-            {/* 警告图标 */}
-            <div className="w-6 h-6 mr-4 flex items-center justify-center">
-              <img src="/images/notice.svg" alt="Notice" className="w-6 h-6" />
-            </div>
-            
-            {/* 消息文本 */}
-            <div className="text-[#161616] text-base font-medium">
-              {message}
-            </div>
+        <div className="absolute left-[30px] top-[30px]">
+          {/* 警告图标 */}
+          <div className="w-6 h-6 flex items-center justify-center overflow-hidden">
+            <img src="/images/notice.svg" alt="Notice" className="w-6 h-6" />
           </div>
         </div>
-
-        {/* 按钮区域 */}
-        <div className="flex justify-end gap-4 px-8 pb-8">
-          {/* 取消按钮 */}
-          <button
-            onClick={onClose}
-            className="px-6 h-12 border border-[#A5A5A5] rounded-lg text-[#161616] text-lg font-bold hover:bg-gray-50 transition-colors"
-          >
-            {cancelText}
-          </button>
-          
-          {/* 确认按钮 */}
-          <button
-            onClick={handleConfirm}
-            className={`px-6 h-12 rounded-lg text-white text-lg font-bold transition-colors ${
-              confirmButtonVariant === 'danger' 
-                ? 'bg-gradient-to-r from-[#FF9D00] to-[#FF5907] hover:from-[#FF8A00] hover:to-[#FF4500]'
-                : 'bg-gradient-to-r from-[#FF9D00] to-[#FF5907] hover:from-[#FF8A00] hover:to-[#FF4500]'
-            }`}
-          >
-            {confirmText}
-          </button>
+        
+        {/* 消息文本 */}
+        <div className="absolute left-[62px] top-[32px] text-[#ECECEC] text-base font-medium">
+          {message}
         </div>
+
+        {/* 取消按钮 */}
+        <button
+          onClick={onClose}
+          className="absolute left-[208px] top-[112px] w-[120px] h-[48px] rounded-lg border border-[#ECECEC] text-[#ECECEC] text-lg font-bold hover:bg-gray-800 transition-colors flex items-center justify-center"
+        >
+          {cancelText}
+        </button>
+        
+        {/* 确认按钮 */}
+        <button
+          onClick={handleConfirm}
+          className="absolute left-[340px] top-[112px] w-[120px] h-[48px] rounded-lg bg-[#98FF59] text-black text-lg font-bold hover:bg-[#87E548] transition-colors flex items-center justify-center"
+        >
+          {confirmText}
+        </button>
       </div>
     </div>
   );

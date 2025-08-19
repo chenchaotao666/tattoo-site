@@ -5,6 +5,16 @@ const fetch = require('node-fetch');
 
 class ImageGenerateService {
     constructor(imageModel = null) {
+        // 强制Node.js使用node-fetch替代内置fetch
+        if (!global.fetch) {
+            global.fetch = require('node-fetch');
+        }
+        
+        // 设置Node.js网络相关环境变量
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // 临时禁用TLS验证进行测试
+        
+        // 设置DNS解析
+        require('dns').setDefaultResultOrder('ipv4first');
         // Store the image model for database operations
         this.imageModel = imageModel;
         
@@ -49,7 +59,7 @@ class ImageGenerateService {
                 ...this.defaultParams,
                 ...params,
                 // 确保 prompt 包含 TOK 关键词以激活模型特性
-                prompt: this.enhancePrompt(params.prompt, params.style, params.isColor, params.styleNote)
+                prompt: await this.enhancePrompt(params.prompt, params.style, params.isColor, params.styleNote)
             };
 
             // 验证参数范围
@@ -85,7 +95,7 @@ class ImageGenerateService {
                 ...this.defaultParams,
                 ...params,
                 // 确保 prompt 包含 TOK 关键词以激活模型特性
-                prompt: this.enhancePrompt(params.prompt, params.style || 'traditional', params.isColor || true, params.styleNote || '')
+                prompt: await this.enhancePrompt(params.prompt, params.style || 'traditional', params.isColor || true, params.styleNote || '')
             };
 
             // 验证参数范围
@@ -113,8 +123,94 @@ class ImageGenerateService {
         }
     }
 
+    // 检测文本是否主要包含非英文字符
+    isNonEnglish(text) {
+        // 检测中文字符
+        const chineseRegex = /[\u4e00-\u9fff]/g;
+        const chineseChars = (text.match(chineseRegex) || []).length;
+        
+        // 检测日文字符（平假名、片假名、汉字）
+        const japaneseRegex = /[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9fff]/g;
+        const japaneseChars = (text.match(japaneseRegex) || []).length;
+        
+        // 检测韩文字符
+        const koreanRegex = /[\uac00-\ud7af]/g;
+        const koreanChars = (text.match(koreanRegex) || []).length;
+        
+        // 检测阿拉伯文字符
+        const arabicRegex = /[\u0600-\u06ff]/g;
+        const arabicChars = (text.match(arabicRegex) || []).length;
+        
+        // 检测俄文字符
+        const russianRegex = /[\u0400-\u04ff]/g;
+        const russianChars = (text.match(russianRegex) || []).length;
+        
+        // 检测法文/德文等特殊字符
+        const europeanRegex = /[àáâäçèéêëìíîïñòóôöùúûüýÿæœßÀÁÂÄÇÈÉÊËÌÍÎÏÑÒÓÔÖÙÚÛÜÝŸÆŒ]/g;
+        const europeanChars = (text.match(europeanRegex) || []).length;
+        
+        const totalChars = text.replace(/\s/g, '').length;
+        const nonEnglishChars = chineseChars + japaneseChars + koreanChars + arabicChars + russianChars + europeanChars;
+        
+        return nonEnglishChars > totalChars * 0.2; // 如果非英文字符超过20%，认为需要翻译
+    }
+
+    // 使用DeepSeek翻译非英文prompt
+    async translatePrompt(prompt) {
+        try {
+            // 检查是否配置了DeepSeek API Key
+            if (!process.env.DEEPSEEK_API_KEY) {
+                console.warn('DeepSeek API Key not configured, using original prompt');
+                return prompt;
+            }
+
+            // 使用axios替代fetch
+            const axios = require('axios');
+            const response = await axios.post('https://api.deepseek.com/chat/completions', {
+                model: 'deepseek-chat',
+                messages: [{
+                    role: 'user',
+                    content: `Translate this tattoo design description to English. Keep it simple, clear, and suitable for AI image generation. Only return the English translation without any explanations:
+
+"${prompt}"`
+                }],
+                max_tokens: 150,
+                temperature: 0.1,
+                stream: false
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${process.env.DEEPSEEK_API_KEY}`
+                },
+                timeout: 30000
+            });
+
+            if (response.status !== 200) {
+                throw new Error(`DeepSeek API error: ${response.status}`);
+            }
+
+            const data = response.data;
+            const translatedPrompt = data.choices[0]?.message?.content?.trim();
+            
+            if (translatedPrompt) {
+                console.log(`Translated prompt: ${prompt} -> ${translatedPrompt}`);
+                return translatedPrompt;
+            }
+            
+            return prompt; // 翻译失败时返回原prompt
+        } catch (error) {
+            console.warn('Translation failed:', error.message);
+            return prompt; // 翻译失败时返回原prompt
+        }
+    }
+
     // 增强提示词，生成专业的纹身设计提示词
-    enhancePrompt(prompt, style, isColor, styleNote) {
+    async enhancePrompt(prompt, style, isColor, styleNote) {
+        // 如果是非英文prompt，先翻译成英文
+        let processedPrompt = prompt;
+        if (this.isNonEnglish(prompt)) {
+            processedPrompt = await this.translatePrompt(prompt);
+        }
         // 处理空的 style 参数
         const hasStyle = style && style.trim() !== '';
         const styleText = hasStyle ? `${style} style` : 'professional tattoo';
@@ -140,7 +236,7 @@ class ImageGenerateService {
 - Traditional black and grey tattoo style`;
         }
         
-        const enhancedPrompt = `Create a ${styleText} tattoo design based on: "${prompt}"
+        const enhancedPrompt = `Create a ${styleText} tattoo design based on: "${processedPrompt}"
 
 Style specifications:
 ${artStyleText}
@@ -205,6 +301,15 @@ The design should be professional quality, original, and ready for use as a tatt
     // 启动异步生成任务
     async startGeneration(input) {
         try {
+            // 详细检查环境变量
+            if (!process.env.REPLICATE_API_TOKEN) {
+                throw new Error('REPLICATE_API_TOKEN environment variable is not set');
+            }
+
+            if (!process.env.REPLICATE_API_TOKEN.startsWith('r8_')) {
+                throw new Error('REPLICATE_API_TOKEN appears to be invalid (should start with r8_)');
+            }
+
             // 检查是否安装了replicate包
             let Replicate;
             try {
@@ -213,15 +318,47 @@ The design should be professional quality, original, and ready for use as a tatt
                 throw new Error('Replicate package not found. Please install: npm install replicate');
             }
 
-            const replicate = new Replicate({
+            console.log('Creating Replicate client...');
+            
+            // 配置Replicate客户端，添加fetch选项解决网络问题
+            const replicateConfig = {
                 auth: process.env.REPLICATE_API_TOKEN,
-            });
+                // 添加自定义fetch配置
+                fetch: (url, options = {}) => {
+                    // 使用node-fetch替代内置fetch
+                    const fetch = require('node-fetch');
+                    
+                    // 添加超时和重试逻辑
+                    const timeout = 30000; // 30秒超时
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), timeout);
+                    
+                    return fetch(url, {
+                        ...options,
+                        signal: controller.signal,
+                        headers: {
+                            'User-Agent': 'tattoo-generator/1.0',
+                            ...options.headers
+                        }
+                    }).finally(() => {
+                        clearTimeout(timeoutId);
+                    });
+                }
+            };
+            
+            const replicate = new Replicate(replicateConfig);
+
+            console.log('Model version:', this.modelVersion);
+            console.log('Input parameters:', JSON.stringify(input, null, 2));
 
             // 创建预测任务（异步）
+            console.log('Creating prediction...');
             const prediction = await replicate.predictions.create({
                 version: this.modelVersion.split(':')[1], // 只需要版本ID部分
                 input: input
             });
+
+            console.log('Prediction created successfully:', prediction.id);
 
             return {
                 id: prediction.id,
@@ -236,9 +373,31 @@ The design should be professional quality, original, and ready for use as a tatt
                 urls: prediction.urls
             };
         } catch (error) {
+            console.error('Replicate API error details:', {
+                message: error.message,
+                code: error.code,
+                status: error.status,
+                response: error.response?.data || error.response,
+                stack: error.stack
+            });
+
             if (error.message.includes('Replicate package not found')) {
                 throw error;
             }
+
+            // 提供更具体的错误信息
+            if (error.message.includes('fetch failed')) {
+                throw new Error(`Network connection failed. Please check: 1) Internet connectivity 2) Replicate API status 3) Firewall settings. Original error: ${error.message}`);
+            }
+
+            if (error.message.includes('Unauthorized') || error.message.includes('401')) {
+                throw new Error(`Replicate API authentication failed. Please check your REPLICATE_API_TOKEN. Original error: ${error.message}`);
+            }
+
+            if (error.message.includes('Not Found') || error.message.includes('404')) {
+                throw new Error(`Model not found. Please check the model version: ${this.modelVersion}. Original error: ${error.message}`);
+            }
+
             throw new Error(`Replicate API call failed: ${error.message}`);
         }
     }

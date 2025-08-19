@@ -283,7 +283,7 @@ const ImageDetailPage: React.FC = () => {
   if (!isImageLoading && !image) {
     return (
       <Layout>
-        <div className="w-full bg-[#F9FAFB] pb-16 md:pb-[120px]">
+        <div className="w-full bg-[#030414] pb-16 md:pb-[120px]">
           {/* Breadcrumb - 即使出错也显示 */}
           <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1200px]">
             <Breadcrumb items={[
@@ -317,7 +317,7 @@ const ImageDetailPage: React.FC = () => {
         ogDescription={image ? `Download free printable ${getLocalizedText(image.title, language).toLowerCase()} coloring page. High-quality PDF and PNG formats available instantly.` : 'Download free printable coloring pages.'}
         noIndex={true}
       />
-      <div className="w-full bg-[#F9FAFB] pb-4 md:pb-20 relative">
+      <div className="w-full bg-[#030414] pb-4 md:pb-20 relative">
         {/* Breadcrumb - 始终显示 */}
         <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1380px]">
           <Breadcrumb items={breadcrumbPath} />

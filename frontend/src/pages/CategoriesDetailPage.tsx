@@ -609,7 +609,7 @@ const CategoriesDetailPage: React.FC = () => {
   if (!isCategoryLoading && !category) {
     return (
       <Layout>
-        <div className="w-full bg-[#F9FAFB] pb-16 md:pb-[120px]">
+        <div className="w-full bg-[#030414] pb-16 md:pb-[120px]">
           {/* Breadcrumb - 即使出错也显示 */}
           <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1380px]">
             <Breadcrumb
@@ -650,7 +650,7 @@ const CategoriesDetailPage: React.FC = () => {
         ogDescription={category ? getLocalizedText(category.seoDesc || `Download free printable ${getLocalizedText(category.displayName, language).toLowerCase()} coloring pages. High-quality PDF and PNG formats available instantly.`, language) : 'Browse free printable coloring pages by category.'}
         noIndex={true}
       />
-      <div className="w-full bg-[#F9FAFB] pb-4 md:pb-20 relative">
+      <div className="w-full bg-[#030414] pb-4 md:pb-20 relative">
         {/* Breadcrumb - 始终显示 */}
         <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1380px]">
           <Breadcrumb items={getBreadcrumbPathEarly()} />

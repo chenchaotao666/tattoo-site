@@ -24,7 +24,7 @@ const Gallery: React.FC<GalleryProps> = ({ imageCount }) => {
   };
 
   return (
-    <div className="w-full bg-[#F9FAFB] pb-12 sm:pb-16 md:pb-20 lg:pb-[6rem] pt-12 sm:pt-16 md:pt-20 lg:pt-[6rem]">
+    <div className="w-full bg-[#030414] pb-12 sm:pb-16 md:pb-20 lg:pb-[6rem] pt-12 sm:pt-16 md:pt-20 lg:pt-[6rem]">
       <div className="container mx-auto px-4 sm:px-6">
         <h2 className="text-center text-[#161616] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[46px] font-bold capitalize mb-8 sm:mb-10 md:mb-12 lg:mb-[48px] leading-relaxed lg:leading-[1.6] px-4 sm:px-0 max-w-[1200px] mx-auto">
           {t('gallery.title')} 

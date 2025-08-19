@@ -1,0 +1,4 @@
+# Serena cache files
+.serena/
+.serena/**
+*.pkl

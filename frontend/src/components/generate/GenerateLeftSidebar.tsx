@@ -108,7 +108,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
             {prompt && (
               <button
                 onClick={handleClearPrompt}
-                className="absolute top-3 right-3 w-5 h-5 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full transition-colors"
+                className="absolute top-3 right-3 w-5 h-5 flex items-center justify-center bg-[#818181] hover:bg-[#6B6B6B] rounded-full transition-colors"
                 title={t('prompt.clear')}
               >
                 <img src="/images/close-x.svg" alt="Clear" className="w-3 h-3" />
@@ -144,8 +144,8 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
                 </span>
               ))}
             </div>
-            <span className="cursor-pointer hover:opacity-70 transition-opacity shrink-0 mt-0.5" onClick={handleRefreshStyleSuggestions}>
-              <img src={refreshIcon} alt="Refresh" className="w-4 h-4 filter brightness-0 invert" />
+            <span className="cursor-pointer hover:brightness-125 transition-all shrink-0 mt-0.5" onClick={handleRefreshStyleSuggestions}>
+              <img src={refreshIcon} alt="Refresh" className="w-4 h-4" style={{filter: 'brightness(0) saturate(100%) invert(46%) sepia(0%) saturate(0%) hue-rotate(130deg) brightness(105%) contrast(85%)'}} />
             </span>
           </div>
         </div>

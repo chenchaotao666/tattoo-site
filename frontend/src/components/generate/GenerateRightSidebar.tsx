@@ -87,9 +87,9 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
           background: 'linear-gradient(180deg, rgba(51, 51, 51, 0.10) 0%, #333333 20%, #333333 80%, rgba(51, 51, 51, 0.10) 100%)'
         }}
       ></div>
-      {/* 生成中的 loading 圆圈 - 无背景 */}
+      {/* 生成中的 loading */}
       {isGenerating && (
-        <div className="mb-4 flex items-center justify-center">
+        <div className="mb-4 flex items-center justify-center border-2 border-[#98FF59] rounded-lg p-4 bg-[#26262D] shadow-lg">
           <GenerateProgress
             progress={generationProgress}
             size="small"
@@ -101,8 +101,8 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
       {/* 生成的图片历史 */}
       {displayImages.length > 0 ? (
         displayImages.map((image, index) => {
-          // 使用图片的 id 进行选中状态判断，但如果有错误则不选中任何图片
-          const isSelected = !error && displaySelectedId === image.id;
+          // 使用图片的 id 进行选中状态判断，但如果有错误或正在生成则不选中任何图片
+          const isSelected = !error && !isGenerating && displaySelectedId === image.id;
           const isLastImage = index === displayImages.length - 1;
           
           return (

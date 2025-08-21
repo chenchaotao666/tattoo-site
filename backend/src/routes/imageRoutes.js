@@ -105,12 +105,14 @@ function createImageRoutes(app) {
                 refine = "expert_ensemble_refiner",
                 high_noise_frac = 0.9,
                 apply_watermark = false,
-                style,
-                styleNote,
+                styleId = null,
+                style = '',
+                styleNote = '',
                 isColor = true,
                 isPublic = false,
-                negative_prompt,
-                seed
+                negative_prompt = '',
+                seed,
+                categoryId = null,
             } = req.body;
 
             // 构建参数对象
@@ -126,15 +128,15 @@ function createImageRoutes(app) {
                 refine,
                 high_noise_frac: parseFloat(high_noise_frac),
                 apply_watermark: Boolean(apply_watermark),
-                style: style || '',
-                styleNote: styleNote || '',
+                styleId: styleId,
+                style: style,
+                styleNote: styleNote,
                 isColor: Boolean(isColor),
                 isPublic: Boolean(isPublic),
-                negative_prompt: negative_prompt || '',
+                negative_prompt: negative_prompt,
                 // 添加用户信息和其他元数据
                 userId: req.userId || null,
-                categoryId: req.body.categoryId || null,
-                styleId: req.body.styleId || null
+                categoryId: categoryId,
             };
 
             // 如果提供了种子，添加到参数中

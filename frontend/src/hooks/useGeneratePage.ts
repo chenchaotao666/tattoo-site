@@ -12,7 +12,6 @@ export interface Style {
   name: { en: string; zh: string };
   description: { en: string; zh: string };
   slug: string;
-  iconUrl?: string;
   // 从API来的字段
   title?: { en: string; zh: string };
   prompt?: { en: string; zh: string };
@@ -423,24 +422,21 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
 
       // 立即开始进度推进
       currentProgress.current = 0;
-      smoothProgressUpdate(20);
+      smoothProgressUpdate(10);
       
       if (!state.prompt.trim()) {
         throw new Error('Please enter a prompt');
       }
       
-      // Use the new asynchronous tattoo generation API with progress
-      // Debug logging for style selection
-      console.log('🔍 Debug - selectedStyle:', state.selectedStyle);
+      const styleId = state.selectedStyle ? state.selectedStyle.id : '';
       const styleValue = state.selectedStyle ? getLocalizedText(state.selectedStyle.name, 'en') : '';
       const styleNoteValue = state.selectedStyle ? getLocalizedText(state.selectedStyle.description, 'en') : '';
-      console.log('🔍 Debug - style value:', styleValue);
-      console.log('🔍 Debug - styleNote value:', styleNoteValue);
 
       const tattooResponse = await GenerateServiceInstance.generateTattooWithProgress({
         prompt: state.prompt,
         num_outputs: state.selectedQuantity,
         // Apply style settings (black&white overrides style for color settings)
+        styleId: styleId, 
         style: styleValue,
         styleNote: styleNoteValue,
         // Apply color settings
@@ -448,7 +444,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         isPublic: state.publicVisibility
       }, (progress) => {
         // Update progress in real-time
-        console.log(`Generation progress: ${progress.percentage}% - ${progress.message}`);
         currentProgress.current = progress.percentage;
         targetProgress.current = progress.percentage;
         updateState({ generationProgress: progress.percentage });
@@ -513,7 +508,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         isGenerating: false,
       });
     }
-  }, [state.isGenerating, state.prompt, state.selectedQuantity, state.selectedColor, state.selectedRatio, state.publicVisibility, state.canGenerate, updateState, handleInsufficientCredits]);
+  }, [state.isGenerating, state.prompt, state.selectedQuantity, state.selectedColor, state.selectedStyle, state.selectedRatio, state.publicVisibility, state.canGenerate, updateState, handleInsufficientCredits]);
 
   // 优化的进度管理
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
@@ -614,11 +609,10 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
           name: name,
           description: description,
           slug: apiStyle.id, // 使用id作为slug
-          iconUrl: apiStyle.imageUrl || undefined,
+          imageUrl: apiStyle.imageUrl || undefined,
           // 保留原始字段用于调试
           title: apiStyle.title,
-          prompt: apiStyle.prompt,
-          imageUrl: apiStyle.imageUrl
+          prompt: apiStyle.prompt
         };
       });
       

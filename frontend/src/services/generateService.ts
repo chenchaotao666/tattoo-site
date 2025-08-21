@@ -29,6 +29,7 @@ export interface GenerateTattooRequest {
   scheduler?: string;
   guidance_scale?: number;
   num_inference_steps?: number;
+  styleId?: string;
   style?: string;
   styleNote?: string;
   isColor?: boolean;
@@ -196,6 +197,7 @@ class GenerateService {
         refine: data.refine || "expert_ensemble_refiner",
         high_noise_frac: data.high_noise_frac || 0.9,
         apply_watermark: data.apply_watermark || false,
+        ...(data.styleId && { style: data.styleId }),
         ...(data.style && { style: data.style }),
         ...(data.styleNote && { styleNote: data.styleNote }),
         ...(data.isColor !== undefined && { isColor: data.isColor }),

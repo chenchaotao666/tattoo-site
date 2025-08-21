@@ -2,7 +2,9 @@ import React from 'react';
 import { StyleSuggestion } from '../../services/generateService';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
+import { Style } from '../../hooks/useGeneratePage';
 import Tooltip from '../ui/Tooltip';
+import StyleSelector from './StyleSelector';
 
 // 图标路径定义
 const refreshIcon = '/images/generate/refresh-ideas.png';
@@ -12,14 +14,6 @@ const subtractColorIcon = '/images/generate/subtract-color.svg';
 const subtractIcon = '/images/generate/generate-star.png';
 const textCountIcon = '/images/text-count.svg';
 
-// Style接口定义
-interface Style {
-  id: string;
-  name: { en: string; zh: string };
-  description: { en: string; zh: string };
-  slug: string;
-  iconUrl?: string;
-}
 
 interface GenerateLeftSidebarProps {
   // Form state
@@ -79,6 +73,23 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
 }) => {
   const { t } = useAsyncTranslation('generate');
   const { language } = useLanguage();
+
+  // Click outside to close style selector
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (showStyleSelector) {
+        const target = event.target as Element;
+        if (!target.closest('.style-selector-container')) {
+          setShowStyleSelector(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showStyleSelector, setShowStyleSelector]);
 
   return (
     <div className="relative h-full flex flex-col rounded-r-2xl">
@@ -151,21 +162,30 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
         </div>
 
         {/* Style Selector */}
-        <div className="lg:mx-5 mt-6 lg:mt-10 relative">
+        <div className="lg:mx-5 mt-6 lg:mt-10 relative style-selector-container">
           <div className="text-sm font-bold text-[#ECECEC] mb-2">Style</div>
           <div 
             className="bg-[#26262D] rounded-lg border border-[#393B42] p-3 relative cursor-pointer hover:border-[#98FF59] transition-colors" 
-            style={{height: '64px'}}
+            style={{height: '70px'}}
             onClick={() => setShowStyleSelector(!showStyleSelector)}
           >
             <div className="flex items-center gap-3 h-full">
               {/* Style Icon */}
-              <div className="w-11 h-11 bg-[#393B42] rounded-lg flex items-center justify-center flex-shrink-0">
-                <img 
-                  src={selectedStyle?.iconUrl || "/images/generate/no-style.png"} 
-                  alt="Style" 
-                  className="w-6 h-6" 
-                />
+              <div className="w-[46px] h-[46px] bg-[#393B42] rounded-lg flex items-center justify-center flex-shrink-0 relative">
+                {selectedStyle ? (
+                  <img 
+                    src={selectedStyle.imageUrl || "https://placehold.co/46x46"} 
+                    alt="Style" 
+                    className="w-[46px] h-[46px] object-cover rounded-lg" 
+                  />
+                ) : (
+                  /* No Style Icon */
+                  <img 
+                    src="/images/styles/no-style-small.svg" 
+                    alt="No Style" 
+                    className="w-[26px] h-[26px]" 
+                  />
+                )}
               </div>
               
               {/* Style Text */}
@@ -173,79 +193,26 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
                 <div className="text-[#ECECEC] text-sm font-medium">
                   {selectedStyle ? getLocalizedText(selectedStyle.name, language) : 'NO Style'}
                 </div>
-                {selectedStyle && (
-                  <div className="text-[#818181] text-xs truncate">
-                    {getLocalizedText(selectedStyle.description, language)}
-                  </div>
-                )}
               </div>
               
               {/* Arrow Icon */}
-              <img 
-                src="/images/generate/right-arrow.png" 
-                alt="Arrow" 
-                className={`w-4 h-4 flex-shrink-0 transition-transform ${showStyleSelector ? 'rotate-90' : ''}`} 
-              />
+              <div className="w-4 h-4 flex-shrink-0">
+                <div className="w-1 h-2 outline outline-[1.33px] outline-[#C8C8C8]" style={{clipPath: 'polygon(0 0, 100% 50%, 0 100%)'}}></div>
+              </div>
             </div>
           </div>
 
-          {/* Style Selector Dropdown */}
-          {showStyleSelector && (
-            <div className="absolute top-full left-0 right-0 mt-1 bg-[#26262D] rounded-lg border border-[#393B42] max-h-60 overflow-y-auto z-50 shadow-lg">
-              {/* NO Style Option */}
-              <div 
-                className="flex items-center gap-3 p-3 hover:bg-[#393B42] cursor-pointer transition-colors"
-                onClick={() => {
-                  console.log('🎨 NO Style selected');
-                  setSelectedStyle(null);
-                  setShowStyleSelector(false);
-                }}
-              >
-                <div className="w-8 h-8 bg-[#393B42] rounded-lg flex items-center justify-center flex-shrink-0">
-                  <img src="/images/generate/no-style.png" alt="No Style" className="w-5 h-5" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-[#ECECEC] text-sm font-medium">NO Style</div>
-                  <div className="text-[#818181] text-xs">Default style without specific constraints</div>
-                </div>
-                {!selectedStyle && (
-                  <div className="w-2 h-2 bg-[#98FF59] rounded-full"></div>
-                )}
-              </div>
-
-              {/* Styles from database */}
-              {styles.map((style) => (
-                <div 
-                  key={style.id}
-                  className="flex items-center gap-3 p-3 hover:bg-[#393B42] cursor-pointer transition-colors border-t border-[#393B42]"
-                  onClick={() => {
-                    console.log('🎨 Style selected:', style);
-                    setSelectedStyle(style);
-                    setShowStyleSelector(false);
-                  }}
-                >
-                  <div className="w-8 h-8 bg-[#393B42] rounded-lg flex items-center justify-center flex-shrink-0">
-                    <img 
-                      src={style.iconUrl || "/images/generate/no-style.png"} 
-                      alt={getLocalizedText(style.name, language)} 
-                      className="w-5 h-5" 
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-[#ECECEC] text-sm font-medium">
-                      {getLocalizedText(style.name, language)}
-                    </div>
-                    <div className="text-[#818181] text-xs truncate">
-                      {getLocalizedText(style.description, language)}
-                    </div>
-                  </div>
-                  {selectedStyle?.id === style.id && (
-                    <div className="w-2 h-2 bg-[#98FF59] rounded-full"></div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+          {/* StyleSelector Component */}
+          <StyleSelector
+            styles={styles}
+            selectedStyle={selectedStyle}
+            showStyleSelector={showStyleSelector}
+            onStyleSelect={(style) => {
+              setSelectedStyle(style);
+              setShowStyleSelector(false);
+            }}
+            onClose={() => setShowStyleSelector(false)}
+          />
         </div>
 
         {/* Color Selector */}

@@ -733,6 +733,9 @@ const GeneratePage: React.FC = () => {
     const searchParams = new URLSearchParams(window.location.search);
     const hasPromptParam = searchParams.has('prompt');
     const hasIsPublicParam = searchParams.has('isPublic');
+    const hasStyleParam = searchParams.has('styleId');
+    const hasColorParam = searchParams.has('isColor');
+    const hasQuantityParam = searchParams.has('quantity');
     
     if (selectedImageData) {
       // 回填 prompt（仅对 text to image 有效，且没有URL参数时才回填）
@@ -744,6 +747,34 @@ const GeneratePage: React.FC = () => {
       // 回填 isPublic（没有URL参数时才回填）
       if (!hasIsPublicParam) {
         setPublicVisibility(selectedImageData.isPublic);
+      }
+
+      // 回填 style（没有URL参数时才回填）
+      if (!hasStyleParam) {
+        const styleObj = styles.find(style => style.id === selectedImageData.styleId);
+        if (styleObj) {
+          setSelectedStyle(styleObj);
+        } else {
+          // 如果找不到对应的样式，设置为 NO Style
+          setSelectedStyle(null);
+        }
+      }
+
+      // 回填 color（没有URL参数时才回填）
+      if (!hasColorParam) {
+        setSelectedColor(selectedImageData.isColor);
+      }
+
+      // 回填 quantity（通过 batchId 判断同批次图片数量，没有URL参数时才回填）
+      if (!hasQuantityParam && selectedImageData.batchId) {
+        // 查找同一个 batchId 下的所有图片数量
+        const batchImages = currentImages.filter(img => img.batchId === selectedImageData.batchId);
+        const inferredQuantity = batchImages.length;
+        
+        // 只设置支持的数量值（1 或 4）
+        if (inferredQuantity === 1 || inferredQuantity === 4) {
+          setSelectedQuantity(inferredQuantity);
+        }
       }
     }
   };

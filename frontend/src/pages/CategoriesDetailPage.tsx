@@ -11,7 +11,7 @@ import { HomeImage, AspectRatio } from '../services/imageService';
 import { useLanguage, Language } from '../contexts/LanguageContext';
 import { getLocalizedText } from '../utils/textUtils';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
-import { getCategoryIdByName, getCategoryNameById, isCategoryName, isCategoryId, convertDisplayNameToPath } from '../utils/categoryUtils';
+import { getCategoryIdByName, getCategoryNameById, isCategoryName, convertDisplayNameToPath, addCategoryToMappings } from '../utils/categoryUtils';
 import { getImageNameById, updateImageMappings } from '../utils/imageUtils';
 import { navigateWithLanguage } from '../utils/navigationUtils';
 import SEOHead from '../components/common/SEOHead';
@@ -418,10 +418,7 @@ const CategoriesDetailPage: React.FC = () => {
         console.log('⚠️ Skipping - already loading for this key');
         return;
       }
-      loadingRef.current = currentKey;
-      
-      console.log('📍 Loading category data:', { categoryId, hasStateData: !!categoryFromState });
-      
+
       // 优先使用从导航状态传递的数据
       if (categoryFromState && categoryFromState.categoryId) {
         console.log('🚀 Using category data from navigation state');
@@ -464,11 +461,21 @@ const CategoriesDetailPage: React.FC = () => {
           console.error('Error loading images from state:', error);
           setIsImagesLoading(false);
         }
+
+        loadingRef.current = currentKey;
         return;
       }
       
       // 等待分类数据加载完成
-      if (categoriesLoading || allCategories.length === 0) {
+      if (categoriesLoading) {
+        console.log('🔄 Categories are still loading, waiting...');
+        return;
+      }
+      
+      if (allCategories.length === 0) {
+        console.log('⚠️ No categories available, cannot proceed');
+        setIsCategoryLoading(false);
+        setIsImagesLoading(false);
         return;
       }
 
@@ -479,37 +486,65 @@ const CategoriesDetailPage: React.FC = () => {
 
         // 🔧 优化：使用全局分类数据，无需重复获取
 
-        // 确定实际的分类ID并从全量数据中查找分类
+        // 🔧 重新设计：假设URL参数都是SEO友好名称，直接通过名称匹配查找分类
+        const categoryName = categoryId.toLowerCase();
+        console.log('🔍 Processing category URL parameter as SEO name:', categoryName);
+        
         let actualCategoryId: string;
         let foundCategory: any = null;
 
+        // 首先尝试从映射表获取（如果映射表已填充）
         if (isCategoryName(categoryId)) {
-          // 如果是SEO友好名称，转换为实际ID
           actualCategoryId = getCategoryIdByName(categoryId);
           foundCategory = allCategories.find(cat => cat.categoryId === actualCategoryId);
-        } else if (isCategoryId(categoryId)) {
-          // 如果是实际的分类ID，直接使用
-          actualCategoryId = categoryId;
-          foundCategory = allCategories.find(cat => cat.categoryId === actualCategoryId);
+          console.log('✅ Found in mapping table:', { seoName: categoryId, actualId: actualCategoryId });
         } else {
-          // 🔧 新增：如果映射表中没有找到，尝试在全量数据中按名称模糊匹配
-          const categoryName = categoryId.toLowerCase();
+          // 直接在全量数据中搜索匹配的分类
+          console.log('🔍 Searching in all categories...');
+          
           foundCategory = allCategories.find(cat => {
             const displayName = typeof cat.displayName === 'string'
               ? cat.displayName
               : (cat.displayName.en || cat.displayName.zh || '');
 
-            // 检查英文名称、中文名称或转换后的SEO名称是否匹配
-            const zhName = typeof cat.displayName === 'object' && cat.displayName.zh ? cat.displayName.zh : '';
-            return displayName.toLowerCase().includes(categoryName) ||
-              convertDisplayNameToPath(displayName) === categoryName ||
-              (zhName && zhName.toLowerCase().includes(categoryName));
+            // 生成SEO友好名称并进行匹配
+            const seoName = convertDisplayNameToPath(displayName);
+            const matches = seoName === categoryName;
+            
+            if (matches) {
+              console.log('✅ Found category by direct search:', { 
+                categoryId: cat.categoryId, 
+                displayName, 
+                seoName, 
+                searchName: categoryName 
+              });
+            }
+            
+            return matches;
           });
 
           if (foundCategory) {
             actualCategoryId = foundCategory.categoryId;
-            // 找到分类，无需更新映射表（已在CategoriesContext中处理）
+            console.log('🔧 Adding found category to mapping table');
+            // 添加到映射表以确保后续使用正常
+            addCategoryToMappings(foundCategory);
           }
+        }
+        
+        // 最后的降级处理：如果仍然没找到，检查是否传入的就是categoryId（兼容旧链接）
+        if (!foundCategory && categoryId.length > 10) {
+          console.log('🔍 Trying as direct category ID (fallback):', categoryId);
+          foundCategory = allCategories.find(cat => cat.categoryId === categoryId);
+          if (foundCategory) {
+            actualCategoryId = categoryId;
+            console.log('✅ Found by direct ID match');
+            // 也添加到映射表
+            addCategoryToMappings(foundCategory);
+          }
+        }
+        
+        if (!foundCategory) {
+          console.warn('❌ No category found for:', categoryName);
         }
 
         if (foundCategory) {
@@ -558,6 +593,8 @@ const CategoriesDetailPage: React.FC = () => {
           setIsCategoryLoading(false);
           setIsImagesLoading(false);
         }
+
+        loadingRef.current = currentKey;
       } catch (error) {
         console.error('Failed to load category data:', error);
         setIsCategoryLoading(false);
@@ -569,7 +606,7 @@ const CategoriesDetailPage: React.FC = () => {
     };
 
     loadCategoryData();
-  }, [categoryId, language]); // 最小依赖项，避免重复调用
+  }, [categoryId, language, categoriesLoading, allCategories]); // 包含categories相关依赖
 
   // 监听标签选择变化，重新应用过滤
   useEffect(() => {
@@ -609,7 +646,7 @@ const CategoriesDetailPage: React.FC = () => {
   if (!isCategoryLoading && !category) {
     return (
       <Layout>
-        <div className="w-full bg-[#030414] pb-16 md:pb-[120px]">
+        <div className="w-full bg-[#F9FAFB] pb-16 md:pb-[120px]">
           {/* Breadcrumb - 即使出错也显示 */}
           <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1380px]">
             <Breadcrumb
@@ -650,7 +687,7 @@ const CategoriesDetailPage: React.FC = () => {
         ogDescription={category ? getLocalizedText(category.seoDesc || `Download free printable ${getLocalizedText(category.displayName, language).toLowerCase()} coloring pages. High-quality PDF and PNG formats available instantly.`, language) : 'Browse free printable coloring pages by category.'}
         noIndex={true}
       />
-      <div className="w-full bg-[#030414] pb-4 md:pb-20 relative">
+      <div className="w-full bg-[#F9FAFB] pb-4 md:pb-20 relative">
         {/* Breadcrumb - 始终显示 */}
         <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1380px]">
           <Breadcrumb items={getBreadcrumbPathEarly()} />

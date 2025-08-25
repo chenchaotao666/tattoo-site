@@ -1,11 +1,12 @@
 import Layout from '../components/layout/Layout';
-import Hero from '../components/home/Hero';
-import Features from '../components/home/Features';
+import GeneralIntroduction from '../components/home/GeneralIntroduction';
 import Gallery from '../components/home/Gallery';
-import Testimonials from '../components/home/Testimonials';
-import HowToCreate from '../components/home/HowToCreate';
+import HowToCreate from '../components/common/HowToCreate';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
+import TattooIntroduction, { TattooIntroductionData } from '../components/common/TattooIntroduction';
+import CreateOnGo, { CreateOnGoData } from '../components/home/CreateOnGo';
+import WhatUserSaying, { sampleWhatUserSayingData } from '../components/home/WhatUserSaying';
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 import { ImageService } from '../services/imageService';
@@ -19,30 +20,114 @@ const HomePage = () => {
   // FAQ 数据
   const homeFAQData: FAQData[] = [
     {
-      question: t('faq.question1.q'),
-      answer: t('faq.question1.a')
+      question: "How does the AI Tattoo Generator work?",
+      answer: "Type your tattoo idea or upload an image, choose a style, and the AI creates a realistic design you can preview and download instantly."
     },
     {
-      question: t('faq.question2.q'),
-      answer: t('faq.question2.a')
+      question: "What tattoo design styles are available?",
+      answer: "We offer multiple styles including traditional, minimalist, watercolor, tribal, geometric, realistic, and many more to match your vision."
     },
     {
-      question: t('faq.question3.q'),
-      answer: t('faq.question3.a')
+      question: "How accurate is the AI Tattoo Generator skin preview?",
+      answer: "Our AR technology provides highly realistic previews that show how your tattoo will look on your actual skin, helping you make confident decisions."
     },
     {
-      question: t('faq.question4.q'),
-      answer: t('faq.question4.a')
+      question: "Can I use AI Tattoo Generator designs commercially?",
+      answer: "Yes, all designs generated are yours to use. You have full rights to use them for personal tattoos or commercial purposes."
     },
     {
-      question: t('faq.question5.q'),
-      answer: t('faq.question5.a')
+      question: "Is there a mobile app version?",
+      answer: "Yes! Our mobile apps for iOS and Android let you create, preview, and save designs anywhere you go."
     },
     {
-      question: t('faq.question6.q'),
-      answer: t('faq.question6.a')
+      question: "Can I edit or refine the AI tattoo design?",
+      answer: "Absolutely! You can regenerate with different prompts, adjust styles, and make refinements until you get the perfect design."
     }
   ];
+
+  const createOnGoData: CreateOnGoData = {
+    title: "Create On the Go",
+    description: "Bring your creativity anywhere with our iOS and Android app. Design, explore, and preview tattoos whether you're at home, in the studio, or on the move.",
+    appStore: {
+      text1: "Download on the",
+      text2: "App Store"
+    },
+    googlePlay: {
+      text1: "GET IT ON",
+      text2: "Google Play"
+    },
+    phoneImages: [
+      "/images/home-create-on-go/ai-create.png",
+      "/images/home-create-on-go/inspiration.png",
+      "/images/home-create-on-go/try-on.png"
+    ],
+    features: [
+      {
+        title: "Design Instantly",
+        description: "Create stunning tattoos in seconds with AI precision . Just type your idea.",
+        icon: "/images/home-create-on-go/logo.svg"
+      },
+      {
+        title: "Inspire Creativity",
+        description: "Explore a curated library of AI tattoo ideas to spark fresh designs.",
+        icon: "/images/home-create-on-go/tattoo.svg"
+      },
+      {
+        title: "Preview with Confidence",
+        description: "Use AR to see your tattoo on skin before committing.",
+        icon: "/images/home-create-on-go/four-leaf.svg"
+      }
+    ]
+  };
+
+  const tattooIntroductionData: TattooIntroductionData = {
+    sections: [
+      {
+        title: "Hyper-Realistic AI Tattoo Designs",
+        description: "Create tattoos that look hand-crafted by a professional artist. Whether minimalist lines or intricate patterns, our AI Tattoo Generator ensures lifelike details in every design, so it feels ready for inking.",
+        buttonText: "Try Now",
+        onButtonClick: () => window.location.href = "/create"
+      },
+      {
+        title: "Endless AI Tattoo Ideas",
+        description: "Out of inspiration? Type any keyword or theme, and our AI Tattoo Generator instantly gives you fresh, unique tattoo designs. Explore new styles, discover unexpected combinations, and find the perfect concept for your next piece.",
+        buttonText: "Try Now",
+        onButtonClick: () => window.location.href = "/create"
+      },
+      {
+        title: "AI Tattoo Skin Preview Tool",
+        description: "Preview your tattoo on your skin with AR or photo. See placement, size, and color in seconds—making sure you're 100% confident before the real ink touches your skin.",
+        buttonText: "Try Now",
+        onButtonClick: () => window.location.href = "/create"
+      }
+    ],
+    images: [
+      {
+        images: [
+          "/images/home-introduction/row-1-1.png",
+          "/images/home-introduction/row-1-2.png",
+          "/images/home-introduction/row-1-3.png"
+        ],
+        prompt: "A terrifying tattoo, with a skull and horns combined"
+      },
+      {
+        images: [
+          "/images/home-introduction/row-2-1.png",
+          "/images/home-introduction/row-2-2.png", 
+          "/images/home-introduction/row-2-3.png",
+          "/images/home-introduction/row-2-4.png",
+          "/images/home-introduction/row-2-5.png"
+        ]
+      },
+      {
+        images: [
+          "/images/home-introduction/row-3-1.png",
+          "/images/home-introduction/row-3-2.png"
+        ],
+        twoImageMode: true
+      }
+    ]
+  };
   
   // 获取图片总数
   useEffect(() => {
@@ -84,20 +169,50 @@ const HomePage = () => {
       />
       <Layout>
         <div className="w-full min-w-0">
-          <Hero imageCount={imageCount} />
-          <Features />
+          <div className="bg-black">
+            <GeneralIntroduction tattooCount={imageCount}/>
+          </div>
+          <TattooIntroduction data={tattooIntroductionData} />
           <Gallery imageCount={imageCount} />
-          <Testimonials />
-          <HowToCreate />
-          <GenerateFAQ 
-            faqData={homeFAQData} 
-            title={t('faq.title')}
-          />
+          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
+            <CreateOnGo data={createOnGoData} />
+          </div>
+          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
+            <WhatUserSaying data={sampleWhatUserSayingData} />
+          </div>
+          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
+            <HowToCreate 
+              title="Your Tattoo in 3 Steps"
+              steps={[
+                {
+                  step: "Step 1",
+                  title: "Describe Your Tattoo Idea",
+                  description: "Type your concept (abstract or detailed) and let AI start creating."
+                },
+                {
+                  step: "Step 2",
+                  title: "Customize Your AI Tattoo Style",
+                  description: "Pick from multiple styles, tweak details, or upload a photo to preview on skin."
+                },
+                {
+                  step: "Step 3",
+                  title: "Save Your AI Tattoo Design",
+                  description: "See it in lifelike detail, make final adjustments, then download your masterpiece."
+                }
+              ]}
+            />
+          </div>
+          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
+            <GenerateFAQ 
+              faqData={homeFAQData} 
+              title="Frequently Asked Questions"
+            />
+          </div>
           <TryNow
             title={t('cta.title')}
             description={t('cta.description')}
             buttonText={t('cta.tryNow')}
-            buttonLink="/text-coloring-page"
+            buttonLink="/create"
           />
         </div>
       </Layout>

@@ -9,10 +9,11 @@ import Tooltip from '../components/ui/Tooltip';
 import ColoringPageTool, { ColoringPageToolData } from '../components/common/ColoringPageTool';
 import WhyChoose, { WhyChooseData } from '../components/common/WhyChoose';
 import CanCreate, { CanCreateData } from '../components/common/CanCreate';
-import HowToCreate, { HowToCreateData } from '../components/common/HowToCreate';
+import HowToCreate from '../components/common/HowToCreate';
 import UserSaying, { TestimonialItem } from '../components/common/UserSaying';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
+import TattooIntroduction, { TattooIntroductionData } from '../components/common/TattooIntroduction';
 import { ColoringPageConversionData } from '../components/common/ColoringPageConversion';
 import PricingSection from '../components/common/PricingSection';
 import GenerateRightSidebar from '../components/generate/GenerateRightSidebar';
@@ -577,44 +578,36 @@ const GeneratePage: React.FC = () => {
   // FAQ data for GenerateFAQ component - Text to Image mode
   const textFAQData: FAQData[] = [
     {
-      question: t('textFAQ.0.question'),
-      answer: t('textFAQ.0.answer')
+      question: "How do I start designing my tattoo with the AI Tattoo Generator?",
+      answer: "Simply type your tattoo idea or upload an image, select your preferred style, and click \"Generate\" to see your custom tattoo design in seconds."
     },
     {
-      question: t('textFAQ.1.question'),
-      answer: t('textFAQ.1.answer')
+      question: "Can I choose different tattoo styles in the AI tool?",
+      answer: "Yes, our AI tattoo generator offers multiple styles including traditional, realistic, minimalist, geometric, and many more to match your vision."
     },
     {
-      question: t('textFAQ.2.question'),
-      answer: t('textFAQ.2.answer')
+      question: "How accurate is the AR tattoo preview on my skin?",
+      answer: "Our AR preview technology provides a highly realistic representation of how your tattoo will look on your skin, helping you make confident decisions."
     },
     {
-      question: t('textFAQ.3.question'),
-      answer: t('textFAQ.3.answer')
+      question: "Can I customize my tattoo after generating it?",
+      answer: "Absolutely! You can modify colors, adjust sizes, change positioning, and fine-tune details to create your perfect tattoo design."
     },
     {
-      question: t('textFAQ.4.question'),
-      answer: t('textFAQ.4.answer')
+      question: "Can I use the tattoo design commercially after generating it?",
+      answer: "Yes, all designs you generate are yours to use as you wish, including for commercial purposes, with full ownership rights."
     },
     {
-      question: t('textFAQ.5.question'),
-      answer: t('textFAQ.5.answer')
+      question: "Is there a mobile app for the AI Tattoo Generator?",
+      answer: "Currently, our AI tattoo generator is web-based and fully optimized for mobile browsers, providing the same great experience across all devices."
     },
     {
-      question: t('textFAQ.6.question'),
-      answer: t('textFAQ.6.answer')
+      question: "Do I need design experience to use the AI tattoo generator?",
+      answer: "Not at all! Our tool is designed for everyone, from complete beginners to experienced designers. Simply describe your idea and let AI do the work."
     },
     {
-      question: t('textFAQ.7.question'),
-      answer: t('textFAQ.7.answer')
-    },
-    {
-      question: t('textFAQ.8.question'),
-      answer: t('textFAQ.8.answer')
-    },
-    {
-      question: t('textFAQ.9.question'),
-      answer: t('textFAQ.9.answer')
+      question: "How long does it take to create a tattoo design?",
+      answer: "Our AI generates stunning tattoo designs in just seconds. You'll see your custom design almost instantly after clicking the generate button."
     }
   ];
 
@@ -702,6 +695,79 @@ const GeneratePage: React.FC = () => {
       description: t('textCanCreate2.categories.activityPlanners.description'),
       image: '/images/cancreate/image-12.png'
     }
+    ]
+  };
+
+  // TattooIntroduction data
+  const tattooIntroductionData: TattooIntroductionData = {
+    sections: [
+      {
+        title: "Turn Your Creative into Stunning Tattoo Art",
+        description: "Ever wished your tattoo vision could leap from imagination to skin-ready artwork in moments? With the AI Tattoo Generator, simply type your idea or upload an image, and watch it transform into a detailed, professional design in seconds. No long waits, no endless revisions, just instant creativity at your fingertips.",
+        buttonText: "Try Now",
+        onButtonClick: () => window.scrollTo({ top: 0, behavior: 'smooth' })
+      },
+      {
+        title: "Endless Tattoo Styles, One Powerful Tool",
+        description: "From fine-line minimalism to bold traditional, from hyper-realistic shading to soft watercolor effects—this AI Tattoo Generator has you covered. Experiment with Japanese dragon sleeves, tiny ankle symbols, or geometric forearm pieces. Explore, mix, and match styles until you find the design that speaks to you.",
+        buttonText: "Try Now",
+        onButtonClick: () => window.scrollTo({ top: 0, behavior: 'smooth' })
+      },
+      {
+        title: "Made to Share, Ready for the Real World",
+        description: "Your tattoo design shouldn't just look great on screen—it should fit your life. Download high-resolution images, post them to your social channels, or send them directly to your tattoo artist. Built-in smart cropping and preview features let you see exactly how it will look on your body before you commit.",
+        buttonText: "Try Now",
+        onButtonClick: () => window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    ],
+    images: [
+      {
+        images: [
+          "/images/generate-introduction/row-1-1.png",
+          "/images/generate-introduction/row-1-2.png", 
+          "/images/generate-introduction/row-1-3.png"
+        ],
+        prompt: "The patterns of mechanical metal structures"
+      },
+      {
+        images: [
+          "/images/generate-introduction/row-2-1.png",
+          "/images/generate-introduction/row-2-2.png",
+          "/images/generate-introduction/row-2-3.png",
+          "/images/generate-introduction/row-2-4.png",
+          "/images/generate-introduction/row-2-5.png"
+        ]
+      },
+      {
+        images: [
+          "/images/generate-introduction/row-3-1.png",
+          "/images/generate-introduction/row-3-2.png",
+          "/images/generate-introduction/row-3-3.png"
+        ],
+        prompt: "The patterns of mechanical metal structures"
+      }
+    ]
+  };
+
+  // HowToCreate data for tattoo generation
+  const tattooHowToCreateData = {
+    title: "How To Create Tattoo",
+    steps: [
+      {
+        step: "Step 1",
+        title: "Input Idea",
+        description: "Type your concept or upload an image—our AI tattoo design tool starts working instantly."
+      },
+      {
+        step: "Step 2", 
+        title: "Select Style & Color",
+        description: "Pick your favorite tattoo style and color, then fine-tune with tattoo customization tools."
+      },
+      {
+        step: "Step 3",
+        title: "Generate & Save", 
+        description: "Click \"Generate\" to create your design, then save the image or edit it until it's perfect."
+      }
     ]
   };
 
@@ -1199,38 +1265,19 @@ const GeneratePage: React.FC = () => {
 
       {/* TextToColoringPage and WhyChoose components - Full width below main layout */}
       <div className="w-full bg-[#030414]">
-          {/* ColoringPageTool component */}
-          <div className="py-8 lg:pb-12 lg:pt-24">
-            <ColoringPageTool data={textColoringPageToolData} />
-          </div>
-
-          {/* WhyChoose component */}
-          <div className="py-8 lg:py-12 bg-white">
-            <WhyChoose data={textWhyChooseData} />
-          </div>
-
-          {/* CanCreate component */}
-          <div className="py-8 lg:py-12 bg-white">
-            <CanCreate data={textCanCreateData} />
-          </div>
+          {/* TattooIntroduction component */}
+          <TattooIntroduction data={tattooIntroductionData} />
 
           {/* HowToCreate component */}
-          <div className="py-8 lg:py-12 bg-white">
-            <HowToCreate data={howToCreateData} />
-          </div>
-
-          {/* Second CanCreate component */}
-          <div className="py-8 lg:py-12 bg-white">
-            <CanCreate data={textCanCreateData2} />
-          </div>
-
-          {/* UserSaying component */}
-          <div className="pt-8 lg:pt-12 bg-white">
-            <UserSaying testimonials={sampleTestimonials} />
+          <div className="flex justify-center py-12 bg-[#030414]">
+            <HowToCreate 
+              title={tattooHowToCreateData.title}
+              steps={tattooHowToCreateData.steps}
+            />
           </div>
 
           {/* GenerateFAQ component */}
-          <div className="pt-8 lg:pt-12 bg-white">
+          <div className="pt-8 lg:pt-12 bg-[#030414]">
             <GenerateFAQ faqData={textFAQData} />
           </div>
 

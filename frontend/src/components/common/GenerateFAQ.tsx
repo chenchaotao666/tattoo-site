@@ -24,12 +24,12 @@ interface GenerateFAQProps {
 
 const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen = false, onClick }) => {
   return (
-    <div className="w-full max-w-[970px] bg-[#F9FAFB] px-5 py-7 mb-5 rounded-2xl border border-[#F0F0F0]">
+    <div className={`w-full max-w-[970px] px-5 py-7 mb-5 rounded-2xl border border-[#26262D] ${isOpen ? 'bg-[#19191F]' : 'bg-transparent'}`}>
       <div 
-        className="flex justify-between items-center gap-4 cursor-pointer hover:bg-[#F3F4F6] transition-colors duration-200 -mx-5 -my-7 px-5 py-7 rounded-2xl"
+        className="flex justify-between items-center gap-4 cursor-pointer hover:bg-[#2A2A30] transition-colors duration-200 -mx-5 -my-7 px-5 py-7 rounded-2xl"
         onClick={onClick}
       >
-        <div className={`${isOpen ? 'text-[#FF5C07]' : 'text-[#161616]'} text-xl font-medium leading-tight flex-1`}>
+        <div className={`${isOpen ? 'text-[#98FF59]' : 'text-[#ECECEC]'} text-xl font-bold leading-tight flex-1`}>
           {question}
         </div>
         <img 
@@ -40,7 +40,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen = false, onC
       </div>
       
       {isOpen && (
-        <div className="text-[#6B7280] text-base leading-6 mt-8 pr-10 cursor-text select-text">
+        <div className="text-[#A5A5A5] text-sm leading-5 mt-8 pr-10 cursor-text select-text">
           {answer}
         </div>
       )}
@@ -72,7 +72,7 @@ const GenerateFAQ: React.FC<GenerateFAQProps> = ({
     <div className={`w-full max-w-[970px] mx-auto px-4 pb-[6rem] ${className}`}>
       {/* Header */}
       <div className="text-center mb-16">
-        <h2 className="text-[46px] font-bold text-[#161616]">
+        <h2 className="text-5xl font-bold text-[#ECECEC]">
           {title || t('faq.title')}
         </h2>
       </div>

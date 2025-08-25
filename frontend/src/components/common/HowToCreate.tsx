@@ -1,100 +1,109 @@
 import React from 'react';
 
-export interface StepItem {
-  id: string;
-  number: string;
+interface Step {
+  step: string;
   title: string;
   description: string;
 }
 
-export interface HowToCreateData {
-  title: string;
-  subtitle: string;
-  image?: string;
-  images?: {
-    top: string;
-    bottom: string;
-  };
-  steps: StepItem[];
-}
-
 interface HowToCreateProps {
-  className?: string;
-  data: HowToCreateData;
+  title: string;
+  steps: Step[];
 }
 
-const HowToCreate: React.FC<HowToCreateProps> = ({ 
-  className = "",
-  data
-}) => {
-
+const HowToCreate: React.FC<HowToCreateProps> = ({ title, steps }) => {
   return (
-    <div className={`w-full max-w-[1170px] mx-auto px-4 ${className}`}>
-      {/* Header Section */}
-      <div className="text-center mb-16">
-        <h2 className="text-[46px] font-bold text-[#161616] capitalize leading-tight mb-8 max-w-[1200px] mx-auto">
-          {data.title}
-        </h2>
-        
-        <p className="text-lg text-[#6B7280] max-w-[900px] mx-auto">
-          {data.subtitle}
-        </p>
+    <div style={{ width: '1170px', minHeight: '367px', position: 'relative', borderRadius: '16px' }}>
+      <div style={{
+        left: '289px',
+        top: '0px',
+        position: 'absolute',
+        textAlign: 'center',
+        color: 'var(--_taliwind-White-200, #ECECEC)',
+        fontSize: '56px',
+        fontFamily: 'Inter',
+        fontWeight: '700',
+        textTransform: 'capitalize',
+        wordWrap: 'break-word'
+      }}>
+        {title}
       </div>
-
-      {/* Content Section */}
-      <div className="flex flex-col lg:flex-row gap-12 items-center">
-        {/* Left Side - Image */}
-        <div className="w-full lg:w-[500px] flex-shrink-0">
-          {data.images ? (
-            // Two images for comparison (color vs line art)
-            <div className="w-full h-[400px] lg:h-[600px] relative overflow-hidden rounded-2xl border border-[#EDEEF0]">
-              <img 
-                src={data.images.top}
-                alt="Original colored image"
-                className="absolute top-0 left-0 w-full h-1/2 object-cover object-top"
-              />
-              <img 
-                src={data.images.bottom}
-                alt="Line art coloring page"
-                className="absolute bottom-0 left-0 w-full h-1/2 object-cover object-top"
-              />
-            </div>
-          ) : (
-            // Single image
-            <img 
-              src={data.image}
-              alt="Coloring page creation process"
-              className="w-full h-[400px] lg:h-[600px] object-cover rounded-2xl border border-[#EDEEF0]"
-            />
-          )}
-        </div>
-
-        {/* Right Side - Steps */}
-        <div className="flex-1 space-y-12">
-          {data.steps.map((step) => (
-            <div key={step.id} className="flex items-start gap-4">
-              {/* Step Number Background */}
-              <div className="relative flex-shrink-0">
-                <div className="w-[60px] h-[60px] bg-[#FF5C07] opacity-20 rounded-lg"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[#FF5C07] text-[28px] font-bold tracking-[3px] font-mono">
-                    {step.number}
-                  </span>
-                </div>
+      
+      <div style={{
+        display: 'flex',
+        gap: '21px',
+        marginTop: '148px',
+        height: 'auto'
+      }}>
+        {steps.map((step, index) => (
+          <div
+            key={index}
+            style={{
+              width: '376px',
+              padding: '36px',
+              background: 'var(--zinc-500, #19191F)',
+              borderRadius: '16px',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              gap: '10px',
+              display: 'flex',
+              flex: '1'
+            }}
+          >
+          <div style={{
+            width: '304px',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'flex-start',
+            gap: '24px',
+            display: 'flex'
+          }}>
+            <div style={{
+              width: '304px',
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              gap: '8px',
+              display: 'flex'
+            }}>
+              <div style={{
+                alignSelf: 'stretch',
+                color: 'var(--white-400, #A5A5A5)',
+                fontSize: '16px',
+                fontFamily: 'Inter',
+                fontWeight: '400',
+                wordWrap: 'break-word'
+              }}>
+                {step.step}
               </div>
-
-              {/* Step Content */}
-              <div className="flex-1 mt-[-4px]">
-                <h3 className="text-xl font-medium text-[#161616] mb-4">
-                  {step.title}
-                </h3>
-                <p className="text-base text-[#6B7280] leading-6 max-w-[514px]">
-                  {step.description}
-                </p>
+              <div style={{
+                alignSelf: 'stretch',
+                color: 'var(--white-200, #ECECEC)',
+                fontSize: '20px',
+                fontFamily: 'Inter',
+                fontWeight: '500',
+                textTransform: 'capitalize',
+                wordWrap: 'break-word',
+                whiteSpace: 'normal'
+              }}>
+                {step.title}
               </div>
             </div>
-          ))}
+            <div style={{
+              alignSelf: 'stretch',
+              color: 'var(--white-400, #A5A5A5)',
+              fontSize: '16px',
+              fontFamily: 'Inter',
+              fontWeight: '400',
+              lineHeight: '24px',
+              wordWrap: 'break-word'
+            }}>
+              {step.description}
+            </div>
+          </div>
         </div>
+        ))}
       </div>
     </div>
   );

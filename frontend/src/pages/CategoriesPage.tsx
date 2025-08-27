@@ -14,7 +14,6 @@ import { handleCategoryClick } from '../utils/categoryUtils';
 import WhyChooseColoringPages from '../components/common/WhyChooseColoringPages';
 import ColoringPagesFor from '../components/common/ColoringPagesFor';
 import HowToCreate, { HowToCreateData } from '../components/common/HowToCreate';
-import UserSaying, { TestimonialItem } from '../components/common/UserSaying';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
 const noResultIcon = '/images/no-result.svg';
@@ -132,82 +131,6 @@ const CategoriesPage: React.FC = () => {
       }
     ]
   };
-
-  // UserSaying data
-  const categoriesTestimonials: TestimonialItem[] = [
-    {
-      id: 'testimonial-1',
-      name: 'Marty Behr',
-      date: 'Oct 20, 2024',
-      avatar: '/images/avatar/avatar9.png',
-      content: t('testimonials.1.content'),
-      image: '/images/categoriesusersaying/friendly-robot-friends_faae1c8a.jpg'
-    },
-    {
-      id: 'testimonial-2',
-      name: 'Judith Madrid',
-      date: 'Mar 18, 2025',
-      avatar: '/images/avatar/avatar10.png',
-      content: t('testimonials.2.content'),
-      image: '/images/categoriesusersaying/birthday-cake-extravaganza_6a09bd9b.jpg'
-    },
-    {
-      id: 'testimonial-3',
-      name: 'Ruth Cox',
-      date: 'Aug 15, 2024',
-      avatar: '/images/avatar/avatar11.png',
-      content: t('testimonials.3.content'),
-      image: '/images/categoriesusersaying/brave-firefighters-in-action_ab7d9d79.jpg'
-    },
-    {
-      id: 'testimonial-4',
-      name: 'Irving Dunne',
-      date: 'May 12, 2024',
-      avatar: '/images/avatar/avatar12.png',
-      content: t('testimonials.4.content'),
-      image: '/images/categoriesusersaying/pirate-chickens-treasure-hunt_b7b2977b.jpg'
-    },
-    {
-      id: 'testimonial-5',
-      name: 'Megan Dubreuil',
-      date: 'Dec 10, 2024',
-      avatar: '/images/avatar/avatar13.png',
-      content: t('testimonials.5.content'),
-      image: '/images/categoriesusersaying/cat-cafe-delights_da202c11.jpg'
-    },
-    {
-      id: 'testimonial-6',
-      name: 'Valarie Jones',
-      date: 'Sep 5, 2024',
-      avatar: '/images/avatar/avatar14.png',
-      content: t('testimonials.6.content'),
-      image: '/images/categoriesusersaying/classroom-creativity_a0658ea9.jpg'
-    },
-    {
-      id: 'testimonial-7',
-      name: 'Brady Briseno',
-      date: 'Mar 22, 2025',
-      avatar: '/images/avatar/avatar15.png',
-      content: t('testimonials.7.content'),
-      image: '/images/categoriesusersaying/dino-playtime_9f0887a3.jpg'
-    },
-    {
-      id: 'testimonial-8',
-      name: 'Evelyn Phipps',
-      date: 'Jun 18, 2025',
-      avatar: '/images/avatar/avatar16.png',
-      content: t('testimonials.8.content'),
-      image: '/images/categoriesusersaying/sleepy-bear-in-the-moonlight_081ab799.jpg'
-    },
-    {
-      id: 'testimonial-9',
-      name: 'Mary Martin',
-      date: 'Sep 14, 2024',
-      avatar: '/images/avatar/avatar17.png',
-      content: t('testimonials.9.content'),
-      image: '/images/categoriesusersaying/enchanted-dollhouse_ff09403a.jpg'
-    }
-  ];
 
   // GenerateFAQ data
   const categoriesFAQData: FAQData[] = [
@@ -386,14 +309,6 @@ const CategoriesPage: React.FC = () => {
       {/* How To Create Section */}
       <div className="w-full bg-white py-16 lg:py-16">
         <HowToCreate data={howToCreateData} />
-      </div>
-      
-      {/* User Saying Section */}
-      <div className="w-full bg-white py-16 lg:py-16">
-        <UserSaying 
-          testimonials={categoriesTestimonials} 
-          title={t('testimonials.title')}
-        />
       </div>
       
       {/* FAQ Section */}

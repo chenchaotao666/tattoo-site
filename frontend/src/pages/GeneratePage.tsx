@@ -15,7 +15,7 @@ import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
 import TattooIntroduction, { TattooIntroductionData } from '../components/common/TattooIntroduction';
 import { ColoringPageConversionData } from '../components/common/ColoringPageConversion';
-import PricingSection from '../components/common/PricingSection';
+import PricingSection from '../components/price/PricingSection';
 import GenerateRightSidebar from '../components/generate/GenerateRightSidebar';
 import GenerateLeftSidebar from '../components/generate/GenerateLeftSidebar';
 import GenerateCenterSidebar from '../components/generate/GenerateCenterSidebar';

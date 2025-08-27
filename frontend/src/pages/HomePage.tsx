@@ -1,5 +1,5 @@
 import Layout from '../components/layout/Layout';
-import GeneralIntroduction from '../components/home/GeneralIntroduction';
+import HomeTop from '../components/home/HomeTop';
 import Gallery from '../components/home/Gallery';
 import HowToCreate from '../components/common/HowToCreate';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
@@ -7,6 +7,7 @@ import TryNow from '../components/common/TryNow';
 import TattooIntroduction, { TattooIntroductionData } from '../components/common/TattooIntroduction';
 import CreateOnGo, { CreateOnGoData } from '../components/home/CreateOnGo';
 import WhatUserSaying, { sampleWhatUserSayingData } from '../components/home/WhatUserSaying';
+import PricingSection from '../components/price/PricingSection';
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 import { ImageService } from '../services/imageService';
@@ -170,17 +171,17 @@ const HomePage = () => {
       <Layout>
         <div className="w-full min-w-0">
           <div className="bg-black">
-            <GeneralIntroduction tattooCount={imageCount}/>
+            <HomeTop tattooCount={imageCount}/>
           </div>
           <TattooIntroduction data={tattooIntroductionData} />
           <Gallery imageCount={imageCount} />
-          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
+          <div className="bg-black flex justify-center py-16 lg:py-20">
             <CreateOnGo data={createOnGoData} />
           </div>
-          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
+          <div className="bg-black flex justify-center py-16 lg:py-20">
             <WhatUserSaying data={sampleWhatUserSayingData} />
           </div>
-          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
+          <div className="bg-black flex justify-center py-16 lg:py-20">
             <HowToCreate 
               title="Your Tattoo in 3 Steps"
               steps={[
@@ -202,7 +203,8 @@ const HomePage = () => {
               ]}
             />
           </div>
-          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
+          <PricingSection showTitle={true} />
+          <div className="bg-black flex justify-center py-16 lg:py-20">
             <GenerateFAQ 
               faqData={homeFAQData} 
               title="Frequently Asked Questions"

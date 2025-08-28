@@ -5,10 +5,9 @@ import GenerateFAQ, { FAQData } from '../common/GenerateFAQ';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAsyncTranslation } from '../../contexts/LanguageContext';
 import PaypalPayment from './PaypalPayment';
+import PricingCard from './PricingCard';
 
 const arrowRightIcon = '/images/arrow-right-outline.svg';
-const checkIcon = '/images/check.svg';
-const protectIcon = '/images/protect.svg';
 
 interface PlanConfig {
   monthly: {
@@ -24,37 +23,22 @@ interface PlanConfig {
   };
 }
 
-// 套餐配置
+// 套餐配置 - 只保留3个计划
 const planConfigs: Record<string, PlanConfig> = {
   'Free': {
-    monthly: { price: 0, credits: 50, code: 'FREE' },
-    yearly: { price: 0, credits: 50, code: 'FREE', monthlyPrice: 0 }
+    monthly: { price: 0, credits: 10, code: 'FREE' },
+    yearly: { price: 0, credits: 10, code: 'FREE', monthlyPrice: 0 }
   },
   'Lite': {
-    monthly: { price: 9.99, credits: 2000, code: 'LITE_MONTHLY' },
-    yearly: { price: 83.88, credits: 2000, code: 'LITE_YEARLY', monthlyPrice: 6.99 }
+    monthly: { price: 10, credits: 300, code: 'LITE_MONTHLY' },
+    yearly: { price: 60, credits: 300, code: 'LITE_YEARLY', monthlyPrice: 5 }
   },
   'Pro': {
-    monthly: { price: 19.99, credits: 6000, code: 'PRO_MONTHLY' },
-    yearly: { price: 167.88, credits: 6000, code: 'PRO_YEARLY', monthlyPrice: 13.99 }
-  },
-  'Max': {
-    monthly: { price: 39.99, credits: 20000, code: 'MAX_MONTHLY' },
-    yearly: { price: 335.88, credits: 20000, code: 'MAX_YEARLY', monthlyPrice: 27.99 }
+    monthly: { price: 20, credits: 800, code: 'PRO_MONTHLY' },
+    yearly: { price: 144, credits: 800, code: 'PRO_YEARLY', monthlyPrice: 12 }
   }
 };
 
-// Feature check component for pricing plans
-const FeatureItem = ({ text, highlighted = false }: { text: string, highlighted?: boolean }) => (
-  <div className="flex items-center gap-2">
-    <div className="w-4 h-4 flex items-center justify-center">
-      <img src={checkIcon} alt="Check" className="w-4 h-4" />
-    </div>
-    <div className={`text-sm ${highlighted ? "text-[#161616] font-bold" : "text-[#6B7280]"} leading-6 flex items-center gap-1`}>
-      {text}
-    </div>
-  </div>
-);
 
 
 // 充值成功弹窗
@@ -115,99 +99,17 @@ const SuccessModal = ({
   );
 };
 
-// PricingCard component
-const PricingCard = ({ 
-  title, 
-  price, 
-  popular = false, 
-  priceNote, 
-  features, 
-  onBuyClick
-}: { 
-  title: string, 
-  price: string, 
-  popular?: boolean,
-  priceNote?: string, 
-  features: string[],
-  onBuyClick?: () => void
-}) => {
-  const { t } = useAsyncTranslation('pricing');
-  
-  return (
-    <div
-      className={`w-full max-w-[350px] p-6 sm:p-8 bg-[#F9FAFB] rounded-2xl relative overflow-hidden transition-all duration-200 border-2 ${
-        popular ? 'border-[#FF5C07]' : 'border-[#EDEEF0]'
-      } hover:shadow-lg`}
-    >
-      {popular && (
-        <div className="absolute -top-1 -right-1 px-4 sm:px-6 py-2 bg-[#6200E2] text-white font-bold italic text-xs sm:text-sm rounded-bl-2xl rounded-tr-2xl">
-          {t('plans.lite.popular')}
-        </div>
-      )}
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex flex-col items-center gap-[8px] w-full">
-          <div className="text-center text-[#161616] text-2xl sm:text-4xl font-bold">
-            {title}
-          </div>
-          {/* Monthly Price */}
-          <div className="mt-4 text-5xl text-black">
-            <span className="font-bold">${price}</span>
-            <span className="text-sm text-[#454D59]">/ {t('billing.monthly')}</span>
-          </div>
-          {/* Yearly Price */}
-          {priceNote && (
-            <div className="text-sm mt-[5px] font-medium text-[#454D59]">
-              {priceNote}
-            </div>
-          )}
-          {title !== 'Free' && (
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex justify-center items-center gap-2">
-                <img src={protectIcon} alt="Protect" className="w-3 h-3" />
-                <div className="text-[#FF5C07] text-xs sm:text-sm">{t('cancelAnytime')}</div>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="flex flex-col gap-4 sm:gap-5 w-full">
-          <Button 
-            variant={popular ? 'gradient' : 'default'}
-            className={`w-full h-12 sm:h-[60px] text-lg sm:text-xl font-bold ${
-              !popular ? 'border border-[#818181] bg-white text-[#161616] hover:bg-gray-200' : ''
-            }`}
-            onClick={() => {
-              if (onBuyClick) onBuyClick();
-            }}
-          >
-            {title === 'Free' ? t('buttons.tryNow') : t('buttons.buyNow')}
-          </Button>
-          <div className="flex flex-col gap-3">
-            {features.map((feature, index) => (
-              <FeatureItem 
-                key={index} 
-                text={feature} 
-                highlighted={index === 0} 
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 interface PricingSectionProps {
   showFAQ?: boolean;
   showCTA?: boolean;
   showTitle?: boolean;
-  showGradientBg?: boolean;
 }
 
 const PricingSection: React.FC<PricingSectionProps> = ({ 
   showFAQ = false, 
   showCTA = false,
-  showTitle = false,
-  showGradientBg = false 
+  showTitle = false
 }) => {
   const { t, translations } = useAsyncTranslation('pricing');
   const navigate = useNavigate();
@@ -330,28 +232,12 @@ const PricingSection: React.FC<PricingSectionProps> = ({
   };
 
   return (
-    <div className="relative bg-white">
-      {/* 渐变背景 - 可选 */}
-      {showGradientBg && (
-        <div className="absolute left-0 w-full h-[100px] -top-[70px] pointer-events-none">
-          {/* 主渐变背景 - 浅黄色到白色，更浅的颜色 */}
-          <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-[rgba(255,248,245,0.3)] to-[rgba(255,255,255,0.1)]"></div>
-          
-          {/* 橙色模糊光晕效果 */}
-          <div 
-            className="absolute top-0 w-full h-[110px] bg-gradient-to-r from-[rgba(255,153,1,0.4)] to-[rgba(255,91,7,0.4)]"
-            style={{
-              filter: 'blur(200px)',
-            }}
-          ></div>
-        </div>
-      )}
-      
+    <div className="relative bg-black min-h-screen">
       {/* Main Content */}
       <div className="relative z-10 pt-4 lg:pt-16 flex flex-col items-center px-4">
         {/* 标题 - 可选 */}
         {showTitle && (
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#161616] mb-4 sm:mb-12 md:mb-16 text-center">{t('title')}</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E6E6E6] mb-4 sm:mb-12 md:mb-16 text-center capitalize">Plans & Pricing</h1>
         )}
         
         {/* 内容容器 */}
@@ -375,7 +261,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                   onClick={() => handleBillingPeriodChange('monthly')}
                 >
                   <div className={`text-xs sm:text-sm font-bold ${billingPeriod === 'monthly' ? 'text-[#FF5C07]' : 'text-[#6B7280]'}`}>
-                    {t('billing.monthly')}
+                    Monthly
                   </div>
                 </div>
                 <div 
@@ -385,33 +271,42 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                   onClick={() => handleBillingPeriodChange('yearly')}
                 >
                   <div className={`text-xs sm:text-sm ${billingPeriod === 'yearly' ? 'text-[#FF5C07] font-bold' : 'text-[#6B7280] font-medium'}`}>
-                    {t('billing.yearly')} {t('billing.discount')}
+                    Yearly
                   </div>
                 </div>
               </div>
               
-              {/* Pricing Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 justify-items-center mb-8 sm:mb-12 md:mb-16 w-full max-w-[1450px]">
-                {Object.entries(planConfigs).map(([planKey, plan]) => (
-                  <PricingCard
-                    key={planKey}
-                    title={planKey}
-                    price={planKey === 'Free' ? t('plans.free.title') : billingPeriod === 'monthly' ? plan.monthly.price.toFixed(2) : plan.yearly.monthlyPrice.toFixed(2)}
-                    priceNote={billingPeriod === 'yearly' && planKey !== 'Free' ? `$${plan[billingPeriod].price.toFixed(2)}/ ${t('billing.yearly')}` : undefined}
-                    popular={planKey === 'Pro'}
-                    features={getFeatures(planKey)}
-                    onBuyClick={() => handleBuyClick(planKey)}
-                  />
-                ))}
+              {/* Pricing Cards - 3 cards layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 justify-items-center mb-8 sm:mb-12 md:mb-16 w-full max-w-[1170px]">
+                {Object.entries(planConfigs).map(([planKey, plan]) => {
+                  const isLite = planKey === 'Lite';
+                  return (
+                    <PricingCard
+                      key={planKey}
+                      title={planKey}
+                      price={planKey === 'Free' ? '0' : billingPeriod === 'monthly' ? plan.monthly.price.toString() : plan.yearly.monthlyPrice.toString()}
+                      priceNote={billingPeriod === 'yearly' && planKey !== 'Free' ? `For first time，then $${plan.monthly.price}/month` : undefined}
+                      popular={isLite}
+                      features={getFeatures(planKey)}
+                      onBuyClick={() => handleBuyClick(planKey)}
+                    />
+                  );
+                })}
               </div>
               
                 {/* Payment Methods */}
-                <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-                  <div className="text-[#6B7280] text-xs sm:text-sm mb-2 sm:mb-0">{t('security.title')}</div>
-                  <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center">
-                    <img src={protectIcon} alt="Secure" className="h-4 sm:h-6" />
-                    <div className="text-[#6B7280] text-xs sm:text-sm">{t('security.description')}</div>
+                <div className="flex flex-col sm:flex-row items-center gap-4 mt-8">
+                  <div className="text-[#C8C8C8] text-sm">Secure Payment:</div>
+                  <div className="flex items-center gap-3 flex-wrap justify-center">
+                    {/* Payment provider icons */}
+                    <div className="w-[101px] h-6 bg-gray-300 rounded"></div>
+                    <div className="w-[42px] h-6 bg-gray-300 rounded"></div>
+                    <div className="w-[64px] h-6 bg-gray-300 rounded"></div>
+                    <div className="w-9 h-6 bg-gray-300 rounded"></div>
+                    <div className="w-[39px] h-6 bg-gray-300 rounded"></div>
+                    <div className="w-[34px] h-6 bg-gray-300 rounded"></div>
                   </div>
+                  <div className="text-[#ECECEC] text-sm cursor-pointer hover:text-[#98FF59] transition-colors">More &gt;&gt;</div>
                 </div>
               </div>
             </div>

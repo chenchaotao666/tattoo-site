@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../components/layout/Layout';
-import PricingSection from '../components/common/PricingSection';
+import PricingSection from '../components/price/PricingSection';
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 

@@ -54,7 +54,7 @@ CREATE TABLE categories (
   id VARCHAR(36) PRIMARY KEY,
   name JSON,                            -- 多语言显示名称 { "en": "Animals", "zh": "动物" }
   description JSON,                             -- 多语言描述 { "en": "description", "zh": "描述" }
-  slug VARCHAR(255) NOT NULL UNIQUE,          -- URL友好的slug
+  slug VARCHAR(255) NOT NULL UNIQUE,          -- URL友好的slug，name的小写，用_链接单词
   imageId VARCHAR(36),                         -- 封面的图片
   hotness INT DEFAULT 0,                        -- 热度值，范围 0-1000
   seoTitle JSON,                              -- 多语言SEO标题 {"en": "SEO Title", "zh": "SEO标题"}

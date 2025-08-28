@@ -11,6 +11,77 @@ class CategoryService extends BaseService {
         super(categoryModel);
     }
 
+    // 重写 getAll 方法，包含图片信息
+    async getAll(query = {}) {
+        try {
+            const pagination = this.normalizePaginationParams(query);
+            const sort = this.normalizeSortParams(query);
+            
+            // 默认按 hotness 降序排序
+            const sortBy = sort.sortBy || 'hotness';
+            const sortOrder = sort.sortOrder || 'DESC';
+            
+            const options = { ...pagination, sortBy, sortOrder };
+            
+            // 使用包含图片信息的查询
+            return await this.getCategoriesWithImageInfo(options);
+        } catch (error) {
+            throw new Error(`Get all categories failed: ${error.message}`);
+        }
+    }
+
+    // 获取分类及其关联的图片信息
+    async getCategoriesWithImageInfo(options = {}) {
+        try {
+            const { currentPage, pageSize, sortBy = 'hotness', sortOrder = 'DESC' } = options;
+
+            // 构建包含图片信息的查询
+            let baseQuery = `
+                SELECT 
+                    c.*,
+                    i.tattooUrl,
+                    i.scourceUrl as sourceUrl,
+                    COUNT(DISTINCT ci.id) as imageCount,
+                    COUNT(DISTINCT CASE WHEN ci.isOnline = 1 THEN ci.id END) as onlineImageCount
+                FROM categories c
+                LEFT JOIN images i ON c.imageId = i.id
+                LEFT JOIN images ci ON c.id = ci.categoryId
+                GROUP BY c.id, i.id
+            `;
+
+            // 添加排序 - 使用c.前缀确保排序字段来自categories表
+            if (sortBy && sortOrder) {
+                const sortField = sortBy === 'hotness' ? 'c.hotness' : `c.${sortBy}`;
+                baseQuery += ` ORDER BY ${sortField} ${sortOrder}`;
+            }
+
+            // 获取总数
+            const countQuery = `SELECT COUNT(*) as total FROM categories`;
+            const [countResult] = await this.model.db.execute(countQuery);
+            const total = countResult[0].total;
+
+            // 添加分页
+            if (currentPage && pageSize) {
+                const offset = (currentPage - 1) * pageSize;
+                baseQuery += ` LIMIT ${pageSize} OFFSET ${offset}`;
+            }
+
+            const [rows] = await this.model.db.execute(baseQuery);
+
+            return {
+                data: rows,
+                pagination: {
+                    currentPage: parseInt(currentPage) || 1,
+                    pageSize: parseInt(pageSize) || rows.length,
+                    total,
+                    totalPages: pageSize ? Math.ceil(total / pageSize) : 1
+                }
+            };
+        } catch (error) {
+            throw new Error(`Get categories with image info failed: ${error.message}`);
+        }
+    }
+
     // 根据slug获取分类
     async getBySlug(slug) {
         try {

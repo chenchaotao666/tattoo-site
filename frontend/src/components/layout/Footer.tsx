@@ -65,22 +65,22 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
       {
         title: t('categories.popularColoringPages'),
         links: categories.slice(0, 7).map(category => ({
-          label: getLocalizedText(category.displayName, language) || category.name,
-          url: `/categories/${category.categoryId}`
+          label: getLocalizedText(category.id, language) || category.name,
+          url: `/categories/${category.id}`
         }))
       },
       {
         title: '',
         links: categories.slice(7, 14).map(category => ({
-          label: getLocalizedText(category.displayName, language) || category.name,
-          url: `/categories/${category.categoryId}`
+          label: getLocalizedText(category.name, language) || category.name,
+          url: `/categories/${category.id}`
         }))
       },
       {
         title: '',
         links: categories.slice(14, 21).map(category => ({
-          label: getLocalizedText(category.displayName, language) || category.name,
-          url: `/categories/${category.categoryId}`
+          label: getLocalizedText(category.name, language) || category.name,
+          url: `/categories/${category.id}`
         }))
       }
     ] : [

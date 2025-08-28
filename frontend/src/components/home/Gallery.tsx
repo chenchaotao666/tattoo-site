@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../ui/button';
 import { Category } from '../../services/categoriesService';
-import CategoryGrid from '../layout/CategoryGrid';
+import CategoryGrid from '../categories/CategoryGrid';
 import { useAsyncTranslation } from '../../contexts/LanguageContext';
 import { useCategories } from '../../contexts/CategoriesContext';
 import { getCategoryNameById } from '../../utils/categoryUtils';

@@ -6,6 +6,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useAsyncTranslation } from '../../contexts/LanguageContext';
 import PaypalPayment from './PaypalPayment';
 import PricingCard from './PricingCard';
+import { colors } from '../../styles/colors';
 
 const arrowRightIcon = '/images/arrow-right-outline.svg';
 
@@ -306,7 +307,17 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                     <div className="w-[39px] h-6 bg-gray-300 rounded"></div>
                     <div className="w-[34px] h-6 bg-gray-300 rounded"></div>
                   </div>
-                  <div className="text-[#ECECEC] text-sm cursor-pointer hover:text-[#98FF59] transition-colors">More &gt;&gt;</div>
+                  <div 
+                    className="text-[#ECECEC] text-sm cursor-pointer transition-colors"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = colors.special.highlight;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#ECECEC';
+                    }}
+                  >
+                    More &gt;&gt;
+                  </div>
                 </div>
               </div>
             </div>

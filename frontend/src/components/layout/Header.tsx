@@ -217,10 +217,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
     
     return {
       title: navT('categories.popularColoringPages', 'Popular Coloring Pages'),
-      categories: displayCategories.map((category: Category) => ({
-        label: getLocalizedText(category.displayName, language) || category.name,
-        category: category // 传递完整的分类对象
-      }))
+      categories: displayCategories
     };
   };
 
@@ -314,12 +311,12 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
                                 <li key={categoryIndex}>
                                   <button 
                                     onClick={() => {
-                                      handleCategoryClick(categoryItem.category, navigate);
+                                      handleCategoryClick(categoryItem, navigate);
                                       setIsCategoriesDropdownOpen(false);
                                     }}
                                     className="block w-full text-left py-2 px-3 -mx-3 text-gray-500 hover:text-orange-600 hover:bg-gray-50 transition-colors duration-200 text-sm rounded-md"
                                   >
-                                    {categoryItem.label}
+                                    {getLocalizedText(categoryItem.name)}
                                   </button>
                                 </li>
                               ))}

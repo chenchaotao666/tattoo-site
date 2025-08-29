@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Category } from '../../services/categoriesService';
 import CategoryCard from '../categories/CategoryCard';
+import { navigateWithLanguage } from '../../utils/navigationUtils';
 
 interface CategoryGridProps {
   categories: Category[];
@@ -21,6 +23,8 @@ interface CategoryGridProps {
     tablet: number;
     mobile: number;
   };
+  showNameAndButton?: boolean;
+  showMore?: boolean;
 }
 
 const CategoryGrid: React.FC<CategoryGridProps> = ({
@@ -29,8 +33,15 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
   emptyState,
   onCategoryClick,
   className = '',
-  maxColumns = { desktop: 4, tablet: 3, mobile: 2 }
+  maxColumns = { desktop: 4, tablet: 3, mobile: 2 },
+  showNameAndButton = true,
+  showMore = false
 }) => {
+  const navigate = useNavigate();
+
+  const handleShowMoreClick = () => {
+    navigateWithLanguage(navigate, '/categories');
+  };
   if (isLoading) {
     return (
       <div className={`w-full ${className}`}>
@@ -80,46 +91,67 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
   };
 
   return (
-    <div className={`w-full ${className}`} data-category-grid-version="v1.0">
-      {/* 网格布局 - 桌面端 */}
+    <div className={`w-full bg-black ${className}`} data-category-grid-version="v1.0">
+      {/* 网格布局 */}
       <div className="hidden lg:block">
-        <div className="grid grid-cols-4 gap-6 justify-center max-w-fit mx-auto">
-          {categories.map((category, index) => (
-            <div key={`${category.id}-desktop-${index}`}>
-              <CategoryCard
-                category={category}
-                onCategoryClick={handleCategoryClick}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      {/* 网格布局 - 平板端 */}
-      <div className="hidden md:block lg:hidden">
-        <div className="grid grid-cols-3 gap-4 justify-center max-w-fit mx-auto">
-          {categories.map((category, index) => (
-            <div key={`${category.id}-tablet-${index}`}>
-              <CategoryCard
-                category={category}
-                onCategoryClick={handleCategoryClick}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-      
-      {/* 网格布局 - 移动端 */}
-      <div className="md:hidden">
-        <div className="grid grid-cols-2 gap-3 justify-center max-w-fit mx-auto px-2">
-          {categories.map((category, index) => (
-            <div key={`${category.id}-mobile-${index}`}>
-              <CategoryCard
-                category={category}
-                onCategoryClick={handleCategoryClick}
-              />
-            </div>
-          ))}
+        <div className="relative">
+          <div className="grid grid-cols-4 gap-6 justify-center max-w-fit mx-auto">
+            {categories.map((category, index) => (
+              <div key={`${category.id}-desktop-${index}`}>
+                <CategoryCard
+                  category={category}
+                  onCategoryClick={handleCategoryClick}
+                  showNameAndButton={showNameAndButton}
+                />
+              </div>
+            ))}
+          </div>
+          
+          {/* U型渐变层和按钮 - 桌面端 */}
+          {showMore && (
+            <>
+              {/* 渐变背景 */}
+              <div 
+                className="absolute bottom-0 left-0 right-0 pointer-events-none z-20"
+                style={{ 
+                  height: '200px',
+                  background: 'linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 20%, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.2) 80%, transparent 100%)'
+                }}
+              ></div>
+              
+              {/* See more 按钮 */}
+              <div 
+                onClick={handleShowMoreClick}
+                className="cursor-pointer absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
+                style={{
+                  height: '60px',
+                  paddingLeft: '32px',
+                  paddingRight: '32px',
+                  paddingTop: '18px',
+                  paddingBottom: '18px',
+                  background: 'rgba(3, 4, 20, 0.20)',
+                  borderRadius: '62px',
+                  outline: '1px #ECECEC solid',
+                  outlineOffset: '-1px',
+                  backdropFilter: 'blur(2px)',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: '30px',
+                  display: 'inline-flex'
+                }}
+              >
+                <div style={{
+                  color: '#ECECEC',
+                  fontSize: '20px',
+                  fontFamily: 'Roboto',
+                  fontWeight: 500,
+                  wordWrap: 'break-word'
+                }}>
+                  See more Tattoos
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>

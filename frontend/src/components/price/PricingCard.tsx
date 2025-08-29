@@ -1,3 +1,5 @@
+import { colors } from '../../styles/colors';
+
 const protectIcon = '/images/protect.svg';
 
 interface FeatureItemProps {
@@ -9,7 +11,7 @@ const FeatureItem = ({ text, highlighted = false }: FeatureItemProps) => (
   <div className="flex items-center gap-2 mb-2">
     <div className="w-4 h-4 flex items-center justify-center">
       <svg width="13" height="9" viewBox="0 0 13 9" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M1.66675 4.5L4.66675 7.5L11.3334 1.5" stroke="#98FF59" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M1.66675 4.5L4.66675 7.5L11.3334 1.5" stroke={colors.special.highlight} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
     </div>
     <div className={`text-sm leading-6 ${highlighted ? "text-[#ECECEC] font-bold" : "text-[#C8C8C8]"}`}>
@@ -38,7 +40,7 @@ const PricingCard = ({
   return (
     <div
       className={`w-full max-w-[376px] h-[500px] p-8 bg-[#131317] rounded-2xl relative overflow-hidden transition-all duration-200 border-2 ${
-        popular ? 'border-[#98FF59]' : 'border-[#26262D]'
+        popular ? `border-[${colors.special.highlight}]` : 'border-[#26262D]'
       } hover:shadow-lg`}
     >
       {popular && (
@@ -61,7 +63,7 @@ const PricingCard = ({
           {title !== 'Free' && (
             <div className="flex justify-center items-center gap-2">
               <img src={protectIcon} alt="Protect" className="w-3 h-3" />
-              <div className="text-[#98FF59] text-sm">Cancel anytime</div>
+              <div className="text-sm" style={{ color: colors.special.highlight }}>Cancel anytime</div>
             </div>
           )}
         </div>
@@ -70,7 +72,8 @@ const PricingCard = ({
         <div className="mb-6">
           {popular ? (
             <button 
-              className="w-full h-[60px] bg-[#98FF59] text-black text-xl font-bold rounded-lg hover:bg-[#7DD149] transition-colors"
+              className="w-full h-[60px] text-black text-xl font-bold rounded-lg hover:bg-[#7DD149] transition-colors"
+              style={{ backgroundColor: colors.special.highlight }}
               onClick={() => {
                 if (onBuyClick) onBuyClick();
               }}

@@ -648,15 +648,13 @@ const CategoriesDetailPage: React.FC = () => {
       <Layout>
         <div className="w-full bg-[#F9FAFB] pb-16 md:pb-[120px]">
           {/* Breadcrumb - 即使出错也显示 */}
-          <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1380px]">
-            <Breadcrumb
-              items={[
-                { label: t('breadcrumb.home'), path: '/' },
-                { label: t('breadcrumb.categories'), path: '/categories' },
-                { label: t('detail.notFound.title'), current: true }
-              ]}
-            />
-          </div>
+          <Breadcrumb
+            items={[
+              { label: t('breadcrumb.home'), path: '/' },
+              { label: t('breadcrumb.categories'), path: '/categories' },
+              { label: t('detail.notFound.title'), current: true }
+            ]}
+          />
 
           <div className="container mx-auto px-4">
             <div className="flex flex-col items-center justify-center py-16">
@@ -689,9 +687,7 @@ const CategoriesDetailPage: React.FC = () => {
       />
       <div className="w-full bg-[#F9FAFB] pb-4 md:pb-20 relative">
         {/* Breadcrumb - 始终显示 */}
-        <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1380px]">
-          <Breadcrumb items={getBreadcrumbPathEarly()} />
-        </div>
+        <Breadcrumb items={getBreadcrumbPathEarly()} />
 
         <div className="container mx-auto px-4 max-w-[1380px]">
           {isCategoryLoading ? (

@@ -5,6 +5,7 @@ import { getLocalizedText } from '../../utils/textUtils';
 import { Style } from '../../hooks/useGeneratePage';
 import Tooltip from '../ui/Tooltip';
 import StyleSelector from './StyleSelector';
+import { colors } from '../../styles/colors';
 
 // 图标路径定义
 const refreshIcon = '/images/generate/refresh-ideas.png';
@@ -165,8 +166,14 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
         <div className="lg:mx-5 mt-6 lg:mt-10 relative style-selector-container">
           <div className="text-sm font-bold text-[#ECECEC] mb-2">Style</div>
           <div 
-            className="bg-[#26262D] rounded-lg border border-[#393B42] p-3 relative cursor-pointer hover:border-[#98FF59] transition-colors" 
-            style={{height: '70px'}}
+            className="bg-[#26262D] rounded-lg border border-[#393B42] p-3 relative cursor-pointer transition-colors"
+            style={{ height: '70px' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = colors.special.highlight;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = '#393B42';
+            }}
             onClick={() => setShowStyleSelector(!showStyleSelector)}
           >
             <div className="flex items-center gap-3 h-full">
@@ -338,8 +345,9 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
           className={`w-full h-12 rounded-lg flex items-center justify-center gap-2 transition-colors ${
             isGenerating
               ? 'bg-[#F2F3F5] text-[#A4A4A4] cursor-not-allowed'
-              : 'bg-[#98FF59] text-black hover:bg-[#8AE84F]'
-          }`}
+              : 'text-black hover:bg-[#8AE84F]'
+            } ${!isGenerating ? '' : 'opacity-50'}`}
+            style={!isGenerating && !inputError ? { backgroundColor: colors.special.highlight } : {}}
         >
           <img
             src={isGenerating

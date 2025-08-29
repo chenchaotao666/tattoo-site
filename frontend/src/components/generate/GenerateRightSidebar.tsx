@@ -4,6 +4,7 @@ import { getLocalizedText } from '../../utils/textUtils';
 import { getImageContainerSize } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import GenerateProgress from './GenerateProgress';
+import { colors } from '../../styles/colors';
 
 interface GenerateRightSidebarProps {
   images: HomeImage[];
@@ -89,7 +90,7 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
       ></div>
       {/* 生成中的 loading */}
       {isGenerating && (
-        <div className="mb-4 flex items-center justify-center border-2 border-[#98FF59] rounded-lg p-4 bg-[#26262D] shadow-lg">
+        <div className="mb-4 flex items-center justify-center border-2 rounded-lg p-4 bg-[#26262D] shadow-lg" style={{ borderColor: colors.special.highlight }}>
           <GenerateProgress
             progress={generationProgress}
             size="small"
@@ -109,9 +110,12 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
             <div
               key={image.id}
               className={`${isLastImage ? 'mb-12' : 'mb-4'} rounded-lg cursor-pointer relative transition-all border-2 ${
-                isSelected ? 'border-[#98FF59] shadow-lg' : 'border-transparent hover:border-gray-200'
+                isSelected ? 'shadow-lg' : 'border-transparent hover:border-gray-200'
               }`}
-              style={getImageContainerSize(image, dynamicImageDimensions, setDynamicImageDimensions)}
+              style={{
+                ...getImageContainerSize(image, dynamicImageDimensions, setDynamicImageDimensions),
+                ...(isSelected ? { borderColor: colors.special.highlight } : {})
+              }}
               onClick={() => onImageSelect(image.id)}
             >
               <img

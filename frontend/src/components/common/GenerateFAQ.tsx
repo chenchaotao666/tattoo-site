@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { colors } from '../../styles/colors';
 
 const expandDefaultIcon = '/images/expand-default.svg';
 const expandColorIcon = '/images/expand-color.svg';
@@ -29,7 +30,10 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen = false, onC
         className="flex justify-between items-center gap-4 cursor-pointer hover:bg-[#2A2A30] transition-colors duration-200 -mx-5 -my-7 px-5 py-7 rounded-2xl"
         onClick={onClick}
       >
-        <div className={`${isOpen ? 'text-[#98FF59]' : 'text-[#ECECEC]'} text-xl font-bold leading-tight flex-1`}>
+        <div 
+          className="text-xl font-bold leading-tight flex-1"
+          style={{ color: isOpen ? colors.special.highlight : '#ECECEC' }}
+        >
           {question}
         </div>
         <img 

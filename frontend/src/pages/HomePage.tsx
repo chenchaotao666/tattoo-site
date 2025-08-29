@@ -1,6 +1,7 @@
 import Layout from '../components/layout/Layout';
 import HomeTop from '../components/home/HomeTop';
-import Gallery from '../components/home/Gallery';
+import CategoryGrid from '../components/categories/CategoryGrid';
+import { Button } from '../components/ui/button';
 import HowToCreate from '../components/common/HowToCreate';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
@@ -12,11 +13,24 @@ import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 import { ImageService } from '../services/imageService';
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Category } from '../services/categoriesService';
+import { useCategories } from '../contexts/CategoriesContext';
+import { getCategoryNameById } from '../utils/categoryUtils';
+import { navigateWithLanguage } from '../utils/navigationUtils';
 
 const HomePage = () => {
   const { loading, t } = useAsyncTranslation('home');
   const { t: tCommon } = useAsyncTranslation('common');
   const [imageCount, setImageCount] = useState<number>(0); // 默认值
+  const { categories, loading: isLoading } = useCategories(imageCount);
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (category: Category) => {
+    // 使用映射表获取SEO友好的名称
+    const categoryPath = getCategoryNameById(category.categoryId);
+    navigateWithLanguage(navigate, `/categories/${categoryPath}`);
+  };
 
   // FAQ 数据
   const homeFAQData: FAQData[] = [
@@ -173,8 +187,28 @@ const HomePage = () => {
           <div className="bg-black">
             <HomeTop tattooCount={imageCount}/>
           </div>
+          <div className="w-full bg-black pb-12 sm:pb-16 md:pb-20 lg:pb-[6rem] pt-12 sm:pt-16 md:pt-20 lg:pt-[6rem]">
+            <div className="container mx-auto px-4 sm:px-6">
+              <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-[48px] px-4 sm:px-0 max-w-[1200px] mx-auto">
+                <div className="text-center text-[#E6E6E6] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[46px] font-bold font-inter capitalize break-words">
+                  Draw inspiration from tattoo designs
+                </div>
+                <div className="max-w-[1100px] mx-auto mt-8 text-center text-[#A5A5A5] text-sm sm:text-base md:text-lg font-inter font-normal break-words">
+                  Discover what Tattooink.ai can create for you. Each design is uniquely crafted for our users based on their ideas.
+                </div>
+              </div>
+              
+              <CategoryGrid 
+                categories={categories}
+                isLoading={isLoading}
+                onCategoryClick={handleCategoryClick}
+                maxColumns={{ desktop: 4, tablet: 3, mobile: 2 }}
+                showNameAndButton={false}
+                showMore={true}
+              />
+            </div>
+          </div>
           <TattooIntroduction data={tattooIntroductionData} />
-          <Gallery imageCount={imageCount} />
           <div className="bg-black flex justify-center py-16 lg:py-20">
             <CreateOnGo data={createOnGoData} />
           </div>

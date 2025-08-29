@@ -1,4 +1,5 @@
 import React from 'react';
+import { colors } from '../../styles/colors';
 
 interface ConfirmDialogProps {
   isOpen: boolean;
@@ -75,7 +76,8 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         {/* 确认按钮 */}
         <button
           onClick={handleConfirm}
-          className="absolute left-[340px] top-[112px] w-[120px] h-[48px] rounded-lg bg-[#98FF59] text-black text-lg font-bold hover:bg-[#87E548] transition-colors flex items-center justify-center"
+          className="absolute left-[340px] top-[112px] w-[120px] h-[48px] rounded-lg text-black text-lg font-bold hover:bg-[#87E548] transition-colors flex items-center justify-center"
+          style={{ backgroundColor: colors.special.highlight }}
         >
           {confirmText}
         </button>

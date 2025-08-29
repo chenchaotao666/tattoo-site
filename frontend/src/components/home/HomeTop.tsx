@@ -1,5 +1,6 @@
 import React from 'react';
 import GenerateTextarea from '../common/GenerateTextarea';
+import { colors } from '../../styles/colors';
 
 interface HomeTopProps {
   className?: string;
@@ -25,7 +26,7 @@ const HomeTop: React.FC<HomeTopProps> = ({
         <div 
           className="text-[56px] font-['Roboto'] font-bold capitalize"
           style={{
-            background: 'linear-gradient(90deg, #59FFD0 0%, #98FF59 100%)',
+            background: colors.gradient.primary,
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'

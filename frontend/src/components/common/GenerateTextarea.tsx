@@ -5,14 +5,36 @@ import { STYLE_SUGGESTIONS, getRandomSuggestions } from '../../utils/ideaSuggest
 import { getLocalizedText } from '../../utils/textUtils';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 import { Style } from '../../hooks/useGeneratePage';
+import { colors } from '../../styles/colors';
+
+// Fallback colors in case import fails
+const fallbackColors = {
+  gradient: {
+    primary: 'linear-gradient(90deg, #59FFD0 0%, #98FF59 100%)',
+    primaryGlow: 'linear-gradient(90deg, rgba(89, 255, 207, 0.40) 0%, rgba(152, 255, 89, 0.40) 100%)'
+  },
+  special: {
+    highlight: '#98FF59'
+  }
+};
+
+const safeColors = colors || fallbackColors;
 
 interface GenerateTextareaProps {
   onGenerate?: () => void;
   className?: string;
   onStyleChange?: (style: Style | null) => void;
+  showBorderGradient?: boolean;
+  showDescriptionLabel?: boolean;
 }
 
-const GenerateTextarea = ({ onGenerate, className = "", onStyleChange }: GenerateTextareaProps) => {
+const GenerateTextarea = ({ 
+  onGenerate, 
+  className = "", 
+  onStyleChange,
+  showBorderGradient = true,
+  showDescriptionLabel = true
+}: GenerateTextareaProps) => {
   const [inputValue, setInputValue] = useState('');
   const [selectedQuantity, setSelectedQuantity] = useState(1); // 1 or 4 outputs
   const [selectedColor, setSelectedColor] = useState(true); // true for colorful, false for black & white
@@ -115,40 +137,47 @@ const GenerateTextarea = ({ onGenerate, className = "", onStyleChange }: Generat
     <div className={`w-full max-w-[1170px] ${className}`}>
       {/* Main Input Area */}
       <div 
-        className="w-full h-[252px] rounded-2xl p-[1px] relative"
+        className={`w-full ${!showBorderGradient ? 'h-[160px]' : 'h-[252px]'} ${!showBorderGradient ? 'rounded-lg' : 'rounded-2xl'} ${showBorderGradient ? 'p-[1px]' : ''} relative`}
         style={{
-          background: 'linear-gradient(90deg, #59FFD0 0%, #98FF59 100%)',
-          boxShadow: '0 0 30px 8px rgba(89, 255, 207, 0.15), 0 0 60px 12px rgba(152, 255, 89, 0.1)'
+          background: showBorderGradient ? (safeColors.gradient?.primary || 'linear-gradient(90deg, #59FFD0 0%, #98FF59 100%)') : 'transparent',
+          boxShadow: showBorderGradient ? '0 0 30px 8px rgba(89, 255, 207, 0.15), 0 0 60px 12px rgba(152, 255, 89, 0.1)' : 'none'
         }}
       >
         {/* Inner content area */}
-        <div className="w-full h-full bg-[#19191F] rounded-2xl p-6 relative">
+        <div 
+          className={`w-full h-full bg-[#19191F] ${!showBorderGradient ? 'rounded-lg border border-[#393B42]' : 'rounded-2xl'} ${!showBorderGradient ? 'p-4' : 'p-6'} relative`}
+          style={!showBorderGradient ? { backdropFilter: 'blur(2px)' } : {}}
+        >
           {/* Background gradient glow */}
-          <div 
-            className="absolute inset-0 rounded-2xl -z-10"
-            style={{
-              background: 'linear-gradient(90deg, rgba(89, 255, 207, 0.40) 0%, rgba(152, 255, 89, 0.40) 100%)',
-              filter: 'blur(20px)'
-            }}
-          ></div>
+          {showBorderGradient && (
+            <div 
+              className="absolute inset-0 rounded-2xl -z-10"
+              style={{
+                background: safeColors.gradient?.primaryGlow || 'linear-gradient(90deg, rgba(89, 255, 207, 0.40) 0%, rgba(152, 255, 89, 0.40) 100%)',
+                filter: 'blur(20px)'
+              }}
+            ></div>
+          )}
         
           {/* Description Label */}
-          <div className="text-[#C8C8C8] text-sm font-['Inter'] font-normal leading-[18px] mb-2">
-            Description prompt
-          </div>
+          {showDescriptionLabel && (
+            <div className="text-[#C8C8C8] text-sm font-['Inter'] font-normal leading-[18px] mb-2">
+              Description prompt
+            </div>
+          )}
           
           {/* Input Field */}
-          <div className="relative mb-4">
+          <div className={`relative ${!showBorderGradient ? 'mb-2' : 'mb-4'}`}>
             <textarea
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="w-full h-28 bg-transparent text-white text-xl font-['Inter'] font-medium leading-[30px] resize-none focus:outline-none placeholder-[#818181]"
+              className={`w-full ${!showBorderGradient ? 'h-16' : 'h-28'} bg-transparent text-white ${!showBorderGradient ? 'text-sm' : 'text-xl'} font-['Inter'] font-medium ${!showBorderGradient ? 'leading-[20px]' : 'leading-[30px]'} resize-none focus:outline-none placeholder-[#818181]`}
               placeholder="What do you want to create?"
             />
           </div>
 
           {/* Options Row - Combined in one line */}
-          <div className="flex items-center justify-between">
+          <div className={`flex items-center justify-between ${!showBorderGradient ? 'absolute bottom-4 left-4 right-4' : ''}`}>
             {/* Options - Left side */}
             <div className="flex items-center gap-3 flex-wrap">
               <div 
@@ -352,9 +381,15 @@ const GenerateTextarea = ({ onGenerate, className = "", onStyleChange }: Generat
             <div className="flex items-center gap-3 flex-wrap">
               <button 
                 onClick={handleGenerateClick}
-                className="w-[120px] h-10 bg-[#98FF59] rounded-lg flex items-center justify-center gap-1"
+                className={`${!showBorderGradient ? 'px-6 py-2' : 'w-[120px]'} h-10 rounded-lg flex items-center justify-center gap-1`}
+                style={{
+                  backgroundColor: safeColors.special?.highlight || '#98FF59',
+                  ...(!showBorderGradient ? { backdropFilter: 'blur(2px)' } : {})
+                }}
               >
-                <span className="text-black text-base font-['Inter'] font-bold">Generate</span>
+                <span className={`text-black ${!showBorderGradient ? 'text-base' : 'text-base'} font-['Inter'] font-bold`}>
+                  {!showBorderGradient ? 'Create' : 'Generate'}
+                </span>
               </button>
             </div>
           </div>

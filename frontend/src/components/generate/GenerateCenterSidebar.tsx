@@ -6,6 +6,7 @@ import { getImageContainerSize } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import MoreMenu from './MoreMenu';
+import { colors } from '../../styles/colors';
 
 // 图标导入
 const generateFailIcon = '/images/generate-fail.svg';
@@ -211,9 +212,30 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                           style={{ width: '48px', height: '48px' }}
                         >
                           <div className="w-6 h-6 relative overflow-hidden">
-                            <div className={`w-1 h-1 absolute rounded-full ${showMoreMenu ? 'bg-[#98FF59]' : 'bg-[#ECECEC]'}`} style={{ left: '10px', top: '10px' }} />
-                            <div className={`w-1 h-1 absolute rounded-full ${showMoreMenu ? 'bg-[#98FF59]' : 'bg-[#ECECEC]'}`} style={{ left: '18px', top: '10px' }} />
-                            <div className={`w-1 h-1 absolute rounded-full ${showMoreMenu ? 'bg-[#98FF59]' : 'bg-[#ECECEC]'}`} style={{ left: '2px', top: '10px' }} />
+                            <div 
+                              className="w-1 h-1 absolute rounded-full" 
+                              style={{ 
+                                left: '10px', 
+                                top: '10px',
+                                backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
+                              }} 
+                            />
+                            <div 
+                              className="w-1 h-1 absolute rounded-full" 
+                              style={{ 
+                                left: '18px', 
+                                top: '10px',
+                                backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
+                              }} 
+                            />
+                            <div 
+                              className="w-1 h-1 absolute rounded-full" 
+                              style={{ 
+                                left: '2px', 
+                                top: '10px',
+                                backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
+                              }} 
+                            />
                           </div>
                         </button>
                         
@@ -254,9 +276,30 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                             style={{ width: '48px', height: '48px' }}
                           >
                             <div className="w-6 h-6 relative overflow-hidden">
-                              <div className={`w-1 h-1 absolute rounded-full ${showMoreMenu ? 'bg-[#98FF59]' : 'bg-[#ECECEC]'}`} style={{ left: '10px', top: '10px' }} />
-                              <div className={`w-1 h-1 absolute rounded-full ${showMoreMenu ? 'bg-[#98FF59]' : 'bg-[#ECECEC]'}`} style={{ left: '18px', top: '10px' }} />
-                              <div className={`w-1 h-1 absolute rounded-full ${showMoreMenu ? 'bg-[#98FF59]' : 'bg-[#ECECEC]'}`} style={{ left: '2px', top: '10px' }} />
+                              <div 
+                                className="w-1 h-1 absolute rounded-full" 
+                                style={{ 
+                                  left: '10px', 
+                                  top: '10px',
+                                  backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
+                                }} 
+                              />
+                              <div 
+                                className="w-1 h-1 absolute rounded-full" 
+                                style={{ 
+                                  left: '18px', 
+                                  top: '10px',
+                                  backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
+                                }} 
+                              />
+                              <div 
+                                className="w-1 h-1 absolute rounded-full" 
+                                style={{ 
+                                  left: '2px', 
+                                  top: '10px',
+                                  backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
+                                }} 
+                              />
                             </div>
                           </button>
                           

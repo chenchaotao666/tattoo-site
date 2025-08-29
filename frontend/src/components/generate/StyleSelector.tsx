@@ -2,6 +2,7 @@ import React from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import { Style } from '../../hooks/useGeneratePage';
+import { colors } from '../../styles/colors';
 
 interface StyleSelectorProps {
   styles: Style[];
@@ -81,8 +82,12 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({
           <div className="grid grid-cols-4 gap-5">
             {/* NO Style - Always first */}
             <div 
-              className={`relative w-[200px] h-[242px] cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg mb-8 ${!selectedStyle ? 'ring-2 ring-[#98FF59]' : ''}`}
-              style={{ background: '#26262D', borderRadius: '12px' }}
+              className={`relative w-[200px] h-[242px] cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg mb-8 ${!selectedStyle ? 'ring-2' : ''}`}
+              style={{
+                background: '#26262D',
+                borderRadius: '12px',
+                ...(!selectedStyle ? { '--tw-ring-color': colors.special.highlight } as React.CSSProperties : {})
+              }}
               onClick={() => onStyleSelect(null)}
             >
               <div 
@@ -107,8 +112,12 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({
             {styles.map((style) => (
               <div 
                 key={style.id}
-                className={`relative w-[200px] h-[242px] cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg mb-8 ${selectedStyle?.id === style.id ? 'ring-2 ring-[#98FF59]' : ''}`}
-                style={{ background: '#26262D', borderRadius: '12px' }}
+                className={`relative w-[200px] h-[242px] cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-lg mb-8 ${selectedStyle?.id === style.id ? 'ring-2' : ''}`}
+                style={{
+                  background: '#26262D',
+                  borderRadius: '12px',
+                  ...(selectedStyle?.id === style.id ? { '--tw-ring-color': colors.special.highlight } as React.CSSProperties : {})
+                }}
                 onClick={() => onStyleSelect(style)}
               >
                 <img 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { colors } from '../../styles/colors';
 
 interface ImageSlide {
   url: string;
@@ -146,7 +147,7 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
                       bottom: '40px',
                       background: 'rgba(0, 0, 0, 0.20)',
                       borderRadius: '8px',
-                      border: '1px solid #98FF59',
+                      border: `1px solid ${colors.special.highlight}`,
                       backdropFilter: 'blur(5px)',
                       display: 'flex',
                       alignItems: 'center',
@@ -167,7 +168,7 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
                     {/* Prompt text */}
                     <div 
                       style={{
-                        color: '#98FF59',
+                        color: colors.special.highlight,
                         fontSize: '16px',
                         fontFamily: 'Inter',
                         fontWeight: '500',
@@ -212,9 +213,26 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
                     onClick={() => handleDotClick(index)}
                     className={`w-2 h-2 rounded-full transition-all duration-200 ${
                       index === currentImageIndex 
-                        ? 'bg-[#98FF59]' 
-                        : 'bg-[#DADADA] hover:bg-[#98FF59] hover:bg-opacity-50'
-                    }`}
+                        ? '' 
+                        : 'bg-[#DADADA]'
+                    } hover:bg-opacity-50`}
+                    style={{
+                      backgroundColor: index === currentImageIndex 
+                        ? colors.special.highlight
+                        : '#DADADA'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (index !== currentImageIndex) {
+                        e.currentTarget.style.backgroundColor = colors.special.highlight;
+                        e.currentTarget.style.opacity = '0.5';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (index !== currentImageIndex) {
+                        e.currentTarget.style.backgroundColor = '#DADADA';
+                        e.currentTarget.style.opacity = '1';
+                      }
+                    }}
                   />
                 ))}
               </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import { Category } from '../../services/categoriesService';
+import { colors } from '../../styles/colors';
 
 const logo = '/images/logo.svg';
 const socialIcon1 = '/images/Link → SVG-1.svg';
@@ -31,7 +32,13 @@ const FooterSection: React.FC<FooterSectionProps> = ({ title, links }) => {
           <Link 
             key={index} 
             to={link.url} 
-            className="text-[#A5A5A5] text-sm hover:text-[#98FF59] transition-colors duration-200"
+            className="text-[#A5A5A5] text-sm transition-colors duration-200"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = colors.special.highlight;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = '#A5A5A5';
+            }}
           >
             {link.label}
           </Link>
@@ -65,21 +72,21 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
       {
         title: t('categories.popularColoringPages'),
         links: categories.slice(0, 7).map(category => ({
-          label: getLocalizedText(category.id, language) || category.name,
+          label: getLocalizedText(category.name, language),
           url: `/categories/${category.id}`
         }))
       },
       {
         title: '',
         links: categories.slice(7, 14).map(category => ({
-          label: getLocalizedText(category.name, language) || category.name,
+          label: getLocalizedText(category.name, language),
           url: `/categories/${category.id}`
         }))
       },
       {
         title: '',
         links: categories.slice(14, 21).map(category => ({
-          label: getLocalizedText(category.name, language) || category.name,
+          label: getLocalizedText(category.name, language),
           url: `/categories/${category.id}`
         }))
       }
@@ -124,7 +131,13 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
               </span>
               <a 
                 href="mailto:congcong@mail.xinsulv.com" 
-                className="text-[#7ECBF7] text-sm underline leading-6 hover:text-[#98FF59] transition-colors duration-200"
+                className="text-[#7ECBF7] text-sm underline leading-6 transition-colors duration-200"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = colors.special.highlight;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#7ECBF7';
+                }}
               >
                 {t('footer.contact.email')}
               </a>
@@ -166,7 +179,13 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
               </span>
               <a 
                 href="mailto:congcong@mail.xinsulv.com" 
-                className="text-[#7ECBF7] text-sm underline leading-6 hover:text-[#98FF59] transition-colors duration-200"
+                className="text-[#7ECBF7] text-sm underline leading-6 transition-colors duration-200"
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = colors.special.highlight;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = '#7ECBF7';
+                }}
               >
                 {t('footer.contact.email')}
               </a>

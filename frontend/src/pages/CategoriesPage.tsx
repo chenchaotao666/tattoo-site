@@ -8,7 +8,7 @@ import { useAsyncTranslation } from '../contexts/LanguageContext';
 import { useCategories } from '../contexts/CategoriesContext';
 import SEOHead from '../components/common/SEOHead';
 import { handleCategoryClick } from '../utils/categoryUtils';
-import TryNow from '../components/common/TryNow';
+import GenerateTextarea from '../components/common/GenerateTextarea';
 const noResultIcon = '/images/no-result.svg';
 
 const CategoriesPage: React.FC = () => {
@@ -48,14 +48,12 @@ const CategoriesPage: React.FC = () => {
       />
       <div className="w-full bg-[#030414] pb-12 md:pb-[120px]">
         {/* Breadcrumb */}
-        <div className="container mx-auto px-4 py-6 lg:pt-10 lg:pb-8 max-w-[1380px]">
-          <Breadcrumb
-            items={[
-              { label: t('breadcrumb.home'), path: '/' },
-              { label: t('breadcrumb.categories'), current: true }
-            ]}
-          />
-        </div>
+        <Breadcrumb
+          items={[
+            { label: t('breadcrumb.home'), path: '/' },
+            { label: t('breadcrumb.categories'), current: true }
+          ]}
+        />
 
         {/* Page Title */}
         <div className="container mx-auto text-center mb-4 lg:mb-8">
@@ -82,15 +80,25 @@ const CategoriesPage: React.FC = () => {
             onCategoryClick={onCategoryClick}
           />
         </div>
-      </div>
 
-      {/* TryNow Section */}
-      <TryNow
-        title={t('tryNow.title')}
-        description={t('tryNow.description')}
-        buttonText={t('tryNow.buttonText')}
-        buttonLink="/text-coloring-page"
-      />
+        {/* Generate Section */}
+        <div className="container mx-auto px-4 mb-8 mt-24">
+          {/* Title */}
+          <div className="w-full text-center mb-12">
+            <h2 className="text-[#ECECEC] text-[46px] font-['Inter'] font-bold capitalize leading-none">
+              Try creating your own tattoo
+            </h2>
+          </div>
+          
+          {/* Generate Textarea */}
+          <div className="flex justify-center">
+            <GenerateTextarea 
+              showBorderGradient={false}
+              showDescriptionLabel={false}
+            />
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 };

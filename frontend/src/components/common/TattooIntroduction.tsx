@@ -1,4 +1,5 @@
 import React from 'react';
+import { colors } from '../../styles/colors';
 
 export interface TattooIntroductionSection {
   title: string;
@@ -44,7 +45,7 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
                 </div>
               </div>
               <div style={{ position: 'relative' }}>
-                <div style={{ width: '170px', height: '60px', background: '#98FF59', borderRadius: '8px' }}></div>
+                <div style={{ width: '170px', height: '60px', background: colors.special.highlight, borderRadius: '8px' }}></div>
                 <button 
                   onClick={data.sections[0]?.onButtonClick}
                   style={{ 
@@ -150,7 +151,7 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
                 </div>
               </div>
               <div style={{ position: 'relative' }}>
-                <div style={{ width: '170px', height: '60px', background: '#98FF59', borderRadius: '8px' }}></div>
+                <div style={{ width: '170px', height: '60px', background: colors.special.highlight, borderRadius: '8px' }}></div>
                 <button 
                   onClick={data.sections[1]?.onButtonClick}
                   style={{ 
@@ -191,7 +192,7 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
                 </div>
               </div>
               <div style={{ position: 'relative' }}>
-                <div style={{ width: '170px', height: '60px', background: '#98FF59', borderRadius: '8px' }}></div>
+                <div style={{ width: '170px', height: '60px', background: colors.special.highlight, borderRadius: '8px' }}></div>
                 <button 
                   onClick={data.sections[2]?.onButtonClick}
                   style={{ 

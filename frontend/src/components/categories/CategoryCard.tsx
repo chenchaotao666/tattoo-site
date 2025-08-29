@@ -2,23 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { Category } from '../../services/categoriesService';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
-import { useAsyncTranslation } from '../../contexts/LanguageContext';
+import { colors } from '../../styles/colors';
 
 interface CategoryCardProps {
   category: Category;
   onCategoryClick: (category: Category) => void;
+  showNameAndButton?: boolean;
 }
 
 const CategoryCard: React.FC<CategoryCardProps> = ({ 
   category, 
-  onCategoryClick, 
+  onCategoryClick,
+  showNameAndButton = true
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileShowColor, setMobileShowColor] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [buttonHovered, setButtonHovered] = useState(false);
   const { language } = useLanguage();
-  const { t } = useAsyncTranslation('categories');
 
   // 检测是否为移动端
   useEffect(() => {
@@ -57,11 +59,18 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
   return (
     <div 
-      className="w-[278px] h-[366px] relative"
+      className={`w-[278px] relative`}
+      style={{ height: showNameAndButton ? '366px' : '278px' }}
       onClick={handleClick}
     >
       {/* 背景容器 */}
-      <div className="w-[278px] h-[366px] absolute left-0 top-0 bg-[#19191F] rounded-2xl"></div>
+      <div 
+        className="w-[278px] absolute left-0 top-0 rounded-2xl" 
+        style={{ 
+          backgroundColor: showNameAndButton ? colors.background.secondary : 'transparent',
+          height: showNameAndButton ? '366px' : '278px'
+        }}
+      ></div>
       
       {/* 图片区域 */}
       <div 
@@ -125,18 +134,30 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       </div>
       
       {/* 标题 */}
-      <div className="w-[246px] absolute left-4 top-[294px] text-[#ECECEC] text-base font-bold leading-5 break-words">
-        {getLocalizedText(category.name, language)}
-      </div>
+      {showNameAndButton && (
+        <div className="w-[246px] absolute left-4 top-[294px] text-base font-bold leading-5 break-words" style={{ color: colors.text.secondary }}>
+          {getLocalizedText(category.name, language)}
+        </div>
+      )}
       
       {/* 底部按钮区域 */}
-      <div className="w-[278px] px-3 absolute left-0 top-[326px] flex justify-start items-center gap-2">
-        <div className="w-[254px] py-1.5 rounded border border-[#393B42] hover:border-green-400 flex justify-center items-center gap-1 transition-colors duration-200 cursor-pointer group">
-          <div className="text-[#A5A5A5] group-hover:text-green-400 text-sm font-normal leading-4 break-words transition-colors duration-200">
-            View all Tattoos
+      {showNameAndButton && (
+        <div className="w-[278px] px-3 absolute left-0 top-[326px] flex justify-start items-center gap-2">
+          <div 
+            className="w-[254px] py-1.5 rounded border flex justify-center items-center gap-1 transition-colors duration-200 cursor-pointer" 
+            style={{ borderColor: buttonHovered ? colors.special.highlight : colors.border.primary }}
+            onMouseEnter={() => setButtonHovered(true)} 
+            onMouseLeave={() => setButtonHovered(false)}
+          >
+            <div 
+              className="text-sm font-normal leading-4 break-words transition-colors duration-200" 
+              style={{ color: buttonHovered ? colors.special.highlight : colors.text.disabled }}
+            >
+              View all Tattoos
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -14,7 +14,7 @@ export interface Tag {
 }
 
 // 更新的图片接口 - 匹配后端数据库结构
-export interface HomeImage {
+export interface BaseImage {
   id: string;
   name: MultilingualText;                    // JSON 多语言字段
   slug: string;                              // URL友好的slug
@@ -42,19 +42,12 @@ export interface HomeImage {
   categoryName?: MultilingualText;
   categorySlug?: string;
   styleTitle?: MultilingualText;
-  authorName?: string;
   tags?: Tag[];                              // 关联的标签列表
-  
-  // 保持向后兼容的字段
-  ratio?: AspectRatio | '';
-  category?: string;                         // 废弃，使用categoryId
-  size?: string;
-  difficulty?: 'toddler' | 'children' | 'teen' | 'adult';
 }
 
 // 搜索结果接口
 export interface SearchResult {
-  images: HomeImage[];
+  images: BaseImage[];
   totalCount: number;
   hasMore: boolean;
   currentPage: number;
@@ -103,7 +96,7 @@ export class ImageService {
   /**
    * 处理图片对象，确保所有URL都是绝对路径
    */
-  private static processImageUrls(image: HomeImage): HomeImage {
+  private static processImageUrls(image: BaseImage): BaseImage {
     return UrlUtils.processObjectUrls(image, ['tattooUrl', 'scourceUrl', 'colorUrl', 'coloringUrl']);
   }
 
@@ -148,19 +141,31 @@ export class ImageService {
       if (sortBy) searchParams.append('sortBy', sortBy);
       if (sortOrder) searchParams.append('sortOrder', sortOrder);
 
-      const response = await ApiUtils.get<{images: HomeImage[], total: number}>(`/api/images?${searchParams.toString()}`);
+      const response = await ApiUtils.get<{
+        data?: BaseImage[], 
+        images?: BaseImage[], 
+        total?: number,
+        pagination?: {
+          currentPage: number,
+          pageSize: number,
+          total: number,
+          totalPages: number
+        }
+      }>(`/api/images?${searchParams.toString()}`);
       
-      // 处理服务器返回的格式: {images: [...], total: number}
-      const rawImages = response.images || [];
-      const totalCount = response.total || 0;
+      // 处理服务器返回的格式，支持新旧两种格式
+      // 新格式: {data: [...], pagination: {...}} (有分页时)
+      // 旧格式: {images: [...], total: number}
+      const rawImages = response.pagination ? response.data as BaseImage[] : (response as BaseImage[]);
+      const totalCount = response.pagination?.total || response.total || 0;
       
       // 处理图片URL，确保都是绝对路径
       const images = rawImages.map(image => this.processImageUrls(image));
       
-      // 计算分页信息
-      const safePageSize = pageSize || 20;
-      const safeCurrentPage = currentPage || 1;
-      const totalPages = Math.ceil(totalCount / safePageSize);
+      // 计算分页信息，优先使用后端返回的分页信息
+      const safePageSize = response.pagination?.pageSize || pageSize || 20;
+      const safeCurrentPage = response.pagination?.currentPage || currentPage || 1;
+      const totalPages = response.pagination?.totalPages || Math.ceil(totalCount / safePageSize);
       const hasMore = safeCurrentPage < totalPages;
       
       return {
@@ -185,7 +190,7 @@ export class ImageService {
   /**
    * 获取所有首页图片
    */
-  static async getAllImages(): Promise<HomeImage[]> {
+  static async getAllImages(): Promise<BaseImage[]> {
     try {
       const result = await this.searchImages({ pageSize: 100 });
       return result.images;
@@ -198,7 +203,7 @@ export class ImageService {
   /**
    * 根据ID获取单张图片
    */
-  static async getImageById(id: string): Promise<HomeImage | null> {
+  static async getImageById(id: string): Promise<BaseImage | null> {
     try {
       const result = await this.searchImages({ imageId: id });
       return result.images.length > 0 ? result.images[0] : null;
@@ -209,20 +214,13 @@ export class ImageService {
   }
 
   /**
-   * 模拟API请求获取所有首页图片
-   */
-  static async fetchAllHomeImages(): Promise<HomeImage[]> {
-    return this.getAllImages();
-  }
-
-  /**
    * 获取相关图片（基于分类ID）
    * @param categoryId 分类ID
    * @param currentImageId 当前图片ID，用于过滤掉自己
    * @param limit 返回图片数量限制，默认4张
    * @returns 相关图片数组
    */
-  static async getRelatedImages(categoryId: string, currentImageId: string, limit: number = 4): Promise<HomeImage[]> {
+  static async getRelatedImages(categoryId: string, currentImageId: string, limit: number = 4): Promise<BaseImage[]> {
     try {
       // 查询比需要的数量多一些，以防过滤掉自己后数量不够
       const result = await this.searchImages({ 
@@ -298,38 +296,6 @@ export class ImageService {
   }
 
   /**
-   * 按标签获取图片
-   * @param tags 标签字符串（逗号分隔）
-   * @param params 查询参数
-   * @returns Promise<SearchResult>
-   */
-  static async getImagesByTags(
-    tags: string, 
-    params: { currentPage?: number; pageSize?: number } = {}
-  ): Promise<SearchResult> {
-    return this.searchImages({
-      tags,
-      ...params
-    });
-  }
-
-  /**
-   * 获取用户创建的图片
-   * @param userId 用户ID
-   * @param params 查询参数
-   * @returns Promise<SearchResult>
-   */
-  static async getUserImages(
-    userId: string, 
-    params: { currentPage?: number; pageSize?: number; type?: 'text2image' | 'image2image' | 'image2coloring' } = {}
-  ): Promise<SearchResult> {
-    return this.searchImages({
-      userId,
-      ...params
-    });
-  }
-
-  /**
    * 📦 获取用户自己创建的图片（专用接口）
    * 接口地址：GET /api/images/userImg
    * 用户获取自己创建的图片时，调用这个接口
@@ -365,23 +331,35 @@ export class ImageService {
       if (pageSize) searchParams.append('pageSize', pageSize.toString());
 
       // 调用专用的用户图片接口，需要认证
-      const response = await ApiUtils.get<{images: HomeImage[], total: number}>(
+      const response = await ApiUtils.get<{
+        data?: BaseImage[], 
+        images?: BaseImage[], 
+        total?: number,
+        pagination?: {
+          currentPage: number,
+          pageSize: number,
+          total: number,
+          totalPages: number
+        }
+      }>(
         `/api/images/generated?${searchParams.toString()}`, 
         undefined, 
         true // 需要认证
       );
       
-      // 处理服务器返回的格式
-      const rawImages = response.images || [];
-      const totalCount = response.total || 0;
+      // 处理服务器返回的格式，支持新旧两种格式
+      // 新格式: {data: [...], pagination: {...}} (有分页时)
+      // 旧格式: {images: [...], total: number}
+      const rawImages = response.data || response.images || [];
+      const totalCount = response.pagination?.total || response.total || 0;
       
       // 处理图片URL，确保都是绝对路径
       const images = rawImages.map(image => this.processImageUrls(image));
       
-      // 计算分页信息
-      const safePageSize = pageSize || 20;
-      const safeCurrentPage = currentPage || 1;
-      const totalPages = Math.ceil(totalCount / safePageSize);
+      // 计算分页信息，优先使用后端返回的分页信息
+      const safePageSize = response.pagination?.pageSize || pageSize || 20;
+      const safeCurrentPage = response.pagination?.currentPage || currentPage || 1;
+      const totalPages = response.pagination?.totalPages || Math.ceil(totalCount / safePageSize);
       const hasMore = safeCurrentPage < totalPages;
       
       return {
@@ -404,20 +382,6 @@ export class ImageService {
         pageSize: 20
       };
     }
-  }
-
-  /**
-   * 获取公开图片
-   * @param params 查询参数
-   * @returns Promise<SearchResult>
-   */
-  static async getPublicImages(
-    params: { currentPage?: number; pageSize?: number; query?: string; category?: string } = {}
-  ): Promise<SearchResult> {
-    return this.searchImages({
-      isPublic: true,
-      ...params
-    });
   }
 
   /**
@@ -446,166 +410,4 @@ export class ImageService {
       return 0;
     }
   }
-
-  /**
-   * 获取公开且上线的图片数量
-   */
-  static async getPublicImageCount(): Promise<number> {
-    return this.getImageCount({ isPublic: 1, isOnline: 1 });
-  }
-
-  /**
-   * 根据slug获取图片
-   */
-  static async getImageBySlug(slug: string): Promise<HomeImage | null> {
-    try {
-      const response = await ApiUtils.get<{
-        success: boolean;
-        message: string;
-        data: HomeImage;
-      }>(`/api/images/slug/${slug}`);
-      
-      if (!response.success) {
-        throw new Error(response.message || 'Failed to get image by slug');
-      }
-      
-      return this.processImageUrls(response.data);
-    } catch (error) {
-      console.error('Failed to fetch image by slug:', error);
-      return null;
-    }
-  }
-
-  /**
-   * 获取热门图片
-   */
-  static async getHotImages(limit: number = 20, options: {
-    categoryId?: string;
-    styleId?: string;
-    isColor?: boolean;
-  } = {}): Promise<HomeImage[]> {
-    try {
-      const searchParams = new URLSearchParams();
-      searchParams.append('limit', limit.toString());
-      
-      if (options.categoryId) searchParams.append('categoryId', options.categoryId);
-      if (options.styleId) searchParams.append('styleId', options.styleId);
-      if (options.isColor !== undefined) searchParams.append('isColor', options.isColor.toString());
-
-      const response = await ApiUtils.get<{
-        success: boolean;
-        message: string;
-        data: HomeImage[];
-      }>(`/api/images/hot?${searchParams.toString()}`);
-      
-      if (!response.success) {
-        throw new Error(response.message || 'Failed to get hot images');
-      }
-      
-      return response.data.map(image => this.processImageUrls(image));
-    } catch (error) {
-      console.error('Failed to fetch hot images:', error);
-      return [];
-    }
-  }
-
-  /**
-   * 更新图片热度
-   */
-  static async updateImageHotness(imageId: string, hotnessChange: number): Promise<HomeImage | null> {
-    try {
-      const response = await ApiUtils.post<{
-        success: boolean;
-        message: string;
-        data: HomeImage;
-      }>(`/api/images/${imageId}/hotness`, { hotnessChange });
-      
-      if (!response.success) {
-        throw new Error(response.message || 'Failed to update image hotness');
-      }
-      
-      return this.processImageUrls(response.data);
-    } catch (error) {
-      console.error('Failed to update image hotness:', error);
-      return null;
-    }
-  }
-
-  /**
-   * 获取相似图片
-   */
-  static async getSimilarImages(imageId: string, limit: number = 6): Promise<HomeImage[]> {
-    try {
-      const response = await ApiUtils.get<{
-        success: boolean;
-        message: string;
-        data: HomeImage[];
-      }>(`/api/images/${imageId}/similar?limit=${limit}`);
-      
-      if (!response.success) {
-        throw new Error(response.message || 'Failed to get similar images');
-      }
-      
-      return response.data.map(image => this.processImageUrls(image));
-    } catch (error) {
-      console.error('Failed to fetch similar images:', error);
-      return [];
-    }
-  }
-
-  /**
-   * 更新图片在线状态（管理员功能）
-   */
-  static async updateImageStatus(imageId: string, isOnline: boolean): Promise<HomeImage | null> {
-    try {
-      const response = await ApiUtils.put<{
-        success: boolean;
-        message: string;
-        data: HomeImage;
-      }>(`/api/images/${imageId}/status`, { isOnline });
-      
-      if (!response.success) {
-        throw new Error(response.message || 'Failed to update image status');
-      }
-      
-      return this.processImageUrls(response.data);
-    } catch (error) {
-      console.error('Failed to update image status:', error);
-      return null;
-    }
-  }
-
-  /**
-   * 批量更新图片状态（管理员功能）
-   */
-  static async batchUpdateImageStatus(
-    imageIds: string[], 
-    updates: { isPublic?: boolean; isOnline?: boolean }
-  ): Promise<{
-    success: boolean;
-    message: string;
-    updatedCount: number;
-  } | null> {
-    try {
-      const response = await ApiUtils.put<{
-        success: boolean;
-        message: string;
-        data: {
-          success: boolean;
-          message: string;
-          updatedCount: number;
-        };
-      }>('/api/images/batch/status', { imageIds, ...updates });
-      
-      if (!response.success) {
-        throw new Error(response.message || 'Failed to batch update image status');
-      }
-      
-      return response.data;
-    } catch (error) {
-      console.error('Failed to batch update image status:', error);
-      return null;
-    }
-  }
-
 }

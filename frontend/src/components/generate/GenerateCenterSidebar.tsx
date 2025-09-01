@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HomeImage } from '../../services/imageService';
+import { BaseImage } from '../../services/imageService';
 import GenerateExample from './GenerateExample';
 import GenerateProgress from './GenerateProgress';
 import { getImageContainerSize } from '../../utils/imageUtils';
@@ -17,7 +17,7 @@ interface GenerateCenterSidebarProps {
   currentSelectedImage: string | null;
   isGenerating: boolean;
   generationProgress: number;
-  generatedImages: HomeImage[];
+  generatedImages: BaseImage[];
   hasGenerationHistory: boolean;
   isInitialDataLoaded: boolean;
   dynamicImageDimensions: { [key: string]: { width: number; height: number } };

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { HomeImage } from '../../services/imageService';
+import { BaseImage } from '../../services/imageService';
 
 interface HoverColorImageProps {
-  homeImage?: HomeImage; // 可选的传入图片数据
+  homeImage?: BaseImage; // 可选的传入图片数据
   className?: string;
   style?: React.CSSProperties;
   alt?: string;

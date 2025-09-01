@@ -1,5 +1,5 @@
 import React from 'react';
-import { HomeImage } from '../../services/imageService';
+import { BaseImage } from '../../services/imageService';
 import { getLocalizedText } from '../../utils/textUtils';
 import { getImageContainerSize } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
@@ -7,7 +7,7 @@ import GenerateProgress from './GenerateProgress';
 import { colors } from '../../styles/colors';
 
 interface GenerateRightSidebarProps {
-  images: HomeImage[];
+  images: BaseImage[];
   selectedImageId: string | null;
   isGenerating: boolean;
   generationProgress: number;
@@ -33,8 +33,8 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
   const { language } = useLanguage();
 
   // 过滤批次图片：每个批次只显示第一张图片
-  const getDisplayImages = (allImages: HomeImage[]): HomeImage[] => {
-    const displayImages: HomeImage[] = [];
+  const getDisplayImages = (allImages: BaseImage[]): BaseImage[] => {
+    const displayImages: BaseImage[] = [];
     const seenBatches = new Set<string>();
 
     for (const image of allImages) {

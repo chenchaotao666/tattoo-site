@@ -14,7 +14,7 @@ export type {
 // 图片服务
 export { ImageService } from './imageService';
 export type { 
-  HomeImage, 
+  BaseImage, 
   SearchResult, 
   SearchParams, 
   ReportImageRequest 

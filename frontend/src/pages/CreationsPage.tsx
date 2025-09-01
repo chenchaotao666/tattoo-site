@@ -4,7 +4,7 @@ import Layout from '../components/layout/Layout';
 import MasonryGrid from '../components/layout/MasonryGrid';
 import CreationImageCard from '../components/creations/CreationImageCard';
 import { useAuth } from '../contexts/AuthContext';
-import { ImageService, HomeImage } from '../services/imageService';
+import { ImageService, BaseImage } from '../services/imageService';
 import DeleteImageConfirmDialog from '../components/ui/DeleteImageConfirmDialog';
 import BackToTop from '../components/common/BackToTop';
 import SEOHead from '../components/common/SEOHead';
@@ -22,7 +22,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   
   // 状态管理
-  const [images, setImages] = useState<HomeImage[]>([]);
+  const [images, setImages] = useState<BaseImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<'all' | 'text2image' | 'image2image'>('all');
@@ -39,7 +39,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
   });
 
   // 存储所有图片数据的缓存
-  const [allImages, setAllImages] = useState<HomeImage[]>([]);
+  const [allImages, setAllImages] = useState<BaseImage[]>([]);
 
   // 根据选择的类型过滤图片
   useEffect(() => {
@@ -84,7 +84,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
       const result = await ImageService.getUserOwnImages(searchParams);
       
       // 过滤批次图片：每个批次只保留第一张图片用于历史显示
-      const filteredImages = result.images.reduce((acc: HomeImage[], image: HomeImage) => {
+      const filteredImages = result.images.reduce((acc: BaseImage[], image: BaseImage) => {
         // 如果图片有批次ID
         if (image.batchId) {
           // 检查是否已经有同批次的图片
@@ -189,7 +189,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
   };
 
   // 自定义渲染卡片
-  const renderCard = (image: HomeImage, _index: number) => (
+  const renderCard = (image: BaseImage, _index: number) => (
     <CreationImageCard
       key={image.id}
       image={image}

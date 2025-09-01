@@ -1,5 +1,5 @@
 import { ApiUtils, ApiError } from '../utils/apiUtils';
-import { HomeImage } from './imageService';
+import { BaseImage } from './imageService';
 
 // 任务状态接口
 export interface TaskStatus {
@@ -12,7 +12,7 @@ export interface TaskStatus {
   message?: string;
   errorCode?: string;
   errorMessage?: string;
-  result?: HomeImage;
+  result?: BaseImage;
 }
 
 // 用户任务接口
@@ -26,7 +26,7 @@ export interface UserTask {
   estimatedTime?: number;
   completedAt?: string;
   originalFileName?: string;
-  result?: HomeImage;
+  result?: BaseImage;
 }
 
 // 用户任务响应接口

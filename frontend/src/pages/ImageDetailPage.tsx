@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import { Button } from '../components/ui/button';
-import MasonryGrid from '../components/layout/MasonryGrid';
+import ImageGrid from '../components/iamges/ImageGrid';
 import Breadcrumb, { BreadcrumbItem } from '../components/common/Breadcrumb';
-import { ImageService, HomeImage, Tag } from '../services/imageService';
+import { ImageService, BaseImage, Tag } from '../services/imageService';
 import { CategoriesService, Category } from '../services/categoriesService';
-import { downloadImageByUrl, downloadImageAsPdf } from '../utils/downloadUtils';
+import { downloadImageByUrl } from '../utils/downloadUtils';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getLocalizedText } from '../utils/textUtils';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
@@ -15,7 +15,6 @@ import { getImageIdByName, isImageName, updateImageMappings, getImageNameById, g
 import { getCategoryIdByName, getCategoryNameById, isCategoryName, getEnglishNameFromCategory, updateCategoryMappings } from '../utils/categoryUtils';
 import { navigateWithLanguage } from '../utils/navigationUtils';
 import SEOHead from '../components/common/SEOHead';
-const downloadIcon = '/images/download-white.svg';
 
 const ImageDetailPage: React.FC = () => {
   const { t } = useAsyncTranslation('categories');
@@ -23,18 +22,13 @@ const ImageDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const { categories: allCategories, loading: categoriesLoading } = useCategories();
-  
-  const [image, setImage] = useState<HomeImage | null>(null);
+
+  const [image, setImage] = useState<BaseImage | null>(null);
   const [category, setCategory] = useState<Category | null>(null);
-  const [relatedImages, setRelatedImages] = useState<HomeImage[]>([]);
+  const [relatedImages, setRelatedImages] = useState<BaseImage[]>([]);
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [isRelatedImagesLoading, setIsRelatedImagesLoading] = useState(true);
-  const [isDownloading, setIsDownloading] = useState<{ png: boolean; pdf: boolean }>({
-    png: false,
-    pdf: false
-  });
-  
-  const leftImagesRef = useRef<HTMLDivElement>(null);
+
   const loadingRef = useRef<string>(''); // 防止重复加载
 
 
@@ -42,17 +36,17 @@ const ImageDetailPage: React.FC = () => {
   const parseAdditionalInfo = (additionalInfo: any) => {
     try {
       let infoObj = additionalInfo;
-      
+
       // 如果是字符串，尝试解析 JSON
       if (typeof additionalInfo === 'string' && additionalInfo.trim()) {
         infoObj = JSON.parse(additionalInfo);
       }
-      
+
       // 如果不是对象，返回 null
       if (typeof infoObj !== 'object' || infoObj === null) {
         return null;
       }
-      
+
       // 直接从多语言对象中获取本地化文本并返回
       return getLocalizedText(infoObj, language);
     } catch (error) {
@@ -77,7 +71,7 @@ const ImageDetailPage: React.FC = () => {
 
       try {
         setIsImageLoading(true);
-        
+
         // 如果URL中有categoryId，使用优化的加载逻辑
         if (categoryId) {
           // 步骤1：使用categories context获取全量分类数据
@@ -86,70 +80,70 @@ const ImageDetailPage: React.FC = () => {
             setIsImageLoading(false);
             return;
           }
-          
+
           // 步骤2：根据URL中的分类名称找到分类ID
           let foundCategory: Category | null = null;
-          
+
           // 先尝试映射表
           if (isCategoryName(categoryId)) {
             const actualCategoryId = getCategoryIdByName(categoryId);
-            foundCategory = allCategories.find(cat => cat.categoryId === actualCategoryId) || null;
+            foundCategory = allCategories.find(cat => cat.id === actualCategoryId) || null;
           }
-          
+
           // 如果映射表没找到，通过SEO名称搜索
           if (!foundCategory) {
             foundCategory = allCategories.find((cat: Category) => {
-              const seoName = getEnglishNameFromCategory(cat.displayName);
+              const seoName = getEnglishNameFromCategory(cat.id);
               return seoName === categoryId;
             }) || null;
-            
+
             if (foundCategory) {
               // 更新映射表
               updateCategoryMappings([foundCategory]);
             }
           }
-          
+
           if (foundCategory) {
             setCategory(foundCategory);
-            
+
             // 步骤3：根据分类ID从后台获取该分类的所有图片
-            const categoryImagesResult = await CategoriesService.getImagesByCategoryId(foundCategory.categoryId);
-            
+            const categoryImagesResult = await CategoriesService.getImagesByCategoryId(foundCategory.id);
+
             // 更新图片映射表
             updateImageMappings(categoryImagesResult.images);
-            
+
             // 步骤4：根据URL中的图片名称过滤出需要的图片
-            let foundImage: HomeImage | null = null;
-            
+            let foundImage: BaseImage | null = null;
+
             // 先尝试映射表
             if (isImageName(imageId)) {
               const actualImageId = getImageIdByName(imageId);
-              foundImage = categoryImagesResult.images.find((img: HomeImage) => img.id === actualImageId) || null;
+              foundImage = categoryImagesResult.images.find((img: BaseImage) => img.id === actualImageId) || null;
             }
-            
+
             // 如果映射表没找到，通过SEO名称搜索
             if (!foundImage) {
-              foundImage = categoryImagesResult.images.find((img: HomeImage) => {
+              foundImage = categoryImagesResult.images.find((img: BaseImage) => {
                 const seoName = getEnglishTitleFromImage(img.title);
                 return seoName === imageId;
               }) || null;
-              
+
               if (foundImage) {
                 // 更新映射表
                 updateImageMappings([foundImage]);
               }
             }
-            
+
             if (foundImage) {
               setImage(foundImage);
               setIsImageLoading(false);
-              
+
               // 异步加载相关图片，不阻塞主内容显示
               setIsRelatedImagesLoading(true);
               try {
                 const relatedImages = await ImageService.getRelatedImages(foundImage.categoryId, foundImage.id);
                 setRelatedImages(relatedImages);
-                
+
                 // 更新相关图片的映射表
                 updateImageMappings(relatedImages);
               } catch (error) {
@@ -168,7 +162,7 @@ const ImageDetailPage: React.FC = () => {
         } else {
           // 如果没有categoryId，使用原来的逻辑（向后兼容）
           console.log('🔍 Loading image without category context:', imageId);
-          
+
           // 尝试使用映射表转换SEO友好名称
           let actualImageId: string;
           if (isImageName(imageId)) {
@@ -176,21 +170,21 @@ const ImageDetailPage: React.FC = () => {
           } else {
             actualImageId = imageId;
           }
-          
+
           // 通过API搜索图片
-          let foundImage: HomeImage | null = await ImageService.getImageById(actualImageId);
-          
+          let foundImage: BaseImage | null = await ImageService.getImageById(actualImageId);
+
           if (!foundImage && imageId !== actualImageId) {
             // 如果通过映射表转换的ID没找到图片，尝试通过SEO名称搜索
             console.log('Image not found by ID, trying to search by SEO name:', imageId);
             try {
               const searchResult = await ImageService.searchImages({ query: imageId, pageSize: 50 });
-              
+
               foundImage = searchResult.images.find(img => {
                 const seoName = getEnglishTitleFromImage(img.title);
                 return seoName === imageId;
               }) || null;
-              
+
               if (foundImage) {
                 console.log('Found image by SEO name search:', foundImage.id);
                 updateImageMappings([foundImage]);
@@ -203,7 +197,7 @@ const ImageDetailPage: React.FC = () => {
           if (foundImage) {
             setImage(foundImage);
             setIsImageLoading(false);
-            
+
             // 异步加载相关图片
             setIsRelatedImagesLoading(true);
             try {
@@ -235,22 +229,14 @@ const ImageDetailPage: React.FC = () => {
     if (!image) return;
 
     try {
-      setIsDownloading(prev => ({ ...prev, [format]: true }));
-      
       // 生成文件名
       const titleText = getLocalizedText(image.title, language) || 'image';
       const fileName = `coloring-page-${titleText.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 20)}-${image.id.slice(-8)}.${format}`;
-      
+
       // 根据格式选择不同的下载方式
-      if (format === 'png') {
-        await downloadImageByUrl(image.defaultUrl, fileName);
-      } else {
-        await downloadImageAsPdf(image.defaultUrl, fileName);
-      }
+      await downloadImageByUrl(image.tattooUrl, fileName);
     } catch (error) {
       console.error(`Download ${format} failed:`, error);
-    } finally {
-      setIsDownloading(prev => ({ ...prev, [format]: false }));
     }
   };
 
@@ -259,9 +245,9 @@ const ImageDetailPage: React.FC = () => {
     // 只有当category被设置时，才显示分类面包屑
     if (category) {
       // 4层面包屑：Home > Coloring Pages Free > xxx category > 图片名字
-      const categoryName = getLocalizedText(category.displayName, language);
-      const categoryPath = getCategoryNameById(category.categoryId);
-      
+      const categoryName = getLocalizedText(category.name, language);
+      const categoryPath = getCategoryNameById(category.id);
+
       return [
         { label: t('breadcrumb.home'), path: '/' },
         { label: t('breadcrumb.categories'), path: '/categories' },
@@ -289,7 +275,7 @@ const ImageDetailPage: React.FC = () => {
             { label: t('breadcrumb.home'), path: '/' },
             { label: t('imageDetail.notFound.breadcrumb'), current: true }
           ]} />
-          
+
           <div className="container mx-auto px-4">
             <div className="flex flex-col items-center justify-center py-16">
               <div className="text-center">
@@ -328,172 +314,99 @@ const ImageDetailPage: React.FC = () => {
             </div>
           ) : image ? (
             /* 图片内容 */
-            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 mb-12 lg:mb-20">
-              {/* Left Side - Images */}
-              <div ref={leftImagesRef} className={`flex gap-2 sm:gap-4 lg:gap-4 w-full lg:w-auto ${!(image.coloringUrl || image.colorUrl) ? 'justify-center' : ''}`}>
-                {/* Black & White Image */}
-                <div className={`${(image.coloringUrl || image.colorUrl) ? 'w-1/2' : 'w-full max-w-[320px]'} lg:max-w-[320px] flex items-start justify-center`}>
-                  <img
-                    src={image.defaultUrl}
-                    alt={getLocalizedText(image.title, language)}
-                    className="w-full max-w-full h-auto object-contain rounded-lg"
-                  />
-                </div>
-                
-                {/* Color Image */}
-                {(image.coloringUrl || image.colorUrl) && (
-                  <div className="w-1/2 lg:max-w-[320px] flex items-start justify-center">
-                    <img
-                      src={image.coloringUrl || image.colorUrl}
-                      alt={`${getLocalizedText(image.title, language)} - Colored`}
-                      className="w-full max-w-full h-auto object-contain rounded-lg"
-                    />
-                  </div>
-                )}
+            <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 mb-12 lg:mb-20 max-w-[1170px] mx-auto">
+              {/* Left Side - Image */}
+              <div className="flex justify-center lg:justify-start lg:w-[400px]">
+                <img 
+                  src={image.tattooUrl}
+                  alt={getLocalizedText(image.title, language)}
+                  className="w-full max-w-[500px] h-auto object-contain rounded-lg"
+                />
               </div>
 
               {/* Right Side - Details */}
-              <div className="flex-1 lg:max-w-[680px] flex flex-col">
-                <div className="flex-1 space-y-6 lg:space-y-9">
-                  {/* Title and Description */}
-                  <div className="space-y-3 lg:space-y-4">
-                    <h1 className="text-xl lg:text-2xl font-bold text-[#161616] capitalize leading-6 lg:leading-8">
-                      {getLocalizedText(image.title, language)}
-                    </h1>
-                    <p className="text-sm text-[#6B7280] leading-5">
-                      {getLocalizedText(image.description, language) || getLocalizedText(image.prompt, language)}
-                    </p>
+              <div className="flex-1 lg:w-[670px] flex flex-col gap-4">
+                {/* Prompt Section */}
+                <div className="flex flex-col gap-4">
+                  <div className="text-[#ECECEC] text-base font-bold capitalize">
+                    Prompt
                   </div>
-
-                  {/* Tags */}
-                  {image.tags && image.tags.length > 0 && (
-                    <div className="space-y-3 lg:space-y-4">
-                      <h3 className="text-base font-medium text-black">{t('imageDetail.tags')}</h3>
-                      <div className="flex flex-wrap gap-2">
-                        {image.tags.map((tag: Tag) => (
-                          <span
-                            key={tag.tag_id}
-                            className="px-3 py-2 bg-white border border-[#EDEEF0] rounded-2xl text-sm text-[#161616]"
-                          >
-                            {getLocalizedText(tag.display_name, language)}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  <div className="text-[#ECECEC] text-sm font-normal leading-5 break-words max-w-[740px]">
+                    {getLocalizedText(image.prompt, language) || getLocalizedText(image.description, language)}
+                  </div>
                 </div>
 
-                {/* Download Buttons - 响应式布局 */}
-                <div className="flex flex-col sm:flex-row gap-3 mt-6 sm:max-w-[480px]">
-                  <Button
+                {/* Tags Section */}
+                {image.tags && image.tags.length > 0 && (
+                  <div className="flex flex-col gap-4">
+                    <div className="text-[#ECECEC] text-base font-bold">
+                      Tags
+                    </div>
+                    <div className="flex flex-wrap gap-2 max-w-[740px]">
+                      {image.tags.map((tag: Tag) => (
+                        <div 
+                          key={tag.id}
+                          className="px-3 py-2 rounded-2xl border border-[#4E5056] flex justify-center items-center"
+                        >
+                          <div className="text-[#ECECEC] text-sm font-normal leading-4">
+                            {getLocalizedText(tag.name, language)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex gap-3 mt-6">
+                  <button 
+                    className="w-[200px] h-[60px] px-4 bg-[#98FF59] rounded-lg flex justify-center items-center"
+                    onClick={() => {
+                      // TODO: Implement recreate functionality
+                      console.log('Recreate clicked');
+                    }}
+                  >
+                    <div className="text-[#161616] text-xl font-bold">
+                      Recreate
+                    </div>
+                  </button>
+                  <button 
+                    className="w-[200px] h-[60px] px-4 rounded-lg border border-[#A5A5A5] flex justify-center items-center"
                     onClick={() => handleDownload('png')}
-                    disabled={isDownloading.png}
-                    variant="gradient"
-                    className="flex-1 h-12 lg:h-[60px] text-base lg:text-xl font-bold"
                   >
-                    <img src={downloadIcon} alt="Download" className="w-5 h-5 lg:w-7 lg:h-7 mr-2" />
-                                      <span className="hidden sm:inline">{t('imageDetail.downloadPng')}</span>
-                  <span className="sm:hidden">{t('imageDetail.png')}</span>
-                  </Button>
-                  
-                  <Button
-                    onClick={() => handleDownload('pdf')}
-                    disabled={isDownloading.pdf}
-                    variant="gradient"
-                    className="flex-1 h-12 lg:h-[60px] text-base lg:text-xl font-bold"
-                  >
-                    <img src={downloadIcon} alt="Download" className="w-5 h-5 lg:w-7 lg:h-7 mr-2" />
-                                      <span className="hidden sm:inline">{t('imageDetail.downloadPdf')}</span>
-                  <span className="sm:hidden">{t('imageDetail.pdf')}</span>
-                  </Button>
+                    <div className="text-[#ECECEC] text-xl font-bold">
+                      {'Download'}
+                    </div>
+                  </button>
                 </div>
               </div>
             </div>
           ) : null}
 
-          {/* Detailed Description Sections - 只在图片加载完成后显示 */}
+          {/* Article Content */}
           {!isImageLoading && image && (() => {
             const additionalInfo = parseAdditionalInfo(image.additionalInfo);
-            
+
             if (!additionalInfo || !additionalInfo.trim()) {
               return null;
             }
 
             return (
-              <div className="space-y-8 lg:space-y-12 mb-8 lg:mb-20">
-                <section>
-                  <div className="mx-auto text-left">
-                    {(() => {
-                      const descriptionText = additionalInfo;
-
-                      // 按 <h2> 标签分段
-                      const sections = descriptionText.split(/<h2[^>]*>/).filter(section => section.trim());
-
-                      if (sections.length <= 1) {
-                        // 如果没有 h2 标签，直接显示原文本
-                        const lines = descriptionText.split('\n').filter(line => line.trim());
-
-                        return (
-                          <div className="text-sm text-[#6B7280] leading-7">
-                            {lines.map((line, index) => (
-                              <p key={index} className="mb-3 last:mb-0">
-                                {line.trim()}
-                              </p>
-                            ))}
-                          </div>
-                        );
-                      }
-
-                      // 处理有 h2 标签的情况
-                      const allElements: Array<{ type: 'title' | 'content'; text: string; sectionIndex: number }> = [];
-
-                      sections.forEach((section, sectionIndex) => {
-                        const titleMatch = section.match(/^([^<]*)<\/h2>/);
-                        const title = titleMatch ? titleMatch[1].trim() : '';
-                        const content = section.replace(/^[^<]*<\/h2>/, '').trim();
-
-                        if (title) {
-                          allElements.push({ type: 'title', text: title, sectionIndex });
-                        }
-
-                        if (content) {
-                          const contentLines = content.split('\n').filter(p => p.trim());
-                          contentLines.forEach(line => {
-                            allElements.push({ type: 'content', text: line.trim(), sectionIndex });
-                          });
-                        }
-                      });
-
-                      return (
-                        <div>
-                          {allElements.map((element, index) => (
-                            <div key={`${element.sectionIndex}-${index}`} className="mb-3 lg:mb-4 last:mb-0">
-                              {element.type === 'title' ? (
-                                <h3 className="text-[#161616] text-lg lg:text-xl font-semibold mb-3 lg:mb-4">
-                                  {element.text}
-                                </h3>
-                              ) : (
-                                <p className="text-sm text-[#6B7280] leading-7">
-                                  {element.text}
-                                </p>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      );
-                    })()}
-                  </div>
-                </section>
-              </div>
+              <article className="mb-12 max-w-[1170px] mx-auto">
+                <div 
+                  className="prose-dark"
+                  dangerouslySetInnerHTML={{ __html: additionalInfo }}
+                />
+              </article>
             );
           })()}
 
           {/* You Might Also Like - 独立显示相关图片加载状态 */}
           <section>
-            <h2 className="text-center text-[#161616] text-2xl lg:text-3xl xl:text-[46px] font-bold capitalize mb-8 lg:mb-12 leading-relaxed lg:leading-[1.6] px-4">
+            <h2 className="text-center text-[#ECECEC] text-2xl lg:text-3xl xl:text-[46px] font-bold capitalize mb-8 lg:mb-12 leading-relaxed lg:leading-[1.6] px-4">
               {t('imageDetail.relatedImages')}
             </h2>
-            
+
             {/* Related Images Grid */}
             <div className="mb-8 lg:mb-20">
               {isRelatedImagesLoading ? (
@@ -501,13 +414,22 @@ const ImageDetailPage: React.FC = () => {
                   {/* 加载时不显示任何内容 */}
                 </div>
               ) : relatedImages.length > 0 ? (
-                <MasonryGrid 
-                  images={relatedImages}
+                <ImageGrid
+                  images={relatedImages.map(image => ({
+                    id: image.id,
+                    imageUrl: image.tattooUrl,
+                    description: typeof image.description === 'string' 
+                      ? image.description 
+                      : getLocalizedText(image.description, language) || getImageNameById(image.id) || 'Tattoo design',
+                    tags: image.tags?.map(tag => 
+                      typeof tag.name === 'string' ? tag.name : getLocalizedText(tag.name, language)
+                    ) || []
+                  }))}
                   isLoading={false}
                   onImageClick={(image) => {
                     // 导航到图片详情页，使用SEO友好的图片路径
                     const imagePath = getImageNameById(image.id);
-                    
+
                     // 如果当前在分类页面结构中，保持在同一分类内跳转
                     if (categoryId) {
                       navigateWithLanguage(navigate, `/categories/${categoryId}/${imagePath}`);

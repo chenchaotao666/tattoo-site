@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HoverColorImage from '../home/HoverColorImage';
-import { HomeImage } from '../../services/imageService';
+import { BaseImage } from '../../services/imageService';
 import { downloadImageByUrl, downloadImageAsPdf } from '../../utils/downloadUtils';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
@@ -13,7 +13,7 @@ const moreIcon = '/images/more.svg';
 const deleteIcon = '/images/delete.svg';
 
 interface CreationImageCardProps {
-  image: HomeImage;
+  image: BaseImage;
   className?: string;
   onDelete?: (imageId: string) => void;
 }

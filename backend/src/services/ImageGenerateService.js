@@ -74,55 +74,6 @@ class ImageGenerateService {
         }
     }
 
-    // 同步生成纹身图像（等待完成）
-    async generateTattoo(params) {
-        try {
-            // 验证必需参数
-            if (!params.prompt) {
-                throw new Error('Prompt is required');
-            }
-
-            // 检查 Replicate API Token
-            if (!process.env.REPLICATE_API_TOKEN) {
-                throw new Error('REPLICATE_API_TOKEN environment variable is required');
-            }
-
-            // 生成批次ID（如果没有提供）
-            const batchId = params.batchId || this.generateId();
-
-            // 合并参数
-            const input = {
-                ...this.defaultParams,
-                ...params,
-                // 确保 prompt 包含 TOK 关键词以激活模型特性
-                prompt: await this.enhancePrompt(params.prompt, params.style || 'traditional', params.isColor || true, params.styleNote || '')
-            };
-
-            // 验证参数范围
-            this.validateParams(input);
-
-            // 调用 Replicate API（同步等待）
-            const result = await this.callReplicateAPI(input);
-            
-            // 下载并保存生成的图片
-            const savedImages = await this.downloadAndSaveImages(result.output, result.id, batchId);
-            
-            // 更新结果，包含本地文件路径和批次ID
-            result.localImages = savedImages;
-            result.batchId = batchId;
-            
-            // 保存到数据库
-            if (this.imageModel && savedImages.length > 0) {
-                const savedToDb = await this.saveToDatabase(result, savedImages, { ...params, batchId });
-                result.databaseRecords = savedToDb;
-            }
-            
-            return this.formatResponse(true, result, 'Image generated successfully');
-        } catch (error) {
-            throw new Error(`Generate tattoo image failed: ${error.message}`);
-        }
-    }
-
     // 检测文本是否主要包含非英文字符
     isNonEnglish(text) {
         // 检测中文字符
@@ -539,63 +490,6 @@ The design should be professional quality, original, and ready for use as a tatt
             return this.formatResponse(true, prediction, 'Generation completed and saved successfully');
         } catch (error) {
             throw new Error(`Complete generation failed: ${error.message}`);
-        }
-    }
-
-    // 批量生成
-    async batchGenerate(prompts, commonParams = {}) {
-        try {
-            if (!Array.isArray(prompts) || prompts.length === 0) {
-                throw new Error('Prompts array is required');
-            }
-
-            if (prompts.length > 10) {
-                throw new Error('Batch generation is limited to 10 prompts at once');
-            }
-
-            // 为批量生成创建统一的批次ID
-            const batchId = commonParams.batchId || this.generateId();
-
-            const results = [];
-            const errors = [];
-
-            // 并发生成
-            const promises = prompts.map(async (prompt, index) => {
-                try {
-                    const params = { ...commonParams, prompt, batchId };
-                    const result = await this.generateTattoo(params);
-                    return { index, result };
-                } catch (error) {
-                    return { index, error: error.message };
-                }
-            });
-
-            const responses = await Promise.allSettled(promises);
-
-            responses.forEach((response) => {
-                if (response.status === 'fulfilled') {
-                    if (response.value.error) {
-                        errors.push(`Prompt ${response.value.index + 1}: ${response.value.error}`);
-                    } else {
-                        results.push(response.value.result);
-                    }
-                } else {
-                    errors.push(`Unexpected error: ${response.reason}`);
-                }
-            });
-
-            return this.formatResponse(
-                results.length > 0,
-                {
-                    successful: results,
-                    failed: errors.length,
-                    errors: errors,
-                    batchId: batchId
-                },
-                `Batch generation completed: ${results.length} successful, ${errors.length} failed`
-            );
-        } catch (error) {
-            throw new Error(`Batch generation failed: ${error.message}`);
         }
     }
 

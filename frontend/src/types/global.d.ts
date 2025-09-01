@@ -34,7 +34,7 @@ export interface Category {
   coloringUrl?: string;
 }
 
-export interface HomeImage {
+export interface BaseImage {
   id: string;
   name: MultilingualText;
   defaultUrl: string;

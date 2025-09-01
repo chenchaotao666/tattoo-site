@@ -1,5 +1,5 @@
 import { ApiUtils, ApiError } from '../utils/apiUtils';
-import { HomeImage } from './imageService';
+import { BaseImage } from './imageService';
 
 // ==================== 类型定义 ====================
 // 接口类型定义
@@ -97,8 +97,8 @@ export interface TaskStatus {
   message?: string;
   errorCode?: string;
   errorMessage?: string;
-  result?: HomeImage;
-  image?: HomeImage; // 兼容字段
+  result?: BaseImage;
+  image?: BaseImage; // 兼容字段
 }
 
 export interface StyleSuggestion {
@@ -118,7 +118,7 @@ export interface UserTask {
   estimatedTime?: number;
   completedAt?: string;
   originalFileName?: string;
-  result?: HomeImage;
+  result?: BaseImage;
 }
 
 export interface UserTasksResponse {
@@ -142,44 +142,6 @@ export interface UserTasksResponse {
 
 // ==================== 主要服务类 ====================
 class GenerateService {
-
-  /**
-   * 纹身图片生成（同步，等待完成）
-   */
-  async generateTattoo(data: GenerateTattooRequest): Promise<TattooGenerationResponse> {
-    try {
-      const requestBody = {
-        prompt: data.prompt,
-        width: data.width || 1024,
-        height: data.height || 1024,
-        num_outputs: data.num_outputs || 1,
-        scheduler: data.scheduler || "K_EULER",
-        guidance_scale: data.guidance_scale || 7.5,
-        num_inference_steps: data.num_inference_steps || 25,
-        lora_scale: data.lora_scale || 0.6,
-        refine: data.refine || "expert_ensemble_refiner",
-        high_noise_frac: data.high_noise_frac || 0.9,
-        apply_watermark: data.apply_watermark || false,
-        ...(data.style && { style: data.style }),
-        ...(data.styleNote && { styleNote: data.styleNote }),
-        ...(data.isColor !== undefined && { isColor: data.isColor }),
-        ...(data.isPublic !== undefined && { isPublic: data.isPublic }),
-        ...(data.negative_prompt && { negative_prompt: data.negative_prompt }),
-        ...(data.seed && { seed: data.seed })
-      };
-      
-      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/images/generate-tattoo', requestBody, true);
-      
-      return responseData;
-    } catch (error) {
-      console.error('Generate tattoo error:', error);
-      if (error instanceof ApiError) {
-        throw error;
-      }
-      throw new ApiError('2009', '纹身生成失败');
-    }
-  }
-
   /**
    * 纹身图片异步生成（立即返回，需要后续查询进度）
    */
@@ -215,28 +177,6 @@ class GenerateService {
         throw error;
       }
       throw new ApiError('2014', '异步纹身生成失败');
-    }
-  }
-
-  /**
-   * 批量纹身图片生成
-   */
-  async batchGenerateTattoo(prompts: string[], commonParams: Partial<GenerateTattooRequest> = {}): Promise<TattooGenerationResponse> {
-    try {
-      const requestBody = {
-        prompts,
-        ...commonParams
-      };
-      
-      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/images/generate-tattoo/batch', requestBody, true);
-      
-      return responseData;
-    } catch (error) {
-      console.error('Batch generate tattoo error:', error);
-      if (error instanceof ApiError) {
-        throw error;
-      }
-      throw new ApiError('2010', '批量纹身生成失败');
     }
   }
 
@@ -369,22 +309,6 @@ class GenerateService {
   }
 
   /**
-   * 获取模型信息
-   */
-  async getModelInfo(): Promise<any> {
-    try {
-      const responseData = await ApiUtils.get<any>('/api/images/generate-tattoo/model-info');
-      return responseData.data;
-    } catch (error) {
-      console.error('Get model info error:', error);
-      if (error instanceof ApiError) {
-        throw error;
-      }
-      throw new ApiError('2012', '获取模型信息失败');
-    }
-  }
-
-  /**
    * 获取样式预设
    */
   async getStylePresets(): Promise<any> {
@@ -480,7 +404,7 @@ class GenerateService {
   /**
    * 获取示例图片
    */
-  async getExampleImages(category: 'text' | 'image', pageSize: number = 3): Promise<HomeImage[]> {
+  async getExampleImages(category: 'text' | 'image', pageSize: number = 3): Promise<BaseImage[]> {
     try {
       // 根据类别确定搜索类型
       const searchType = category === 'text' ? 'text2image' : 'image2image';
@@ -506,7 +430,7 @@ class GenerateService {
    * 获取用户生成的图片
    * @param _userId 用户ID（保留用于向后兼容性，实际不使用，getUserOwnImages从token中获取当前用户）
    */
-  async getUserGeneratedImages(_userId: string): Promise<HomeImage[]> {
+  async getUserGeneratedImages(_userId: string): Promise<BaseImage[]> {
     try {
       const { ImageService } = await import('./imageService');
       // 注意：userId参数现在不被使用，getUserOwnImages会从认证token中自动获取当前用户ID

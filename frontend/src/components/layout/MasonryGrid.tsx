@@ -1,11 +1,11 @@
 import React from 'react';
-import { HomeImage } from '../../services/imageService';
+import { BaseImage } from '../../services/imageService';
 import HoverImageCard from '../home/HoverImageCard';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 
 interface MasonryGridProps {
-  images: HomeImage[];
+  images: BaseImage[];
   isLoading?: boolean;
   emptyState?: {
     icon: string;
@@ -16,9 +16,9 @@ interface MasonryGridProps {
       onClick: () => void;
     };
   };
-  onImageClick?: (image: HomeImage) => void;
+  onImageClick?: (image: BaseImage) => void;
   className?: string;
-  renderCard?: (image: HomeImage, index: number) => React.ReactNode;
+  renderCard?: (image: BaseImage, index: number) => React.ReactNode;
 }
 
 const MasonryGrid: React.FC<MasonryGridProps> = ({
@@ -72,13 +72,13 @@ const MasonryGrid: React.FC<MasonryGridProps> = ({
     );
   }
 
-  const handleImageClick = (image: HomeImage) => {
+  const handleImageClick = (image: BaseImage) => {
     if (onImageClick) {
       onImageClick(image);
     }
   };
 
-  const defaultRenderCard = (image: HomeImage, _index: number) => (
+  const defaultRenderCard = (image: BaseImage, _index: number) => (
     <HoverImageCard
       image={image}
       title={getLocalizedText(image.title, language)}
@@ -101,13 +101,13 @@ const MasonryGrid: React.FC<MasonryGridProps> = ({
   const tabletColumns = getColumnCount(images.length, 3);
 
   // 智能分配图片到各列，确保均匀分布
-  const distributeToColumns = (images: HomeImage[], columnCount: number) => {
+  const distributeToColumns = (images: BaseImage[], columnCount: number) => {
     if (images.length === 0) return [];
     
     // 始终使用完整的列数，保持布局一致性
     const actualColumnCount = columnCount;
     
-    const actualColumns: HomeImage[][] = Array.from({ length: actualColumnCount }, () => []);
+    const actualColumns: BaseImage[][] = Array.from({ length: actualColumnCount }, () => []);
     
     // 计算每列应该有多少张图片
     const baseItemsPerColumn = Math.floor(images.length / actualColumnCount);

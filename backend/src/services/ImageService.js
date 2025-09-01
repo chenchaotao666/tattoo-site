@@ -5,6 +5,210 @@ class ImageService extends BaseService {
         super(imageModel);
     }
 
+    // 重写getAll方法，包含tags信息
+    async getAll(query = {}) {
+        try {
+            const pagination = this.normalizePaginationParams(query);
+            const sort = this.normalizeSortParams(query);
+            const filters = this.normalizeFilters(query);
+
+            // 构建基础查询，包含JOIN tags信息
+            let baseQuery = `
+                SELECT DISTINCT i.*, 
+                       c.name as categoryName, 
+                       c.slug as categorySlug,
+                       s.title as styleTitle,
+                       u.username as authorName
+                FROM images i
+                LEFT JOIN categories c ON i.categoryId = c.id
+                LEFT JOIN styles s ON i.styleId = s.id
+                LEFT JOIN users u ON i.userId = u.id
+            `;
+
+            const conditions = [];
+            const values = [];
+
+            // 构建过滤条件
+            if (Object.keys(filters).length > 0) {
+                const { where, values: filterValues } = this.buildFilterQuery(filters);
+                if (where) {
+                    conditions.push(where.replace('WHERE ', ''));
+                    values.push(...filterValues);
+                }
+            }
+
+            // 组装WHERE子句
+            if (conditions.length > 0) {
+                baseQuery += ` WHERE ${conditions.join(' AND ')}`;
+            }
+
+            // 添加排序
+            if (sort.sortBy) {
+                baseQuery += ` ${this.buildSortQuery(sort.sortBy, sort.sortOrder)}`;
+            }
+
+            // 获取总数（用于分页）
+            let totalCount = 0;
+            if (pagination.currentPage && pagination.pageSize) {
+                let countQuery = baseQuery.replace(
+                    /SELECT DISTINCT.*?FROM/s, 
+                    'SELECT COUNT(DISTINCT i.id) as total FROM'
+                ).replace(/ORDER BY.*$/s, '');
+                
+                const [countResult] = await this.model.db.execute(countQuery, values);
+                totalCount = countResult[0].total;
+            }
+
+            // 添加分页
+            const paginatedQuery = this.buildPaginationQuery(baseQuery, pagination.currentPage, pagination.pageSize);
+            const [rows] = await this.model.db.execute(paginatedQuery, values);
+
+            // 为每个图片获取tags信息
+            const imagesWithTags = await Promise.all(rows.map(async (image) => {
+                const tags = await this.model.getImageTags(image.id);
+                return {
+                    ...image,
+                    tags: tags || []
+                };
+            }));
+
+            // 构建返回结果
+            const result = {
+                data: imagesWithTags
+            };
+
+            // 添加分页信息（如果有分页参数）
+            if (pagination.currentPage && pagination.pageSize) {
+                result.pagination = {
+                    currentPage: pagination.currentPage,
+                    pageSize: pagination.pageSize,
+                    total: totalCount,
+                    totalPages: Math.ceil(totalCount / pagination.pageSize)
+                };
+            }
+
+            return result;
+        } catch (error) {
+            throw new Error(`Get all images with tags failed: ${error.message}`);
+        }
+    }
+
+    // 辅助方法：构建过滤条件
+    buildFilterQuery(filters = {}) {
+        const conditions = [];
+        const values = [];
+
+        // 安全的操作符白名单
+        const validOperators = ['=', '>', '<', '>=', '<=', '!=', '<>', 'LIKE', 'NOT LIKE'];
+
+        // 验证字段名，只允许字母、数字、下划线和点
+        const sanitizeField = (field) => {
+            if (typeof field !== 'string') return null;
+            const cleanField = field.replace(/[^a-zA-Z0-9_.]/g, '');
+            return cleanField === field ? field : null;
+        };
+
+        Object.entries(filters).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+                // 为image表字段添加别名前缀
+                const fieldName = key.includes('.') ? key : `i.${key}`;
+                const sanitizedKey = sanitizeField(fieldName);
+                if (!sanitizedKey) return; // 跳过无效字段名
+
+                // 处理布尔字段的字符串转换
+                const booleanFields = ['isColor', 'isPublic', 'isOnline'];
+                const fieldBase = key.replace('i.', ''); // 移除前缀获取基础字段名
+                let processedValue = value;
+
+                if (booleanFields.includes(fieldBase)) {
+                    // 转换字符串布尔值为数字
+                    if (value === 'true' || value === true) {
+                        processedValue = 1;
+                    } else if (value === 'false' || value === false) {
+                        processedValue = 0;
+                    }
+                }
+
+                if (Array.isArray(value)) {
+                    // 数组条件 (IN)
+                    const placeholders = value.map(() => '?').join(',');
+                    conditions.push(`${sanitizedKey} IN (${placeholders})`);
+                    values.push(...value);
+                } else if (typeof value === 'object' && value.operator) {
+                    // 自定义操作符 - 验证操作符安全性
+                    const operatorStr = typeof value.operator === 'string' ? value.operator : String(value.operator);
+                    const operator = operatorStr.toUpperCase();
+                    if (validOperators.includes(operator)) {
+                        conditions.push(`${sanitizedKey} ${operator} ?`);
+                        values.push(value.value);
+                    }
+                } else if (typeof value === 'string' && value.includes('*')) {
+                    // 模糊查询
+                    conditions.push(`${sanitizedKey} LIKE ?`);
+                    values.push(value.replace(/\*/g, '%'));
+                } else {
+                    // 精确匹配
+                    conditions.push(`${sanitizedKey} = ?`);
+                    values.push(processedValue);
+                }
+            }
+        });
+
+        return {
+            where: conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '',
+            values
+        };
+    }
+
+    // 辅助方法：构建分页查询
+    buildPaginationQuery(baseQuery, currentPage, pageSize) {
+        if (currentPage && pageSize) {
+            const offset = (currentPage - 1) * pageSize;
+            return `${baseQuery} LIMIT ${pageSize} OFFSET ${offset}`;
+        }
+        return baseQuery;
+    }
+
+    // 辅助方法：构建排序查询
+    buildSortQuery(sortBy, sortOrder = 'ASC') {
+        if (!sortBy) return '';
+        const validOrders = ['ASC', 'DESC'];
+        
+        // 确保 sortOrder 是字符串
+        const orderStr = typeof sortOrder === 'string' ? sortOrder : (Array.isArray(sortOrder) ? sortOrder[0] || 'ASC' : String(sortOrder));
+        const order = validOrders.includes(orderStr.toUpperCase()) ? orderStr.toUpperCase() : 'ASC';
+        
+        // 验证字段名，只允许字母、数字、下划线和点
+        const sanitizeField = (field) => {
+            if (typeof field !== 'string') return null;
+            // 只允许字母、数字、下划线、点（用于表别名如 i.createdAt）
+            const cleanField = field.replace(/[^a-zA-Z0-9_.]/g, '');
+            return cleanField === field ? field : null;
+        };
+        
+        // 支持多字段排序
+        if (Array.isArray(sortBy)) {
+            const sortFields = sortBy.map((field, index) => {
+                // 为字段添加别名前缀（如果没有的话）
+                const fieldName = field.includes('.') ? field : `i.${field}`;
+                const sanitizedField = sanitizeField(fieldName);
+                if (!sanitizedField) return null;
+                const fieldOrder = Array.isArray(sortOrder) ? (sortOrder[index] || 'ASC') : order;
+                // 确保 fieldOrder 是字符串
+                const fieldOrderStr = typeof fieldOrder === 'string' ? fieldOrder : String(fieldOrder);
+                const validOrder = validOrders.includes(fieldOrderStr.toUpperCase()) ? fieldOrderStr.toUpperCase() : 'ASC';
+                return `${sanitizedField} ${validOrder}`;
+            }).filter(Boolean);
+            
+            return sortFields.length > 0 ? `ORDER BY ${sortFields.join(', ')}` : '';
+        }
+        
+        // 为字段添加别名前缀（如果没有的话）
+        const fieldName = sortBy.includes('.') ? sortBy : `i.${sortBy}`;
+        const sanitizedField = sanitizeField(fieldName);
+        return sanitizedField ? `ORDER BY ${sanitizedField} ${order}` : '';
+    }
+
     // 重写getById方法，提供更具体的错误信息
     async getById(id) {
         try {

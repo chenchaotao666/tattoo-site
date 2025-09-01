@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HoverColorImage from './HoverColorImage';
-import { HomeImage } from '../../services/imageService';
+import { BaseImage } from '../../services/imageService';
 import { downloadImageByUrl, downloadImageAsPdf } from '../../utils/downloadUtils';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
@@ -11,7 +11,7 @@ const downloadIcon = '/images/download.svg';
 const downloadColorIcon = '/images/download-hover.svg';
 
 interface HoverImageCardProps {
-  image: HomeImage;
+  image: BaseImage;
   title: string;
   tags: string[];
   className?: string;

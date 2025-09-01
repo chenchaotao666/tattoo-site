@@ -213,11 +213,21 @@ class BaseService {
 
     // 分页响应格式
     formatPaginatedResponse(result, message = 'Data retrieved successfully') {
+        if (result.pagination) {
+            return {
+                status: 'success',
+                message,
+                data: {
+                    data: result.data,
+                    pagination: result.pagination
+                }
+            };
+        }
+
         return {
             status: 'success',
             message,
-            data: result.data,
-            pagination: result.pagination
+            data: result.data
         };
     }
 }

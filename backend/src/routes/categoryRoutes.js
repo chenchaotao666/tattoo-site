@@ -68,15 +68,21 @@ class CategoryService extends BaseService {
 
             const [rows] = await this.model.db.execute(baseQuery);
 
-            return {
-                data: rows,
-                pagination: {
-                    currentPage: parseInt(currentPage) || 1,
-                    pageSize: parseInt(pageSize) || rows.length,
-                    total,
-                    totalPages: pageSize ? Math.ceil(total / pageSize) : 1
-                }
+            const result = {
+                data: rows
             };
+
+            // 只有在提供分页参数时才返回分页信息
+            if (currentPage && pageSize) {
+                result.pagination = {
+                    currentPage: parseInt(currentPage),
+                    pageSize: parseInt(pageSize),
+                    total,
+                    totalPages: Math.ceil(total / pageSize)
+                };
+            }
+
+            return result;
         } catch (error) {
             throw new Error(`Get categories with image info failed: ${error.message}`);
         }

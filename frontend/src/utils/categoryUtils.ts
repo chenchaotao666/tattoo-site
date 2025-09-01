@@ -92,6 +92,6 @@ export const handleCategoryClick = (
   navigate: NavigateFunction
 ) => {
   // 使用映射表获取SEO友好的名称
-  const categoryPath = getCategoryNameById(category.categoryId);
+  const categoryPath = getCategoryNameById(category.id);
   navigateWithLanguage(navigate, `/categories/${categoryPath}`, { state: { category } });
 }; 

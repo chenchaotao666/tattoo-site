@@ -3,7 +3,7 @@ import { useSearchParams, useLocation } from 'react-router-dom';
 import GenerateServiceInstance, { StyleSuggestion, AspectRatio } from '../services/generateService';
 import { STYLE_SUGGESTIONS, getRandomSuggestions } from '../utils/ideaSuggestions';
 
-import { HomeImage } from '../services/imageService';
+import { BaseImage } from '../services/imageService';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getLocalizedText } from '../utils/textUtils';
 
@@ -30,7 +30,7 @@ export interface UseGeneratePageState {
   enhanceEnabled: boolean; // Enhance toggle
   
   // 数据状态
-  generatedImages: HomeImage[]; // 生成的图片
+  generatedImages: BaseImage[]; // 生成的图片
   styleSuggestions: StyleSuggestion[];
   styles: Style[]; // 风格列表
   
@@ -367,11 +367,11 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
       
       // Handle completed generation
       if (tattooResponse && tattooResponse.localImages) {
-        // Create HomeImage objects from all generated images
+        // Create BaseImage objects from all generated images
         const localImages = tattooResponse.localImages || [];
         if (localImages.length > 0) {
           const batchId = tattooResponse.batchId || tattooResponse.id;
-          const newImages: HomeImage[] = localImages.map((localImage, index) => ({
+          const newImages: BaseImage[] = localImages.map((localImage, index) => ({
             id: `${tattooResponse.id}_${index}`,
             name: { zh: `${state.prompt} (${index + 1})`, en: `${state.prompt} (${index + 1})` },
             slug: `generated-tattoo-${tattooResponse.id}-${index}`,

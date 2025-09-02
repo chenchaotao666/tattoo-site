@@ -200,6 +200,30 @@ class BaseService {
         return errors;
     }
 
+    // 提取指定语言的内容
+    extractLangContent(post, lang) {
+        const langFields = ['title', 'excerpt', 'content', 'metaTitle', 'metaDesc'];
+        const processedPost = { ...post };
+
+        langFields.forEach(field => {
+            if (post[field] && typeof post[field] === 'object') {
+                // 如果是JSON对象，提取指定语言的内容
+                processedPost[field] = post[field][lang] || post[field]['en'] || '';
+            } else if (typeof post[field] === 'string') {
+                try {
+                    // 尝试解析JSON字符串
+                    const parsed = JSON.parse(post[field]);
+                    processedPost[field] = parsed[lang] || parsed['en'] || '';
+                } catch (e) {
+                    // 如果不是JSON，保持原值
+                    processedPost[field] = post[field];
+                }
+            }
+        });
+
+        return processedPost;
+    }
+
     // 标准API响应格式
     formatResponse(success, data = null, message = '', errors = []) {
         return {

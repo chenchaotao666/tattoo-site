@@ -45,7 +45,7 @@ const BlogPage = () => {
       const result = await PostsService.getPublishedPosts({
         currentPage: page,
         pageSize: ITEMS_PER_PAGE,
-        sortBy: 'published_date',
+        sortBy: 'publishedAt',
         sortOrder: 'desc',
         lang: language
       });
@@ -128,21 +128,21 @@ const BlogPage = () => {
         ogDescription={t('blog.seo.description')}
       />
       
-      <div className="min-h-screen bg-white">
-        <div className="mx-auto max-w-7xl px-[16px] pb-[60px]">
+      <div className="min-h-screen bg-black">
+        <div className="mx-auto max-w-6xl pt-10 pb-20">
           {/* Page Title */}
-          <h1 className="py-[2.5rem] text-4xl font-bold text-gray-900 px-[1rem]">
+          <h1 className="py-[2.5rem] text-4xl font-bold text-white">
             {t('blog.title')}
           </h1>
           
           {/* Blog Articles Section */}
-          <section className="body-font text-gray-700">
+          <section className="body-font text-white">
             <div className="container mx-auto">
               {isLoading ? (
                 null
               ) : error ? (
                 <div className="text-center py-12">
-                  <p className="text-red-600 text-lg">{error}</p>
+                  <p className="text-red-400 text-lg">{error}</p>
                   <button 
                     onClick={() => fetchPosts(currentPage)}
                     className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
@@ -152,7 +152,7 @@ const BlogPage = () => {
                 </div>
               ) : posts.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-gray-600 text-lg">{t('blog.noPosts')}</p>
+                  <p className="text-gray-300 text-lg">{t('blog.noPosts')}</p>
                 </div>
               ) : (
                 <div className="divide-y divide-gray-200">
@@ -160,10 +160,10 @@ const BlogPage = () => {
                     <div key={article.post_id}>
                       <div
                         onClick={() => handleArticleClick(article.slug, article)}
-                        className={`flex flex-wrap md:flex-nowrap hover:bg-gray-50 transition-colors duration-200 px-4 py-8 cursor-pointer`}
+                        className={`flex flex-wrap md:flex-nowrap hover:bg-gray-800 transition-colors duration-200 py-8 cursor-pointer`}
                       >
                         <div className="mb-6 flex flex-shrink-0 flex-col md:mb-0 md:w-64">
-                          <span className="text-gray-500 mt-1 text-sm">
+                          <span className="text-gray-400 mt-1 text-sm">
                             {new Date(article.published_date).toLocaleDateString(language, {
                               year: 'numeric',
                               month: 'long',
@@ -171,18 +171,18 @@ const BlogPage = () => {
                               weekday: 'short'
                             })}
                           </span>
-                          <span className="text-gray-400 mt-1 text-xs">
+                          <span className="text-gray-500 mt-1 text-xs">
                             {t('blog.author')} {article.author}
                           </span>
                         </div>
                         <div className="md:flex-grow">
-                          <h2 className="title-font text-gray-900 mb-2 text-2xl font-medium">
+                          <h2 className="title-font text-white mb-2 text-2xl font-medium">
                             {getLocalizedContent(article.title)}
                           </h2>
-                          <p className="text-gray-600 leading-relaxed line-clamp-3">
+                          <p className="text-gray-300 leading-relaxed line-clamp-3">
                             {stripHtmlTags(getLocalizedContent(article.content))}
                           </p>
-                          <div className="mt-4 inline-flex items-center text-blue-600 hover:text-blue-500 transition-colors">
+                          <div className="mt-4 inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
                             {t('blog.readMore')}
                             <svg
                               className="ml-2 h-4 w-4"
@@ -252,7 +252,7 @@ const BlogPage = () => {
                   </button>
                   
                   {/* Total Count */}
-                  <span className="ml-4 text-sm text-gray-500">
+                  <span className="ml-4 text-sm text-gray-400">
                     {t('blog.totalArticles', totalPosts.toString())}
                   </span>
                 </div>

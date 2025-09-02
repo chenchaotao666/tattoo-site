@@ -157,7 +157,7 @@ export class ImageService {
       // 新格式: {data: [...], pagination: {...}} (有分页时)
       // 旧格式: {images: [...], total: number}
       const rawImages = response.pagination ? response.data as BaseImage[] : (response as BaseImage[]);
-      const totalCount = response.pagination?.total || response.total || 0;
+      const totalCount = response.pagination?.total || 0;
       
       // 处理图片URL，确保都是绝对路径
       const images = rawImages.map(image => this.processImageUrls(image));

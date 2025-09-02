@@ -11,6 +11,39 @@ class PostService extends BaseService {
         super(postModel);
     }
 
+    // 重写getAll方法，过滤掉lang参数并在查询后处理多语言字段
+    async getAll(query = {}) {
+        try {
+            const lang = query.lang; // 保存lang参数
+            const { lang: _, ...queryWithoutLang } = query; // 从query中移除lang参数
+            
+            const pagination = this.normalizePaginationParams(queryWithoutLang);
+            const sort = this.normalizeSortParams(queryWithoutLang);
+            const filters = this.normalizeFilters(queryWithoutLang);
+
+            const options = {
+                ...pagination,
+                ...sort,
+                filters
+            };
+
+            // 执行查询（不包含lang参数）
+            const result = await this.model.findAll(options);
+
+            // 如果指定了lang参数，则对多语言字段进行过滤
+            if (lang && result.data) {
+                result.data = result.data.map(post => {
+                    return this.extractLangContent(post, lang);
+                });
+            }
+
+            return result;
+        } catch (error) {
+            throw new Error(`Get all records failed: ${error.message}`);
+        }
+    }
+
+
     // 根据slug获取文章
     async getBySlug(slug) {
         try {
@@ -28,34 +61,6 @@ class PostService extends BaseService {
             throw new Error(`Get post by slug failed: ${error.message}`);
         }
     }
-
-    // 获取已发布的文章
-    async getPublished(query = {}) {
-        try {
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = { ...pagination, ...sort, filters };
-            return await this.model.findPublished(options);
-        } catch (error) {
-            throw new Error(`Get published posts failed: ${error.message}`);
-        }
-    }
-
-    // 按作者获取文章
-    async getByAuthor(author, query = {}) {
-        try {
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = { ...pagination, ...sort, filters };
-            return await this.model.findByAuthor(author, options);
-        } catch (error) {
-            throw new Error(`Get posts by author failed: ${error.message}`);
-        }
-    }
 }
 
 // 创建文章路由
@@ -68,17 +73,6 @@ function createPostRoutes(app) {
     const baseRoutes = createBaseRoutes(postService, 'Post');
     router.use('/', baseRoutes);
 
-    // GET /api/posts/published - 获取已发布的文章
-    router.get('/published', async (req, res) => {
-        try {
-            const result = await postService.getPublished(req.query);
-            res.json(postService.formatPaginatedResponse(result, 'Published posts retrieved successfully'));
-        } catch (error) {
-            console.error('Get published posts error:', error);
-            res.status(500).json(postService.formatResponse(false, null, error.message));
-        }
-    });
-
     // GET /api/posts/slug/:slug - 根据slug获取文章
     router.get('/slug/:slug', async (req, res) => {
         try {
@@ -89,18 +83,6 @@ function createPostRoutes(app) {
             console.error('Get post by slug error:', error);
             const statusCode = error.message.includes('not found') ? 404 : 500;
             res.status(statusCode).json(postService.formatResponse(false, null, error.message));
-        }
-    });
-
-    // GET /api/posts/author/:author - 按作者获取文章
-    router.get('/author/:author', async (req, res) => {
-        try {
-            const { author } = req.params;
-            const result = await postService.getByAuthor(author, req.query);
-            res.json(postService.formatPaginatedResponse(result, `Posts by ${author} retrieved successfully`));
-        } catch (error) {
-            console.error('Get posts by author error:', error);
-            res.status(500).json(postService.formatResponse(false, null, error.message));
         }
     });
 

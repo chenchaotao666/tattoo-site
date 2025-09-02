@@ -394,7 +394,7 @@ const ImageDetailPage: React.FC = () => {
             return (
               <article className="mb-12 max-w-[1170px] mx-auto">
                 <div 
-                  className="prose-dark"
+                  className='prose prose-dark'
                   dangerouslySetInnerHTML={{ __html: additionalInfo }}
                 />
               </article>

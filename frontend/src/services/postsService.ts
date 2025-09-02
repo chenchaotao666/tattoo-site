@@ -1,20 +1,21 @@
 import { ApiUtils } from '../utils/apiUtils';
 import { LocalizedText } from '../utils/textUtils';
+import { PageResponseResult } from '../types/models';
 
 export interface Post {
   post_id: string;
   title: LocalizedText;
   slug: string;
   author: string;
-  published_date: string;
+  publishedAt: string;
   status: 'draft' | 'published' | 'archived';
   featured_image: string;
   excerpt: LocalizedText;
   content: LocalizedText;
   meta_title: LocalizedText;
   meta_description: LocalizedText;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface PostsSearchParams {
@@ -23,18 +24,20 @@ export interface PostsSearchParams {
   status?: 'draft' | 'published' | 'archived';
   author?: string;
   search?: string;
-  sortBy?: 'published_date' | 'created_at' | 'updated_at' | 'title';
+  sortBy?: 'publishedAt' | 'createdAt' | 'updatedAt' | 'title';
   sortOrder?: 'asc' | 'desc';
   currentPage?: number;
   pageSize?: number;
   lang?: string;
 }
 
+export type PostsResponseResult = PageResponseResult<Post>;
+
 export interface PostsSearchResult {
   posts: Post[];
-  total: number;
   currentPage: number;
   pageSize: number;
+  total: number;
 }
 
 export class PostsService {
@@ -48,7 +51,7 @@ export class PostsService {
       status,
       author,
       search,
-      sortBy = 'published_date',
+      sortBy = 'publishedAt',
       sortOrder = 'desc',
       currentPage = 1,
       pageSize = 10,
@@ -71,13 +74,13 @@ export class PostsService {
       searchParams.append('currentPage', currentPage.toString());
       searchParams.append('pageSize', pageSize.toString());
 
-      const response = await ApiUtils.get<PostsSearchResult>(`/api/blog/posts?${searchParams.toString()}`);
+      const response = await ApiUtils.get<PostsResponseResult>(`/api/posts?${searchParams.toString()}`);
       
       return {
-        posts: response.posts || [],
-        total: response.total || 0,
-        currentPage: response.currentPage || currentPage,
-        pageSize: response.pageSize || pageSize
+        posts: response.data || [],
+        total: response.pagination?.total || 0,
+        currentPage: response.pagination?.currentPage || currentPage,
+        pageSize: response.pagination?.pageSize || pageSize
       };
     } catch (error) {
       console.error('Failed to fetch posts:', error);
@@ -121,26 +124,6 @@ export class PostsService {
    */
   static async getPublishedPosts(params: Omit<PostsSearchParams, 'status'> = {}): Promise<PostsSearchResult> {
     return this.getPosts({ ...params, status: 'published' });
-  }
-
-  /**
-   * 根据作者获取文章
-   */
-  static async getPostsByAuthor(
-    author: string, 
-    params: Omit<PostsSearchParams, 'author'> = {}
-  ): Promise<PostsSearchResult> {
-    return this.getPosts({ ...params, author });
-  }
-
-  /**
-   * 搜索文章
-   */
-  static async searchPosts(
-    search: string, 
-    params: Omit<PostsSearchParams, 'search'> = {}
-  ): Promise<PostsSearchResult> {
-    return this.getPosts({ ...params, search });
   }
 }
 

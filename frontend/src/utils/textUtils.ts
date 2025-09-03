@@ -4,6 +4,11 @@ export interface LocalizedText {
   zh: string;
 }
 
+export interface MultilingualText {
+  en: string;
+  zh: string;
+}
+
 // 语言类型 - 扩展为支持任意语言代码
 export type Language = string;
 

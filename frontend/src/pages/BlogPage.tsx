@@ -128,7 +128,7 @@ const BlogPage = () => {
         ogDescription={t('blog.seo.description')}
       />
       
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-[#030414]">
         <div className="mx-auto max-w-6xl pt-10 pb-20">
           {/* Page Title */}
           <h1 className="py-[2.5rem] text-4xl font-bold text-white">
@@ -160,11 +160,11 @@ const BlogPage = () => {
                     <div key={article.post_id}>
                       <div
                         onClick={() => handleArticleClick(article.slug, article)}
-                        className={`flex flex-wrap md:flex-nowrap hover:bg-gray-800 transition-colors duration-200 py-8 cursor-pointer`}
+                        className={`flex flex-wrap md:flex-nowrap hover:bg-gray-800 transition-colors duration-200 px-4 py-8 cursor-pointer`}
                       >
                         <div className="mb-6 flex flex-shrink-0 flex-col md:mb-0 md:w-64">
                           <span className="text-gray-400 mt-1 text-sm">
-                            {new Date(article.published_date).toLocaleDateString(language, {
+                            {new Date(article.publishedAt).toLocaleDateString(language, {
                               year: 'numeric',
                               month: 'long',
                               day: 'numeric',

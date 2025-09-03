@@ -57,7 +57,7 @@ const SuccessModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-[#030414] bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="relative">
         {/* 弹窗主体 */}
         <div className="relative bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 sm:p-8 pt-16 sm:pt-20 max-w-md w-full border border-orange-200">
@@ -233,7 +233,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
   };
 
   return (
-    <div className="relative bg-black min-h-screen">
+    <div className="relative bg-[#030414] min-h-screen">
       {/* Main Content */}
       <div className="relative z-10 pt-4 lg:pt-16 flex flex-col items-center px-4">
         {/* 标题 - 可选 */}

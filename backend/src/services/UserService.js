@@ -87,20 +87,6 @@ class UserService extends BaseService {
         }
     }
 
-    // 根据用户名查找用户
-    async getUserByUsername(username) {
-        try {
-            if (!username) {
-                throw new Error('Username is required');
-            }
-
-            const user = await this.model.findByUsername(username);
-            return this.processUserData(user);
-        } catch (error) {
-            throw new Error(`Get user by username failed: ${error.message}`);
-        }
-    }
-
     // 根据refresh token查找用户
     async getUserByRefreshToken(refreshToken) {
         try {
@@ -170,52 +156,6 @@ class UserService extends BaseService {
             return await this.model.findExpiringMemberships(days);
         } catch (error) {
             throw new Error(`Get expiring memberships failed: ${error.message}`);
-        }
-    }
-
-    // 按角色获取用户
-    async getUsersByRole(role, query = {}) {
-        try {
-            if (!role) {
-                throw new Error('Role is required');
-            }
-
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = {
-                ...pagination,
-                ...sort,
-                filters
-            };
-
-            return await this.model.findByRole(role, options);
-        } catch (error) {
-            throw new Error(`Get users by role failed: ${error.message}`);
-        }
-    }
-
-    // 按等级获取用户
-    async getUsersByLevel(level, query = {}) {
-        try {
-            if (!level) {
-                throw new Error('Level is required');
-            }
-
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = {
-                ...pagination,
-                ...sort,
-                filters
-            };
-
-            return await this.model.findByLevel(level, options);
-        } catch (error) {
-            throw new Error(`Get users by level failed: ${error.message}`);
         }
     }
 
@@ -313,29 +253,6 @@ class UserService extends BaseService {
         }
     }
 
-    // 获取用户仪表板数据
-    async getUserDashboard(userId) {
-        try {
-            if (!userId) {
-                throw new Error('User ID is required');
-            }
-
-            const userStats = await this.model.getUserStats(userId);
-            
-            if (!userStats) {
-                throw new Error('User not found');
-            }
-
-            // 额外的仪表板数据可以在这里添加
-            return {
-                ...userStats,
-                // 可以添加更多统计数据
-            };
-        } catch (error) {
-            throw new Error(`Get user dashboard failed: ${error.message}`);
-        }
-    }
-
     // 用户登录
     async loginUser(email, password) {
         try {
@@ -374,38 +291,6 @@ class UserService extends BaseService {
             return this.processUserData(user);
         } catch (error) {
             throw new Error(`Get user profile failed: ${error.message}`);
-        }
-    }
-
-    // 用户搜索（支持邮箱和用户名）
-    async searchUsers(keyword, query = {}) {
-        try {
-            if (!keyword) {
-                return await this.getAll(query);
-            }
-
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            // 构建搜索条件
-            const searchFilters = {
-                ...filters,
-                $or: [
-                    { username: { operator: 'LIKE', value: `%${keyword}%` } },
-                    { email: { operator: 'LIKE', value: `%${keyword}%` } }
-                ]
-            };
-
-            const options = {
-                ...pagination,
-                ...sort,
-                filters: searchFilters
-            };
-
-            return await this.model.findAll(options);
-        } catch (error) {
-            throw new Error(`Search users failed: ${error.message}`);
         }
     }
 }

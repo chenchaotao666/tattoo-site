@@ -28,7 +28,7 @@ interface TattooIntroductionProps {
 
 const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
   return (
-    <div className="w-full bg-black py-16 lg:py-20">
+    <div className="w-full bg-[#030414] py-16 lg:py-20">
       <div className="max-w-[1170px] mx-auto px-4 flex justify-center">
         <div style={{ width: '1170px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '160px', display: 'inline-flex' }}>
           

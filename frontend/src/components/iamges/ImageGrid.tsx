@@ -47,7 +47,7 @@ const ImageGrid: React.FC<ImageGridProps> = ({
   };
 
   return (
-    <div className={`w-full bg-black`} data-image-grid-version="v1.0">
+    <div className={`w-full bg-[#030414]`} data-image-grid-version="v1.0">
       {/* Grid Layout */}
       <div className="hidden lg:block">
         <div className="relative">

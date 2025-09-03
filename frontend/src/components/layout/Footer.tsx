@@ -6,11 +6,11 @@ import { Category } from '../../services/categoriesService';
 import { colors } from '../../styles/colors';
 
 const logo = '/images/logo.svg';
-const socialIcon1 = '/images/Link → SVG-1.svg';
-const socialIcon2 = '/images/Link → SVG-2.svg';
-const socialIcon3 = '/images/Link → SVG-3.svg';
-const socialIcon4 = '/images/Link → SVG-4.svg';
-const socialIcon5 = '/images/Link → SVG-5.svg';
+const socialIcon1 = '/images/footer/Link → SVG-1.svg';
+const socialIcon2 = '/images/footer/Link → SVG-2.svg';
+const socialIcon3 = '/images/footer/Link → SVG-3.svg';
+const socialIcon4 = '/images/footer/Link → SVG-4.svg';
+const socialIcon5 = '/images/footer/Link → SVG-5.svg';
 
 // Interface for footer links section
 interface FooterSectionProps {

@@ -40,7 +40,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
       onClick={handleBackdropClick}
     >
       {/* 背景遮罩 */}
-      <div className="absolute inset-0 bg-black opacity-70"></div>
+      <div className="absolute inset-0 bg-[#030414] opacity-70"></div>
       
       {/* 对话框 */}
       <div className="relative bg-[#19191F] rounded-2xl border border-[#393B42] w-[490px] h-[190px] flex flex-col">

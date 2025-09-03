@@ -5,10 +5,11 @@ import { useLanguage, Language, useAsyncTranslation } from '../../contexts/Langu
 import { generateLanguagePath } from '../common/LanguageRouter';
 import { Category } from '../../services/categoriesService';
 import CategoryMenus from './CategoryMenus';
+import IntlSelector from './IntlSelector';
+import { colors } from '../../styles/colors';
 
 // 导入图标 - 使用正确的 public 路径
 const logo = '/images/header/logo.svg';
-const intlIcon = '/images/header/intl.svg';
 const expandIcon = '/images/header/expand.svg';
 const creditsIcon = '/images/credits.svg';
 const defaultAvatar = '/images/default-avatar.svg';
@@ -21,7 +22,7 @@ interface HeaderProps {
   categoriesLoading: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', categories, categoriesLoading }) => {
+const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
   const { user, isAuthenticated, isLoading, logout } = useAuth();
   const { language, setLanguage, t } = useLanguage();
   const { t: navT } = useAsyncTranslation('navigation');
@@ -57,16 +58,12 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileMenuVisible, setIsMobileMenuVisible] = useState(false);
   const [isMobileMenuAnimating, setIsMobileMenuAnimating] = useState(false);
-  const [isDesktopLanguageDropdownOpen, setIsDesktopLanguageDropdownOpen] = useState(false);
-  const [isDesktopLanguageVisible, setIsDesktopLanguageVisible] = useState(false);
-  const [isDesktopLanguageAnimating, setIsDesktopLanguageAnimating] = useState(false);
   const [isMobileLanguageDropdownOpen, setIsMobileLanguageDropdownOpen] = useState(false);
   const [isMobileLanguageVisible, setIsMobileLanguageVisible] = useState(false);
   const [isMobileLanguageAnimating, setIsMobileLanguageAnimating] = useState(false);
   const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] = useState(false);
   const [isCategoriesDropdownVisible, setIsCategoriesDropdownVisible] = useState(false);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const userDropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const hamburgerButtonRef = useRef<HTMLButtonElement>(null);
@@ -75,10 +72,6 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
   // 点击外部关闭下拉菜单
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // 桌面端语言选择下拉菜单
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDesktopLanguageDropdownOpen(false);
-      }
       // 用户下拉菜单
       if (userDropdownRef.current && !userDropdownRef.current.contains(event.target as Node)) {
         setIsUserDropdownOpen(false);
@@ -101,7 +94,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isMobileMenuOpen, isUserDropdownOpen, isDesktopLanguageDropdownOpen, isMobileLanguageDropdownOpen, isCategoriesDropdownOpen]);
+  }, [isMobileMenuOpen, isUserDropdownOpen, isMobileLanguageDropdownOpen, isCategoriesDropdownOpen]);
 
   // 控制移动端菜单的显示动画
   useEffect(() => {
@@ -147,22 +140,6 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
     }
   }, [isMobileLanguageDropdownOpen]);
 
-  // 控制桌面端语言下拉框的显示动画
-  useEffect(() => {
-    if (isDesktopLanguageDropdownOpen) {
-      setIsDesktopLanguageVisible(true);
-      const timer = setTimeout(() => {
-        setIsDesktopLanguageAnimating(true);
-      }, 10);
-      return () => clearTimeout(timer);
-    } else {
-      setIsDesktopLanguageAnimating(false);
-      const timer = setTimeout(() => {
-        setIsDesktopLanguageVisible(false);
-      }, 150);
-      return () => clearTimeout(timer);
-    }
-  }, [isDesktopLanguageDropdownOpen]);
 
   // 控制用户下拉框的显示动画
   useEffect(() => {
@@ -186,10 +163,6 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
     setIsCategoriesDropdownVisible(isCategoriesDropdownOpen);
   }, [isCategoriesDropdownOpen]);
 
-  const handleLanguageSelect = (lang: Language) => {
-    setLanguage(lang);
-    setIsDesktopLanguageDropdownOpen(false);
-  };
 
   const handleLogout = async () => {
     try {
@@ -245,7 +218,16 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
 
   return (
     <>
-      <div className={`fixed top-0 left-0 right-0 w-full h-[70px] py-[15px] bg-black bg-opacity-98 backdrop-blur-md flex justify-between items-center z-50`}>
+      <div 
+        className="fixed top-0 left-0 right-0 w-full h-[70px] py-[15px] backdrop-blur-md flex justify-between items-center z-50"
+        style={{
+          backgroundImage: `url('/images/header/bg.png')`,
+          backgroundSize: '100% auto',
+          backgroundPosition: 'top center',
+          backgroundRepeat: 'no-repeat',
+          backgroundColor: '#030414',
+        }}
+      >
         {/* Logo */}
         <Link to={createLocalizedLink("/")} className="relative z-10 pl-4 sm:pl-5 flex justify-start items-center gap-1 hover:opacity-90 transition-opacity duration-200">
           <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
@@ -254,11 +236,11 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
 
         {/* 桌面端导航菜单 */}
         <div className="hidden lg:flex relative z-10 max-h-6 justify-start items-start gap-10 flex-wrap">
-          <Link to={createLocalizedLink("/")} className="px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[#FF5C07] transition-colors duration-200 block">
+          <Link to={createLocalizedLink("/")} className={`px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[${colors.special.highlight}] transition-colors duration-200 block`}>
             {navT('menu.home', 'Home')}
           </Link>
 
-          <Link to={createLocalizedLink("/create")} className="px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[#FF5C07] transition-colors duration-200 block">
+          <Link to={createLocalizedLink("/create")} className={`px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[${colors.special.highlight}] transition-colors duration-200 block`}>
             {navT('menu.create', 'Create')}
           </Link>
           
@@ -271,11 +253,11 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
           >
             <Link 
               to={createLocalizedLink("/categories")} 
-              className="px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[#FF5C07] transition-colors duration-200 flex items-center gap-1 group"
+              className={`px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[${colors.special.highlight}] transition-colors duration-200 flex items-center gap-1 group`}
             >
               {navT('menu.inspiration', 'Inspiration')}
               <svg 
-                className="w-5 h-5 transition-colors duration-200 group-hover:text-[#FF5C07]" 
+                className={`w-5 h-5 transition-colors duration-200 group-hover:text-[${colors.special.highlight}]`} 
                 fill="currentColor" 
                 viewBox="0 0 20 20"
               >
@@ -294,65 +276,17 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
           </div>
 
           
-          <Link to={createLocalizedLink("/price")} className="px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[#FF5C07] transition-colors duration-200 block">
+          <Link to={createLocalizedLink("/price")} className={`px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[${colors.special.highlight}] transition-colors duration-200 block`}>
             {navT('menu.pricing', 'Pricing')}
           </Link>
-          <Link to={createLocalizedLink("/blog")} className="px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[#FF5C07] transition-colors duration-200 block">
+          <Link to={createLocalizedLink("/blog")} className={`px-4 py-4 -mx-4 -my-4 text-white text-base font-medium leading-6 hover:text-[${colors.special.highlight}] transition-colors duration-200 block`}>
             {navT('menu.blog', 'Blog')}
           </Link>
         </div>
 
         {/* 桌面端右侧菜单 */}
         <div className="hidden lg:flex relative z-10 min-w-[300px] pr-5 justify-end items-center gap-[20px]">
-          {/* 语言选择下拉菜单 */}
-          <div className="relative flex-shrink-0" ref={dropdownRef}>
-            <div 
-              className="px-3 py-1.5 rounded-lg flex justify-start items-center gap-1.5 hover:opacity-85 transition-opacity duration-200 cursor-pointer min-w-fit"
-              onClick={() => setIsDesktopLanguageDropdownOpen(!isDesktopLanguageDropdownOpen)}
-            >
-              <img src={intlIcon} alt="Language" className="w-5 h-5 flex-shrink-0" />
-              <span className="text-white text-base font-medium leading-6 whitespace-nowrap flex-shrink-0">
-                {language === 'zh' ? navT('language.chinese', '简体中文') : 
-                 language === 'ja' ? navT('language.japanese', '日本語') : 
-                 navT('language.english', 'English')}
-              </span>
-              <svg 
-                className={`w-5 h-5 flex-shrink-0 transition-all duration-200 ${isDesktopLanguageDropdownOpen ? 'rotate-180' : ''}`} 
-                fill="currentColor" 
-                viewBox="0 0 20 20"
-              >
-                <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
-            </div>
-
-            {/* 语言下拉菜单 */}
-            {isDesktopLanguageVisible && (
-              <div className={`absolute top-full mt-[2px] right-0 bg-white border border-[#E5E7EB] rounded-lg shadow-lg py-2 min-w-[120px] z-50 transition-all duration-150 ease-out ${
-                isDesktopLanguageAnimating 
-                  ? 'opacity-100 translate-y-0 scale-100' 
-                  : 'opacity-0 -translate-y-1 scale-95'
-              }`}>
-                <div
-                  className="px-4 py-1.5 text-black text-base font-medium hover:bg-gray-100 cursor-pointer transition-colors duration-200 whitespace-nowrap"
-                  onClick={() => handleLanguageSelect('en')}
-                >
-                  {navT('language.english', 'English')}
-                </div>
-                <div
-                  className="px-4 py-1.5 text-black text-base font-medium hover:bg-gray-100 cursor-pointer transition-colors duration-200 whitespace-nowrap"
-                  onClick={() => handleLanguageSelect('zh')}
-                >
-                  {navT('language.chinese', '简体中文')}
-                </div>
-                {/* <div
-                  className="px-4 py-1.5 text-[#161616] text-base font-medium hover:bg-gray-100 cursor-pointer transition-colors duration-200 whitespace-nowrap"
-                  onClick={() => handleLanguageSelect('ja')}
-                >
-                  {navT('language.japanese', '日本語')}
-                </div> */}
-              </div>
-            )}
-          </div>
+          <IntlSelector />
           
           {/* 用户认证区域 */}
           {isAuthenticated ? (
@@ -424,17 +358,6 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
                       </svg>
                       <span>{navT('menu.myCreations', 'My Creations')}</span>
                     </Link>
-                    
-                    {/* <Link
-                      to="/create"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-                      onClick={() => setIsUserDropdownOpen(false)}
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
-                      </svg>
-                      <span>{t('buttons.generate')}</span>
-                    </Link> */}
                     
                     <div className="border-t border-gray-100 mt-1">
                       <button
@@ -634,7 +557,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
             <div className="border-b border-gray-200">
               <Link 
                 to={createLocalizedLink("/")} 
-                className="block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[#FF5C07] hover:bg-gray-50 transition-colors duration-200"
+                className={`block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[${colors.special.highlight}] hover:bg-gray-50 transition-colors duration-200`}
                 onClick={handleMobileLinkClick}
               >
                 {navT('menu.home', 'Home')}
@@ -643,7 +566,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
             <div className="border-b border-gray-200">
               <Link 
                 to={createLocalizedLink("/categories")} 
-                className="block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[#FF5C07] hover:bg-gray-50 transition-colors duration-200"
+                className={`block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[${colors.special.highlight}] hover:bg-gray-50 transition-colors duration-200`}
                 onClick={handleMobileLinkClick}
               >
                 {navT('menu.inspiration', 'Inspiration')}
@@ -652,7 +575,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
             <div className="border-b border-gray-200">
               <Link 
                 to={createLocalizedLink("/image-coloring-page")} 
-                className="block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[#FF5C07] hover:bg-gray-50 transition-colors duration-200"
+                className={`block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[${colors.special.highlight}] hover:bg-gray-50 transition-colors duration-200`}
                 onClick={handleMobileLinkClick}
               >
                 {navT('menu.imageColoringPage', 'Image Coloring Page')}
@@ -661,7 +584,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
             <div className="border-b border-gray-200">
               <Link 
                 to={createLocalizedLink("/create")} 
-                className="block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[#FF5C07] hover:bg-gray-50 transition-colors duration-200"
+                className={`block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[${colors.special.highlight}] hover:bg-gray-50 transition-colors duration-200`}
                 onClick={handleMobileLinkClick}
               >
                 {navT('menu.create', 'Create')}
@@ -670,7 +593,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
             <div className="border-b border-gray-200">
               <Link 
                 to={createLocalizedLink("/price")} 
-                className="block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[#FF5C07] hover:bg-gray-50 transition-colors duration-200"
+                className={`block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[${colors.special.highlight}] hover:bg-gray-50 transition-colors duration-200`}
                 onClick={handleMobileLinkClick}
               >
                 {navT('menu.pricing', 'Pricing')}
@@ -679,7 +602,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
             <div className="border-b border-gray-200">
               <Link 
                 to={createLocalizedLink("/blog")} 
-                className="block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[#FF5C07] hover:bg-gray-50 transition-colors duration-200"
+                className={`block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[${colors.special.highlight}] hover:bg-gray-50 transition-colors duration-200`}
                 onClick={handleMobileLinkClick}
               >
                 {navT('menu.blog', 'Blog')}
@@ -692,7 +615,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
                 <div className="border-b border-gray-200">
                   <Link
                     to={createLocalizedLink("/profile")}
-                    className="block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[#FF5C07] hover:bg-gray-50 transition-colors duration-200"
+                    className={`block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[${colors.special.highlight}] hover:bg-gray-50 transition-colors duration-200`}
                     onClick={handleMobileLinkClick}
                   >
                     {navT('menu.profile', 'Profile')}
@@ -701,7 +624,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor = 'transparent', catego
                 <div className="border-b border-gray-200">
                   <Link
                     to={createLocalizedLink("/creations")}
-                    className="block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[#FF5C07] hover:bg-gray-50 transition-colors duration-200"
+                    className={`block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[${colors.special.highlight}] hover:bg-gray-50 transition-colors duration-200`}
                     onClick={handleMobileLinkClick}
                   >
                     {navT('menu.myCreations', 'My Creations')}

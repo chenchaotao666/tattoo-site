@@ -40,7 +40,7 @@ const TryNow: React.FC<TryNowProps> = ({
               <div className="text-black text-xl font-bold">
                 {buttonText}
               </div>
-              <div className="w-9 h-9 bg-black rounded-full flex items-center justify-center">
+              <div className="w-9 h-9 bg-[#030414] rounded-full flex items-center justify-center">
                 <img src="/images/try-now/right-arrow.png" alt="Right arrow" className="w-6 h-6" />
               </div>
             </button>
@@ -50,7 +50,7 @@ const TryNow: React.FC<TryNowProps> = ({
                 <div className="text-black text-xl font-bold">
                   {buttonText}
                 </div>
-                <div className="w-9 h-9 bg-black rounded-full flex items-center justify-center">
+                <div className="w-9 h-9 bg-[#030414] rounded-full flex items-center justify-center">
                   <img src="/images/try-now/right-arrow.png" alt="Right arrow" className="w-6 h-6" />
                 </div>
               </button>

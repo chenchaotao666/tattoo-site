@@ -10,10 +10,10 @@ import { colors } from '../../styles/colors';
 // 图标路径定义
 const refreshIcon = '/images/generate/refresh-ideas.png';
 const crownIcon = '/images/generate/crown.svg';
-const tipIcon = '/images/tip.svg';
+const tipIcon = '/images/generate/tip.svg';
 const subtractColorIcon = '/images/generate/subtract-color.svg';
 const subtractIcon = '/images/generate/generate-star.png';
-const textCountIcon = '/images/text-count.svg';
+const textCountIcon = '/images/generate/text-count.svg';
 
 
 interface GenerateLeftSidebarProps {

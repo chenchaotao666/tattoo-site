@@ -2,7 +2,7 @@ import { ApiUtils } from '../utils/apiUtils';
 import { SearchResult, ImageService } from './imageService';
 import { UrlUtils } from '../utils/urlUtils';
 import { LocalizedText } from '../utils/textUtils';
-import type { MultilingualText } from '../utils/multilingual';
+import type { MultilingualText } from '../utils/textUtils';
 
 // 标签统计接口
 export interface TagCount {

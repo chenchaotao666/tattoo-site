@@ -90,7 +90,7 @@ const BlogDetailPage = () => {
             ogImage={article.featured_image}
           />
 
-          <div className="min-h-screen bg-black">
+          <div className="min-h-screen bg-[#030414]">
             <div className="mx-auto max-w-6xl pt-10 pb-20">
               {/* Breadcrumb */}
               <Breadcrumb

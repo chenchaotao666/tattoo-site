@@ -1,5 +1,5 @@
 import { ApiUtils } from '../utils/apiUtils';
-import type { MultilingualText } from '../utils/multilingual';
+import type { MultilingualText } from '../utils/textUtils';
 
 // 样式接口定义
 export interface Style {

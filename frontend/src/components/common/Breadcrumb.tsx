@@ -4,7 +4,7 @@ import { navigateWithLanguage } from '../../utils/navigationUtils';
 import { colors } from '../../styles/colors';
 
 const homeIcon = '/images/breadcrumb/home.png';
-const chevronRightIcon = '/images/chevron-right.svg';
+const chevronRightIcon = '/images/breadcrumb/chevron-right.svg';
 
 export interface BreadcrumbItem {
   label: string;

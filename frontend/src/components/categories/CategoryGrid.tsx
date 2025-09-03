@@ -91,7 +91,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
   };
 
   return (
-    <div className={`w-full bg-black ${className}`} data-category-grid-version="v1.0">
+    <div className={`w-full bg-[#030414] ${className}`} data-category-grid-version="v1.0">
       {/* 网格布局 */}
       <div className="hidden lg:block">
         <div className="relative">

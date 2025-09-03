@@ -1,6 +1,6 @@
 import { ApiUtils, ApiError } from '../utils/apiUtils';
 import { UrlUtils } from '../utils/urlUtils';
-import type { MultilingualText } from '../utils/multilingual';
+import type { MultilingualText } from '../utils/textUtils';
 
 export type AspectRatio = '21:9' | '16:9' | '4:3' | '1:1' | '3:4' | '9:16' | '16:21';
 

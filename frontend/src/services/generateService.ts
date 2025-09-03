@@ -394,14 +394,6 @@ class GenerateService {
   }
 
   /**
-   * 获取任务状态
-   */
-  async getTaskStatus(taskId: string, type: 'text2image' | 'image2image' | 'image2coloring' = 'text2image'): Promise<TaskStatus> {
-    const { TaskService } = await import('./taskService');
-    return TaskService.getTaskStatus(taskId, type);
-  }
-
-  /**
    * 获取示例图片
    */
   async getExampleImages(category: 'text' | 'image', pageSize: number = 3): Promise<BaseImage[]> {

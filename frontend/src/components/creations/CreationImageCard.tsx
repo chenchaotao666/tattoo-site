@@ -187,7 +187,7 @@ const CreationImageCard: React.FC<CreationImageCardProps> = ({
           {/* 比例标签 - 只对text2image显示 */}
           {image.ratio && image.type === 'text2image' && (
             <div className="absolute top-2 right-2">
-              <span className="bg-black bg-opacity-30 text-white px-2 py-1 rounded text-xs">
+              <span className="bg-[#030414] bg-opacity-30 text-white px-2 py-1 rounded text-xs">
                 {image.ratio}
               </span>
             </div>

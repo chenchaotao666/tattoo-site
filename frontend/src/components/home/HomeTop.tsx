@@ -12,7 +12,17 @@ const HomeTop: React.FC<HomeTopProps> = ({
   tattooCount = 1000000,
 }) => {
   return (
-    <div className={`w-full flex flex-col items-center gap-8 bg-black py-16 px-4`}>
+    <div 
+      className="w-full flex flex-col items-center gap-8 py-16 px-4"
+      style={{
+        backgroundImage: `linear-gradient(rgba(3, 4, 20, 0.3), rgba(3, 4, 20, 0.7)), url('./images/header/bg.png')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center -12px',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#030414',
+        minHeight: '600px', // 确保有足够高度显示背景
+      }}
+    >
       {/* Badge */}
       <div className="px-3 py-1.5 rounded-[20px] outline outline-1 outline-[#5D5D5D] -outline-offset-1 flex justify-center items-center gap-2.5">
         <div className="text-[#ECECEC] text-sm font-['Roboto'] font-normal">

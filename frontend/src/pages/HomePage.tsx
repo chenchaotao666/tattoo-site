@@ -184,10 +184,10 @@ const HomePage = () => {
       />
       <Layout>
         <div className="w-full min-w-0">
-          <div className="bg-black">
+          <div className="bg-[#030414]">
             <HomeTop tattooCount={imageCount}/>
           </div>
-          <div className="w-full bg-black pb-12 sm:pb-16 md:pb-20 lg:pb-[6rem] pt-12 sm:pt-16 md:pt-20 lg:pt-[6rem]">
+          <div className="w-full bg-[#030414] pb-12 sm:pb-16 md:pb-20 lg:pb-[6rem] pt-12 sm:pt-16 md:pt-20 lg:pt-[6rem]">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-[48px] px-4 sm:px-0 max-w-[1200px] mx-auto">
                 <div className="text-center text-[#E6E6E6] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[46px] font-bold font-inter capitalize break-words">
@@ -209,13 +209,13 @@ const HomePage = () => {
             </div>
           </div>
           <TattooIntroduction data={tattooIntroductionData} />
-          <div className="bg-black flex justify-center py-16 lg:py-20">
+          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
             <CreateOnGo data={createOnGoData} />
           </div>
-          <div className="bg-black flex justify-center py-16 lg:py-20">
+          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
             <WhatUserSaying data={sampleWhatUserSayingData} />
           </div>
-          <div className="bg-black flex justify-center py-16 lg:py-20">
+          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
             <HowToCreate 
               title="Your Tattoo in 3 Steps"
               steps={[
@@ -238,7 +238,7 @@ const HomePage = () => {
             />
           </div>
           <PricingSection showTitle={true} />
-          <div className="bg-black flex justify-center py-16 lg:py-20">
+          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
             <GenerateFAQ 
               faqData={homeFAQData} 
               title="Frequently Asked Questions"

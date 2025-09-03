@@ -11,7 +11,7 @@ import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 
 // 图标导入
-const noResultIcon = '/images/no-result.svg';
+const noResultIcon = '/images/no-data.svg';
 
 interface CreationsPageProps {}
 
@@ -284,7 +284,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
 
       {/* 举报对话框 */}
       {showReportDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-[#030414] bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-md w-full p-6">
             <h3 className="text-lg font-medium text-gray-900 mb-4">Report Image</h3>
             <textarea

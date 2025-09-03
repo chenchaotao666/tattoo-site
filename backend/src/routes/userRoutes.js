@@ -68,23 +68,6 @@ function createUserRoutes(app) {
         }
     });
 
-    // GET /api/users/username/:username - 根据用户名查找用户
-    router.get('/username/:username', async (req, res) => {
-        try {
-            const { username } = req.params;
-            const user = await userService.getUserByUsername(username);
-            
-            if (!user) {
-                return res.status(404).json(userService.formatResponse(false, null, 'User not found'));
-            }
-            
-            res.json(userService.formatResponse(true, user, 'User retrieved successfully'));
-        } catch (error) {
-            console.error('Get user by username error:', error);
-            res.status(500).json(userService.formatResponse(false, null, error.message));
-        }
-    });
-
     // GET /api/users/:id/stats - 获取用户统计信息
     router.get('/:id/stats', validateUUID, async (req, res) => {
         try {
@@ -99,20 +82,6 @@ function createUserRoutes(app) {
         } catch (error) {
             console.error('Get user stats error:', error);
             res.status(500).json(userService.formatResponse(false, null, error.message));
-        }
-    });
-
-    // GET /api/users/:id/dashboard - 获取用户仪表板数据
-    router.get('/:id/dashboard', validateUUID, async (req, res) => {
-        try {
-            const { id } = req.params;
-            const dashboard = await userService.getUserDashboard(id);
-            
-            res.json(userService.formatResponse(true, dashboard, 'User dashboard retrieved successfully'));
-        } catch (error) {
-            console.error('Get user dashboard error:', error);
-            const statusCode = error.message.includes('not found') ? 404 : 500;
-            res.status(statusCode).json(userService.formatResponse(false, null, error.message));
         }
     });
 
@@ -143,32 +112,6 @@ function createUserRoutes(app) {
             console.error('Update user balance error:', error);
             const statusCode = error.message.includes('not found') ? 404 : 500;
             res.status(statusCode).json(userService.formatResponse(false, null, error.message));
-        }
-    });
-
-    // GET /api/users/role/:role - 按角色获取用户
-    router.get('/role/:role', async (req, res) => {
-        try {
-            const { role } = req.params;
-            const result = await userService.getUsersByRole(role, req.query);
-            
-            res.json(userService.formatPaginatedResponse(result, `Users with role ${role} retrieved successfully`));
-        } catch (error) {
-            console.error('Get users by role error:', error);
-            res.status(500).json(userService.formatResponse(false, null, error.message));
-        }
-    });
-
-    // GET /api/users/level/:level - 按等级获取用户
-    router.get('/level/:level', async (req, res) => {
-        try {
-            const { level } = req.params;
-            const result = await userService.getUsersByLevel(level, req.query);
-            
-            res.json(userService.formatPaginatedResponse(result, `Users with level ${level} retrieved successfully`));
-        } catch (error) {
-            console.error('Get users by level error:', error);
-            res.status(500).json(userService.formatResponse(false, null, error.message));
         }
     });
 

@@ -3,20 +3,6 @@ import { BaseImage } from './imageService';
 
 // ==================== 类型定义 ====================
 
-export interface GenerateTextToImageRequest {
-  prompt: string;
-  isPublic: boolean;
-  style?: string;
-  userId?: string;
-  difficulty?: string;
-}
-
-export interface GenerateImageToImageRequest {
-  imageFile: File;
-  isPublic: boolean;
-  userId?: string;
-}
-
 export interface GenerateTattooRequest {
   prompt: string;
   width?: number;
@@ -227,7 +213,7 @@ class GenerateService {
     predictionId: string, 
     onProgress?: (progress: { percentage: number; message: string; status: string }) => void,
     maxRetries: number = 60,
-    retryInterval: number = 5000
+    retryInterval: number = 2000
   ): Promise<TattooGenerationStatusResponse> {
     let retries = 0;
     
@@ -278,24 +264,146 @@ class GenerateService {
     data: GenerateTattooRequest,
     onProgress?: (progress: { percentage: number; message: string; status: string }) => void
   ): Promise<TattooGenerationResponse> {
+    // 定义在函数作用域，以便在catch块中访问
+    let progressTimer: NodeJS.Timeout | null = null;
+    
     try {
+      let currentProgress = 0;
+      const maxPollingProgress = 90; // 轮询阶段最大进度
+      
+      // 创建智能进度管理器 - 均匀上升，不依赖pollTattooGenerationStatus的回调
+      let currentProgressValue = 0;
+      
+      // 根据生成图片数量调整进度速度
+      const numOutputs = data.num_outputs || 1;
+      let progressInterval = 100; // 默认间隔100ms
+      
+      if (numOutputs >= 4) {
+        progressInterval = 300; // 4张图片时减慢到300ms
+      } else if (numOutputs >= 2) {
+        progressInterval = 200; // 2-3张图片时适中速度200ms
+      }
+      
+      const startUniformProgress = () => {
+        progressTimer = setInterval(() => {
+          if (currentProgressValue < maxPollingProgress) {
+            currentProgressValue = Math.min(currentProgressValue + 1, maxPollingProgress);
+            if (onProgress) {
+              onProgress({
+                percentage: currentProgressValue,
+                message: `正在生成 ${numOutputs} 张图片...`,
+                status: 'processing'
+              });
+            }
+          }
+        }, progressInterval); // 根据图片数量调整间隔
+      };
+      
+      const smartProgressHandler = (progress: { percentage: number; message: string; status: string }) => {
+        // 只有当percentage达到100时才处理结果
+        if (progress.percentage >= 100) {
+          if (progressTimer) {
+            clearInterval(progressTimer);
+          }
+          currentProgress = maxPollingProgress;
+          if (onProgress) {
+            onProgress({
+              percentage: maxPollingProgress,
+              message: progress.message,
+              status: progress.status
+            });
+          }
+        }
+        // 其他情况不依赖pollTattooGenerationStatus的回调
+      };
+
       // 1. 启动异步生成任务
       const startResponse = await this.generateTattooAsync(data);
       const predictionId = startResponse.id;
       
+      // 启动均匀进度更新
+      startUniformProgress();
+      
       // 2. 轮询状态直到完成
-      const statusResponse = await this.pollTattooGenerationStatus(predictionId, onProgress);
+      const statusResponse = await this.pollTattooGenerationStatus(predictionId, smartProgressHandler);
       
       // 3. 如果生成成功，完成后处理（下载保存）
       if (statusResponse.status === 'succeeded') {
-        const completeResponse = await this.completeTattooGeneration(predictionId, data);
-        return completeResponse;
+        // 清理进度定时器
+        if (progressTimer) {
+          clearInterval(progressTimer);
+        }
+        
+        // 确保进度达到90%
+        if (currentProgress < maxPollingProgress && onProgress) {
+          onProgress({
+            percentage: maxPollingProgress,
+            message: '正在处理生成结果...',
+            status: 'processing'
+          });
+        }
+        
+        // 从90%到100%的进度模拟
+        const completeSteps = 10;
+        const stepProgress = (100 - maxPollingProgress) / completeSteps;
+        let stepCount = 0;
+        
+        // 根据图片数量调整完成阶段的进度间隔
+        let completeInterval = 300; // 默认间隔300ms
+        if (numOutputs >= 4) {
+          completeInterval = 800; // 4张图片时减慢到800ms
+        } else if (numOutputs >= 2) {
+          completeInterval = 500; // 2-3张图片时中等速度500ms
+        }
+        
+        // 创建完成阶段的进度更新器
+        const completeProgressInterval = setInterval(() => {
+          if (stepCount < completeSteps && onProgress) {
+            stepCount++;
+            const newProgress = maxPollingProgress + (stepProgress * stepCount);
+            onProgress({
+              percentage: Math.min(Math.floor(newProgress), 99), // 不超过99%，等真正完成时显示100%
+              message: `正在保存 ${numOutputs} 张图片...`,
+              status: 'processing'
+            });
+          }
+        }, completeInterval); // 根据图片数量调整间隔
+        
+        try {
+          const completeResponse = await this.completeTattooGeneration(predictionId, data);
+          
+          // 清除进度更新器
+          clearInterval(completeProgressInterval);
+          
+          // 显示100%完成
+          if (onProgress) {
+            onProgress({
+              percentage: 100,
+              message: '生成完成',
+              status: 'succeeded'
+            });
+          }
+          
+          return completeResponse;
+        } catch (error) {
+          // 清除进度更新器
+          clearInterval(completeProgressInterval);
+          throw error;
+        }
       } else {
+        // 清理进度定时器
+        if (progressTimer) {
+          clearInterval(progressTimer);
+        }
         // 生成失败，返回状态信息
         throw new ApiError('2017', `生成失败: ${statusResponse.error || '未知错误'}`);
       }
       
     } catch (error) {
+      // 清理进度定时器
+      if (progressTimer) {
+        clearInterval(progressTimer);
+      }
       console.error('Generate tattoo with progress error:', error);
       if (error instanceof ApiError) {
         throw error;
@@ -317,75 +425,6 @@ class GenerateService {
         throw error;
       }
       throw new ApiError('2013', '获取样式预设失败');
-    }
-  }
-
-  /**
-   * 文本生成图片
-   */
-  async generateTextToImage(data: GenerateTextToImageRequest): Promise<GenerateResponse> {
-    try {
-      const requestBody: any = {
-        prompt: data.prompt,
-        ratio: data.ratio,
-        isPublic: data.isPublic,
-        style: data.style
-      };
-      
-      // 如果提供了userId，则添加到请求中
-      if (data.userId) {
-        requestBody.userId = data.userId;
-      }
-      
-      // 如果提供了difficulty，则添加到请求中
-      if (data.difficulty) {
-        requestBody.difficulty = data.difficulty;
-      }
-      
-      const responseData = await ApiUtils.post<{ taskId: string }>('/api/images/text2imggenerate', requestBody, true);
-      
-      return {
-        status: 'success',
-        data: responseData,
-        message: 'Generation started successfully'
-      };
-    } catch (error) {
-      console.error('Generate text to image error:', error);
-      if (error instanceof ApiError) {
-        throw error;
-      }
-      throw new ApiError('2007', '文本生成图片失败');
-    }
-  }
-
-  /**
-   * 图片转图片生成
-   */
-  async generateImageToImage(data: GenerateImageToImageRequest): Promise<GenerateResponse> {
-    try {
-      const formData = new FormData();
-      formData.append('file', data.imageFile);
-      if (data.ratio) formData.append('ratio', data.ratio);
-      formData.append('isPublic', data.isPublic.toString());
-      
-      // 如果提供了userId，则添加到请求中
-      if (data.userId) {
-        formData.append('userId', data.userId);
-      }
-
-      const responseData = await ApiUtils.uploadFile<{ taskId: string }>('/api/images/img2imggenerate', formData, true);
-      
-      return {
-        status: 'success',
-        data: responseData,
-        message: 'Generation started successfully'
-      };
-    } catch (error) {
-      console.error('Generate image to image error:', error);
-      if (error instanceof ApiError) {
-        throw error;
-      }
-      throw new ApiError('2008', '图片转换失败');
     }
   }
 

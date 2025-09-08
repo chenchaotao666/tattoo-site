@@ -487,7 +487,7 @@ The design should be professional quality, original, and ready for use as a tatt
                 prediction.databaseRecords = savedToDb;
             }
             
-            return this.formatResponse(true, prediction, 'Generation completed and saved successfully');
+            return this.formatResponse(true, { localImages: savedImages }, 'Generation completed and saved successfully');
         } catch (error) {
             throw new Error(`Complete generation failed: ${error.message}`);
         }
@@ -647,21 +647,12 @@ The design should be professional quality, original, and ready for use as a tatt
                 // 构建数据库记录数据
                 const imageData = {
                     id: this.generateId(),
-                    name: JSON.stringify({
-                        en: `Generated Tattoo ${generationResult.id}_${i}`,
-                        zh: `生成纹身 ${generationResult.id}_${i}`
-                    }),
+                    name: null,
                     slug: `generated-tattoo-${generationResult.id}-${i}`,
                     tattooUrl: savedImage.relativePath, // 使用相对路径
                     scourceUrl: savedImage.originalUrl, // 原始Replicate URL
-                    title: JSON.stringify({
-                        en: `AI Generated Tattoo`,
-                        zh: `AI生成纹身`
-                    }),
-                    description: JSON.stringify({
-                        en: `AI generated tattoo image using prompt: ${originalParams.prompt}`,
-                        zh: `使用提示词生成的AI纹身图片：${originalParams.prompt}`
-                    }),
+                    title: null,
+                    description: null,
                     type: 'text2image', // 生成类型
                     styleId: originalParams.styleId || null, // 如果有样式ID
                     isColor: originalParams.isColor !== undefined ? originalParams.isColor : this.detectColor(originalParams), // 使用传入的参数或检测
@@ -675,17 +666,7 @@ The design should be professional quality, original, and ready for use as a tatt
                     userId: originalParams.userId || null, // 如果有用户ID
                     categoryId: originalParams.categoryId || null, // 如果有分类ID
                     batchId: originalParams.batchId,
-                    additionalInfo: JSON.stringify({
-                        generationId: generationResult.id,
-                        generationParams: generationResult.input,
-                        fileSize: savedImage.size,
-                        dimensions: {
-                            width: originalParams.width || 1024,
-                            height: originalParams.height || 1024
-                        },
-                        model: this.modelVersion,
-                        batchId: originalParams.batchId
-                    })
+                    additionalInfo: null
                 };
 
                 // 保存到数据库

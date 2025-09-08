@@ -47,6 +47,9 @@ const GeneratePage: React.FC = () => {
   
   // 存储要删除的图片ID数组
   const [imagesToDelete, setImagesToDelete] = React.useState<string[]>([]);
+  
+  // 存储已通过MoreMenu删除的图片ID，用于过滤显示
+  const [deletedImageIds, setDeletedImageIds] = React.useState<string[]>([]);
 
   // 控制定价弹窗的显示
   const [showPricingModal, setShowPricingModal] = React.useState(false);
@@ -133,6 +136,11 @@ const GeneratePage: React.FC = () => {
     checkUserCredits,
     loadGeneratedImages,
   } = useGeneratePage(refreshUser);
+
+  // 过滤掉已删除的图片
+  const filteredGeneratedImages = React.useMemo(() => {
+    return generatedImages.filter(img => !deletedImageIds.includes(img.id));
+  }, [generatedImages, deletedImageIds]);
   
   // 当AuthContext完成初始化且有用户数据时，初始化用户相关数据
   useEffect(() => {
@@ -277,7 +285,7 @@ const GeneratePage: React.FC = () => {
 
   // 回填图片属性的辅助函数
   const fillImageAttributes = (imageId: string) => {
-    const currentImages = generatedImages;
+    const currentImages = filteredGeneratedImages;
     const selectedImageData = currentImages.find(img => img.id === imageId);
     
     // 检查是否有URL参数，如果有则不要覆盖
@@ -338,7 +346,7 @@ const GeneratePage: React.FC = () => {
 
   // 标签切换时的图片选择逻辑：为每个tab记住其选中状态，同时处理新生成的图片
   useEffect(() => {
-    const currentImages = generatedImages;
+    const currentImages = filteredGeneratedImages;
     // currentSelectedImage is now defined above
     const currentLength = currentImages.length;
     const previousLength = prevLength.current;
@@ -381,7 +389,7 @@ const GeneratePage: React.FC = () => {
         setCurrentSelectedImage(targetImageId);
       }
     }
-  }, [selectedTab, generatedImages]);
+  }, [selectedTab, filteredGeneratedImages]);
 
   // 当用户选择图片时，更新选中状态
   const handleImageSelectWithTabMemory = (imageId: string) => {
@@ -478,23 +486,11 @@ const GeneratePage: React.FC = () => {
     refreshStyleSuggestions();
   };
 
-  const handleMoreMenuToggle = () => {
-    setShowMoreMenu(!showMoreMenu);
-  };
-
-  const handleDelete = (imageIds?: string[]) => {
-    if (imageIds && imageIds.length > 0) {
-      // 批次删除
-      setImagesToDelete(imageIds);
-      setShowMoreMenu(false);
-      setShowDeleteConfirm(true);
-    } else if (currentSelectedImage) {
-      // 单张删除
-      setImagesToDelete([currentSelectedImage]);
-      setShowMoreMenu(false);
-      setShowDeleteConfirm(true);
-    }
-  };
+  // MoreMenu删除成功后的回调，直接更新本地状态
+  const handleImagesDeleted = React.useCallback((deletedIds: string[]) => {
+    // 将删除的图片ID添加到过滤列表中
+    setDeletedImageIds(prev => [...prev, ...deletedIds]);
+  }, []);
 
   const handleConfirmDelete = async () => {
     if (imagesToDelete.length > 0) {
@@ -545,9 +541,9 @@ const GeneratePage: React.FC = () => {
       />
 
       <div className="flex flex-col bg-[#030414] relative">
-        <div className="flex flex-col lg:flex-row h-[1200px] bg-[#030414] relative">
+        <div className="flex flex-col lg:flex-row bg-[#030414] relative">
         {/* Left Sidebar - 移动端隐藏，桌面端显示 */}
-        <div className="hidden lg:block w-[600px] bg-[#19191F] h-[1200px] relative rounded-r-2xl overflow-hidden">
+        <div className="hidden lg:block w-[600px] bg-[#19191F] h-[calc(100vh-70px)] relative rounded-r-2xl overflow-hidden">
           <GenerateLeftSidebar
             prompt={prompt}
             selectedColor={selectedColor}
@@ -576,7 +572,7 @@ const GeneratePage: React.FC = () => {
         </div>
 
         {/* 移动端主要内容区域 */}
-        <div className="flex flex-col lg:hidden h-[1200px] bg-white">          
+        <div className="flex flex-col lg:hidden h-[calc(100vh-70px)] bg-white">          
           {/* 移动端标签选择器 */}
           <div className="bg-white px-4 pb-4 border-b border-gray-200 flex-shrink-0">
             <div className="bg-[#F2F3F5] h-12 rounded-lg flex items-center relative max-w-md mx-auto">
@@ -597,15 +593,13 @@ const GeneratePage: React.FC = () => {
               currentSelectedImage={currentSelectedImage}
               isGenerating={isGenerating}
               generationProgress={generationProgress}
-              generatedImages={generatedImages}
+              generatedImages={filteredGeneratedImages}
               hasGenerationHistory={hasGenerationHistory}
               isInitialDataLoaded={isInitialDataLoaded}
               dynamicImageDimensions={dynamicImageDimensions}
               setDynamicImageDimensions={setDynamicImageDimensions}
-              showMoreMenu={showMoreMenu}
               onDownload={handleDownload}
-              onMoreMenuToggle={handleMoreMenuToggle}
-              onDelete={handleDelete}
+              onImagesDeleted={handleImagesDeleted}
               onImageSelect={handleImageSelectWithTabMemory}
             />
             
@@ -710,30 +704,28 @@ const GeneratePage: React.FC = () => {
         </div>
 
         {/* 桌面端中间内容区域 */}
-        <div className="hidden lg:flex lg:flex-1 lg:h-[1200px]">
+        <div className="hidden lg:flex lg:flex-1 lg:h-[calc(100vh-70px)]">
           <GenerateCenterSidebar
             mode="text"
             error={error}
             currentSelectedImage={currentSelectedImage}
             isGenerating={isGenerating}
             generationProgress={generationProgress}
-            generatedImages={generatedImages}
+            generatedImages={filteredGeneratedImages}
             hasGenerationHistory={hasGenerationHistory}
             isInitialDataLoaded={isInitialDataLoaded}
             dynamicImageDimensions={dynamicImageDimensions}
             setDynamicImageDimensions={setDynamicImageDimensions}
-            showMoreMenu={showMoreMenu}
             onDownload={handleDownload}
-            onMoreMenuToggle={handleMoreMenuToggle}
-            onDelete={handleDelete}
+            onImagesDeleted={handleImagesDeleted}
             onImageSelect={handleImageSelectWithTabMemory}
           />
         </div>
 
         {/* Right Sidebar - Generated Images - 桌面端显示 */}
-        <div className="hidden lg:block">
+        <div className="hidden lg:block h-[calc(100vh-70px)]">
           <GenerateRightSidebar
-            images={generatedImages}
+            images={filteredGeneratedImages}
             selectedImageId={currentSelectedImage}
             isGenerating={isGenerating}
             generationProgress={generationProgress}

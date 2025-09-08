@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage, Language, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { colors } from '../../styles/colors';
+import DropDownMenus, { DropDownMenuItem } from './DropDownMenus';
 
 interface IntlSelectorProps {
   className?: string;
@@ -124,26 +125,24 @@ const IntlSelector: React.FC<IntlSelectorProps> = ({ className = '' }) => {
       </div>
 
       {/* 语言下拉菜单 */}
-      {isDropdownVisible && (
-        <div className={`absolute top-full mt-[2px] right-0 bg-[#19191F] border border-[#393B42] rounded-lg shadow-lg py-2 min-w-[120px] z-50 transition-all duration-150 ease-out ${
-          isDropdownAnimating 
-            ? 'opacity-100 translate-y-0 scale-100' 
-            : 'opacity-0 -translate-y-1 scale-95'
-        }`}>
-          <div
-            className="px-4 py-1.5 text-white text-base font-medium hover:bg-[#1D1E2C] cursor-pointer transition-colors duration-200 whitespace-nowrap"
-            onClick={() => handleLanguageSelect('en')}
-          >
-            {navT('language.english', 'English')}
-          </div>
-          <div
-            className="px-4 py-1.5 text-white text-base font-medium hover:bg-[#1D1E2C] cursor-pointer transition-colors duration-200 whitespace-nowrap"
-            onClick={() => handleLanguageSelect('zh')}
-          >
-            {navT('language.chinese', '简体中文')}
-          </div>
-        </div>
-      )}
+      <DropDownMenus
+        isVisible={isDropdownVisible}
+        isAnimating={isDropdownAnimating}
+        onClose={() => setIsDropdownOpen(false)}
+        items={[
+          {
+            type: 'button',
+            label: navT('language.english', 'English'),
+            onClick: () => handleLanguageSelect('en')
+          },
+          {
+            type: 'button', 
+            label: navT('language.chinese', '简体中文'),
+            onClick: () => handleLanguageSelect('zh')
+          }
+        ]}
+        minWidth="120px"
+      />
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import MasonryGrid from '../components/layout/MasonryGrid';
-import CreationImageCard from '../components/creations/CreationImageCard';
+import ImageGrid from '../components/iamges/ImageGrid';
+import { getDisplayImages } from '../utils/imageUtils';
+import CreationDetail from '../components/creations/CreationDetail';
 import { useAuth } from '../contexts/AuthContext';
 import { ImageService, BaseImage } from '../services/imageService';
 import DeleteImageConfirmDialog from '../components/ui/DeleteImageConfirmDialog';
@@ -25,30 +26,17 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
   const [images, setImages] = useState<BaseImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedType, setSelectedType] = useState<'all' | 'text2image' | 'image2image'>('all');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState<string | null>(null);
   const [showReportDialog, setShowReportDialog] = useState<string | null>(null);
   const [reportContent, setReportContent] = useState('');
   const [submittingReport, setSubmittingReport] = useState(false);
-  
-  // 添加固定的图片类型计数
-  const [typeCounts, setTypeCounts] = useState({
-    all: 0,
-    text2image: 0,
-    image2image: 0
-  });
+  const [selectedImage, setSelectedImage] = useState<BaseImage | null>(null);
 
   // 存储所有图片数据的缓存
   const [allImages, setAllImages] = useState<BaseImage[]>([]);
-
-  // 根据选择的类型过滤图片
-  useEffect(() => {
-    if (selectedType === 'all') {
-      setImages(allImages);
-    } else {
-      setImages(allImages.filter(img => img.type === selectedType));
-    }
-  }, [selectedType, allImages]);
+  
+  // 存储用户生成的全量图片数据（未过滤批次）
+  const [fullImages, setFullImages] = useState<BaseImage[]>([]);
 
   // 检查用户登录状态并加载数据
   useEffect(() => {
@@ -83,41 +71,16 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
       // 使用新的专用用户图片接口
       const result = await ImageService.getUserOwnImages(searchParams);
       
+      // 保存全量图片数据（未过滤）
+      setFullImages(result.images);
+      
       // 过滤批次图片：每个批次只保留第一张图片用于历史显示
-      const filteredImages = result.images.reduce((acc: BaseImage[], image: BaseImage) => {
-        // 如果图片有批次ID
-        if (image.batchId) {
-          // 检查是否已经有同批次的图片
-          const existingBatchImage = acc.find(img => img.batchId === image.batchId);
-          if (!existingBatchImage) {
-            // 如果没有同批次图片，添加这张图片
-            acc.push(image);
-          }
-          // 如果已有同批次图片，跳过当前图片
-        } else {
-          // 如果没有批次ID，直接添加
-          acc.push(image);
-        }
-        return acc;
-      }, []);
+      const filteredImages = getDisplayImages(result.images);
       
       // 保存所有图片到缓存（包含批次处理后的）
       setAllImages(filteredImages);
       
-      // 根据当前选择的类型设置显示的图片
-      if (selectedType === 'all') {
-        setImages(filteredImages);
-      } else {
-        setImages(filteredImages.filter(img => img.type === selectedType));
-      }
-      
-      // 更新计数（基于过滤后的图片）
-      setTypeCounts({
-        all: filteredImages.length,
-        text2image: filteredImages.filter(img => img.type === 'text2image').length,
-        image2image: filteredImages.filter(img => img.type === 'image2image').length
-      });
-      
+      setImages(filteredImages);
     } catch (err) {
       console.error('Failed to load user images:', err);
       setError('加载图片失败，请稍后重试');
@@ -135,13 +98,6 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
         const newAllImages = allImages.filter(img => img.id !== imageId);
         setAllImages(newAllImages);
         setImages(images.filter(img => img.id !== imageId));
-        
-        // 更新计数
-        setTypeCounts({
-          all: newAllImages.length,
-          text2image: newAllImages.filter(img => img.type === 'text2image').length,
-          image2image: newAllImages.filter(img => img.type === 'image2image').length
-        });
         
         setShowDeleteConfirm(null);
       } else {
@@ -188,14 +144,60 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
     setShowDeleteConfirm(imageId);
   };
 
-  // 自定义渲染卡片
-  const renderCard = (image: BaseImage, _index: number) => (
-    <CreationImageCard
-      key={image.id}
-      image={image}
-      onDelete={handleDeleteConfirm}
-    />
-  );
+  // 处理图片点击
+  const handleImageClick = (image: BaseImage) => {
+    setSelectedImage(image);
+  };
+
+  // 关闭详情页面
+  const handleCloseDetail = () => {
+    setSelectedImage(null);
+  };
+
+  // 获取当前图片的索引
+  const getCurrentImageIndex = () => {
+    if (!selectedImage) return -1;
+    return images.findIndex(img => img.id === selectedImage.id);
+  };
+
+  // 切换到上一张图片
+  const handlePreviousImage = () => {
+    const currentIndex = getCurrentImageIndex();
+    if (currentIndex > 0) {
+      setSelectedImage(images[currentIndex - 1]);
+    }
+  };
+
+  // 切换到下一张图片
+  const handleNextImage = () => {
+    const currentIndex = getCurrentImageIndex();
+    if (currentIndex < images.length - 1) {
+      setSelectedImage(images[currentIndex + 1]);
+    }
+  };
+
+  // 选择批次中的特定图片
+  const handleImageSelect = (image: BaseImage) => {
+    setSelectedImage(image);
+  };
+
+  // 处理图片批量删除 - 从MoreMenu组件触发
+  const handleImagesDeleted = (deletedIds: string[]) => {
+    // 更新所有图片缓存
+    const newAllImages = allImages.filter(img => !deletedIds.includes(img.id));
+    setAllImages(newAllImages);
+    
+    // 更新显示的图片列表
+    const newImages = images.filter(img => !deletedIds.includes(img.id));
+    setImages(newImages);
+    
+    // 同时更新全量图片数据
+    const newFullImages = fullImages.filter(img => !deletedIds.includes(img.id));
+    setFullImages(newFullImages);
+    
+    console.log(`Successfully updated UI after deleting ${deletedIds.length} images`);
+  };
+
 
   return (
     <Layout>
@@ -207,46 +209,14 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
         ogDescription={tCommon('seo.creations.description', 'Explore amazing AI-generated coloring pages created by our community. Get inspired and discover new ideas for your next coloring project.')}
         noIndex={true}
       />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-[#030414]">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* 页面标题 */}
-          <div className="mb-8 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('title')}</h1>
-          </div>
-
-          {/* 筛选标签 */}
-          <div className="mb-6 flex justify-center">
-            <div className="inline-flex gap-2 bg-white rounded-lg p-1 shadow-sm">
-              <button
-                onClick={() => setSelectedType('all')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedType === 'all'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {t('filters.all')} ({typeCounts.all})
-              </button>
-              <button
-                onClick={() => setSelectedType('text2image')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedType === 'text2image'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {t('filters.textToImage')} ({typeCounts.text2image})
-              </button>
-              <button
-                onClick={() => setSelectedType('image2image')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedType === 'image2image'
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-700 hover:bg-gray-50'
-                }`}
-              >
-                {t('filters.imageToImage')} ({typeCounts.image2image})
-              </button>
+          <div className="mb-8">
+            <div className="mx-auto" style={{ width: '1184px' }}>
+              <div style={{ color: '#ECECEC', fontSize: '20px', fontFamily: 'Inter', fontWeight: 700, wordWrap: 'break-word', textAlign: 'left' }}>
+                My creations
+              </div>
             </div>
           </div>
 
@@ -260,15 +230,12 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
           {/* 内容区域 */}
           {loading ? null : (
             <div className="mb-8 lg:mb-20">
-              <MasonryGrid
+              <ImageGrid
                 images={images}
                 isLoading={false}
-                emptyState={{
-                  icon: noResultIcon,
-                  title: "No creations yet",
-                  description: "Start creating your first coloring page!"
-                }}
-                renderCard={renderCard}
+                noDataTitle="No creations yet"
+                showPrompt={false}
+                onImageClick={handleImageClick}
               />
             </div>
           )}
@@ -320,6 +287,38 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
       )}
 
       <BackToTop />
+      
+      {/* 创作详情弹窗 */}
+      {selectedImage && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 9999
+          }}
+          onClick={handleCloseDetail}
+        >
+          <div onClick={(e) => e.stopPropagation()}>
+            <CreationDetail 
+              image={selectedImage} 
+              allImages={images}
+              fullImages={fullImages}
+              onClose={handleCloseDetail}
+              onNext={handleNextImage}
+              onPrevious={handlePreviousImage}
+              onImageSelect={handleImageSelect}
+              onImagesDeleted={handleImagesDeleted}
+            />
+          </div>
+        </div>
+      )}
     </Layout>
   );
 };

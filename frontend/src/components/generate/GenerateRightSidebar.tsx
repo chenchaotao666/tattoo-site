@@ -1,7 +1,7 @@
 import React from 'react';
 import { BaseImage } from '../../services/imageService';
 import { getLocalizedText } from '../../utils/textUtils';
-import { getImageContainerSize } from '../../utils/imageUtils';
+import { getImageContainerSize, getDisplayImages } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import GenerateProgress from './GenerateProgress';
 import { colors } from '../../styles/colors';
@@ -32,26 +32,6 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
   const { t } = useAsyncTranslation('generate');
   const { language } = useLanguage();
 
-  // 过滤批次图片：每个批次只显示第一张图片
-  const getDisplayImages = (allImages: BaseImage[]): BaseImage[] => {
-    const displayImages: BaseImage[] = [];
-    const seenBatches = new Set<string>();
-
-    for (const image of allImages) {
-      if (image.batchId) {
-        // 如果有批次ID，检查是否已经添加过这个批次的图片
-        if (!seenBatches.has(image.batchId)) {
-          displayImages.push(image);
-          seenBatches.add(image.batchId);
-        }
-      } else {
-        // 如果没有批次ID，直接添加
-        displayImages.push(image);
-      }
-    }
-
-    return displayImages;
-  };
 
   // 获取要显示的图片列表
   const displayImages = getDisplayImages(images);

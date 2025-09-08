@@ -1,5 +1,3 @@
-// import { getImageDimensionsFromUrl } from './imageUtils';
-
 /**
  * 图片转换工具类
  * 提供PNG和PDF转换的公共能力

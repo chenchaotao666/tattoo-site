@@ -250,16 +250,7 @@ const CategoriesDetailPage: React.FC = () => {
         {/* Images Grid */}
         <div className="container mx-auto px-4">
           <ImageGrid
-            images={filteredImages.map(image => ({
-              id: image.id,
-              imageUrl: image.tattooUrl,
-              description: typeof image.description === 'string' 
-                ? image.description 
-                : getLocalizedText(image.description, language) || getImageNameById(image.id) || 'Tattoo design',
-              tags: image.tags?.map(tag => 
-                typeof tag.name === 'string' ? tag.name : getLocalizedText(tag.name, language)
-              ) || []
-            }))}
+            images={filteredImages}
             isLoading={isImagesLoading}
             noDataTitle={t('detail.noImages.title') || 'No images found'}
             onImageClick={(image) => {

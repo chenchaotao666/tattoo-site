@@ -3,36 +3,7 @@
  */
 
 import { LocalizedText } from './textUtils';
-
-// ===== 尺寸常量定义 =====
-
-/**
- * 中间显示区域的最大尺寸
- */
-export const CENTER_IMAGE_DIMENSIONS = {
-  // Text to Image 模式的最大尺寸
-  TEXT_MAX_WIDTH: 600,
-  TEXT_MAX_HEIGHT: 600,
-  // Image to Image 模式的最大尺寸
-  IMAGE_MAX_WIDTH: 600,
-  IMAGE_MAX_HEIGHT: 600,
-  // 生成中的默认尺寸
-  GENERATING_WIDTH: 460,
-  GENERATING_HEIGHT: 460,
-  // 移动端尺寸限制
-  MOBILE_MAX_WIDTH: 320,
-  MOBILE_MAX_HEIGHT: 320,
-  MOBILE_GENERATING_WIDTH: 280,
-  MOBILE_GENERATING_HEIGHT: 280
-};
-
-/**
- * 示例图片的尺寸
- */
-export const EXAMPLE_IMAGE_DIMENSIONS = {
-  // 示例图片的固定宽度
-  FIXED_WIDTH: 250
-} as const;
+import { BaseImage } from '../services/imageService';
 
 /**
  * 右侧边栏图片的尺寸
@@ -198,94 +169,6 @@ export const getImageSize = (
 };
 
 /**
- * 计算中间显示图片的大小
- * @param mode 模式：'text' 或 'image'
- * @param isGenerating 是否正在生成
- * @param selectedImage 选中的图片ID
- * @param generatedImages 生成的图片列表
- * @param dimensionsCache 图片尺寸缓存
- * @param setDimensionsCache 更新图片尺寸缓存的函数
- * @returns 计算后的图片尺寸样式（内联样式对象）
- */
-export const getCenterImageSize = (
-  mode: 'text' | 'image',
-  isGenerating: boolean,
-  selectedImage: string | null,
-  generatedImages: any[],
-  dimensionsCache?: ImageDimensionsCache,
-  setDimensionsCache?: SetImageDimensionsFunction
-) => {
-  // 检测是否为移动端
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640;
-  
-  if (isGenerating) {
-    const width = isMobile ? CENTER_IMAGE_DIMENSIONS.MOBILE_GENERATING_WIDTH : CENTER_IMAGE_DIMENSIONS.GENERATING_WIDTH;
-    const height = isMobile ? CENTER_IMAGE_DIMENSIONS.MOBILE_GENERATING_HEIGHT : CENTER_IMAGE_DIMENSIONS.GENERATING_HEIGHT;
-    return { 
-      style: {
-        width: `${width}px`,
-        height: `${height}px`
-      }
-    };
-  }
-
-  // 如果有选中的图片，使用通用函数计算实际尺寸
-  if (selectedImage) {
-    const currentImage = generatedImages.find(img => img.id === selectedImage);
-    if (currentImage && currentImage.defaultUrl) {
-      let maxWidth: number, maxHeight: number, minWidth: number, minHeight: number;
-      
-      if (isMobile) {
-        // 移动端尺寸限制
-        maxWidth = CENTER_IMAGE_DIMENSIONS.MOBILE_MAX_WIDTH;
-        maxHeight = CENTER_IMAGE_DIMENSIONS.MOBILE_MAX_HEIGHT;
-        // 设置合理的移动端最小尺寸
-        minWidth = Math.min(200, maxWidth);
-        minHeight = Math.min(200, maxHeight);
-      } else {
-        // 桌面端根据模式使用不同的最大尺寸
-        maxWidth = mode === 'text' ? CENTER_IMAGE_DIMENSIONS.TEXT_MAX_WIDTH : CENTER_IMAGE_DIMENSIONS.IMAGE_MAX_WIDTH;
-        maxHeight = mode === 'text' ? CENTER_IMAGE_DIMENSIONS.TEXT_MAX_HEIGHT : CENTER_IMAGE_DIMENSIONS.IMAGE_MAX_HEIGHT;
-        // 设置合理的桌面端最小尺寸
-        minWidth = Math.min(300, maxWidth);
-        minHeight = Math.min(300, maxHeight);
-      }
-      
-      const size = getImageSize(currentImage.id, currentImage.defaultUrl, maxWidth, maxHeight, minWidth, minHeight, dimensionsCache, setDimensionsCache);
-      return {
-        style: {
-          width: size.width,
-          height: size.height
-        }
-      };
-    }
-  }
-
-  // 默认情况下，使用固定尺寸
-  const width = isMobile ? CENTER_IMAGE_DIMENSIONS.MOBILE_GENERATING_WIDTH : CENTER_IMAGE_DIMENSIONS.GENERATING_WIDTH;
-  const height = isMobile ? CENTER_IMAGE_DIMENSIONS.MOBILE_GENERATING_HEIGHT : CENTER_IMAGE_DIMENSIONS.GENERATING_HEIGHT;
-  return { 
-    style: {
-      width: `${width}px`,
-      height: `${height}px`
-    }
-  };
-};
-
-/**
- * 计算生成中容器的大小（右侧边栏）
- * @param selectedTab 当前选中的标签页
- * @returns 计算后的容器尺寸
- */
-export const getGeneratingContainerSize = () => {
-  // 默认使用正方形
-  return { 
-    width: `${SIDEBAR_IMAGE_DIMENSIONS.MAX_WIDTH}px`, 
-    height: `${SIDEBAR_IMAGE_DIMENSIONS.MAX_HEIGHT}px` 
-  };
-};
-
-/**
  * 计算图片容器的大小（右侧边栏）
  * @param image 图片对象
  * @param dimensionsCache 图片尺寸缓存
@@ -404,8 +287,26 @@ export const isImageName = (value: string): boolean => {
 };
 
 /**
- * 检查给定的字符串是否是图片ID
+ * 过滤批次图片：每个批次只显示第一张图片
+ * @param allImages 所有图片数组
+ * @returns 过滤后的图片数组
  */
-export const isImageId = (value: string): boolean => {
-  return value in imageIdToNameMap;
+export const getDisplayImages = (allImages: BaseImage[]): BaseImage[] => {
+  const displayImages: BaseImage[] = [];
+  const seenBatches = new Set<string>();
+
+  for (const image of allImages) {
+    if (image.batchId) {
+      // 如果有批次ID，检查是否已经添加过这个批次的图片
+      if (!seenBatches.has(image.batchId)) {
+        displayImages.push(image);
+        seenBatches.add(image.batchId);
+      }
+    } else {
+      // 如果没有批次ID，直接添加
+      displayImages.push(image);
+    }
+  }
+
+  return displayImages;
 };

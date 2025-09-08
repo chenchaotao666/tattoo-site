@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage, Language, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { generateLanguagePath } from '../common/LanguageRouter';
@@ -11,10 +11,10 @@ import { colors } from '../../styles/colors';
 // 导入图标 - 使用正确的 public 路径
 const logo = '/images/header/logo.svg';
 const expandIcon = '/images/header/expand.svg';
-const creditsIcon = '/images/credits.svg';
 const defaultAvatar = '/images/default-avatar.svg';
 const googleDefaultAvatar = '/images/default-avatar-g.png';
 const colorPaletteIcon = '/images/color-palette.png';
+
 
 interface HeaderProps {
   backgroundColor?: 'transparent' | 'white';
@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
   const { language, setLanguage, t } = useLanguage();
   const { t: navT } = useAsyncTranslation('navigation');
   const navigate = useNavigate();
-  // const location = useLocation(); // 暂时不需要
+  const location = useLocation();
 
   // 获取用户头像，如果是谷歌邮箱用户且没有自定义头像，使用谷歌默认头像
   const getUserAvatar = () => {
@@ -195,6 +195,10 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
 
   const categoriesMenuData = getCategoriesMenuData();
 
+  // 判断当前是否在首页（支持多语言路径）
+  const isHomePage = location.pathname === '/' || location.pathname === '/en/' || location.pathname === '/zh/' || location.pathname === '/ja/' ||
+                    location.pathname === '/en' || location.pathname === '/zh' || location.pathname === '/ja';
+
   // 汉堡菜单图标组件
   const HamburgerIcon = () => (
     <div className="w-6 h-6 flex justify-center items-center">
@@ -221,10 +225,12 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
       <div 
         className="fixed top-0 left-0 right-0 w-full h-[70px] py-[15px] backdrop-blur-md flex justify-between items-center z-50"
         style={{
-          backgroundImage: `url('/images/header/bg.png')`,
-          backgroundSize: '100% auto',
-          backgroundPosition: 'top center',
-          backgroundRepeat: 'no-repeat',
+          ...(isHomePage && {
+            backgroundImage: `url('/images/header/bg.png')`,
+            backgroundSize: 'auto auto',
+            backgroundPosition: '-6px top',
+            backgroundRepeat: 'repeat-x',
+          }),
           backgroundColor: '#030414',
         }}
       >
@@ -294,11 +300,13 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
               {/* 积分显示 */}
               <Link 
                 to={createLocalizedLink("/price")}
-                className="flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-lg hover:opacity-90 transition-opacity duration-200 cursor-pointer flex-shrink-0 min-w-[80px]" 
-                style={{backgroundColor: '#F9FAFB'}}
+                className="flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-lg hover:bg-[#374151] transition-colors duration-200 cursor-pointer flex-shrink-0 min-w-[80px]" 
+                style={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
               >
-                <img src={creditsIcon} alt="积分" className="w-4 h-4" />
-                <span className="text-sm font-medium text-orange-600 tabular-nums">
+                <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0ZM8.46191 3.11035C8.29112 2.69971 7.70888 2.69971 7.53809 3.11035L6.53027 5.5332C6.45827 5.70632 6.29529 5.82486 6.1084 5.83984L3.49219 6.0498C3.04886 6.08535 2.86926 6.6384 3.20703 6.92773L5.2002 8.63574C5.34257 8.75772 5.40483 8.94947 5.36133 9.13184L4.75195 11.6846C4.64877 12.1171 5.1195 12.4592 5.49902 12.2275L7.73926 10.8594C7.89927 10.7616 8.10073 10.7616 8.26074 10.8594L10.501 12.2275C10.8805 12.4592 11.3512 12.1171 11.248 11.6846L10.6387 9.13184C10.5952 8.94947 10.6574 8.75772 10.7998 8.63574L12.793 6.92773C13.1307 6.6384 12.9511 6.08535 12.5078 6.0498L9.8916 5.83984C9.70471 5.82486 9.54173 5.70632 9.46973 5.5332L8.46191 3.11035Z" fill="#98FF59"/>
+                </svg>
+                <span className="text-sm font-medium text-white tabular-nums">
                   {user ? user.credits : ''}
                 </span>
               </Link>
@@ -398,11 +406,13 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
             <div className="pr-3">
               <Link 
                 to={createLocalizedLink("/price")}
-                className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg hover:opacity-90 transition-opacity duration-200 cursor-pointer min-w-[72px]" 
-                style={{backgroundColor: '#FAFBFC'}}
+                className="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-[#374151] transition-colors duration-200 cursor-pointer min-w-[72px]" 
+                style={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
               >
-                <img src={creditsIcon} alt="积分" className="w-4 h-4" />
-                <span className="text-sm font-medium text-orange-600 tabular-nums">
+                <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0ZM8.46191 3.11035C8.29112 2.69971 7.70888 2.69971 7.53809 3.11035L6.53027 5.5332C6.45827 5.70632 6.29529 5.82486 6.1084 5.83984L3.49219 6.0498C3.04886 6.08535 2.86926 6.6384 3.20703 6.92773L5.2002 8.63574C5.34257 8.75772 5.40483 8.94947 5.36133 9.13184L4.75195 11.6846C4.64877 12.1171 5.1195 12.4592 5.49902 12.2275L7.73926 10.8594C7.89927 10.7616 8.10073 10.7616 8.26074 10.8594L10.501 12.2275C10.8805 12.4592 11.3512 12.1171 11.248 11.6846L10.6387 9.13184C10.5952 8.94947 10.6574 8.75772 10.7998 8.63574L12.793 6.92773C13.1307 6.6384 12.9511 6.08535 12.5078 6.0498L9.8916 5.83984C9.70471 5.82486 9.54173 5.70632 9.46973 5.5332L8.46191 3.11035Z" fill="#10B981"/>
+                </svg>
+                <span className="text-sm font-medium text-white tabular-nums">
                   {user ? user.credits : ''}
                 </span>
               </Link>
@@ -470,11 +480,14 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
                   <div className="mt-3">
                     <Link 
                       to={createLocalizedLink("/price")}
-                      className="flex items-center gap-2 hover:opacity-90 transition-opacity duration-200 cursor-pointer inline-flex min-w-[60px]"
+                      className="flex items-center gap-2 hover:opacity-90 transition-opacity duration-200 cursor-pointer inline-flex min-w-[60px] px-3 py-1.5 rounded-lg"
+                      style={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}
                       onClick={handleMobileLinkClick}
                     >
-                      <img src={creditsIcon} alt="积分" className="w-4 h-4" />
-                      <span className="text-sm font-medium text-orange-600 tabular-nums">
+                      <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0ZM8.46191 3.11035C8.29112 2.69971 7.70888 2.69971 7.53809 3.11035L6.53027 5.5332C6.45827 5.70632 6.29529 5.82486 6.1084 5.83984L3.49219 6.0498C3.04886 6.08535 2.86926 6.6384 3.20703 6.92773L5.2002 8.63574C5.34257 8.75772 5.40483 8.94947 5.36133 9.13184L4.75195 11.6846C4.64877 12.1171 5.1195 12.4592 5.49902 12.2275L7.73926 10.8594C7.89927 10.7616 8.10073 10.7616 8.26074 10.8594L10.501 12.2275C10.8805 12.4592 11.3512 12.1171 11.248 11.6846L10.6387 9.13184C10.5952 8.94947 10.6574 8.75772 10.7998 8.63574L12.793 6.92773C13.1307 6.6384 12.9511 6.08535 12.5078 6.0498L9.8916 5.83984C9.70471 5.82486 9.54173 5.70632 9.46973 5.5332L8.46191 3.11035Z" fill="#10B981"/>
+                      </svg>
+                      <span className="text-sm font-medium text-white tabular-nums">
                         {user ? user.credits : ''}
                       </span>
                     </Link>

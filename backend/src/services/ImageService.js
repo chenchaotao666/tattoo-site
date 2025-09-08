@@ -227,24 +227,6 @@ class ImageService extends BaseService {
         }
     }
 
-    // 根据slug获取图片
-    async getBySlug(slug) {
-        try {
-            if (!slug) {
-                throw new Error('Slug is required');
-            }
-
-            const image = await this.model.findBySlug(slug);
-            if (!image) {
-                throw new Error('Image not found');
-            }
-
-            return image;
-        } catch (error) {
-            throw new Error(`Get image by slug failed: ${error.message}`);
-        }
-    }
-
     // 获取用户生成的图片
     async getUserGeneratedImages(userId, query = {}) {
         try {
@@ -252,112 +234,19 @@ class ImageService extends BaseService {
                 throw new Error('User ID is required');
             }
 
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            // 添加生成类型过滤条件
-            const generatedFilters = {
-                ...filters,
+            // 构造查询参数，添加用户ID和生成类型过滤条件
+            const userGeneratedQuery = {
+                ...query,
                 type: 'text2image', // 只查询生成的图片
                 userId: userId
             };
 
-            // 获取分页数据
-            const paginatedOptions = { ...pagination, ...sort, filters: generatedFilters };
-            const paginatedResult = await this.model.findByUserId(userId, paginatedOptions);
+            // 复用getAll方法，确保返回的数据格式一致（包含关联信息）
+            const result = await this.getAll(userGeneratedQuery);
             
-            // 获取总数（不分页）
-            // 构造 count 查询参数，包含过滤条件但不包含分页信息
-            const countQuery = {
-                ...query,
-                type: 'text2image',
-                userId: userId
-            };
-            const totalResult = await this.count(countQuery);
-            
-            // 直接返回图片列表，不进行批次分组
-            const images = paginatedResult.data || [];
-            
-            // 返回包含images和total字段的结构，方便分页
-            const responseData = {
-                images: images,
-                total: totalResult || 0
-            };
-            
-            return this.formatResponse(true, responseData, 'User generated images retrieved successfully');
+            return this.formatResponse(true, result.data, 'User generated images retrieved successfully');
         } catch (error) {
             throw new Error(`Get user generated images failed: ${error.message}`);
-        }
-    }
-
-
-    // 获取分类的图片
-    async getCategoryImages(categoryId, query = {}) {
-        try {
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = { ...pagination, ...sort, filters };
-            return await this.model.findByCategoryId(categoryId, options);
-        } catch (error) {
-            throw new Error(`Get category images failed: ${error.message}`);
-        }
-    }
-
-    // 获取样式的图片
-    async getStyleImages(styleId, query = {}) {
-        try {
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = { ...pagination, ...sort, filters };
-            return await this.model.findByStyleId(styleId, options);
-        } catch (error) {
-            throw new Error(`Get style images failed: ${error.message}`);
-        }
-    }
-
-    // 获取公开图片
-    async getPublicImages(query = {}) {
-        try {
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            const filters = this.normalizeFilters(query);
-
-            const options = { ...pagination, ...sort, filters };
-            return await this.model.findPublicImages(options);
-        } catch (error) {
-            throw new Error(`Get public images failed: ${error.message}`);
-        }
-    }
-
-    // 获取热门图片
-    async getHotImages(query = {}) {
-        try {
-            const { limit = 20, ...options } = query;
-            return await this.model.findHotImages(parseInt(limit), options);
-        } catch (error) {
-            throw new Error(`Get hot images failed: ${error.message}`);
-        }
-    }
-
-    // 更新热度
-    async updateHotness(imageId, hotnessChange) {
-        try {
-            if (!imageId) {
-                throw new Error('Image ID is required');
-            }
-
-            if (typeof hotnessChange !== 'number') {
-                throw new Error('Hotness change must be a number');
-            }
-
-            return await this.model.updateHotness(imageId, hotnessChange);
-        } catch (error) {
-            throw new Error(`Update image hotness failed: ${error.message}`);
         }
     }
 
@@ -371,54 +260,6 @@ class ImageService extends BaseService {
             return await this.model.getImageTags(imageId);
         } catch (error) {
             throw new Error(`Get image tags failed: ${error.message}`);
-        }
-    }
-
-    // 更新图片标签
-    async updateImageTags(imageId, tagIds) {
-        try {
-            if (!imageId) {
-                throw new Error('Image ID is required');
-            }
-
-            return await this.model.addTags(imageId, tagIds);
-        } catch (error) {
-            throw new Error(`Update image tags failed: ${error.message}`);
-        }
-    }
-
-    // 获取相似图片
-    async getSimilarImages(imageId, limit = 6) {
-        try {
-            if (!imageId) {
-                throw new Error('Image ID is required');
-            }
-
-            return await this.model.getSimilarImages(imageId, limit);
-        } catch (error) {
-            throw new Error(`Get similar images failed: ${error.message}`);
-        }
-    }
-
-    // 更新在线状态
-    async updateOnlineStatus(imageId, isOnline) {
-        try {
-            if (!imageId) {
-                throw new Error('Image ID is required');
-            }
-
-            return await this.model.updateOnlineStatus(imageId, isOnline);
-        } catch (error) {
-            throw new Error(`Update online status failed: ${error.message}`);
-        }
-    }
-
-    // 批量更新状态
-    async batchUpdateStatus(imageIds, updates) {
-        try {
-            return await this.model.batchUpdateStatus(imageIds, updates);
-        } catch (error) {
-            throw new Error(`Batch update status failed: ${error.message}`);
         }
     }
 
@@ -533,25 +374,6 @@ class ImageService extends BaseService {
                 console.error(`Failed to delete local file for image ${image.id}:`, error.message);
                 // 继续处理其他文件，不中断整个过程
             }
-        }
-    }
-
-    // 获取用户的批次列表
-    async getUserBatches(userId, query = {}) {
-        try {
-            if (!userId) {
-                throw new Error('User ID is required');
-            }
-
-            const pagination = this.normalizePaginationParams(query);
-            const sort = this.normalizeSortParams(query);
-            
-            const options = { ...pagination, ...sort };
-            const result = await this.model.getUserBatches(userId, options);
-
-            return this.formatResponse(true, result, 'User batches retrieved successfully');
-        } catch (error) {
-            throw new Error(`Get user batches failed: ${error.message}`);
         }
     }
 }

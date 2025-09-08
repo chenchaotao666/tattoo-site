@@ -6,11 +6,11 @@ import { generateLanguagePath } from '../common/LanguageRouter';
 import { Category } from '../../services/categoriesService';
 import CategoryMenus from './CategoryMenus';
 import IntlSelector from './IntlSelector';
+import DropDownMenus, { DropDownMenuItem } from './DropDownMenus';
 import { colors } from '../../styles/colors';
 
 // 导入图标 - 使用正确的 public 路径
 const logo = '/images/header/logo.svg';
-const expandIcon = '/images/header/expand.svg';
 const defaultAvatar = '/images/default-avatar.svg';
 const googleDefaultAvatar = '/images/default-avatar-g.png';
 const colorPaletteIcon = '/images/color-palette.png';
@@ -314,8 +314,13 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
               {/* 用户头像和下拉菜单 */}
               <div className="relative flex-shrink-0 w-[50px]" ref={userDropdownRef}>
                 <div 
-                  className="flex items-center gap-2 hover:opacity-85 transition-opacity duration-200 cursor-pointer"
+                  className="flex items-center gap-2 cursor-pointer group"
                   onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                  style={
+                    {
+                      '--hover-color': colors.special.highlight,
+                    } as React.CSSProperties
+                  }
                 >
                   {getUserAvatar() ? (
                     <img
@@ -326,60 +331,61 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
                   ) : (
                     <div className="w-6 h-6 rounded-full bg-transparent"></div>
                   )}
-                  <img 
-                    src={expandIcon} 
-                    alt="Expand" 
-                    className={`w-3 h-3 transition-transform duration-200 ${isUserDropdownOpen ? 'rotate-180' : ''}`} 
-                  />
+                  <svg 
+                    className={`w-5 h-5 transition-all duration-200 text-white group-hover:text-[var(--hover-color)] ${isUserDropdownOpen ? 'rotate-180' : ''}`} 
+                    fill="currentColor" 
+                    viewBox="0 0 20 20"
+                  >
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
                 </div>
 
                 {/* 用户下拉菜单 */}
-                {isUserDropdownVisible && (
-                  <div className={`absolute top-full mt-2 right-0 bg-white border border-[#E5E7EB] rounded-lg shadow-lg py-2 min-w-[180px] z-50 transition-all duration-150 ease-out ${
-                    isUserDropdownAnimating 
-                      ? 'opacity-100 translate-y-0 scale-100' 
-                      : 'opacity-0 -translate-y-1 scale-95'
-                  }`}>
-                    <div className="px-4 py-2 border-b border-gray-100">
-                      <p className="text-sm font-medium text-gray-900">{user?.username || '...'}</p>
-                      <p className="text-xs text-gray-500">{user?.email || '...'}</p>
-                    </div>
-                    
-                    <Link
-                      to={createLocalizedLink("/profile")}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-                      onClick={() => setIsUserDropdownOpen(false)}
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      <span>{navT('menu.profile', 'Profile')}</span>
-                    </Link>
-                    
-                    <Link
-                      to={createLocalizedLink("/creations")}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center gap-2"
-                      onClick={() => setIsUserDropdownOpen(false)}
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <span>{navT('menu.myCreations', 'My Creations')}</span>
-                    </Link>
-                    
-                    <div className="border-t border-gray-100 mt-1">
-                      <button
-                        onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
-                      >
+                <DropDownMenus
+                  isVisible={isUserDropdownVisible}
+                  isAnimating={isUserDropdownAnimating}
+                  onClose={() => setIsUserDropdownOpen(false)}
+                  items={[
+                    {
+                      type: 'header',
+                      label: user?.username || '...',
+                      subLabel: user?.email || '...'
+                    },
+                    {
+                      type: 'link',
+                      label: navT('menu.profile', 'Profile'),
+                      href: createLocalizedLink("/profile"),
+                      icon: (
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                      )
+                    },
+                    {
+                      type: 'link', 
+                      label: navT('menu.myCreations', 'My Creations'),
+                      href: createLocalizedLink("/creations"),
+                      icon: (
+                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      )
+                    },
+                    {
+                      type: 'divider'
+                    },
+                    {
+                      type: 'button',
+                      label: navT('menu.logout', 'Logout'),
+                      onClick: handleLogout,
+                      icon: (
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
-                        <span>{navT('menu.logout', 'Logout')}</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
+                      )
+                    }
+                  ]}
+                />
               </div>
             </div>
           ) : !isLoading ? (

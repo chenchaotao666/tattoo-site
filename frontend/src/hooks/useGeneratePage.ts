@@ -321,7 +321,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
 
       // 立即开始进度推进
       currentProgress.current = 0;
-      smoothProgressUpdate(10);
+      // smoothProgressUpdate(10);
       
       if (!state.prompt.trim()) {
         throw new Error('Please enter a prompt');
@@ -407,7 +407,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         isGenerating: false,
       });
     }
-  }, [state.isGenerating, state.prompt, state.selectedQuantity, state.selectedColor, state.selectedStyle, state.selectedRatio, state.publicVisibility, state.canGenerate, updateState, handleInsufficientCredits]);
+  }, [state.isGenerating, state.prompt, state.selectedQuantity, state.selectedColor, state.selectedStyle, state.publicVisibility, state.canGenerate, updateState, handleInsufficientCredits]);
 
   // 优化的进度管理
   const progressInterval = useRef<NodeJS.Timeout | null>(null);

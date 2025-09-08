@@ -6,7 +6,6 @@ import { getImageContainerSize } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import MoreMenu from './MoreMenu';
-import { colors } from '../../styles/colors';
 
 // 图标导入
 const generateFailIcon = '/images/generate-fail.svg';
@@ -22,10 +21,8 @@ interface GenerateCenterSidebarProps {
   isInitialDataLoaded: boolean;
   dynamicImageDimensions: { [key: string]: { width: number; height: number } };
   setDynamicImageDimensions: React.Dispatch<React.SetStateAction<{ [key: string]: { width: number; height: number } }>>;
-  showMoreMenu: boolean;
   onDownload: (format: 'png' | 'pdf', imageIds?: string[]) => void;
-  onMoreMenuToggle: () => void;
-  onDelete: (imageIds?: string[]) => void;
+  onImagesDeleted: (deletedIds: string[]) => void;
   onImageSelect: (imageId: string) => void;
 }
 
@@ -40,10 +37,8 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
   isInitialDataLoaded,
   dynamicImageDimensions,
   setDynamicImageDimensions,
-  showMoreMenu,
   onDownload,
-  onMoreMenuToggle,
-  onDelete,
+  onImagesDeleted,
   onImageSelect
 }) => {
   const { t } = useAsyncTranslation('generate');
@@ -190,66 +185,23 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                   <div className="flex flex-row gap-3 mt-6 px-4 sm:px-0 items-center justify-center">
                     {isBatch ? (
                       // 批次图片 - Download All + More Options
-                      <div className="relative flex items-center more-menu-container" style={{ width: '209px', height: '48px' }}>
+                      <div className="flex items-center gap-3">
                         {/* Download All Button */}
                         <button 
                           onClick={() => onDownload('png', batchImages.map(img => img?.id).filter((id): id is string => Boolean(id)))}
-                          className="absolute left-0 top-0 bg-[#19191F] hover:bg-[#2D2D35] rounded-lg transition-all duration-200 flex items-center justify-start gap-[6px]"
+                          className="bg-[#19191F] hover:bg-[#2D2D35] rounded-lg transition-all duration-200 flex items-center justify-start gap-[6px]"
                           style={{ height: '48px', paddingLeft: '16px', paddingRight: '16px', paddingTop: '12px', paddingBottom: '12px' }}
                         >
-                          <img src="/images/generate/download.png" alt="Download" className="w-6 h-6" />
+                          <img src="/images/generate/download.svg" alt="Download" className="w-6 h-6" />
                           <span className="text-[#ECECEC] text-sm font-normal leading-[18px]">Download All</span>
                         </button>
                         
                         {/* More Options Button */}
-                        <button 
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            console.log('More menu toggle clicked (batch)');
-                            onMoreMenuToggle();
-                          }}
-                          className="absolute right-0 top-0 bg-[#19191F] hover:bg-[#2D2D35] rounded-lg transition-all duration-200 flex items-center justify-center"
-                          style={{ width: '48px', height: '48px' }}
-                        >
-                          <div className="w-6 h-6 relative overflow-hidden">
-                            <div 
-                              className="w-1 h-1 absolute rounded-full" 
-                              style={{ 
-                                left: '10px', 
-                                top: '10px',
-                                backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
-                              }} 
-                            />
-                            <div 
-                              className="w-1 h-1 absolute rounded-full" 
-                              style={{ 
-                                left: '18px', 
-                                top: '10px',
-                                backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
-                              }} 
-                            />
-                            <div 
-                              className="w-1 h-1 absolute rounded-full" 
-                              style={{ 
-                                left: '2px', 
-                                top: '10px',
-                                backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
-                              }} 
-                            />
-                          </div>
-                        </button>
-                        
-                        {/* 下拉菜单 */}
-                        {showMoreMenu && (
-                          <MoreMenu
-                            onReportClick={onMoreMenuToggle}
-                            onDeleteClick={() => {
-                              onMoreMenuToggle();
-                              onDelete(batchImages.map(img => img?.id).filter((id): id is string => Boolean(id)));
-                            }}
-                            isBatch={true}
-                          />
-                        )}
+                        <MoreMenu
+                          images={generatedImages}
+                          currentSelectedImage={currentSelectedImage}
+                          onImagesDeleted={onImagesDeleted}
+                        />
                       </div>
                     ) : (
                       // 单张图片 - Download + More Options
@@ -260,62 +212,16 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                           className="bg-[#19191F] hover:bg-[#2D2D35] rounded-lg transition-all duration-200 flex items-center justify-start gap-[6px]"
                           style={{ height: '48px', paddingLeft: '16px', paddingRight: '16px', paddingTop: '12px', paddingBottom: '12px' }}
                         >
-                          <img src="/images/generate/download.png" alt="Download" className="w-6 h-6" />
+                          <img src="/images/generate/download.svg" alt="Download" className="w-6 h-6" />
                           <span className="text-[#ECECEC] text-sm font-normal leading-[18px]">Download</span>
                         </button>
                         
                         {/* More Options Button */}
-                        <div className="relative more-menu-container">
-                          <button 
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              console.log('More menu toggle clicked (single), showMoreMenu:', showMoreMenu);
-                              onMoreMenuToggle();
-                            }}
-                            className="bg-[#19191F] hover:bg-[#2D2D35] rounded-lg transition-all duration-200 flex items-center justify-center"
-                            style={{ width: '48px', height: '48px' }}
-                          >
-                            <div className="w-6 h-6 relative overflow-hidden">
-                              <div 
-                                className="w-1 h-1 absolute rounded-full" 
-                                style={{ 
-                                  left: '10px', 
-                                  top: '10px',
-                                  backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
-                                }} 
-                              />
-                              <div 
-                                className="w-1 h-1 absolute rounded-full" 
-                                style={{ 
-                                  left: '18px', 
-                                  top: '10px',
-                                  backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
-                                }} 
-                              />
-                              <div 
-                                className="w-1 h-1 absolute rounded-full" 
-                                style={{ 
-                                  left: '2px', 
-                                  top: '10px',
-                                  backgroundColor: showMoreMenu ? colors.special.highlight : '#ECECEC'
-                                }} 
-                              />
-                            </div>
-                          </button>
-                          
-                          {/* 下拉菜单 */}
-                          {showMoreMenu && (
-                            <MoreMenu
-                              onReportClick={onMoreMenuToggle}
-                              onDeleteClick={() => {
-                                onMoreMenuToggle();
-                                onDelete();
-                              }}
-                              isBatch={false}
-                              currentSelectedImage={currentSelectedImage}
-                            />
-                          )}
-                        </div>
+                        <MoreMenu
+                          images={generatedImages}
+                          currentSelectedImage={currentSelectedImage}
+                          onImagesDeleted={onImagesDeleted}
+                        />
                       </div>
                     )}
                   </div>

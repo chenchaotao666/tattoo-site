@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
-import GenerateServiceInstance, { StyleSuggestion, AspectRatio } from '../services/generateService';
+import GenerateServiceInstance, { StyleSuggestion } from '../services/generateService';
 import { STYLE_SUGGESTIONS, getRandomSuggestions } from '../utils/ideaSuggestions';
 
 import { BaseImage } from '../services/imageService';
@@ -22,7 +22,6 @@ export interface Style {
 export interface UseGeneratePageState {
   // 基础状态
   prompt: string;
-  selectedRatio: AspectRatio;
   selectedColor: boolean; // true for colorful, false for black & white
   selectedQuantity: number; // 1 or 4 images to generate
   selectedStyle: Style | null; // 选中的风格
@@ -61,7 +60,6 @@ export interface UseGeneratePageState {
 export interface UseGeneratePageActions {
   // 基础操作
   setPrompt: (prompt: string) => void;
-  setSelectedRatio: (ratio: AspectRatio) => void;
   setSelectedColor: (isColor: boolean) => void;
   setSelectedQuantity: (quantity: number) => void;
   setSelectedStyle: (style: Style | null) => void;
@@ -107,15 +105,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
   
   // 从URL参数或路由state获取初始值，优先使用state
   const getInitialPrompt = () => generateData?.prompt || searchParams.get('prompt') || '';
-  const getInitialRatio = (): AspectRatio => {
-    const ratio = searchParams.get('ratio');
-    const validRatios: AspectRatio[] = ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', '16:21'];
-    return validRatios.includes(ratio as AspectRatio) ? (ratio as AspectRatio) : '1:1';
-  };
-  const getInitialIsPublic = (): boolean => {
-    const isPublic = searchParams.get('isPublic');
-    return isPublic === 'true';
-  };
+
   const getInitialOutputs = (): number => {
     if (generateData?.outputs) {
       return generateData.outputs;
@@ -152,7 +142,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
   const initialState: UseGeneratePageState = {
     // 基础状态
     prompt: getInitialPrompt(),
-    selectedRatio: getInitialRatio(),
     selectedColor: getInitialColor(),
     selectedQuantity: getInitialOutputs(),
     selectedStyle: null, // Default to no style, will be set by style loading logic
@@ -204,12 +193,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
   const setPrompt = useCallback((prompt: string) => {
     updateState({ prompt });
   }, [updateState]);
-
-
-  const setSelectedRatio = useCallback((selectedRatio: AspectRatio) => {
-    updateState({ selectedRatio });
-  }, [updateState]);
-
 
   const setSelectedColor = useCallback((selectedColor: boolean) => {
     updateState({ selectedColor });
@@ -581,12 +564,9 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         throw new Error('No prompt information available for this example');
       }
       
-      // 回填 prompt、ratio、isPublic 到界面，不调用生成方法
-      const validRatios: AspectRatio[] = ['21:9', '16:9', '4:3', '1:1', '3:4', '9:16', '16:21'];
-      const ratio = validRatios.includes(exampleImage.ratio as AspectRatio) ? (exampleImage.ratio as AspectRatio) : '1:1';
+      // 回填 prompt、isPublic 到界面，不调用生成方法
       updateState({ 
         prompt: promptToUse,
-        selectedRatio: ratio,
         publicVisibility: exampleImage.isPublic || false,
         error: null
       });
@@ -785,7 +765,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     
     // 操作
     setPrompt,
-    setSelectedRatio,
     setSelectedColor,
     setSelectedQuantity,
     setSelectedStyle,

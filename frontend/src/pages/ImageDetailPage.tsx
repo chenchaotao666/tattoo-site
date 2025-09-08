@@ -415,16 +415,7 @@ const ImageDetailPage: React.FC = () => {
                 </div>
               ) : relatedImages.length > 0 ? (
                 <ImageGrid
-                  images={relatedImages.map(image => ({
-                    id: image.id,
-                    imageUrl: image.tattooUrl,
-                    description: typeof image.description === 'string' 
-                      ? image.description 
-                      : getLocalizedText(image.description, language) || getImageNameById(image.id) || 'Tattoo design',
-                    tags: image.tags?.map(tag => 
-                      typeof tag.name === 'string' ? tag.name : getLocalizedText(tag.name, language)
-                    ) || []
-                  }))}
+                  images={relatedImages}
                   isLoading={false}
                   onImageClick={(image) => {
                     // 导航到图片详情页，使用SEO友好的图片路径

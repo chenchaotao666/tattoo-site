@@ -2,12 +2,9 @@ import { ApiUtils, ApiError } from '../utils/apiUtils';
 import { BaseImage } from './imageService';
 
 // ==================== 类型定义 ====================
-// 接口类型定义
-export type AspectRatio = '21:9' | '16:9' | '4:3' | '1:1' | '3:4' | '9:16' | '16:21';
 
 export interface GenerateTextToImageRequest {
   prompt: string;
-  ratio: AspectRatio;
   isPublic: boolean;
   style?: string;
   userId?: string;
@@ -16,7 +13,6 @@ export interface GenerateTextToImageRequest {
 
 export interface GenerateImageToImageRequest {
   imageFile: File;
-  ratio?: AspectRatio;
   isPublic: boolean;
   userId?: string;
 }

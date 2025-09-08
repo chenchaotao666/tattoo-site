@@ -13,12 +13,12 @@ const HomeTop: React.FC<HomeTopProps> = ({
 }) => {
   return (
     <div 
-      className="w-full flex flex-col items-center gap-8 py-16 px-4"
+      className="w-full flex flex-col items-center gap-8 py-16"
       style={{
         backgroundImage: `linear-gradient(rgba(3, 4, 20, 0.3), rgba(3, 4, 20, 0.7)), url('./images/header/bg.png')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center -12px',
-        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'auto 100%',
+        backgroundPosition: '-8px top',
+        backgroundRepeat: 'repeat-x',
         backgroundColor: '#030414',
         minHeight: '600px', // 确保有足够高度显示背景
       }}

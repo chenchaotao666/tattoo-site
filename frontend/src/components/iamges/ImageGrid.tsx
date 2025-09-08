@@ -1,26 +1,22 @@
 import React from 'react';
 import ImageCard from './ImageCard';
 import NoData from '../common/NoData';
-
-interface ImageData {
-  id: string;
-  imageUrl?: string;
-  description?: string;
-  tags?: string[];
-}
+import { BaseImage } from '../../services/imageService';
 
 interface ImageGridProps {
-  images: ImageData[];
+  images: BaseImage[];
   isLoading?: boolean;
   noDataTitle?: string;
-  onImageClick?: (image: ImageData) => void;
+  onImageClick?: (image: BaseImage) => void;
+  showPrompt?: boolean;
 }
 
 const ImageGrid: React.FC<ImageGridProps> = ({
   images,
   isLoading = false,
   onImageClick,
-  noDataTitle = 'No images found'
+  noDataTitle = 'No images found',
+  showPrompt = true
 }) => {
   if (isLoading) {
     return (
@@ -40,14 +36,14 @@ const ImageGrid: React.FC<ImageGridProps> = ({
     );
   }
 
-  const handleImageClick = (image: ImageData) => {
+  const handleImageClick = (image: BaseImage) => {
     if (onImageClick) {
       onImageClick(image);
     }
   };
 
   return (
-    <div className={`w-full bg-[#030414]`} data-image-grid-version="v1.0">
+    <div className="w-full bg-[#030414]" data-image-grid-version="v1.0">
       {/* Grid Layout */}
       <div className="hidden lg:block">
         <div className="relative">
@@ -55,10 +51,9 @@ const ImageGrid: React.FC<ImageGridProps> = ({
             {images.map((image, index) => (
               <div key={`${image.id}-desktop-${index}`}>
                 <ImageCard
-                  imageUrl={image.imageUrl}
-                  description={image.description}
-                  tags={image.tags}
+                  image={image}
                   onClick={() => handleImageClick(image)}
+                  showPrompt={showPrompt}
                 />
               </div>
             ))}

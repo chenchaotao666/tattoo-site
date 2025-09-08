@@ -2,7 +2,6 @@ import { ApiUtils, ApiError } from '../utils/apiUtils';
 import { UrlUtils } from '../utils/urlUtils';
 import type { MultilingualText } from '../utils/textUtils';
 
-export type AspectRatio = '21:9' | '16:9' | '4:3' | '1:1' | '3:4' | '9:16' | '16:21';
 
 // 更新的 Tag 接口 - 匹配后端数据库结构
 export interface Tag {
@@ -60,7 +59,6 @@ export interface SearchParams {
   query?: string;
   categoryId?: string;
   tags?: string;
-  ratio?: AspectRatio;
   type?: 'text2image' | 'image2image' | 'image2coloring';
   userId?: string;
   isPublic?: boolean;
@@ -77,7 +75,6 @@ export interface UserImageParams {
   query?: string;
   categoryId?: string;
   tags?: string;
-  ratio?: AspectRatio;
   type?: 'text2image' | 'image2image' | 'image2coloring';
   isPublic?: boolean;
   currentPage?: number;
@@ -101,9 +98,17 @@ export class ImageService {
   }
 
   /**
-   * 搜索图片（根据标题、描述、标签）- 核心方法
+   * 内部共享方法：执行图片搜索请求
+   * @param endpoint API端点
+   * @param params 搜索参数
+   * @param requireAuth 是否需要认证
+   * @returns Promise<SearchResult>
    */
-  static async searchImages(params: SearchParams = {}): Promise<SearchResult> {
+  private static async performImageSearch(
+    endpoint: string,
+    params: SearchParams,
+    requireAuth: boolean = false,
+  ): Promise<SearchResult> {
     const {
       imageId,
       query,
@@ -116,65 +121,88 @@ export class ImageService {
       isOnline,
       currentPage,
       pageSize,
-      isRelated = false,
-      sortBy = 'hotness',
-      sortOrder = 'desc'
+      isRelated,
+      sortBy,
+      sortOrder
     } = params;
 
-    try {
-      // 构建查询参数
-      const searchParams = new URLSearchParams();
-      
-      if (imageId) searchParams.append('imageId', imageId);
-      if (query) searchParams.append('query', query);
-      if (categoryId) searchParams.append('categoryId', categoryId);
-      if (tags) searchParams.append('tags', tags);
-      if (ratio) searchParams.append('ratio', ratio);
-      if (type) searchParams.append('type', type);
-      if (userId) searchParams.append('userId', userId);
-      if (isPublic !== undefined) searchParams.append('isPublic', isPublic.toString());
-      if (isOnline !== undefined) searchParams.append('isOnline', isOnline.toString());
-      if (isRelated) searchParams.append('isRelated', isRelated.toString());
-      
-      if (currentPage) searchParams.append('currentPage', currentPage.toString());
-      if (pageSize) searchParams.append('pageSize', pageSize.toString());
-      if (sortBy) searchParams.append('sortBy', sortBy);
-      if (sortOrder) searchParams.append('sortOrder', sortOrder);
+    // 构建查询参数
+    const searchParams = new URLSearchParams();
+    
+    if (imageId) searchParams.append('imageId', imageId);
+    if (query) searchParams.append('query', query);
+    if (categoryId) searchParams.append('categoryId', categoryId);
+    if (tags) searchParams.append('tags', tags);
+    if (ratio) searchParams.append('ratio', ratio);
+    if (type) searchParams.append('type', type);
+    if (userId) searchParams.append('userId', userId);
+    if (isPublic !== undefined) searchParams.append('isPublic', isPublic.toString());
+    if (isOnline !== undefined) searchParams.append('isOnline', isOnline.toString());
+    if (isRelated) searchParams.append('isRelated', isRelated.toString());
+    
+    if (currentPage) searchParams.append('currentPage', currentPage.toString());
+    if (pageSize) searchParams.append('pageSize', pageSize.toString());
+    if (sortBy) searchParams.append('sortBy', sortBy);
+    if (sortOrder) searchParams.append('sortOrder', sortOrder);
 
-      const response = await ApiUtils.get<{
-        data?: BaseImage[], 
-        images?: BaseImage[], 
-        total?: number,
-        pagination?: {
-          currentPage: number,
-          pageSize: number,
-          total: number,
-          totalPages: number
-        }
-      }>(`/api/images?${searchParams.toString()}`);
-      
-      // 处理服务器返回的格式，支持新旧两种格式
-      // 新格式: {data: [...], pagination: {...}} (有分页时)
-      // 旧格式: {images: [...], total: number}
-      const rawImages = response.pagination ? response.data as BaseImage[] : (response as BaseImage[]);
-      const totalCount = response.pagination?.total || 0;
-      
-      // 处理图片URL，确保都是绝对路径
-      const images = rawImages.map(image => this.processImageUrls(image));
-      
-      // 计算分页信息，优先使用后端返回的分页信息
-      const safePageSize = response.pagination?.pageSize || pageSize || 20;
-      const safeCurrentPage = response.pagination?.currentPage || currentPage || 1;
-      const totalPages = response.pagination?.totalPages || Math.ceil(totalCount / safePageSize);
-      const hasMore = safeCurrentPage < totalPages;
-      
-      return {
-        images,
-        totalCount,
-        hasMore,
-        currentPage: safeCurrentPage,
-        pageSize: safePageSize
-      };
+    const response = await ApiUtils.get<{
+      data?: BaseImage[], 
+      images?: BaseImage[], 
+      total?: number,
+      pagination?: {
+        currentPage: number,
+        pageSize: number,
+        total: number,
+        totalPages: number
+      }
+    }>(
+      `${endpoint}?${searchParams.toString()}`,
+      undefined,
+      requireAuth
+    );
+    
+    // 处理服务器返回的格式，支持新旧两种格式
+    // 新格式: {data: [...], pagination: {...}} (有分页时)
+    // 旧格式: {images: [...], total: number}
+    const rawImages = response.pagination ? response.data as BaseImage[] : (response as BaseImage[]);
+    const totalCount = response.pagination?.total || 0;
+    
+    // 处理图片URL，确保都是绝对路径
+    const images = rawImages.map(image => this.processImageUrls(image));
+    
+    // 计算分页信息，优先使用后端返回的分页信息
+    const safePageSize = response.pagination?.pageSize || pageSize || 20;
+    const safeCurrentPage = response.pagination?.currentPage || currentPage || 1;
+    const totalPages = response.pagination?.totalPages || Math.ceil(totalCount / safePageSize);
+    const hasMore = safeCurrentPage < totalPages;
+    
+    return {
+      images,
+      totalCount,
+      hasMore,
+      currentPage: safeCurrentPage,
+      pageSize: safePageSize
+    };
+  }
+
+  /**
+   * 搜索图片（根据标题、描述、标签）- 核心方法
+   */
+  static async searchImages(params: SearchParams = {}): Promise<SearchResult> {
+    // 设置默认值
+    const searchParams: SearchParams = {
+      ...params,
+      isRelated: params.isRelated || false,
+      sortBy: params.sortBy || 'hotness',
+      sortOrder: params.sortOrder || 'desc'
+    };
+
+    try {
+      return await this.performImageSearch(
+        '/api/images',
+        searchParams,
+        false, // 不需要认证
+      );
     } catch (error) {
       console.error('Failed to search images:', error);
       return {
@@ -297,78 +325,31 @@ export class ImageService {
 
   /**
    * 📦 获取用户自己创建的图片（专用接口）
-   * 接口地址：GET /api/images/userImg
+   * 接口地址：GET /api/images/generated
    * 用户获取自己创建的图片时，调用这个接口
    * @param params 查询参数
    * @returns Promise<SearchResult>
    */
   static async getUserOwnImages(params: UserImageParams = {}): Promise<SearchResult> {
-    const {
-      query,
-      categoryId,
-      tags,
-      type,
-      isPublic,
-      currentPage,
-      pageSize,
-      sortBy = 'createdAt',
-      sortOrder = 'desc'
-    } = params;
+    // 转换为通用搜索参数格式
+    const searchParams: SearchParams = {
+      query: params.query,
+      categoryId: params.categoryId,
+      tags: params.tags,
+      type: params.type,
+      isPublic: params.isPublic,
+      currentPage: params.currentPage,
+      pageSize: params.pageSize,
+      sortBy: params.sortBy || 'createdAt',
+      sortOrder: params.sortOrder || 'desc'
+    };
 
     try {
-      // 构建查询参数
-      const searchParams = new URLSearchParams();
-      
-      if (query) searchParams.append('query', query);
-      if (categoryId) searchParams.append('categoryId', categoryId);
-      if (tags) searchParams.append('tags', tags);
-      if (type) searchParams.append('type', type);
-      if (isPublic !== undefined) searchParams.append('isPublic', isPublic.toString());
-      if (sortBy) searchParams.append('sortBy', sortBy);
-      if (sortOrder) searchParams.append('sortOrder', sortOrder);
-      
-      if (currentPage) searchParams.append('currentPage', currentPage.toString());
-      if (pageSize) searchParams.append('pageSize', pageSize.toString());
-
-      // 调用专用的用户图片接口，需要认证
-      const response = await ApiUtils.get<{
-        data?: BaseImage[], 
-        images?: BaseImage[], 
-        total?: number,
-        pagination?: {
-          currentPage: number,
-          pageSize: number,
-          total: number,
-          totalPages: number
-        }
-      }>(
-        `/api/images/generated?${searchParams.toString()}`, 
-        undefined, 
-        true // 需要认证
+      return await this.performImageSearch(
+        '/api/images/generated',
+        searchParams,
+        true, // 需要认证
       );
-      
-      // 处理服务器返回的格式，支持新旧两种格式
-      // 新格式: {data: [...], pagination: {...}} (有分页时)
-      // 旧格式: {images: [...], total: number}
-      const rawImages = response.data || response.images || [];
-      const totalCount = response.pagination?.total || response.total || 0;
-      
-      // 处理图片URL，确保都是绝对路径
-      const images = rawImages.map(image => this.processImageUrls(image));
-      
-      // 计算分页信息，优先使用后端返回的分页信息
-      const safePageSize = response.pagination?.pageSize || pageSize || 20;
-      const safeCurrentPage = response.pagination?.currentPage || currentPage || 1;
-      const totalPages = response.pagination?.totalPages || Math.ceil(totalCount / safePageSize);
-      const hasMore = safeCurrentPage < totalPages;
-      
-      return {
-        images,
-        totalCount,
-        hasMore,
-        currentPage: safeCurrentPage,
-        pageSize: safePageSize
-      };
     } catch (error) {
       console.error('Failed to fetch user own images:', error);
       if (error instanceof ApiError) {

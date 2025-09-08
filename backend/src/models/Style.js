@@ -94,64 +94,6 @@ class Style extends BaseModel {
         }
     }
 
-    // 获取样式的所有图片
-    async getStyleImages(styleId, options = {}) {
-        try {
-            const { currentPage, pageSize, isOnline = true } = options;
-
-            let baseQuery = `
-                SELECT i.*, 
-                       c.name as categoryName, 
-                       c.slug as categorySlug,
-                       u.username as authorName
-                FROM images i
-                LEFT JOIN categories c ON i.categoryId = c.id
-                LEFT JOIN users u ON i.userId = u.id
-                WHERE i.styleId = ?
-            `;
-
-            const params = [styleId];
-
-            if (isOnline !== undefined) {
-                baseQuery += ` AND i.isOnline = ?`;
-                params.push(isOnline);
-            }
-
-            baseQuery += ` ORDER BY i.hotness DESC, i.createdAt DESC`;
-
-            // 获取总数
-            let countQuery = `
-                SELECT COUNT(*) as total FROM images 
-                WHERE styleId = ?
-            `;
-            const countParams = [styleId];
-
-            if (isOnline !== undefined) {
-                countQuery += ` AND isOnline = ?`;
-                countParams.push(isOnline);
-            }
-
-            const [countResult] = await this.db.execute(countQuery, countParams);
-            const total = countResult[0].total;
-
-            // 分页查询
-            const query = this.buildPaginationQuery(baseQuery, currentPage, pageSize);
-            const [rows] = await this.db.execute(query, params);
-
-            return {
-                data: rows,
-                pagination: {
-                    currentPage: parseInt(currentPage),
-                    pageSize: parseInt(pageSize),
-                    total,
-                    totalPages: Math.ceil(total / pageSize)
-                }
-            };
-        } catch (error) {
-            throw new Error(`Get style images failed: ${error.message}`);
-        }
-    }
-
     // 检查样式名称是否已存在（多语言）
     async checkTitleExists(title, excludeId = null) {
         try {

@@ -187,27 +187,6 @@ class Image extends BaseModel {
         }
     }
 
-    // 更新图片热度
-    async updateHotness(imageId, hotnessChange) {
-        try {
-            const query = `
-                UPDATE ${this.tableName} 
-                SET hotness = GREATEST(0, LEAST(1000, hotness + ?)), 
-                    updatedAt = NOW() 
-                WHERE id = ?
-            `;
-            const [result] = await this.db.execute(query, [hotnessChange, imageId]);
-            
-            if (result.affectedRows === 0) {
-                throw new Error(`Image with ID ${imageId} not found`);
-            }
-
-            return await this.findById(imageId);
-        } catch (error) {
-            throw new Error(`Update image hotness failed: ${error.message}`);
-        }
-    }
-
     // 获取图片的标签
     async getImageTags(imageId) {
         try {
@@ -246,105 +225,6 @@ class Image extends BaseModel {
             return { success: true, message: 'Tags updated successfully' };
         } catch (error) {
             throw new Error(`Add image tags failed: ${error.message}`);
-        }
-    }
-
-    // 获取相似图片（基于分类和标签）
-    async getSimilarImages(imageId, limit = 6) {
-        try {
-            const query = `
-                SELECT DISTINCT i.*, 
-                       c.name as categoryName,
-                       s.title as styleTitle,
-                       COUNT(common_tags.tagId) as commonTagCount
-                FROM ${this.tableName} i
-                LEFT JOIN categories c ON i.categoryId = c.id
-                LEFT JOIN styles s ON i.styleId = s.id
-                LEFT JOIN image_tags it ON i.id = it.imageId
-                LEFT JOIN (
-                    SELECT tagId FROM image_tags WHERE imageId = ?
-                ) common_tags ON it.tagId = common_tags.tagId
-                WHERE i.id != ? 
-                  AND i.isPublic = 1 
-                  AND i.isOnline = 1
-                  AND (i.categoryId = (SELECT categoryId FROM ${this.tableName} WHERE id = ?)
-                       OR common_tags.tagId IS NOT NULL)
-                GROUP BY i.id
-                ORDER BY commonTagCount DESC, i.hotness DESC, i.createdAt DESC
-                LIMIT ?
-            `;
-            
-            const [rows] = await this.db.execute(query, [imageId, imageId, imageId, limit]);
-            return rows;
-        } catch (error) {
-            throw new Error(`Get similar images failed: ${error.message}`);
-        }
-    }
-
-    // 更新图片在线状态
-    async updateOnlineStatus(imageId, isOnline) {
-        try {
-            const query = `
-                UPDATE ${this.tableName} 
-                SET isOnline = ?, updatedAt = NOW() 
-                WHERE id = ?
-            `;
-            const [result] = await this.db.execute(query, [isOnline, imageId]);
-            
-            if (result.affectedRows === 0) {
-                throw new Error(`Image with ID ${imageId} not found`);
-            }
-
-            return await this.findById(imageId);
-        } catch (error) {
-            throw new Error(`Update image online status failed: ${error.message}`);
-        }
-    }
-
-    // 批量更新图片状态
-    async batchUpdateStatus(imageIds, updates) {
-        try {
-            if (!Array.isArray(imageIds) || imageIds.length === 0) {
-                throw new Error('Image IDs array is required');
-            }
-
-            const updateFields = [];
-            const values = [];
-
-            if (updates.isPublic !== undefined) {
-                updateFields.push('isPublic = ?');
-                values.push(updates.isPublic);
-            }
-
-            if (updates.isOnline !== undefined) {
-                updateFields.push('isOnline = ?');
-                values.push(updates.isOnline);
-            }
-
-            if (updateFields.length === 0) {
-                throw new Error('No update fields provided');
-            }
-
-            updateFields.push('updatedAt = NOW()');
-
-            const placeholders = imageIds.map(() => '?').join(',');
-            values.push(...imageIds);
-
-            const query = `
-                UPDATE ${this.tableName} 
-                SET ${updateFields.join(', ')} 
-                WHERE id IN (${placeholders})
-            `;
-
-            const [result] = await this.db.execute(query, values);
-
-            return {
-                success: true,
-                message: `${result.affectedRows} images updated successfully`,
-                updatedCount: result.affectedRows
-            };
-        } catch (error) {
-            throw new Error(`Batch update images failed: ${error.message}`);
         }
     }
 }

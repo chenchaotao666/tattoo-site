@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'coloring-book-backend',
+      name: 'tattoo-backend',
       script: 'server.js',
       instances: 1,
       autorestart: true,

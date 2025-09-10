@@ -349,11 +349,9 @@ class GenerateService {
         let stepCount = 0;
         
         // 根据图片数量调整完成阶段的进度间隔
-        let completeInterval = 500; // 默认间隔300ms
+        let completeInterval = 1500; // 默认间隔300ms
         if (numOutputs >= 4) {
-          completeInterval = 1000; // 4张图片时减慢到800ms
-        } else if (numOutputs >= 2) {
-          completeInterval = 800; // 2-3张图片时中等速度500ms
+          completeInterval = 2000; // 4张图片时减慢到800ms
         }
         
         // 创建完成阶段的进度更新器

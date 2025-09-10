@@ -5,10 +5,9 @@ import { useAsyncTranslation } from '../contexts/LanguageContext';
 const RefundPolicyPage = () => {
   const { loading } = useAsyncTranslation('refund');
   
-  // 如果翻译还在加载中，不显示任何内容
   if (loading) {
     return (
-      <div className="bg-white min-w-0 overflow-hidden">
+      <div style={{ backgroundColor: '#030414', color: 'white' }} className="min-w-0 overflow-hidden">
         <Layout>
           <div className="w-full min-w-0 flex items-center justify-center min-h-[400px]">
             {/* 加载时不显示任何内容 */}
@@ -19,307 +18,116 @@ const RefundPolicyPage = () => {
   }
   
   return (
-    <div className="bg-white min-w-0 overflow-hidden">
+    <div style={{ backgroundColor: '#030414', color: 'white' }} className="min-w-0 overflow-hidden">
       <SEOHead
-        title="Refund Policy - ColorPages.art"
-        description="Learn about ColorPages.art refund policy, including subscription refunds, regional consumer rights, and refund request process."
+        title="Refund Policy | tattooinkai"
+        description="Review the official tattooinkai Refund Policy. Understand our terms for digital purchases, how to cancel your subscription, and the specific exceptions for billing errors or technical issues."
         canonicalUrl="/refund-policy"
       />
       <Layout>
         <div className="md:max-w-screen-sm lg:max-w-[992px] px-4 sm:px-6 lg:px-8 pb-12 md:pt-6 sm:pb-20 mx-auto">
           <div className="grid gap-4 md:gap-8">
             <div>
-              <h1 className="text-3xl font-bold mb-6 dark:text-white">Refund Policy</h1>
-              <p className="mb-8 dark:text-neutral-400 text-xl">
-                <strong>Effective Date: July 28, 2025</strong>
+              <h1 className="text-3xl font-bold mb-6" style={{ color: 'white' }}>Refund Policy</h1>
+              <p className="mb-8 text-xl" style={{ color: 'white' }}>
+                <strong>Effective Date: 2025.9</strong>
               </p>
-              <p className="mb-8 dark:text-neutral-400 text-xl">
-                This Refund Policy applies to all purchases made on ColorPages.art and should be read in conjunction with our Terms of Service and Privacy Policy.
+              <p className="mb-8 text-xl" style={{ color: 'white' }}>
+                Thank you for using tattooinkai! We are committed to providing you with a high-quality AI tattoo design service. This Refund Policy explains the terms under which refunds may be issued for purchases made directly through our website.
+              </p>
+              <p className="mb-8 text-xl" style={{ color: 'white' }}>
+                By purchasing a subscription or credits from tattooinkai, you agree to this Refund Policy.
               </p>
               
               <ol>
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">1. General Refund Policy</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">1.1 Default Policy</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    All sales are final unless specifically provided otherwise in this policy or required by applicable consumer protection laws. Digital products and services are generally non-refundable once accessed or used.
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>1. General Policy</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    Due to the nature of our digital services and the immediate access to resources (such as AI processing power and credits) upon purchase, all purchases made on tattooinkai are final and non-refundable, except as expressly provided in this Policy.
                   </p>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">1.2 Processing Method</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    Approved refunds will be processed through the same payment method used for the original purchase (typically PayPal) within 5-10 business days.
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    We provide free trials or limited free access so you can evaluate our Services before committing to a purchase. We encourage you to take advantage of these opportunities to ensure the Services meet your needs.
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">2. Subscription Refunds</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">2.1 Monthly Subscriptions</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Cancellation:</strong> You may cancel your monthly subscription at any time through PayPal or by contacting support</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Effective Date:</strong> Cancellations take effect at the end of your current billing cycle</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Refunds:</strong> Generally, no refunds are provided for partial months of service already rendered</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Exception:</strong> If you experience technical issues that prevent service usage, contact support within 48 hours for potential pro-rated refund consideration</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">2.2 Annual Subscriptions</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Cancellation:</strong> You may cancel your annual subscription at any time</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Refunds:</strong> Pro-rated refunds may be considered on a case-by-case basis for annual subscriptions cancelled within the first 30 days</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Calculation:</strong> Refunds are calculated based on unused months remaining in your subscription period</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">3. Regional Consumer Rights</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">3.1 European Economic Area (EEA) Users</h3>
-                  <p className="mb-5 dark:text-neutral-400">Under EU consumer protection laws, you have the right to:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>14-Day Cooling-Off Period:</strong> Cancel digital content purchases within 14 days of purchase</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Condition:</strong> This right is waived once you begin downloading or accessing the digital content</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Process:</strong> Contact support within the 14-day period to request a refund</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Full Refund:</strong> Eligible cancellations receive a complete refund of the purchase price</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">3.2 Other Jurisdictions</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    We comply with applicable consumer protection laws in your jurisdiction. If you believe you have additional rights under local law, please contact us to discuss your specific situation.
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>2. Subscription Services</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Cancellation:</strong> You may cancel your subscription at any time through your account settings. When you cancel, you will retain access until the end of the current billing period. Cancellation stops future charges but does not trigger a refund for the current or previous billing periods.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•No Prorated Refunds:</strong> We do not offer refunds or credits for partial subscription periods, unused time, or accidental purchases once a subscription has been activated.
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">4. Technical Issues & Service Problems</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">4.1 Platform Outages</h3>
-                  <p className="mb-5 dark:text-neutral-400">If our service experiences significant downtime or technical issues:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Extended Outages:</strong> Service credits or partial refunds may be provided for outages exceeding 24 hours</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Calculation:</strong> Credits are calculated based on the proportional downtime during your billing period</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Notification:</strong> We will proactively communicate about significant service disruptions</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">4.2 Feature Malfunctions</h3>
-                  <p className="mb-5 dark:text-neutral-400">If core features of our service are not functioning properly:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Reporting:</strong> Contact support immediately with details about the issue</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Resolution:</strong> We will work to resolve technical problems within 48-72 hours</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Compensation:</strong> If issues cannot be resolved promptly, refunds or credits may be considered</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">4.3 Account Access Problems</h3>
-                  <p className="mb-5 dark:text-neutral-400">If you cannot access your account due to technical issues on our end:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Immediate Support:</strong> Contact us for urgent assistance</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Resolution Timeline:</strong> Account access issues are prioritized for same-day resolution</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Compensation:</strong> Extended access problems may qualify for service credits</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">5. Billing Errors & Unauthorized Charges</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">5.1 Billing Disputes</h3>
-                  <p className="mb-5 dark:text-neutral-400">If you believe you've been charged incorrectly:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Report Immediately:</strong> Contact support within 30 days of the charge</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Documentation:</strong> Provide details about the disputed charge</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Investigation:</strong> We will investigate all billing disputes within 5 business days</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Resolution:</strong> Confirmed errors will be refunded promptly</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">5.2 Unauthorized Transactions</h3>
-                  <p className="mb-5 dark:text-neutral-400">For unauthorized charges on your account:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Immediate Action:</strong> Contact both ColorPages.art support and your payment provider</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Security Review:</strong> We will review account security and transaction history</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Refund:</strong> Confirmed unauthorized charges will be refunded once verified</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">5.3 Duplicate Charges</h3>
-                  <p className="mb-5 dark:text-neutral-400">If you're accidentally charged multiple times:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Automatic Detection:</strong> Our systems monitor for duplicate transactions</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Quick Resolution:</strong> Duplicate charges are typically refunded within 2-3 business days</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Manual Reporting:</strong> Contact support if you notice duplicate charges we haven't caught</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">6. Content & Usage Issues</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">6.1 Content Quality</h3>
-                  <p className="mb-5 dark:text-neutral-400">While we strive to provide high-quality AI-generated content:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>No Quality Guarantee:</strong> We cannot guarantee specific artistic outcomes or satisfaction with generated content</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Subjective Nature:</strong> Content quality is subjective and typically not grounds for refunds</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Technical Issues:</strong> If content generation fails due to technical problems, we may provide credits for additional generations</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">6.2 Commercial Usage Disputes</h3>
-                  <p className="mb-5 dark:text-neutral-400">If there are questions about commercial usage rights:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Clarification:</strong> Contact support for clarification on usage rights for your subscription tier</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Upgrade Option:</strong> Consider upgrading to a commercial subscription for full usage rights</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>No Retroactive Refunds:</strong> Refunds are not provided for content used beyond your subscription tier's permitted uses</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">7. Refund Request Process</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">7.1 How to Request a Refund</h3>
-                  <ol className="pl-10 list-decimal dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Email Support:</strong> Contact <a className="dark:text-white hover:underline" href="mailto:congcong@mail.xinsulv.com">congcong@mail.xinsulv.com</a> with "Refund Request" in the subject line</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Required Information:</strong></p>
-                      <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                        <li><p className="mb-5 dark:text-neutral-400">Your account email address</p></li>
-                        <li><p className="mb-5 dark:text-neutral-400">Order/transaction ID or date of purchase</p></li>
-                        <li><p className="mb-5 dark:text-neutral-400">Reason for refund request</p></li>
-                        <li><p className="mb-5 dark:text-neutral-400">Any supporting documentation</p></li>
-                      </ul>
-                    </li>
-                  </ol>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">7.2 Processing Timeline</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Initial Response:</strong> We'll acknowledge your request within 24 hours</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Review Period:</strong> Most refund requests are reviewed within 3-5 business days</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Decision:</strong> You'll receive a decision with explanation within 5-7 business days</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Processing:</strong> Approved refunds are processed within 5-10 business days</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">7.3 Required Documentation</h3>
-                  <p className="mb-5 dark:text-neutral-400">Depending on your refund reason, we may request:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Screenshots of technical issues</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Browser/device information for troubleshooting</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">PayPal transaction confirmations</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Evidence of billing errors</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">8. Non-Refundable Situations</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">8.1 Standard Exclusions</h3>
-                  <p className="mb-5 dark:text-neutral-400">Refunds are generally not provided for:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Change of Mind:</strong> Simple changes in preference or needs</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Misunderstanding Features:</strong> Not fully understanding service capabilities before purchase</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Competitive Alternatives:</strong> Finding alternative services after purchase</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Partial Usage:</strong> Using the service and then requesting a refund</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Account Violations:</strong> Accounts terminated for Terms of Service violations</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">8.2 Abuse Prevention</h3>
-                  <p className="mb-5 dark:text-neutral-400">To prevent refund abuse:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Pattern Monitoring:</strong> We monitor for patterns of refund requests</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Account Restrictions:</strong> Excessive refund requests may result in account limitations</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Investigation:</strong> Suspicious refund patterns will be thoroughly investigated</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">9. Alternative Solutions</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">9.1 Service Credits</h3>
-                  <p className="mb-5 dark:text-neutral-400">Instead of cash refunds, we may offer:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Account Credits:</strong> Credits applied to your account for future use</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Extended Service:</strong> Additional service time to compensate for issues</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Feature Upgrades:</strong> Temporary access to premium features</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">9.2 Payment Plan Adjustments</h3>
-                  <p className="mb-5 dark:text-neutral-400">For subscription issues:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Plan Changes:</strong> Downgrade or upgrade options</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Billing Cycle Changes:</strong> Switch between monthly and annual billing</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Temporary Suspension:</strong> Pause service instead of cancellation</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">10. PayPal-Specific Policies</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">10.1 PayPal Protection</h3>
-                  <p className="mb-5 dark:text-neutral-400">Your purchases are also covered by PayPal's Buyer Protection policies:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Additional Coverage:</strong> PayPal may provide additional refund protections</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Dispute Process:</strong> You can open disputes directly through PayPal</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Resolution:</strong> We work cooperatively with PayPal to resolve disputes</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">10.2 PayPal Refund Processing</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Method:</strong> Refunds are processed back to your PayPal account</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Timeline:</strong> PayPal refunds typically appear within 3-5 business days</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Currency:</strong> Refunds are issued in the original purchase currency</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">11. Contact & Support</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">11.1 Refund Inquiries</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">📧 Email: <a className="dark:text-white hover:underline" href="mailto:congcong@mail.xinsulv.com">congcong@mail.xinsulv.com</a></p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Subject Line: "Refund Request - [Your Issue]"</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Response Time: Within 24 hours</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">11.2 General Support</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">📄 Contact Form: Available through our website footer</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">🌐 Website: <a className="dark:text-white hover:underline" href="https://colorpages.art">https://colorpages.art</a></p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Support Hours: Monday-Friday, 9 AM - 6 PM PST</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">11.3 Escalation Process</h3>
-                  <p className="mb-5 dark:text-neutral-400">If you're not satisfied with the initial refund decision:</p>
-                  <ol className="pl-10 list-decimal dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Request a review by emailing <a className="dark:text-white hover:underline" href="mailto:congcong@mail.xinsulv.com">congcong@mail.xinsulv.com</a> with "Refund Review" in the subject</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Provide additional context or documentation</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">A senior team member will review your case within 3-5 business days</p></li>
-                  </ol>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">12. Policy Updates</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">12.1 Changes to Policy</h3>
-                  <p className="mb-5 dark:text-neutral-400">We may update this Refund Policy to reflect:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Changes in our services or business model</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">New legal requirements</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Improved customer service practices</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">12.2 Notification</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Minor Changes:</strong> Updated on website with new effective date</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Significant Changes:</strong> Email notification to active subscribers</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Grandfathering:</strong> Existing purchases generally remain subject to the policy in effect at time of purchase</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">13. Legal Compliance</h2>
-                  <p className="mb-5 dark:text-neutral-400">This Refund Policy complies with applicable laws in the jurisdictions where we operate, including but not limited to:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">EU Consumer Rights Directive</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">California consumer protection laws</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Federal Trade Commission (FTC) guidelines</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">PayPal's Terms of Service</p></li>
-                  </ul>
-                  <p className="mb-5 dark:text-neutral-400">
-                    <strong>Last updated: July 28, 2025</strong>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>3. Credit Packs (One-Time Purchases)</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    All credit packs or one-time purchases are considered consumed at the time of purchase. These purchases are non-refundable.
                   </p>
-                  <p className="mb-5 dark:text-neutral-400">
-                    For questions about this Refund Policy, please contact <a className="dark:text-white hover:underline" href="mailto:congcong@mail.xinsulv.com">congcong@mail.xinsulv.com</a>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    Any unused credits have no monetary value and cannot be redeemed for cash. To ensure active use, credits expire twelve (12) months after the date of purchase. Expired credits cannot be refunded or reinstated.
+                  </p>
+                </li>
+                
+                <li>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>4. Exceptions (When Refunds May Be Issued)</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    Refunds may be granted, at our sole discretion, in the following cases:
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Major Technical Failures:</strong> If you were unable to access or use the Services for a prolonged period due to a verifiable fault on our end. Issues caused by your internet connection, device, or third-party services do not qualify.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Billing Errors:</strong> If you were charged incorrectly due to a technical billing error on our part (e.g., duplicate charge), we will refund the erroneous charge. Refunds will only be issued to the original payment method used.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    Refund requests under this section must be submitted within 14 days of the transaction.
+                  </p>
+                </li>
+                
+                <li>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>5. For Users in the EU & UK</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    If you are a consumer in the European Union or United Kingdom, you may have a statutory right to withdraw from a purchase of digital content within 14 days of purchase (the "cooling-off period").
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    However, by purchasing a subscription or credits and using the Services to generate your first tattoo design or consume a credit, you expressly consent to the immediate delivery of digital content and acknowledge that you will lose your right of withdrawal.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    This waiver does not affect your statutory rights regarding defective or misdescribed digital content.
+                  </p>
+                </li>
+                
+                <li>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>6. How to Request a Refund</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    If you believe you qualify for a refund under Section 4, please contact us at [Insert Support Email] with:
+                  </p>
+                  <ul className="pl-10 list-disc mb-5">
+                    <li><p className="mb-2" style={{ color: 'white' }}>The email address associated with your tattooinkai account.</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>The transaction ID or payment receipt.</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>A detailed explanation of the issue.</p></li>
+                  </ul>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    We will review your request within 5–7 business days and notify you of our decision. Depending on your payment provider, it may take additional time for refunded funds to appear in your account.
+                  </p>
+                </li>
+                
+                <li>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>7. Policy Changes</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    We may update this Refund Policy from time to time. Any changes will be posted here with an updated "Effective Date." For significant changes, we may also notify you by email or within the Services.
+                  </p>
+                </li>
+                
+                <li>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>8. Contact Us</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>If you have any questions about this Refund Policy, please contact us at:</p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    tattooinkai<br/>
+                    Email: [Insert Support Email]<br/>
+                    Website: <a className="hover:underline" style={{ color: 'white' }} href="https://tattooinkai.com">https://tattooinkai.com</a>
                   </p>
                 </li>
               </ol>

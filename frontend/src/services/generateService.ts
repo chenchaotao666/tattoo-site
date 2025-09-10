@@ -269,7 +269,7 @@ class GenerateService {
     
     try {
       let currentProgress = 0;
-      const maxPollingProgress = 90; // 轮询阶段最大进度
+      const maxPollingProgress = 80; // 轮询阶段最大进度
       
       // 创建智能进度管理器 - 均匀上升，不依赖pollTattooGenerationStatus的回调
       let currentProgressValue = 0;
@@ -344,16 +344,16 @@ class GenerateService {
         }
         
         // 从90%到100%的进度模拟
-        const completeSteps = 10;
+        const completeSteps = 20;
         const stepProgress = (100 - maxPollingProgress) / completeSteps;
         let stepCount = 0;
         
         // 根据图片数量调整完成阶段的进度间隔
-        let completeInterval = 300; // 默认间隔300ms
+        let completeInterval = 500; // 默认间隔300ms
         if (numOutputs >= 4) {
-          completeInterval = 800; // 4张图片时减慢到800ms
+          completeInterval = 1000; // 4张图片时减慢到800ms
         } else if (numOutputs >= 2) {
-          completeInterval = 500; // 2-3张图片时中等速度500ms
+          completeInterval = 800; // 2-3张图片时中等速度500ms
         }
         
         // 创建完成阶段的进度更新器

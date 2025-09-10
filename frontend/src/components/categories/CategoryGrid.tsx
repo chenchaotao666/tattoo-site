@@ -18,11 +18,6 @@ interface CategoryGridProps {
   };
   onCategoryClick?: (category: Category) => void;
   className?: string;
-  maxColumns?: {
-    desktop: number;
-    tablet: number;
-    mobile: number;
-  };
   showNameAndButton?: boolean;
   showMore?: boolean;
 }
@@ -33,7 +28,6 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
   emptyState,
   onCategoryClick,
   className = '',
-  maxColumns = { desktop: 4, tablet: 3, mobile: 2 },
   showNameAndButton = true,
   showMore = false
 }) => {
@@ -115,7 +109,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
                 className="absolute bottom-0 left-0 right-0 pointer-events-none z-20"
                 style={{ 
                   height: '200px',
-                  background: 'linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 20%, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0.5) 60%, rgba(0, 0, 0, 0.2) 80%, transparent 100%)'
+                  background: 'linear-gradient(to top, rgba(3, 4, 20, 1) 0%, rgba(3, 4, 20, 0.95) 20%, rgba(3, 4, 20, 0.8) 40%, rgba(3, 4, 20, 0.5) 60%, rgba(3, 4, 20, 0.2) 80%, transparent 100%)'
                 }}
               ></div>
               

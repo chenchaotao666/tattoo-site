@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
+const { Client } = require('minio');
 
 class ImageGenerateService {
     constructor(imageModel = null) {
@@ -39,6 +40,41 @@ class ImageGenerateService {
         // 设置图片保存目录
         this.uploadDir = path.join(__dirname, '../../uploads/generated');
         this.ensureUploadDir();
+        
+        // 初始化MinIO客户端
+        this.initializeMinIOClient();
+    }
+
+    // 初始化MinIO客户端
+    initializeMinIOClient() {
+        try {
+            // 从环境变量读取MinIO配置
+            const endpoint = process.env.MINIO_ENDPOINT || 'http://localhost:9001';
+            const accessKey = process.env.MINIO_ACCESS_KEY_ID || 'minioadmin';
+            const secretKey = process.env.MINIO_SECRET_ACCESS_KEY || 'minioadmin123';
+            const bucketName = process.env.MINIO_BUCKET_NAME || 'tattoo';
+            const useSSL = process.env.MINIO_USE_SSL === 'true';
+            
+            // 解析endpoint获取host和port
+            const url = new URL(endpoint);
+            const host = url.hostname;
+            const port = parseInt(url.port) || (url.protocol === 'https:' ? 443 : 80);
+            
+            // 创建MinIO客户端
+            this.minioClient = new Client({
+                endPoint: host,
+                port: port,
+                useSSL: useSSL,
+                accessKey: accessKey,
+                secretKey: secretKey
+            });
+            
+            this.minioBucketName = bucketName;
+            console.log(`MinIO客户端初始化成功: ${endpoint}/${bucketName}`);
+        } catch (error) {
+            console.error('MinIO客户端初始化失败:', error.message);
+            this.minioClient = null;
+        }
     }
 
     // 异步生成纹身图像（启动任务，立即返回）
@@ -482,12 +518,12 @@ The design should be professional quality, original, and ready for use as a tatt
             prediction.batchId = batchId;
             
             // 保存到数据库
+            let savedToDb = null;
             if (this.imageModel && savedImages.length > 0) {
-                const savedToDb = await this.saveToDatabase(prediction, savedImages, { ...originalParams, batchId });
-                prediction.databaseRecords = savedToDb;
+                savedToDb = await this.saveToDatabase(prediction, savedImages, { ...originalParams, batchId });
             }
             
-            return this.formatResponse(true, { localImages: savedImages }, 'Generation completed and saved successfully');
+            return this.formatResponse(true, { localImages: savedToDb }, 'Generation completed and saved successfully');
         } catch (error) {
             throw new Error(`Complete generation failed: ${error.message}`);
         }
@@ -566,18 +602,32 @@ The design should be professional quality, original, and ready for use as a tatt
         }
     }
 
-    // 下载并保存图片到本地
+    // 下载并保存图片到MinIO
     async downloadAndSaveImages(imageUrls, generationId, batchId) {
         if (!Array.isArray(imageUrls) || imageUrls.length === 0) {
             throw new Error('No image URLs provided');
         }
 
+        if (!this.minioClient) {
+            throw new Error('MinIO client not initialized');
+        }
+
         const savedImages = [];
+
+        // 确保存储桶存在
+        try {
+            const bucketExists = await this.minioClient.bucketExists(this.minioBucketName);
+            if (!bucketExists) {
+                await this.minioClient.makeBucket(this.minioBucketName, 'us-east-1');
+                console.log(`创建MinIO存储桶: ${this.minioBucketName}`);
+            }
+        } catch (error) {
+            throw new Error(`MinIO存储桶检查失败: ${error.message}`);
+        }
 
         for (let i = 0; i < imageUrls.length; i++) {
             const imageUrl = imageUrls[i];
-            const filename = `${batchId}_${generationId}_${i}.png`;
-            const filepath = path.join(this.uploadDir, filename);
+            const filename = `generated/${batchId}_${generationId}_${i}.png`;
 
             try {
                 // 下载图片
@@ -586,36 +636,38 @@ The design should be professional quality, original, and ready for use as a tatt
                     throw new Error(`Failed to download image: ${response.status} ${response.statusText}`);
                 }
 
-                // 创建写入流并保存文件
-                const fileStream = fs.createWriteStream(filepath);
-                response.body.pipe(fileStream);
+                // 获取图片数据
+                const imageBuffer = await response.buffer();
+                const imageSize = imageBuffer.length;
 
-                // 等待文件写入完成
-                await new Promise((resolve, reject) => {
-                    fileStream.on('finish', resolve);
-                    fileStream.on('error', reject);
-                });
+                // 上传到MinIO
+                await this.minioClient.putObject(
+                    this.minioBucketName,
+                    filename,
+                    imageBuffer,
+                    imageSize,
+                    {
+                        'Content-Type': 'image/png',
+                        'X-Amz-Meta-Generation-Id': generationId,
+                        'X-Amz-Meta-Batch-Id': batchId
+                    }
+                );
 
-                // 生成访问URL
-                const relativePath = `/uploads/generated/${filename}`;
-                
-                // 构建完整的访问URL，优先使用环境变量，否则根据端口生成
-                const port = process.env.PORT || 3002;
-                const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
+                // 构建后端服务访问URL（通过/images路由访问MinIO图片）
+                const minioPath = `images/${filename}`;
                 
                 savedImages.push({
                     filename: filename,
-                    filepath: filepath,
-                    relativePath: relativePath,
-                    url: `${baseUrl}${relativePath}`,
+                    minioPath: minioPath,
                     originalUrl: imageUrl,
-                    size: fs.statSync(filepath).size,
-                    batchId: batchId
+                    size: imageSize,
+                    batchId: batchId,
+                    storage: 'minio'
                 });
 
-                console.log(`Image saved: ${filename}`);
+                console.log(`Image uploaded to MinIO: ${filename}`);
             } catch (error) {
-                console.error(`Failed to save image ${i}:`, error.message);
+                console.error(`Failed to save image ${i} to MinIO:`, error.message);
                 // 继续处理其他图片，不中断整个流程
                 savedImages.push({
                     error: error.message,
@@ -649,7 +701,7 @@ The design should be professional quality, original, and ready for use as a tatt
                     id: this.generateId(),
                     name: null,
                     slug: `generated-tattoo-${generationResult.id}-${i}`,
-                    tattooUrl: savedImage.relativePath, // 使用相对路径
+                    tattooUrl: savedImage.minioPath || savedImage.relativePath, // 使用MinIO路径或相对路径
                     scourceUrl: savedImage.originalUrl, // 原始Replicate URL
                     title: null,
                     description: null,
@@ -671,12 +723,7 @@ The design should be professional quality, original, and ready for use as a tatt
 
                 // 保存到数据库
                 const savedRecord = await this.imageModel.create(imageData);
-                savedRecords.push({
-                    id: savedRecord.id,
-                    slug: savedRecord.slug,
-                    localImage: savedImage,
-                    databaseData: savedRecord
-                });
+                savedRecords.push(savedRecord);
 
                 console.log(`Image saved to database: ${savedRecord.id}`);
             } catch (error) {

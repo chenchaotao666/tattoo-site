@@ -5,10 +5,9 @@ import { useAsyncTranslation } from '../contexts/LanguageContext';
 const TermsPage = () => {
   const { loading } = useAsyncTranslation('terms');
   
-  // 如果翻译还在加载中，不显示任何内容
   if (loading) {
     return (
-      <div className="bg-white min-w-0 overflow-hidden">
+      <div style={{ backgroundColor: '#030414', color: 'white' }} className="min-w-0 overflow-hidden">
         <Layout>
           <div className="w-full min-w-0 flex items-center justify-center min-h-[400px]">
             {/* 加载时不显示任何内容 */}
@@ -19,232 +18,197 @@ const TermsPage = () => {
   }
   
   return (
-    <div className="bg-white min-w-0 overflow-hidden">
+    <div style={{ backgroundColor: '#030414', color: 'white' }} className="min-w-0 overflow-hidden">
       <SEOHead
-        title="Terms of Service - ColorPages.art"
-        description="Read the terms of service for ColorPages.art, including usage rights, acceptable use policy, and commercial licensing."
+        title="Terms of Use | tattooinkai"
+        description="Review the official Terms of Use for tattooinkai. Understand your rights, rules for using our AI tattoo generator, commercial use of your designs, and intellectual property ownership."
         canonicalUrl="/terms"
       />
       <Layout>
         <div className="md:max-w-screen-sm lg:max-w-[992px] px-4 sm:px-6 lg:px-8 pb-12 md:pt-6 sm:pb-20 mx-auto">
           <div className="grid gap-4 md:gap-8">
             <div>
-              <h1 className="text-3xl font-bold mb-6 dark:text-white">Terms of Service</h1>
-              <p className="mb-8 dark:text-neutral-400 text-xl">
-                <strong>Effective Date: July 28, 2025</strong>
+              <h1 className="text-3xl font-bold mb-6" style={{ color: 'white' }}>Terms of Use</h1>
+              <p className="mb-8 text-xl" style={{ color: 'white' }}>
+                <strong>Effective Date: 2025.9</strong>
               </p>
-              <p className="mb-8 dark:text-neutral-400 text-xl">
-                Website: <a className="dark:text-white hover:underline" href="https://colorpages.art">https://colorpages.art</a> (<strong>"Website"</strong>, <strong>"We"</strong>, <strong>"Us"</strong>, <strong>"Our"</strong>)
+              <p className="mb-8 text-xl" style={{ color: 'white' }}>
+                Welcome to tattooinkai! These Terms of Use (<strong>"Terms"</strong>) govern your access to and use of the website, applications, and AI-powered tattoo design generation services (collectively, the <strong>"Services"</strong>) provided by tattooinkai (<strong>"we,"</strong> <strong>"our,"</strong> or <strong>"us"</strong>).
               </p>
-              <p className="mb-8 dark:text-neutral-400 text-xl">
-                Please read these Terms of Service (<strong>"Terms"</strong>) carefully before using ColorPages.art. By accessing or using the Website, you agree to be bound by these Terms. If you do not agree, you may not access or use our services.
+              <p className="mb-8 text-xl" style={{ color: 'white' }}>
+                Please read these Terms carefully. By creating an account, accessing, or using our Services, you agree to be bound by these Terms and our Privacy Policy. If you do not agree, you may not use our services.
               </p>
               
               <ol>
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">1. Description of Service</h2>
-                  <p className="mb-5 dark:text-neutral-400">
-                    ColorPages.art is an AI-powered platform that allows users to generate printable coloring pages from text prompts or uploaded images. The commercial usage rights for generated content depend on your subscription tier as outlined in Section 3.
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>1. Description of Services</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    tattooinkai provides a platform that allows users to generate unique tattoo designs using artificial intelligence. Users can provide text prompts and/or upload images (collectively, <strong>"Inputs"</strong>) to create AI-generated tattoo designs (<strong>"Outputs"</strong>). Services may be offered for free or on a subscription basis.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>Important Notice:</strong> Outputs may be similar or identical to those generated for other users. We do not guarantee that any Output will be unique, original, or free from third-party intellectual property claims. You are solely responsible for your use of any Output.
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">2. Eligibility</h2>
-                  <p className="mb-5 dark:text-neutral-400">
-                    You must be at least 13 years old to use this Website. ColorPages.art is not intended for children under 13. By using this site, you confirm that you meet this requirement.
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>2. User Accounts</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Eligibility:</strong> You must be at least 13 years old (or 16 in the EEA/UK) to use our services. If you are under 18, you must have your parent or legal guardian's permission.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Account Creation:</strong> To access certain features, you may need to create an account. You agree to provide accurate, current, and complete information.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Account Responsibility:</strong> You are responsible for safeguarding your account credentials and for all activities under your account. You may not share your account with others. You must notify us immediately of unauthorized use.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Effect of Termination:</strong> If your account is terminated, your right to access the Services ceases immediately, but provisions such as intellectual property caveats, indemnification, and payment obligations survive termination.
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">3. Commercial Use & Content Licensing</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">3.1 Usage Rights by Tier</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Free Users:</strong> May use generated content for personal, educational, or non-commercial creative purposes only.</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Paid Subscribers:</strong> Are granted full commercial rights to use generated content for resale, merchandise, marketing, publishing, digital products, and any other commercial purposes.</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">3.2 Content You Upload</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    You retain full ownership of any content you upload (e.g., text prompts or images). By uploading content, you grant us a limited, worldwide, non-exclusive license to store, process, and use your content solely to operate and improve our services.
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>3. Intellectual Property Rights</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Our Ownership:</strong> We and our licensors own all rights, title, and interest in and to the Services, including software, AI models, and trademarks.
                   </p>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">3.3 Generated Content Privacy</h3>
-                  <p className="mb-5 dark:text-neutral-400">When generating content, you may select the "Private" option. When this is selected:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Your content will not be displayed in public galleries</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Your content will not be used for promotional purposes on our website or social media</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Your content will not be shared publicly in any way</p></li>
-                  </ul>
-                  <p className="mb-5 dark:text-neutral-400">
-                    If you do not select the "Private" option, you grant us permission to display your generated works in our galleries, on social media, or in marketing materials to showcase platform capabilities.
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Your Inputs:</strong> You retain ownership of your Inputs. You grant us a limited, worldwide, royalty-free license to use, reproduce, and process your Inputs solely to provide and improve the Services.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Your Outputs:</strong> Subject to compliance with these Terms, we assign to you all rights, title, and interest in and to the Outputs you generate. You may use them for personal or commercial purposes.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Important Caveats:</strong> Due to the nature of AI, Outputs may resemble third-party content. We cannot guarantee Outputs will not infringe on third-party rights. You are solely responsible for ensuring your use of Outputs does not violate any law or third-party rights. We disclaim any liability for such use.
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">4. Acceptable Use Policy</h2>
-                  <p className="mb-5 dark:text-neutral-400">You agree not to upload, create, or share content that:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Violates copyright or intellectual property rights</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Contains unlawful, offensive, hateful, explicit, or violent material</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Exploits or harms minors in any way</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Invades privacy or misleads users</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Uses the platform to harm or exploit others</p></li>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>4. Acceptable Use Policy</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>You agree not to use the Services to create, upload, or share content that:</p>
+                  <ul className="pl-10 list-disc mb-5">
+                    <li><p className="mb-2" style={{ color: 'white' }}>Is illegal, harmful, harassing, defamatory, hateful, or discriminatory.</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Violates privacy or publicity rights of others.</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Contains nudity, sexually explicit content, or non-consensual sexual material.</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Promotes extreme violence, terrorism, or self-harm.</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Is fraudulent, false, or misleading.</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Infringes third-party IP rights (e.g., trademarks, copyrights).</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Generates medical, financial, or legal advice, or other professional guidance.</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Attempts to reverse-engineer, decompile, or bypass safety mechanisms.</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Uses automated bots, scrapers, or unauthorized tools to access the Services.</p></li>
                   </ul>
-                  <p className="mb-5 dark:text-neutral-400">You also agree not to:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Reverse engineer or interfere with the platform's infrastructure</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Use automated tools (e.g., bots, scrapers) to extract content or overload our services</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Attempt to circumvent usage limitations or security measures</p></li>
-                  </ul>
-                  <p className="mb-5 dark:text-neutral-400">
-                    We reserve the right to remove violating content and suspend or terminate accounts without prior notice for violations of these rules.
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    We may monitor activity, remove violating content, and suspend or terminate accounts without prior notice.
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">5. Intellectual Property</h2>
-                  <p className="mb-5 dark:text-neutral-400">
-                    All materials on ColorPages.art—excluding user-uploaded content and AI-generated results—are the property of ColorPages.art or its licensors, including but not limited to:
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>5. Payments, Subscriptions, and Refunds</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Fees:</strong> Certain features require payment. All fees are in [e.g., U.S. Dollars] and non-refundable, except as required by law or outlined in our Refund Policy.
                   </p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Website design, interface, and user experience elements</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Software code, AI models, and underlying technology</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Logos, trademarks, brand assets, and proprietary text content</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Templates, graphics, and design elements</p></li>
-                  </ul>
-                  <p className="mb-5 dark:text-neutral-400">
-                    You may not use, reproduce, modify, or repurpose these materials without our express written permission.
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Billing:</strong> Payments are processed by third-party providers (e.g., Stripe) subject to their terms.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Automatic Renewal:</strong> Subscriptions renew automatically unless canceled before the renewal date.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Price Changes:</strong> We may update prices with reasonable prior notice.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Refunds:</strong> Except where required by law (e.g., EU cooling-off rights), all fees are non-refundable.
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">6. Payment, Subscriptions & Refund Policy</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">6.1 Pricing & Payment</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    Some features require payment. All prices are clearly disclosed at the point of purchase. Payments are securely processed via third-party services (PayPal).
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>6. Termination</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•By You:</strong> You may terminate your account at any time.
                   </p>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">6.2 Subscriptions</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Subscriptions automatically renew unless cancelled</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">You can cancel or modify your subscription through PayPal or by contacting support</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Cancellation takes effect at the end of your current billing period</p></li>
-                  </ul>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">6.3 Refund Policy</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>General Policy:</strong> All sales are final unless required otherwise by applicable consumer protection laws</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>European Economic Area (EEA) Users:</strong> May request a refund within 14 days if digital content hasn't been accessed or downloaded</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400"><strong>Technical Issues:</strong> If you experience technical problems or believe you've been incorrectly charged, contact <a className="dark:text-white hover:underline" href="mailto:support@colorpages.art">support@colorpages.art</a></p></li>
-                  </ul>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•By Us:</strong> We may suspend or terminate access if you breach these Terms or if required by law.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Data After Termination:</strong> Upon termination, we may delete or restrict access to your Inputs and Outputs. We are not obligated to retain data unless required by law.
+                  </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">7. Dispute Resolution</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">7.1 Arbitration Agreement</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    In the event of any dispute between you and ColorPages.art, we agree to resolve the issue through binding arbitration rather than in court, except where prohibited by law.
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>7. Disclaimers of Warranties</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. WE DO NOT WARRANT THAT THE SERVICES WILL BE ERROR-FREE, UNINTERRUPTED, OR THAT OUTPUTS WILL BE ACCURATE, ORIGINAL, OR FIT FOR A PARTICULAR PURPOSE. YOU USE THE SERVICES AT YOUR OWN RISK.
                   </p>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">7.2 Arbitration Terms</h3>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">You agree to waive any right to participate in class action lawsuits</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Arbitration will be conducted in English under the rules of the American Arbitration Association (AAA)</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">The venue for arbitration shall be California, USA, unless both parties agree otherwise</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Each party bears their own costs unless the arbitrator decides otherwise</p></li>
-                  </ul>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">8. Indemnification</h2>
-                  <p className="mb-5 dark:text-neutral-400">
-                    You agree to indemnify, defend, and hold harmless ColorPages.art, its affiliates, employees, and service providers from any claims, damages, liabilities, or expenses (including reasonable legal fees) arising from:
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>8. Limitation of Liability</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    TO THE MAXIMUM EXTENT PERMITTED BY LAW, WE SHALL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUE. OUR TOTAL LIABILITY TO YOU SHALL NOT EXCEED THE GREATER OF: (i) THE AMOUNT YOU PAID TO US IN THE SIX (6) MONTHS PRIOR TO THE CLAIM, OR (ii) FIFTY (50) U.S. DOLLARS IF NO PAYMENTS WERE MADE.
                   </p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Your use of the Website or violation of these Terms</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Your content uploads or generated outputs</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Your violation of applicable laws or third-party rights</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Infringement of intellectual property rights of others</p></li>
+                </li>
+                
+                <li>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>9. Indemnification</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    You agree to defend, indemnify, and hold harmless tattooinkai and its affiliates, officers, employees, and agents from any claims, damages, liabilities, and expenses (including legal fees) arising from:
+                  </p>
+                  <ul className="pl-10 list-disc mb-5">
+                    <li><p className="mb-2" style={{ color: 'white' }}>Your use of the Services,</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Your Inputs or Outputs, or</p></li>
+                    <li><p className="mb-2" style={{ color: 'white' }}>Your violation of these Terms or applicable laws</p></li>
                   </ul>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">9. Limitation of Liability</h2>
-                  <p className="mb-5 dark:text-neutral-400">To the fullest extent permitted by law:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">ColorPages.art is provided "as is" without warranties of any kind</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">We do not guarantee the service will be uninterrupted, error-free, or meet your specific requirements</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">We are not liable for any indirect, incidental, consequential, or punitive damages</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Our total liability to you shall not exceed the amount paid by you (if any) in the 12 months preceding the claim</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Some jurisdictions do not allow limitation of liability, so these limits may not apply to you</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">10. Service Availability & Termination</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">10.1 Service Changes</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    We reserve the right to modify, suspend, or discontinue any aspect of our service at any time, with or without notice.
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>10. Governing Law and Dispute Resolution</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    These Terms are governed by the laws of [Your Country/State], without regard to conflict of law principles.
                   </p>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">10.2 Account Termination</h3>
-                  <p className="mb-5 dark:text-neutral-400">We may suspend or terminate your access at any time, without prior notice, if we determine that you have:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">Violated these Terms</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Posed a risk to our users, systems, or reputation</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">Engaged in fraudulent or abusive behavior</p></li>
-                  </ul>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">11. Governing Law & Jurisdiction</h2>
-                  <p className="mb-5 dark:text-neutral-400">
-                    These Terms are governed by and construed in accordance with the laws of the State of California, USA, without regard to its conflict of law provisions. Any legal action not subject to arbitration shall be brought exclusively in the courts of California.
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Arbitration:</strong> Any dispute shall be resolved through binding arbitration under the rules of [e.g., AAA, JAMS], in [Your City/State].
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Language:</strong> Proceedings will be conducted in English.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Small Claims:</strong> You may pursue qualifying claims in small claims court.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Class Action Waiver:</strong> You agree to resolve disputes only on an individual basis. You waive the right to participate in class or representative actions.
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">12. Changes to Terms</h2>
-                  <p className="mb-5 dark:text-neutral-400">
-                    We may revise these Terms periodically to reflect changes in our services, legal requirements, or business practices. The latest version will always be posted on this page with the effective date clearly displayed. Continued use of the Website after changes constitutes your acceptance of the updated Terms.
-                  </p>
-                  <p className="mb-5 dark:text-neutral-400">
-                    For significant changes that materially affect your rights, we will provide additional notice via email (if you're subscribed) or through a prominent notice on our website.
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>11. Changes to These Terms</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    We may modify these Terms at any time. Updates will be posted with a revised "Effective Date." For material changes, we may provide additional notice (e.g., email or site banner). Continued use after changes indicates acceptance.
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">13. Miscellaneous</h2>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">13.1 Entire Agreement</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    These Terms, together with our Privacy Policy, constitute the entire agreement between you and ColorPages.art.
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>12. Miscellaneous</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Entire Agreement:</strong> These Terms and our Privacy Policy form the entire agreement between you and tattooinkai.
                   </p>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">13.2 Severability</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    If any provision of these Terms is found to be unenforceable, the remaining provisions will remain in full force and effect.
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Severability:</strong> If any provision is invalid, the remaining terms remain in effect.
                   </p>
-                  
-                  <h3 className="font-semibold mb-2 dark:text-white">13.3 No Waiver</h3>
-                  <p className="mb-5 dark:text-neutral-400">
-                    Our failure to enforce any provision of these Terms does not constitute a waiver of that provision.
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Assignment:</strong> You may not assign these Terms or your account. We may assign our rights without restriction.
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    <strong>•Force Majeure:</strong> We are not liable for delays or failures caused by events beyond our reasonable control (e.g., natural disasters, internet outages, government actions).
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2 dark:text-white">14. Contact Us</h2>
-                  <p className="mb-5 dark:text-neutral-400">For questions, feedback, or legal concerns, please reach out:</p>
-                  <ul className="pl-10 list-disc dark:marker:text-neutral-400">
-                    <li><p className="mb-5 dark:text-neutral-400">📧 Email: <a className="dark:text-white hover:underline" href="mailto:congcong@mail.xinsulv.com">congcong@mail.xinsulv.com</a></p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">📄 Contact Form: Available through our website footer</p></li>
-                    <li><p className="mb-5 dark:text-neutral-400">🌐 Website: <a className="dark:text-white hover:underline" href="https://colorpages.art">https://colorpages.art</a></p></li>
-                  </ul>
-                  <p className="mb-5 dark:text-neutral-400"><strong>Last updated: July 28, 2025</strong></p>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>13. Contact Us</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>If you have any questions, please contact us at:</p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    tattooinkai<br/>
+                    Email: [Insert Your Contact Email]<br/>
+                    Website: <a className="hover:underline" style={{ color: 'white' }} href="https://tattooinkai.com">https://tattooinkai.com</a>
+                  </p>
                 </li>
               </ol>
               

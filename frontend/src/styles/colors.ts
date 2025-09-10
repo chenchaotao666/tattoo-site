@@ -16,7 +16,7 @@ export const colors = {
 
   // 背景颜色
   background: {
-    primary: '#030414',    // 主背景色 - 纯黑色
+    primary: '#030414',    // 主背景色
     secondary: '#19191F',  // 次要背景色
     card: '#26262D',       // 卡片背景色
     hover: '#98FF59',      // 悬停背景色 - 使用高亮色

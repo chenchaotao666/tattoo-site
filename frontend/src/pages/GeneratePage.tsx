@@ -113,6 +113,7 @@ const GeneratePage: React.FC = () => {
     styleSuggestions,
     styles,
     showStyleSelector,
+    currentSelectedImage,
     isGenerating,
     isInitialDataLoaded,    // 初始数据是否已加载完成
     error,
@@ -128,6 +129,7 @@ const GeneratePage: React.FC = () => {
     setSelectedStyle,
     setPublicVisibility,
     setShowStyleSelector,
+    setCurrentSelectedImage,
     generateImages,
     downloadImage,
     clearError,
@@ -338,8 +340,6 @@ const GeneratePage: React.FC = () => {
     }
   };
 
-  // 简化为单一的选中图片状态
-  const [currentSelectedImage, setCurrentSelectedImage] = React.useState<string | null>(null);
 
   // 跟踪图片数组长度变化，用于检测新生成的图片
   const prevLength = React.useRef<number>(0);

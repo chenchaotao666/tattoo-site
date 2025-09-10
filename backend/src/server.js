@@ -14,6 +14,53 @@ app.use(express.urlencoded({ extended: true }));
 // 静态文件服务 - 提供生成的图片访问
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
+// MinIO图片访问路由
+app.get('/images/:filename(*)', async (req, res) => {
+    try {
+        const { Client } = require('minio');
+        
+        // MinIO配置
+        const endpoint = process.env.MINIO_ENDPOINT || 'http://localhost:9000';
+        const accessKey = process.env.MINIO_ACCESS_KEY_ID || 'minioadmin';
+        const secretKey = process.env.MINIO_SECRET_ACCESS_KEY || 'minioadmin123';
+        const bucketName = process.env.MINIO_BUCKET_NAME || 'tattoo';
+        const useSSL = process.env.MINIO_USE_SSL === 'true';
+        
+        // 解析endpoint
+        const url = new URL(endpoint);
+        const host = url.hostname;
+        const port = parseInt(url.port) || (url.protocol === 'https:' ? 443 : 80);
+        
+        // 创建MinIO客户端
+        const minioClient = new Client({
+            endPoint: host,
+            port: port,
+            useSSL: useSSL,
+            accessKey: accessKey,
+            secretKey: secretKey
+        });
+        
+        const filename = req.params.filename;
+        
+        // 从MinIO获取文件流
+        const stream = await minioClient.getObject(bucketName, filename);
+        
+        // 设置响应头
+        res.setHeader('Content-Type', 'image/png');
+        res.setHeader('Cache-Control', 'public, max-age=31536000');
+        
+        // 将文件流传输到响应
+        stream.pipe(res);
+        
+    } catch (error) {
+        console.error('获取MinIO图片失败:', error.message);
+        res.status(404).json({
+            success: false,
+            message: 'Image not found'
+        });
+    }
+});
+
 // 数据库连接池
 const pool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',

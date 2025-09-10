@@ -35,6 +35,7 @@ export interface UseGeneratePageState {
   
   // UI状态
   showStyleSelector: boolean; // 是否显示风格选择器
+  currentSelectedImage: string | null; // 当前选中的图片ID
   
   // 加载状态
   isGenerating: boolean;
@@ -66,6 +67,7 @@ export interface UseGeneratePageActions {
   setPublicVisibility: (visible: boolean) => void;
   setEnhanceEnabled: (enabled: boolean) => void;
   setShowStyleSelector: (show: boolean) => void;
+  setCurrentSelectedImage: (imageId: string | null) => void;
   
   // API 操作
   generateImages: () => Promise<void>;
@@ -155,6 +157,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     
     // UI状态
     showStyleSelector: false, // 默认不显示风格选择器
+    currentSelectedImage: null, // 当前选中的图片ID
     
     // 加载状态
     isGenerating: false,
@@ -223,6 +226,10 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
 
   const setShowStyleSelector = useCallback((showStyleSelector: boolean) => {
     updateState({ showStyleSelector });
+  }, [updateState]);
+
+  const setCurrentSelectedImage = useCallback((currentSelectedImage: string | null) => {
+    updateState({ currentSelectedImage });
   }, [updateState]);
 
   // 检查用户积分 - 优化：使用传入的用户数据而不是重新请求
@@ -353,37 +360,15 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         // Create BaseImage objects from all generated images
         const localImages = tattooResponse.localImages || [];
         if (localImages.length > 0) {
-          const batchId = tattooResponse.batchId || tattooResponse.id;
-          const newImages: BaseImage[] = localImages.map((localImage, index) => ({
-            id: `${tattooResponse.id}_${index}`,
-            name: { zh: `${state.prompt} (${index + 1})`, en: `${state.prompt} (${index + 1})` },
-            slug: `generated-tattoo-${tattooResponse.id}-${index}`,
-            tattooUrl: localImage.url,
-            title: { zh: state.prompt, en: state.prompt },
-            description: { zh: state.prompt, en: state.prompt },
-            prompt: { zh: state.prompt, en: state.prompt },
-            type: 'text2image' as const,
-            styleId: '',
-            isColor: state.selectedColor,
-            isPublic: state.publicVisibility,
-            isOnline: false,
-            hotness: 0,
-            userId: '',
-            categoryId: '',
-            ratio: '1:1' as const,
-            batchId: batchId,
-            createdAt: tattooResponse.created_at || new Date().toISOString(),
-            updatedAt: tattooResponse.created_at || new Date().toISOString()
-          }));
-          
-          // Immediately add all images to state
+          // Immediately add all images to state and select the first new image
           setState(prevState => ({
             ...prevState,
-            generatedImages: [...newImages, ...prevState.generatedImages],
+            generatedImages: [...localImages, ...prevState.generatedImages],
             hasGenerationHistory: true,
             isGenerating: false,
             currentTaskId: null,
             generationProgress: 100,
+            currentSelectedImage: localImages[0].id, // 选中新生成的第一张图片
           }));
           
           // Refresh user credits
@@ -771,6 +756,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     setPublicVisibility,
     setEnhanceEnabled,
     setShowStyleSelector,
+    setCurrentSelectedImage,
     generateImages,
     loadStyleSuggestions,
     loadStyles,

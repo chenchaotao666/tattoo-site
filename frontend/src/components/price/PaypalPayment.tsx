@@ -293,7 +293,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
 
           {/* 右侧 - 支付表单 */}
           <div className="rounded-r-2xl bg-white p-10 text-[#5D5D5D]">
-            <div className="mb-6 space-y-3">
+            <div className="space-y-3">
               {/* PayPal 按钮容器 */}
               <div ref={paypalRef} id="paypal-button-container"></div>
               

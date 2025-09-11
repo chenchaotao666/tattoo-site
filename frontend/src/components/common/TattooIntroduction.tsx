@@ -1,5 +1,6 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
+import BaseButton from '../ui/BaseButton';
 
 export interface TattooIntroductionSection {
   title: string;
@@ -45,30 +46,15 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
                 </div>
               </div>
               <div style={{ position: 'relative' }}>
-                <div style={{ width: '170px', height: '60px', background: colors.special.highlight, borderRadius: '8px' }}></div>
-                <button 
+                <BaseButton
+                  variant="primary"
+                  width="w-[170px]"
+                  height="h-[60px]"
+                  fontSize="text-xl"
                   onClick={data.sections[0]?.onButtonClick}
-                  style={{ 
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '170px', 
-                    height: '60px',
-                    color: 'black', 
-                    fontSize: '20px', 
-                    fontFamily: 'Inter', 
-                    fontWeight: '700', 
-                    wordWrap: 'break-word',
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
                 >
                   {data.sections[0]?.buttonText}
-                </button>
+                </BaseButton>
               </div>
             </div>
 
@@ -151,30 +137,15 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
                 </div>
               </div>
               <div style={{ position: 'relative' }}>
-                <div style={{ width: '170px', height: '60px', background: colors.special.highlight, borderRadius: '8px' }}></div>
-                <button 
+                <BaseButton
+                  variant="primary"
+                  width="w-[170px]"
+                  height="h-[60px]"
+                  fontSize="text-xl"
                   onClick={data.sections[1]?.onButtonClick}
-                  style={{ 
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '170px', 
-                    height: '60px',
-                    color: 'black', 
-                    fontSize: '20px', 
-                    fontFamily: 'Inter', 
-                    fontWeight: '700', 
-                    wordWrap: 'break-word',
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
                 >
                   {data.sections[1]?.buttonText}
-                </button>
+                </BaseButton>
               </div>
             </div>
           </div>
@@ -192,30 +163,15 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
                 </div>
               </div>
               <div style={{ position: 'relative' }}>
-                <div style={{ width: '170px', height: '60px', background: colors.special.highlight, borderRadius: '8px' }}></div>
-                <button 
+                <BaseButton
+                  variant="primary"
+                  width="w-[170px]"
+                  height="h-[60px]"
+                  fontSize="text-xl"
                   onClick={data.sections[2]?.onButtonClick}
-                  style={{ 
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    width: '170px', 
-                    height: '60px',
-                    color: 'black', 
-                    fontSize: '20px', 
-                    fontFamily: 'Inter', 
-                    fontWeight: '700', 
-                    wordWrap: 'break-word',
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
                 >
                   {data.sections[2]?.buttonText}
-                </button>
+                </BaseButton>
               </div>
             </div>
 

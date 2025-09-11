@@ -34,7 +34,7 @@ const TryNow: React.FC<TryNowProps> = ({
           
           {onButtonClick ? (
             <button
-              className="h-[60px] px-[70px] pr-3 bg-white rounded-lg flex justify-center items-center gap-10"
+              className="h-[60px] px-[70px] pr-3 bg-white rounded-lg flex justify-center items-center gap-10 hover:bg-gray-300 transition-colors duration-200"
               onClick={onButtonClick}
             >
               <div className="text-black text-xl font-bold">
@@ -46,7 +46,7 @@ const TryNow: React.FC<TryNowProps> = ({
             </button>
           ) : (
             <Link to={buttonLink || '#'} className="w-auto">
-              <button className="h-[60px] px-[70px] pr-3 bg-white rounded-lg flex justify-center items-center gap-10">
+              <button className="h-[60px] px-[70px] pr-3 bg-white rounded-lg flex justify-center items-center gap-10 hover:bg-gray-300 transition-colors duration-200">
                 <div className="text-black text-xl font-bold">
                   {buttonText}
                 </div>

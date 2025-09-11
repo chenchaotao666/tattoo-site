@@ -165,31 +165,31 @@ const GeneratePage: React.FC = () => {
     },
     {
       question: "Can I choose different tattoo styles in the AI tool?",
-      answer: "Yes, our AI tattoo generator offers multiple styles including traditional, realistic, minimalist, geometric, and many more to match your vision."
+      answer: "Yes. The AI tattoo generator offers styles like traditional, realistic, watercolor, geometric, and minimalist, so you can find the perfect fit."
     },
     {
       question: "How accurate is the AR tattoo preview on my skin?",
-      answer: "Our AR preview technology provides a highly realistic representation of how your tattoo will look on your skin, helping you make confident decisions."
+      answer: "Our AR tattoo preview provides a close-to-real look at placement, size, and color. While lighting and skin tone can affect the result, it's a reliable guide for decision-making."
     },
     {
       question: "Can I customize my tattoo after generating it?",
-      answer: "Absolutely! You can modify colors, adjust sizes, change positioning, and fine-tune details to create your perfect tattoo design."
+      answer: "Absolutely. You can adjust style, color, size, and details with our tattoo customization tools until you're completely satisfied."
     },
     {
       question: "Can I use the tattoo design commercially after generating it?",
-      answer: "Yes, all designs you generate are yours to use as you wish, including for commercial purposes, with full ownership rights."
+      answer: "Yes. All designs you create with the AI tattoo generator are yours to use for personal or commercial purposes."
     },
     {
       question: "Is there a mobile app for the AI Tattoo Generator?",
-      answer: "Currently, our AI tattoo generator is web-based and fully optimized for mobile browsers, providing the same great experience across all devices."
+      answer: "Yes. The mobile version allows you to design, customize, and preview tattoos on the go, offering the same core features as the web app."
     },
     {
       question: "Do I need design experience to use the AI tattoo generator?",
-      answer: "Not at all! Our tool is designed for everyone, from complete beginners to experienced designers. Simply describe your idea and let AI do the work."
+      answer: "Not at all. The tool is beginner-friendly—just enter your idea and let the AI tattoo design system handle the rest."
     },
     {
       question: "How long does it take to create a tattoo design?",
-      answer: "Our AI generates stunning tattoo designs in just seconds. You'll see your custom design almost instantly after clicking the generate button."
+      answer: "Most AI tattoo designs are generated in under 30 seconds, so you can explore multiple concepts quickly."
     }
   ];
 
@@ -746,7 +746,7 @@ const GeneratePage: React.FC = () => {
           <TattooIntroduction data={tattooIntroductionData} />
 
           {/* HowToCreate component */}
-          <div className="flex justify-center py-12 bg-[#030414]">
+          <div className="flex justify-center py-20 bg-[#030414]">
             <HowToCreate 
               title={tattooHowToCreateData.title}
               steps={tattooHowToCreateData.steps}
@@ -754,7 +754,7 @@ const GeneratePage: React.FC = () => {
           </div>
 
           {/* GenerateFAQ component */}
-          <div className="pt-8 lg:pt-12 bg-[#030414]">
+          <div className="py-20 bg-[#030414]">
             <GenerateFAQ faqData={textFAQData} />
           </div>
 

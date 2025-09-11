@@ -173,14 +173,6 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                   : [selectedImage].filter(Boolean);
                 const isBatch = batchImages.length > 1;
                 
-                console.log('Download buttons logic:', {
-                  currentSelectedImage,
-                  selectedImage: selectedImage?.id,
-                  batchId,
-                  batchImagesLength: batchImages.length,
-                  isBatch
-                });
-                
                 return (
                   <div className="flex flex-row gap-3 mt-6 px-4 sm:px-0 items-center justify-center">
                     {isBatch ? (

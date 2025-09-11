@@ -1,7 +1,7 @@
 import Layout from '../components/layout/Layout';
 import HomeTop from '../components/home/HomeTop';
 import CategoryGrid from '../components/categories/CategoryGrid';
-import { Button } from '../components/ui/button';
+import { Button } from '../components/ui/Button';
 import HowToCreate from '../components/common/HowToCreate';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
@@ -28,7 +28,7 @@ const HomePage = () => {
 
   const handleCategoryClick = (category: Category) => {
     // 使用映射表获取SEO友好的名称
-    const categoryPath = getCategoryNameById(category.categoryId);
+    const categoryPath = getCategoryNameById(category.id);
     navigateWithLanguage(navigate, `/categories/${categoryPath}`);
   };
 
@@ -40,23 +40,23 @@ const HomePage = () => {
     },
     {
       question: "What tattoo design styles are available?",
-      answer: "We offer multiple styles including traditional, minimalist, watercolor, tribal, geometric, realistic, and many more to match your vision."
+      answer: "Choose from minimal line art, traditional, watercolor, geometric, hyper-realistic, and more—so your tattoo matches your vision."
     },
     {
       question: "How accurate is the AI Tattoo Generator skin preview?",
-      answer: "Our AR technology provides highly realistic previews that show how your tattoo will look on your actual skin, helping you make confident decisions."
+      answer: "Our AR and photo preview tools give a near-real look at placement, size, and color before you commit."
     },
     {
       question: "Can I use AI Tattoo Generator designs commercially?",
-      answer: "Yes, all designs generated are yours to use. You have full rights to use them for personal tattoos or commercial purposes."
+      answer: "Yes, for personal or commercial purposes. We recommend confirming technical feasibility with your tattoo artist."
     },
     {
       question: "Is there a mobile app version?",
-      answer: "Yes! Our mobile apps for iOS and Android let you create, preview, and save designs anywhere you go."
+      answer: "Yes. The AI Tattoo Generator app for iOS and Android lets you design, preview, and save tattoos anytime."
     },
     {
       question: "Can I edit or refine the AI tattoo design?",
-      answer: "Absolutely! You can regenerate with different prompts, adjust styles, and make refinements until you get the perfect design."
+      answer: "Absolutely—tweak style, details, and placement until it's perfect."
     }
   ];
 
@@ -187,7 +187,7 @@ const HomePage = () => {
           <div className="bg-[#030414]">
             <HomeTop tattooCount={imageCount}/>
           </div>
-          <div className="w-full bg-[#030414] pb-12 sm:pb-16 md:pb-20 lg:pb-[6rem] pt-12 sm:pt-16 md:pt-20 lg:pt-[6rem]">
+          <div className="w-full bg-[#030414] pb-12 sm:pb-16 md:pb-20 lg:pb-[5rem] pt-12 sm:pt-16 md:pt-20 lg:pt-[5rem]">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-[48px] px-4 sm:px-0 max-w-[1200px] mx-auto">
                 <div className="text-center text-[#E6E6E6] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[46px] font-bold font-inter capitalize break-words">
@@ -202,7 +202,6 @@ const HomePage = () => {
                 categories={categories}
                 isLoading={isLoading}
                 onCategoryClick={handleCategoryClick}
-                maxColumns={{ desktop: 4, tablet: 3, mobile: 2 }}
                 showNameAndButton={false}
                 showMore={true}
               />

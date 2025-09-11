@@ -6,6 +6,7 @@ import { getLocalizedText } from '../../utils/textUtils';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 import { Style } from '../../hooks/useGeneratePage';
 import { colors } from '../../styles/colors';
+import BaseButton from '../ui/BaseButton';
 
 // Fallback colors in case import fails
 const fallbackColors = {
@@ -379,18 +380,15 @@ const GenerateTextarea = ({
 
             {/* Options - Right side */}
             <div className="flex items-center gap-3 flex-wrap">
-              <button 
+              <BaseButton
+                variant="primary"
+                width={!showBorderGradient ? 'px-6' : 'w-[120px]'}
+                height="h-10"
+                fontSize="text-base"
                 onClick={handleGenerateClick}
-                className={`${!showBorderGradient ? 'px-6 py-2' : 'w-[120px]'} h-10 rounded-lg flex items-center justify-center gap-1`}
-                style={{
-                  backgroundColor: safeColors.special?.highlight || '#98FF59',
-                  ...(!showBorderGradient ? { backdropFilter: 'blur(2px)' } : {})
-                }}
               >
-                <span className={`text-black ${!showBorderGradient ? 'text-base' : 'text-base'} font-['Inter'] font-bold`}>
-                  {!showBorderGradient ? 'Create' : 'Generate'}
-                </span>
-              </button>
+                {!showBorderGradient ? 'Create' : 'Generate'}
+              </BaseButton>
             </div>
           </div>
         </div>

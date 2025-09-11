@@ -4,7 +4,7 @@ import Layout from '../components/layout/Layout';
 import SEOHead from '../components/common/SEOHead';
 import BackToTop from '../components/common/BackToTop';
 import Breadcrumb from '../components/common/Breadcrumb';
-import { Button } from '../components/ui/button';
+import { Button } from '../components/ui/Button';
 import { useAsyncTranslation, useLanguage } from '../contexts/LanguageContext';
 import { PostsService, Post } from '../services/postsService';
 import { createLanguageAwarePath } from '../utils/navigationUtils';

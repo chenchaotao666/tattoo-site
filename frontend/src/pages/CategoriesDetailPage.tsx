@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import { Button } from '../components/ui/button';
+import { Button } from '../components/ui/Button';
 import Breadcrumb from '../components/common/Breadcrumb';
 import { CategoriesService, Category, TagCount } from '../services/categoriesService';
 import { useCategories } from '../contexts/CategoriesContext';

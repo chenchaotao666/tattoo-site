@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import { Button } from '../components/ui/button';
+import { Button } from '../components/ui/Button';
+import BaseButton from '../components/ui/BaseButton';
 import ImageGrid from '../components/iamges/ImageGrid';
 import Breadcrumb, { BreadcrumbItem } from '../components/common/Breadcrumb';
 import { ImageService, BaseImage, Tag } from '../services/imageService';
@@ -359,25 +360,20 @@ const ImageDetailPage: React.FC = () => {
 
                 {/* Action Buttons */}
                 <div className="flex gap-3 mt-6">
-                  <button 
-                    className="w-[200px] h-[60px] px-4 bg-[#98FF59] rounded-lg flex justify-center items-center"
+                  <BaseButton
+                    variant="primary"
                     onClick={() => {
-                      // TODO: Implement recreate functionality
                       console.log('Recreate clicked');
                     }}
                   >
-                    <div className="text-[#161616] text-xl font-bold">
-                      Recreate
-                    </div>
-                  </button>
-                  <button 
-                    className="w-[200px] h-[60px] px-4 rounded-lg border border-[#A5A5A5] flex justify-center items-center"
+                    Recreate
+                  </BaseButton>
+                  <BaseButton
+                    variant="secondary"
                     onClick={() => handleDownload('png')}
                   >
-                    <div className="text-[#ECECEC] text-xl font-bold">
-                      {'Download'}
-                    </div>
-                  </button>
+                    Download
+                  </BaseButton>
                 </div>
               </div>
             </div>

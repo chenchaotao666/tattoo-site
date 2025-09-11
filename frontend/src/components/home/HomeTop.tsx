@@ -13,7 +13,7 @@ const HomeTop: React.FC<HomeTopProps> = ({
 }) => {
   return (
     <div 
-      className="w-full flex flex-col items-center gap-8 py-16"
+      className="w-full flex flex-col items-center gap-8 pt-16 pb-20"
       style={{
         backgroundImage: `linear-gradient(rgba(3, 4, 20, 0.3), rgba(3, 4, 20, 0.7)), url('./images/header/bg.png')`,
         backgroundSize: 'auto 100%',

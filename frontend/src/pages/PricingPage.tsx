@@ -16,7 +16,6 @@ const PricingPage: React.FC = () => {
       />
       <PricingSection 
         showTitle={true}
-        showGradientBg={true}
         showFAQ={true}
         showCTA={true}
       />

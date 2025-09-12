@@ -150,14 +150,14 @@
   },
   "tryNow": {
     "text": {
-      "title": "Start Creating Your Coloring Pages Today",
-      "description": "Let your imagination run wild with our Text to Coloring Page tool. Whether you're a parent bringing a flying elephant to life for your kids, an artist seeking inspiration from a dancing taco, or simply want to see a knight riding a turtle, we're here to draw it for you. Start creating your collection now and unleash your inner artist!",
-      "buttonText": "Try Now"
+      "title": "Create Your AI Tattoo Now",
+      "description": "Create your first hyper-realistic tattoo in seconds with no skills needed. Just your idea, our AI Tattoo Generator, and a few clicks.",
+      "buttonText": "Start Creating"
     },
     "image": {
       "title": "Ready to Turn Your Image into a Coloring Page?",
       "description": "Whether you're a parent turning a family photo into a fun activity, an artist exploring a new composition, or simply looking to create a unique gift, our tool is here for you. Start transforming your favorite images now and unleash your inner artist!",
-      "buttonText": "Try Now"
+      "buttonText": "Start Creating"
     }
   },
   "seo": {

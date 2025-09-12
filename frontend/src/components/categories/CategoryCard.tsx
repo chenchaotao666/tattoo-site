@@ -18,7 +18,6 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileShowColor, setMobileShowColor] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [buttonHovered, setButtonHovered] = useState(false);
   const { language } = useLanguage();
 
@@ -59,9 +58,20 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
   return (
     <div 
-      className={`w-[278px] relative`}
-      style={{ height: showNameAndButton ? '366px' : '278px' }}
+      className={`w-[278px] relative transform transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer`}
+      style={{ 
+        height: showNameAndButton ? '366px' : '278px',
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
+        WebkitFontSmoothing: 'antialiased',
+        transformStyle: 'preserve-3d',
+        willChange: 'transform'
+      }}
       onClick={handleClick}
+      {...(category.sourceUrl ? {
+        onMouseEnter: () => !isMobile && setIsHovered(true),
+        onMouseLeave: () => !isMobile && setIsHovered(false)
+      } : {})}
     >
       {/* 背景容器 */}
       <div 
@@ -74,14 +84,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       
       {/* 图片区域 */}
       <div 
-        className="w-[278px] h-[278px] absolute left-0 top-0 overflow-hidden rounded-2xl cursor-pointer"
+        className="w-[278px] h-[278px] absolute left-0 top-0 overflow-hidden rounded-2xl"
         style={{
           WebkitTapHighlightColor: 'transparent'
         }}
-        {...(category.sourceUrl ? {
-          onMouseEnter: () => !isMobile && setIsHovered(true),
-          onMouseLeave: () => !isMobile && setIsHovered(false)
-        } : {})}
       >
         {/* 黑白图片 - tattooUrl (默认显示) */}
         <img 
@@ -92,10 +98,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
           }`}
           src={category.tattooUrl || 'https://placehold.co/278x278'}
           alt={getLocalizedText(category.name, language)}
-          onLoad={() => setImageLoaded(true)}
           onError={(e) => {
             handleImageError(e);
-            setImageLoaded(true);
           }}
         />
         

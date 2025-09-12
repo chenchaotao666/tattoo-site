@@ -231,14 +231,14 @@ const CategoriesDetailPage: React.FC = () => {
       />
       <div className="w-full bg-[#030414] pb-4 md:pb-20 relative">
         {/* Breadcrumb - 始终显示 */}
-        <div className="pb-4">
+        <div>
           <Breadcrumb items={getBreadcrumbPathEarly()} />
         </div>
 
         {/* Category Header */}
         {category && (
-          <div className="container mx-auto px-4 py-8">
-            <h1 className="text-4xl font-bold text-white text-center mb-4">
+          <div className="container mx-auto px-4 pb-4">
+            <h1 className="font-bold text-white text-center text-[42px] mb-4">
               {getLocalizedText(category.name, language)}
             </h1>
             <p className="text-gray-300 text-center mb-8">

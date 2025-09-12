@@ -77,8 +77,6 @@ const ImageDetailPage: React.FC = () => {
         if (categoryId) {
           // 步骤1：使用categories context获取全量分类数据
           if (categoriesLoading || !allCategories || allCategories.length === 0) {
-            console.log('Categories still loading, waiting...');
-            setIsImageLoading(false);
             return;
           }
 
@@ -302,7 +300,7 @@ const ImageDetailPage: React.FC = () => {
         ogDescription={image ? `Download free printable ${getLocalizedText(image.title, language).toLowerCase()} coloring page. High-quality PDF and PNG formats available instantly.` : 'Download free printable coloring pages.'}
         noIndex={true}
       />
-      <div className="w-full bg-[#030414] pb-4 md:pb-20 relative">
+      <div className="w-full bg-[#030414] relative">
         {/* Breadcrumb - 始终显示 */}
         <Breadcrumb items={breadcrumbPath} />
 
@@ -388,7 +386,7 @@ const ImageDetailPage: React.FC = () => {
             }
 
             return (
-              <article className="mb-12 max-w-[1170px] mx-auto">
+              <article className="mb-4 max-w-[1170px] mx-auto">
                 <div 
                   className='prose prose-dark'
                   dangerouslySetInnerHTML={{ __html: additionalInfo }}
@@ -398,13 +396,13 @@ const ImageDetailPage: React.FC = () => {
           })()}
 
           {/* You Might Also Like - 独立显示相关图片加载状态 */}
-          <section>
+          <div className='py-20'>
             <h2 className="text-center text-[#ECECEC] text-2xl lg:text-3xl xl:text-[46px] font-bold capitalize mb-8 lg:mb-12 leading-relaxed lg:leading-[1.6] px-4">
               {t('imageDetail.relatedImages')}
             </h2>
 
             {/* Related Images Grid */}
-            <div className="mb-8 lg:mb-20">
+            <div>
               {isRelatedImagesLoading ? (
                 <div className="flex justify-center items-center py-12">
                   {/* 加载时不显示任何内容 */}
@@ -432,7 +430,7 @@ const ImageDetailPage: React.FC = () => {
                 </div>
               )}
             </div>
-          </section>
+          </div>
         </div>
       </div>
     </Layout>

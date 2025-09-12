@@ -6,6 +6,8 @@ import { getImageContainerSize } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import MoreMenu from './MoreMenu';
+import ImageEnlargement from './ImageEnlargement';
+import DownloadButton from './DownloadButton';
 
 // 图标导入
 const generateFailIcon = '/images/generate-fail.svg';
@@ -43,6 +45,22 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
 }) => {
   const { t } = useAsyncTranslation('generate');
   const { language } = useLanguage();
+  
+  // 图片放大弹窗状态
+  const [showImageModal, setShowImageModal] = useState(false);
+  const [modalImageUrl, setModalImageUrl] = useState<string>('');
+  
+  // 处理图片点击放大
+  const handleImageClick = (imageUrl: string) => {
+    setModalImageUrl(imageUrl);
+    setShowImageModal(true);
+  };
+  
+  // 关闭图片放大弹窗
+  const handleCloseModal = () => {
+    setShowImageModal(false);
+    setModalImageUrl('');
+  };
   
   const config = {
     text: {
@@ -123,8 +141,9 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                         if (batchImages.length === 1) {
                           return (
                             <div 
-                              className="bg-[#F2F3F5] rounded-2xl relative flex items-center justify-center transition-all duration-300"
+                              className="bg-[#F2F3F5] rounded-2xl relative flex items-center justify-center transition-all duration-300 cursor-pointer"
                               style={{ width: '600px', height: '600px' }}
+                              onClick={() => selectedImage?.tattooUrl && handleImageClick(selectedImage.tattooUrl)}
                             >
                               <img
                                 src={selectedImage?.tattooUrl}
@@ -139,7 +158,12 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                         return (
                           <div className="grid grid-cols-2 gap-4" style={{ width: '734px', height: '734px' }}>
                             {batchImages.slice(0, 4).map((image, index) => (
-                              <div key={image?.id || index} className="relative" style={{ width: '360px', height: '360px', borderRadius: '16px' }}>
+                              <div 
+                                key={image?.id || index} 
+                                className="relative cursor-pointer hover:opacity-90 transition-opacity"
+                                style={{ width: '360px', height: '360px', borderRadius: '16px' }}
+                                onClick={() => image?.tattooUrl && handleImageClick(image.tattooUrl)}
+                              >
                                 <img 
                                   src={image?.tattooUrl || ''}
                                   alt={`Generated tattoo ${index + 1}`}
@@ -179,14 +203,10 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                       // 批次图片 - Download All + More Options
                       <div className="flex items-center gap-3">
                         {/* Download All Button */}
-                        <button 
+                        <DownloadButton
+                          text="Download All"
                           onClick={() => onDownload('png', batchImages.map(img => img?.id).filter((id): id is string => Boolean(id)))}
-                          className="bg-[#19191F] hover:bg-[#2D2D35] rounded-lg transition-all duration-200 flex items-center justify-start gap-[6px]"
-                          style={{ height: '48px', paddingLeft: '16px', paddingRight: '16px', paddingTop: '12px', paddingBottom: '12px' }}
-                        >
-                          <img src="/images/generate/download.svg" alt="Download" className="w-6 h-6" />
-                          <span className="text-[#ECECEC] text-sm font-normal leading-[18px]">Download All</span>
-                        </button>
+                        />
                         
                         {/* More Options Button */}
                         <MoreMenu
@@ -199,14 +219,9 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                       // 单张图片 - Download + More Options
                       <div className="flex items-center gap-3">
                         {/* Download Button */}
-                        <button 
+                        <DownloadButton
                           onClick={() => onDownload('png')}
-                          className="bg-[#19191F] hover:bg-[#2D2D35] rounded-lg transition-all duration-200 flex items-center justify-start gap-[6px]"
-                          style={{ height: '48px', paddingLeft: '16px', paddingRight: '16px', paddingTop: '12px', paddingBottom: '12px' }}
-                        >
-                          <img src="/images/generate/download.svg" alt="Download" className="w-6 h-6" />
-                          <span className="text-[#ECECEC] text-sm font-normal leading-[18px]">Download</span>
-                        </button>
+                        />
                         
                         {/* More Options Button */}
                         <MoreMenu
@@ -222,7 +237,6 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
 
             </div>
           ) : (
-            // 根据当前模式判断是否显示Example
             // 只有在初始数据加载完成后才决定是否显示 example 图片
             // Text to Image 模式：用户没有 text to image 历史时显示 example
             isInitialDataLoaded && mode === 'text' && !hasGenerationHistory && (
@@ -265,6 +279,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                       })
                     }}
                     onClick={() => onImageSelect(image.id)}
+                    onDoubleClick={() => handleImageClick(image.tattooUrl)}
                   >
                     <img
                       src={image.tattooUrl}
@@ -278,6 +293,15 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
           </div>
         );
       })()}
+      
+      {/* 图片放大弹窗 */}
+      <ImageEnlargement
+        isOpen={showImageModal}
+        imageUrl={modalImageUrl}
+        generatedImages={generatedImages}
+        onClose={handleCloseModal}
+        onDownload={onDownload}
+      />
     </div>
   );
 };

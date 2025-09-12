@@ -62,8 +62,8 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
             <div style={{ width: '670px', height: '376px', position: 'relative' }}>
               <div style={{ width: '670px', height: '376px', left: '0px', top: '0px', position: 'absolute' }}></div>
               <div style={{ width: '670px', height: '70px', left: '0px', top: '33px', position: 'absolute', borderRadius: '16px', border: '1px solid #ECECEC' }}></div>
-              <img style={{ width: '24px', height: '24px', left: '20px', top: '56px', position: 'absolute' }} src="/images/generate-introduction/star-2.png" alt="Star icon" />
-              <div style={{ left: '53px', top: '56px', position: 'absolute', color: '#ECECEC', fontSize: '20px', fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }}>
+              <img style={{ width: '24px', height: '24px', left: '20px', top: '54px', position: 'absolute' }} src="/images/generate-introduction/star-2.png" alt="Star icon" />
+              <div style={{ left: '53px', top: '52px', position: 'absolute', color: '#ECECEC', fontSize: '20px', fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }}>
                 {data.images[0]?.prompt || "The patterns of mechanical metal structures"}
               </div>
               <img style={{ width: '210px', height: '210px', left: '0px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[0]?.images?.[0] || data.images[0]?.mainImage || "https://placehold.co/210x210"} alt="Tattoo design 1" />
@@ -209,7 +209,7 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
                   <img style={{ width: '210px', height: '210px', left: '0px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[2]?.images?.[0] || "https://placehold.co/210x210"} alt="Tattoo design 1" />
                   <img style={{ width: '210px', height: '210px', left: '460px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[2]?.images?.[2] || "https://placehold.co/210x210"} alt="Tattoo design 3" />
                   <img style={{ width: '210px', height: '210px', left: '230px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[2]?.images?.[1] || "https://placehold.co/210x210"} alt="Tattoo design 2" />
-                  <img style={{ width: '102.28px', height: '110.53px', left: '80.52px', top: '4.69px', position: 'absolute', transform: 'rotate(15deg)', transformOrigin: 'top left', opacity: '0.50' }} src="/images/generate-introduction/hand-drawn-arrow.png" alt="Hand drawn arrow" />
+                  <img style={{ width: '102.28px', height: '110.53px', left: '80.52px', top: '4.69px', position: 'absolute', transform: 'rotate(15deg)', transformOrigin: 'top left', opacity: '0.50' }} src="/images/generate-introduction/hand-drawn-arrow.svg" alt="Hand drawn arrow" />
                 </>
               )}
             </div>

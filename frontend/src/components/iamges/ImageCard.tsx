@@ -20,8 +20,15 @@ const ImageCard: React.FC<ImageCardProps> = ({
   const tags = image.tags || [];
   return (
     <div 
-      className={`w-[278px] bg-[#19191F] rounded-2xl cursor-pointer flex flex-col`}
+      className={`w-[278px] bg-[#19191F] rounded-2xl cursor-pointer flex flex-col transform transition-all duration-300 hover:scale-105 hover:shadow-lg`}
       onClick={onClick}
+      style={{
+        backfaceVisibility: 'hidden',
+        WebkitBackfaceVisibility: 'hidden',
+        WebkitFontSmoothing: 'antialiased',
+        transformStyle: 'preserve-3d',
+        willChange: 'transform'
+      }}
     >
       {/* Image */}
       <img 

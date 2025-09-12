@@ -51,7 +51,7 @@
   "buttons": {
     "choosePlan": "Choose Plan",
     "buyNow": "Buy Now",
-    "tryNow": "Try Now",
+    "tryNow": "Start Creating",
     "cancel": "Cancel",
     "startCreating": "Start Creating"
   },
@@ -84,9 +84,9 @@
     "description": "SSL Encrypted"
   },
   "cta": {
-    "title": "Get Your Coloring Pages",
-    "description": "One-click generate coloring pages—print and play! Parent-child storytelling through color, screen-free bonding experience.",
-    "button": "Try Now"
+    "title": "Create Your AI Tattoo Now",
+    "description": "Create your first hyper-realistic tattoo in seconds with no skills needed. Just your idea, our AI Tattoo Generator, and a few clicks.",
+    "button": "Start Creating"
   },
   "faq": {
     "title": "Frequently Asked Questions",

@@ -51,7 +51,7 @@
   "buttons": {
     "choosePlan": "选择套餐",
     "buyNow": "立即购买",
-    "tryNow": "立即尝试",
+    "tryNow": "开始创作",
     "cancel": "取消",
     "startCreating": "开始创作"
   },
@@ -84,9 +84,9 @@
     "description": "SSL加密保护"
   },
   "cta": {
-    "title": "获取您的涂色页",
-    "description": "一键生成涂色页—打印即玩！通过色彩讲述亲子故事，无屏幕亲子体验。",
-    "button": "立即尝试"
+    "title": "立即创建您的AI纹身",
+    "description": "无需技能，几秒钟即可创建您的第一个超写实纹身。只需您的想法、我们的AI纹身生成器，以及几次点击。",
+    "button": "开始创作"
   },
   "faq": {
     "title": "常见问题",

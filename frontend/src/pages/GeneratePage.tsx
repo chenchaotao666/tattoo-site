@@ -34,7 +34,7 @@ const GeneratePage: React.FC = () => {
   const navigate = useNavigate();
   
   // 获取用户认证状态和刷新函数
-  const { user, isAuthenticated, refreshUser } = useAuth();
+  const { user, isAuthenticated, isLoading, refreshUser } = useAuth();
   
   // 状态：存储动态获取的图片尺寸（用于Text to Image和Image to Image模式）
   const [dynamicImageDimensions, setDynamicImageDimensions] = React.useState<{ [key: string]: { width: number; height: number } }>({});
@@ -144,17 +144,20 @@ const GeneratePage: React.FC = () => {
     return generatedImages.filter(img => !deletedImageIds.includes(img.id));
   }, [generatedImages, deletedImageIds]);
   
-  // 当AuthContext完成初始化且有用户数据时，初始化用户相关数据
+  // 当AuthContext完成初始化时，根据用户状态初始化相关数据
   useEffect(() => {
-    if (user) {
-      checkUserCredits(user);
-      loadGeneratedImages(user);
-    } else {
-      // 用户为空时，清理状态
-      checkUserCredits(null);
-      loadGeneratedImages(null);
+    // 只有在认证状态加载完成后才执行逻辑
+    if (!isLoading) {
+      if (user) {
+        checkUserCredits(user);
+        loadGeneratedImages(user);
+      } else {
+        // 确认用户未登录时，清理状态
+        checkUserCredits(null);
+        loadGeneratedImages(null);
+      }
     }
-  }, [user, checkUserCredits, loadGeneratedImages]);
+  }, [user, isLoading, checkUserCredits, loadGeneratedImages]);
 
 
   // FAQ data for GenerateFAQ component - Text to Image mode
@@ -762,7 +765,7 @@ const GeneratePage: React.FC = () => {
           <TryNow
             title={t('tryNow.text.title')}
             description={t('tryNow.text.description')}
-            buttonText={t('tryNow.text.buttonText')}
+            buttonText={"Start Creating"}
             onButtonClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           />
         </div>

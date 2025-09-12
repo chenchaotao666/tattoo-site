@@ -14,7 +14,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Header categories={categories} categoriesLoading={categoriesLoading} />
-      <main className="flex-grow pt-[70px]">
+      <main className="flex-grow pt-[70px] bg-[#030414]">
         {children}
       </main>
       <Footer categories={categories} categoriesLoading={categoriesLoading} />

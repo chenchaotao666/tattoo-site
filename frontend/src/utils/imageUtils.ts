@@ -250,7 +250,7 @@ export const getEnglishTitleFromImage = (title: LocalizedText | string): string 
   }
   
   // 如果是LocalizedText对象，优先使用英文
-  const englishTitle = title.en || title.zh || '';
+  const englishTitle = title ? title.en || title.zh || '' : '';
   return convertTitleToPath(englishTitle);
 };
 

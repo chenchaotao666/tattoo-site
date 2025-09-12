@@ -16,7 +16,7 @@
   },
   "features": {
     "title": "Two Fun Ways to Make Your Own Coloring Pages",
-    "tryNow": "Try Now",
+    "tryNow": "Start Creating",
     "textToImage": {
       "title": "Text to Coloring Page",
       "description": "Just type in a short description — like \"a dinosaur playing the drums\" — and watch it turn into a printable coloring page within seconds."
@@ -130,9 +130,9 @@
     }
   },
   "cta": {
-    "title": "Ready To Create Your First Coloring Page?",
-    "description": "No drawing needed—just ideas! Perfect for parents, teachers, and creators who want to make coloring fun, personal, and screen-free.",
-    "tryNow": "Try Now"
+    "title": "Create Your AI Tattoo Now",
+    "description": "Create your first hyper-realistic tattoo in seconds with no skills needed. Just your idea, our AI Tattoo Generator, and a few clicks.",
+    "tryNow": "Start Creating"
   },
   "faq": {
     "title": "Frequently Asked Questions",

@@ -23,7 +23,7 @@ const TryNow: React.FC<TryNowProps> = ({
       <div className="absolute inset-0 w-full h-full" style={{background: 'linear-gradient(180deg, rgba(3, 4, 20, 0.60) 0%, rgba(0, 0, 0, 0.40) 100%)'}}></div>
       
       <div className="w-full flex justify-center items-center px-4 sm:px-6 relative z-10">
-        <div className="w-full max-w-[1000px] flex flex-col justify-start items-center gap-4 sm:gap-6">
+        <div className="w-full max-w-[1200px] flex flex-col justify-start items-center gap-4 sm:gap-6">
           <h2 className="text-center text-[#ECECEC] text-2xl sm:text-3xl md:text-4xl lg:text-[56px] font-bold leading-tight sm:leading-[1.25] lg:leading-[67.2px] px-4 sm:px-0 capitalize">
             {title}
           </h2>

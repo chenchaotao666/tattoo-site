@@ -46,7 +46,7 @@ const CategoriesPage: React.FC = () => {
         ogDescription={tCommon('seo.categories.description')}
         noIndex={true}
       />
-      <div className="w-full bg-[#030414] pb-12 md:pb-[120px]">
+      <div className="w-full bg-[#030414]">
         {/* Breadcrumb */}
         <Breadcrumb
           items={[
@@ -56,14 +56,14 @@ const CategoriesPage: React.FC = () => {
         />
 
         {/* Page Title */}
-        <div className="container mx-auto text-center mb-4 lg:mb-8">
-          <h1 className="text-center text-white text-3xl lg:text-[46px] font-bold capitalize mb-4 md:mb-[24px] leading-relaxed lg:leading-[1]">
+        <div className="container mx-auto text-center mb-4 lg:mb-12">
+          <h1 className="text-center text-white text-3xl lg:text-[42px] font-bold capitalize mb-4 md:mb-[24px] leading-relaxed lg:leading-[1]">
             {isLoadingCategories ? <div>&nbsp;</div> : t('title', `${categories.length} categories to explore`, { count: categories.length })}
           </h1>
         </div>
 
         {/* Category Grid */}
-        <div className="container mx-auto px-4 min-h-[800px]">
+        <div className="container mx-auto px-4 min-h-[800px] pb-20">
           <CategoryGrid
             categories={categories}
             isLoading={isLoadingCategories}
@@ -82,7 +82,7 @@ const CategoriesPage: React.FC = () => {
         </div>
 
         {/* Generate Section */}
-        <div className="container mx-auto px-4 mb-8 mt-24">
+        <div className="container mx-auto px-4 mb-20 mt-20">
           {/* Title */}
           <div className="w-full text-center mb-12">
             <h2 className="text-[#ECECEC] text-[46px] font-['Inter'] font-bold capitalize leading-none">

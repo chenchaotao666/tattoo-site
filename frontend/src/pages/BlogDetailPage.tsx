@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import SEOHead from '../components/common/SEOHead';
 import BackToTop from '../components/common/BackToTop';
 import Breadcrumb from '../components/common/Breadcrumb';
-import { Button } from '../components/ui/Button';
+import BaseButton from '../components/ui/BaseButton';
 import { useAsyncTranslation, useLanguage } from '../contexts/LanguageContext';
 import { PostsService, Post } from '../services/postsService';
-import { createLanguageAwarePath } from '../utils/navigationUtils';
+import { createLanguageAwarePath, navigateWithLanguage } from '../utils/navigationUtils';
 import { getLocalizedText } from '../utils/textUtils';
 import { useLoading } from '../contexts/LoadingContext';
 
@@ -91,7 +91,7 @@ const BlogDetailPage = () => {
           />
 
           <div className="min-h-screen bg-[#030414]">
-            <div className="mx-auto max-w-6xl pt-10 pb-20">
+            <div className="mx-auto max-w-6xl pb-20">
               {/* Breadcrumb */}
               <Breadcrumb
                   items={[
@@ -103,7 +103,7 @@ const BlogDetailPage = () => {
 
               {/* Article Header */}
               <header className="mb-4">
-                <h1 className="text-4xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                <h1 className="text-[42px] font-bold text-white mb-6 leading-tight">
                   {currentTitle}
                 </h1>
 
@@ -150,15 +150,17 @@ const BlogDetailPage = () => {
 
               {/* Back to Blog */}
               <div className="flex justify-center">
-                <Link to={createLanguageAwarePath('/blog')}>
-                  <Button
-                    variant="gradient"
-                    className="w-[200px] sm:w-[200px] h-12 sm:h-14 px-4 sm:px-5 py-2.5 rounded-lg flex justify-center items-center gap-2 text-lg sm:text-xl font-bold"
-                  >
+                <button
+                  className="h-[60px] px-[70px] pr-3 bg-white rounded-lg flex justify-center items-center gap-10 hover:bg-gray-300 transition-colors duration-200"
+                  onClick={() => navigateWithLanguage(navigate, '/blog')}
+                >
+                  <div className="text-black text-xl font-bold">
                     {t('blog.backToBlog')}
-                    <img src={arrowRightIcon} alt="Arrow right" className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </Button>
-                </Link>
+                  </div>
+                  <div className="w-9 h-9 bg-[#030414] rounded-full flex items-center justify-center">
+                    <img src="/images/try-now/right-arrow.png" alt="Right arrow" className="w-6 h-6" />
+                  </div>
+                </button>
               </div>
             </div>
           </div>

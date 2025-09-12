@@ -44,7 +44,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen = false, onC
       </div>
       
       {isOpen && (
-        <div className="text-[#A5A5A5] text-sm leading-5 mt-8 pr-10 cursor-text select-text">
+        <div className="text-[#A5A5A5] text-sm leading-5 mt-10 pr-10 cursor-text select-text">
           {answer}
         </div>
       )}

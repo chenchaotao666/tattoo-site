@@ -356,7 +356,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
           <TryNow
             title={t('cta.title')}
             description={t('cta.description')}
-            buttonText="Start Creating"
+            buttonText={t('cta.tryNow')}
             buttonLink="/create"
           />
         )}

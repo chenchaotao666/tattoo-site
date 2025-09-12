@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Category } from '../../services/categoriesService';
 import CategoryCard from '../categories/CategoryCard';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
+import BaseButton from '../ui/BaseButton';
 
 interface CategoryGridProps {
   categories: Category[];
@@ -106,7 +107,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
             <>
               {/* 渐变背景 */}
               <div 
-                className="absolute bottom-0 left-0 right-0 pointer-events-none z-20"
+                className="absolute bottom-[-8px] left-0 right-0 pointer-events-none z-20"
                 style={{ 
                   height: '200px',
                   background: 'linear-gradient(to top, rgba(3, 4, 20, 1) 0%, rgba(3, 4, 20, 0.95) 20%, rgba(3, 4, 20, 0.8) 40%, rgba(3, 4, 20, 0.5) 60%, rgba(3, 4, 20, 0.2) 80%, transparent 100%)'
@@ -114,36 +115,33 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
               ></div>
               
               {/* See more 按钮 */}
-              <div 
-                onClick={handleShowMoreClick}
-                className="cursor-pointer absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
-                style={{
-                  height: '60px',
-                  paddingLeft: '32px',
-                  paddingRight: '32px',
-                  paddingTop: '18px',
-                  paddingBottom: '18px',
-                  background: 'rgba(3, 4, 20, 0.20)',
-                  borderRadius: '62px',
-                  outline: '1px #ECECEC solid',
-                  outlineOffset: '-1px',
-                  backdropFilter: 'blur(2px)',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                  gap: '30px',
-                  display: 'inline-flex'
-                }}
-              >
-                <div style={{
-                  color: '#ECECEC',
-                  fontSize: '20px',
-                  fontFamily: 'Roboto',
-                  fontWeight: 500,
-                  wordWrap: 'break-word'
-                }}>
+              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30">
+                <BaseButton
+                  onClick={handleShowMoreClick}
+                  variant="secondary"
+                  width="w-auto"
+                  height="h-[60px]"
+                  className="backdrop-blur-sm bg-[rgba(3,4,20,0.20)] border-[#ECECEC]"
+                  style={{
+                    paddingLeft: '32px',
+                    paddingRight: '32px',
+                    paddingTop: '18px',
+                    paddingBottom: '18px',
+                    borderRadius: '62px',
+                    outline: '1px #ECECEC solid',
+                    outlineOffset: '-1px',
+                    backdropFilter: 'blur(2px)',
+                    color: '#ECECEC',
+                    fontSize: '20px',
+                    fontFamily: 'Roboto',
+                    fontWeight: 500
+                  }}
+                >
                   See more Tattoos
-                </div>
+                </BaseButton>
               </div>
+
+              
             </>
           )}
         </div>

@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import useGeneratePage from '../hooks/useGeneratePage';
 import { useAuth } from '../contexts/AuthContext';
+import { useToast } from '../contexts/ToastContext';
 import { getLocalizedText } from '../utils/textUtils';
-import DeleteImageConfirmDialog from '../components/ui/DeleteImageConfirmDialog';
 import CloseButton from '../components/ui/CloseButton';
 import HowToCreate from '../components/common/HowToCreate';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
@@ -29,17 +29,14 @@ const GeneratePage: React.FC = () => {
   // 获取用户认证状态和刷新函数
   const { user, isAuthenticated, isLoading, refreshUser } = useAuth();
   
+  // 获取Toast函数
+  const { showErrorToast, showSuccessToast } = useToast();
+  
   // 状态：存储动态获取的图片尺寸（用于Text to Image和Image to Image模式）
   const [dynamicImageDimensions, setDynamicImageDimensions] = React.useState<{ [key: string]: { width: number; height: number } }>({});
 
   // 控制更多选项菜单的显示
   const [showMoreMenu, setShowMoreMenu] = React.useState(false);
-
-  // 控制删除确认对话框的显示
-  const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
-  
-  // 存储要删除的图片ID数组
-  const [imagesToDelete, setImagesToDelete] = React.useState<string[]>([]);
   
   // 存储已通过MoreMenu删除的图片ID，用于过滤显示
   const [deletedImageIds, setDeletedImageIds] = React.useState<string[]>([]);
@@ -84,8 +81,7 @@ const GeneratePage: React.FC = () => {
     };
   }, [showPricingModal]);
 
-  // 移动端内容滚动容器的引用
-  const mobileContentRef = React.useRef<HTMLDivElement>(null);
+
   // Prompt输入框的引用
   const promptInputRef = React.useRef<HTMLTextAreaElement>(null);
   // 输入验证错误状态
@@ -127,10 +123,9 @@ const GeneratePage: React.FC = () => {
     downloadImage,
     clearError,
     refreshStyleSuggestions,
-    deleteImagesBatch,
     checkUserCredits,
     loadGeneratedImages,
-  } = useGeneratePage(refreshUser);
+  } = useGeneratePage(refreshUser, setShowPricingModal, showSuccessToast);
 
   // 过滤掉已删除的图片
   const filteredGeneratedImages = React.useMemo(() => {
@@ -152,6 +147,14 @@ const GeneratePage: React.FC = () => {
     }
   }, [user, isLoading, checkUserCredits, loadGeneratedImages]);
 
+  // 监听error变化，显示Toast提示
+  useEffect(() => {
+    if (error) {
+      showErrorToast(error);
+      // 可选：清除错误状态，避免重复显示
+      clearError();
+    }
+  }, [error, showErrorToast, clearError]);
 
   // FAQ data for GenerateFAQ component - Text to Image mode
   const textFAQData: FAQData[] = [
@@ -438,13 +441,6 @@ const GeneratePage: React.FC = () => {
     // 清除错误状态
     setInputError('');
 
-    // 3. 检查用户是否有足够积分（根据生成数量计算所需积分）
-    const requiredCredits = 1 * selectedQuantity;
-    if (user && user.credits < requiredCredits) {
-      setShowPricingModal(true);
-      return;
-    }
-
     // 4. 执行生成逻辑
     if (error) {
       clearError();
@@ -486,28 +482,6 @@ const GeneratePage: React.FC = () => {
     // 将删除的图片ID添加到过滤列表中
     setDeletedImageIds(prev => [...prev, ...deletedIds]);
   }, []);
-
-  const handleConfirmDelete = async () => {
-    if (imagesToDelete.length > 0) {
-      try {
-        // 使用批量删除优化版本
-        const { successIds, failedIds } = await deleteImagesBatch(imagesToDelete);
-        
-        // 清空删除列表
-        setImagesToDelete([]);
-        
-        // 可选：显示删除结果
-        if (failedIds.length > 0) {
-          console.warn(`${failedIds.length} images failed to delete:`, failedIds);
-        }
-        if (successIds.length > 0) {
-          console.log(`Successfully deleted ${successIds.length} images`);
-        }
-      } catch (error) {
-        console.error('Delete images error:', error);
-      }
-    }
-  };;
 
   const handleVisibilityToggle = () => {
     // Check if user is not premium (free or expired membership)
@@ -629,13 +603,6 @@ const GeneratePage: React.FC = () => {
             onButtonClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           />
         </div>
-
-      {/* 删除确认对话框 */}
-      <DeleteImageConfirmDialog
-        isOpen={showDeleteConfirm}
-        onClose={() => setShowDeleteConfirm(false)}
-        onConfirm={handleConfirmDelete}
-      />
     </Layout>
 
     {/* Full Screen Pricing Interface - Outside Layout */}

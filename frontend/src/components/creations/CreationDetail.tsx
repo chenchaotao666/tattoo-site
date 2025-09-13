@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BaseImage } from '../../services/imageService';
 import { getLocalizedText } from '../../utils/textUtils';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { navigateWithLanguage } from '../../utils/navigationUtils';
 import MoreMenu from '../generate/MoreMenu';
+import BaseButton from '../ui/BaseButton';
 
 interface CreationDetailProps {
   image: BaseImage;
@@ -15,8 +18,9 @@ interface CreationDetailProps {
   onImagesDeleted?: (deletedIds: string[]) => void; // 删除图片的回调
 }
 
-const CreationDetail: React.FC<CreationDetailProps> = ({ image, allImages, fullImages, onClose, onNext, onPrevious, onImageSelect, onImagesDeleted }) => {
+const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onClose, onNext, onPrevious, onImageSelect, onImagesDeleted }) => {
   const { language } = useLanguage();
+  const navigate = useNavigate();
   const [isCloseHovered, setIsCloseHovered] = useState(false);
   const [isUpArrowHovered, setIsUpArrowHovered] = useState(false);
   const [isDownArrowHovered, setIsDownArrowHovered] = useState(false);
@@ -59,6 +63,36 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, allImages, fullI
     onImagesDeleted?.(deletedIds);
   };
 
+  // 处理重新生成
+  const handleRecreateClick = () => {
+    // 从图片数据中提取生成参数
+    const prompt = typeof image.prompt === 'string' 
+      ? image.prompt 
+      : getLocalizedText(image.prompt, language) || '';
+    
+    // 获取当前批次的图片数量作为输出数量
+    const batchOutputs = batchImages.length > 1 ? batchImages.length : 1;
+    
+    // 构建生成数据，参照 GenerateTextarea 的 handleGenerateClick
+    const generateData = {
+      prompt: prompt.trim(),
+      outputs: batchOutputs, // 使用当前批次的图片数量
+      color: image.isColor ? 'colorful' : 'blackwhite',
+      style: image.styleId ? {
+        id: image.styleId,
+        name: image.styleTitle || { en: '', zh: '' },
+        description: { en: '', zh: '' },
+        slug: image.styleId,
+        imageUrl: undefined
+      } : null,
+      enhance: true, // 默认开启增强
+      visibility: image.isPublic ? 'public' : 'private'
+    };
+    
+    // 导航到create页面，通过state传递数据
+    navigateWithLanguage(navigate, '/create', { state: generateData });
+  };
+
   return (
     <div className="relative flex items-center">
       {/* 主对话框 */}
@@ -74,24 +108,35 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, allImages, fullI
       <div className="flex-1 p-6 relative">
         {/* 右上角关闭按钮 */}
         <div 
-          className={`absolute top-4 right-4 w-6 h-6 cursor-pointer z-10 rounded-md flex items-center justify-center transition-colors duration-200 ${
+          className={`absolute top-4 right-6 w-10 h-10 cursor-pointer z-10 rounded-md flex items-center justify-center transition-colors duration-200 ${
             isCloseHovered ? 'bg-white/10' : 'bg-transparent'
           }`}
           onClick={onClose}
           onMouseEnter={() => setIsCloseHovered(true)}
           onMouseLeave={() => setIsCloseHovered(false)}
         >
-          <img 
-            src="/images/creations/close-x.svg" 
-            alt="Close"
-            className={`w-4 h-4 transition-opacity duration-200 ${
+          <svg 
+            width="24" 
+            height="24" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            xmlns="http://www.w3.org/2000/svg"
+            className={`text-white transition-opacity duration-200 ${
               isCloseHovered ? 'opacity-100' : 'opacity-70'
             }`}
-          />
+          >
+            <path 
+              d="M18 6L6 18M6 6L18 18" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            />
+          </svg>
         </div>
 
         {/* 详细信息面板 */}
-        <div className="w-[440px] relative bg-[#19191F] rounded-lg p-3 mt-8">
+        <div className="w-[440px] relative bg-[#19191F] rounded-lg p-3 mt-10">
           {/* Image Generator 标题和图片缩略图行 - 只有批次图片才显示 */}
           {batchImages.length > 1 && (
             <>
@@ -174,7 +219,7 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, allImages, fullI
                 Color
               </div>
               <div className="text-[#ECECEC] text-sm font-normal font-inter">
-                {image.isColor ? 'Color' : 'Black & White'}
+                {image.isColor ? 'Colorful' : 'Black & White'}
               </div>
             </div>
           </div>
@@ -191,12 +236,15 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, allImages, fullI
             />
 
             {/* 右侧：Recreate 按钮 */}
-            <div className="w-[198px] h-12 relative rounded-lg cursor-pointer">
-              <div className="w-[198px] h-12 absolute left-0 top-0 bg-[#98FF59] rounded-lg" />
-              <div className="absolute left-[60px] top-[15px] text-black text-lg font-bold font-inter leading-[18px]">
-                Recreate
-              </div>
-            </div>
+            <BaseButton
+              variant="primary"
+              width="w-[198px]"
+              height="h-12"
+              fontSize="text-lg"
+              onClick={handleRecreateClick}
+            >
+              Recreate
+            </BaseButton>
           </div>
         </div>
       </div>

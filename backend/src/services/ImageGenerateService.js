@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const { Client } = require('minio');
 
 class ImageGenerateService {
-    constructor(imageModel = null) {
+    constructor(imageModel = null, userModel = null) {
         // 强制Node.js使用node-fetch替代内置fetch
         if (!global.fetch) {
             global.fetch = require('node-fetch');
@@ -16,8 +16,9 @@ class ImageGenerateService {
         
         // 设置DNS解析
         require('dns').setDefaultResultOrder('ipv4first');
-        // Store the image model for database operations
+        // Store the image model and user model for database operations
         this.imageModel = imageModel;
+        this.userModel = userModel;
         
         // Initialize with default parameters for SDXL Fresh Ink model
         this.defaultParams = {
@@ -100,6 +101,9 @@ class ImageGenerateService {
 
             // 验证参数范围
             this.validateParams(input);
+
+            // 验证用户积分是否足够
+            await this.validateUserCredits(params.userId, input.num_outputs);
 
             // 启动异步生成任务
             const result = await this.startAsyncGeneration(input);
@@ -282,6 +286,81 @@ The design should be professional quality, original, and ready for use as a tatt
 
         if (errors.length > 0) {
             throw new Error(`Parameter validation failed: ${errors.join(', ')}`);
+        }
+    }
+
+    // 验证用户积分是否足够
+    async validateUserCredits(userId, numOutputs) {
+        if (!userId) {
+            throw new Error('User ID is required for credit validation');
+        }
+
+        if (!this.userModel) {
+            throw new Error('User model not provided - cannot validate credits');
+        }
+
+        try {
+            // 查询用户信息
+            const user = await this.userModel.findById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            // 计算所需积分（1个输出图片需要1个积分）
+            const requiredCredits = numOutputs || 1;
+            
+            // 检查用户积分是否足够
+            if (user.credits < requiredCredits) {
+                throw new Error(`Insufficient credits. Required: ${requiredCredits}, Available: ${user.credits}`);
+            }
+
+            console.log(`User ${userId} has sufficient credits: ${user.credits} >= ${requiredCredits}`);
+            return true;
+        } catch (error) {
+            throw new Error(`Credit validation failed: ${error.message}`);
+        }
+    }
+
+    // 扣除用户积分
+    async deductUserCredits(userId, imageCount) {
+        if (!userId || !imageCount) {
+            throw new Error('User ID and image count are required for credit deduction');
+        }
+
+        if (!this.userModel) {
+            throw new Error('User model not provided - cannot deduct credits');
+        }
+
+        try {
+            // 查询用户信息
+            const user = await this.userModel.findById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            // 计算要扣除的积分（每张图片1积分）
+            const creditsToDeduct = imageCount;
+            
+            // 再次检查用户积分是否足够（防止并发问题）
+            if (user.credits < creditsToDeduct) {
+                throw new Error(`Insufficient credits for deduction. Required: ${creditsToDeduct}, Available: ${user.credits}`);
+            }
+
+            // 扣除积分
+            const newCredits = user.credits - creditsToDeduct;
+            await this.userModel.updateById(
+                userId,
+                { credits: newCredits }
+            );
+
+            console.log(`Deducted ${creditsToDeduct} credits from user ${userId}. New balance: ${newCredits}`);
+            return { 
+                deductedCredits: creditsToDeduct, 
+                newBalance: newCredits, 
+                previousBalance: user.credits 
+            };
+        } catch (error) {
+            throw new Error(`Credit deduction failed: ${error.message}`);
         }
     }
 
@@ -487,6 +566,11 @@ The design should be professional quality, original, and ready for use as a tatt
             let savedToDb = null;
             if (this.imageModel && savedImages.length > 0) {
                 savedToDb = await this.saveToDatabase(prediction, savedImages, { ...originalParams, batchId });
+            }
+
+            // 扣除用户积分（根据成功生成的图片数量）
+            if (originalParams.userId && savedImages.length > 0) {
+                await this.deductUserCredits(originalParams.userId, savedImages.length);
             }
             
             return this.formatResponse(true, { localImages: savedToDb }, 'Generation completed and saved successfully');

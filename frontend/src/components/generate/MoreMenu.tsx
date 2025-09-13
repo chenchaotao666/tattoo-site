@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { colors } from '../../styles/colors';
 import { BaseImage } from '../../services/imageService';
 import DeleteImageConfirmDialog from '../ui/DeleteImageConfirmDialog';
+import { useToast } from '../../contexts/ToastContext';
 
 interface MoreMenuProps {
   // 图片数据
@@ -26,6 +27,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const { showSuccessToast, showErrorToast } = useToast();
   
   // 计算当前操作的图片数据
   const targetImages = React.useMemo(() => {
@@ -111,23 +113,31 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
       const results = await Promise.all(deletePromises);
       const successIds = results.filter(r => r.success).map(r => r.imageId);
       const failedIds = results.filter(r => !r.success).map(r => r.imageId);
+      const totalImages = imageIds.length;
       
-      // 内部处理删除结果
+      // 通知父组件更新图片列表
       if (successIds.length > 0) {
-        console.log(`Successfully deleted ${successIds.length} images`);
-        // 通知父组件更新图片列表
         onImagesDeleted?.(successIds);
       }
       
-      if (failedIds.length > 0) {
-        console.warn(`Failed to delete ${failedIds.length} images:`, failedIds);
-        // 这里可以添加错误提示UI，目前只记录日志
+      // 根据删除结果显示不同的提示
+      if (successIds.length === totalImages) {
+        // 全部删除成功
+        showSuccessToast('Successfully deleted');
+      } else if (successIds.length > 0) {
+        // 部分删除成功
+        showSuccessToast(`Successfully deleted ${successIds.length} image${successIds.length > 1 ? 's' : ''}`);
+      }
+      
+      if (failedIds.length === totalImages) {
+        // 全部删除失败
+        showErrorToast('Failed to delete');
       }
       
       setShowDeleteConfirm(false);
     } catch (error) {
       console.error('Delete error:', error);
-      // 这里可以添加错误提示UI，目前只记录日志
+      showErrorToast('Failed to delete');
       setShowDeleteConfirm(false);
     }
   };

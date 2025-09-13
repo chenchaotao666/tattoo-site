@@ -14,7 +14,7 @@ function createImageRoutes(app) {
     const db = app.locals.db;
     const models = createModels(db);
     const imageService = new ImageService(models.Image);
-    const imageGenerateService = new ImageGenerateService(models.Image);
+    const imageGenerateService = new ImageGenerateService(models.Image, models.User);
 
     // 先定义具体的路由，再定义通用路由，避免路径冲突
 

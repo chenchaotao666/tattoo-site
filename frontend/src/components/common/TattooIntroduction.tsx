@@ -1,6 +1,6 @@
 import React from 'react';
-import { colors } from '../../styles/colors';
 import BaseButton from '../ui/BaseButton';
+import ImageCarousel, { CarouselImageConfig } from './ImageCarousel';
 
 export interface TattooIntroductionSection {
   title: string;
@@ -28,6 +28,60 @@ interface TattooIntroductionProps {
 }
 
 const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
+  // Section 2 轮播配置 - 恢复原来的精确布局
+  const section2CarouselConfig: CarouselImageConfig[] = [
+    {
+      // Image 1 - Top right
+      position: {
+        width: '154.48px',
+        height: '154.48px',
+        left: '500.52px',
+        top: '111.17px',
+        borderRadius: '19.07px',
+      }
+    },
+    {
+      // Image 2 - Left with background
+      position: {
+        width: '154.48px',
+        height: '154.48px',
+        left: '15px',
+        top: '111.17px',
+        borderRadius: '19.07px',
+      }
+    },
+    {
+      // Image 3 - Mid right with background
+      position: {
+        width: '198.62px',
+        height: '198.62px',
+        left: '379.14px',
+        top: '89.10px',
+        borderRadius: '19.07px',
+      }
+    },
+    {
+      // Image 4 - Mid left with shadow
+      position: {
+        width: '198.62px',
+        height: '198.62px',
+        left: '92.24px',
+        top: '89.10px',
+        borderRadius: '19.07px',
+      }
+    },
+    {
+      // Image 5 - Center largest
+      position: {
+        width: '265.93px',
+        height: '265.93px',
+        left: '202.74px',
+        top: '56.16px',
+        borderRadius: '19.07px',
+      }
+    }
+  ];
+
   return (
     <div className="w-full bg-[#030414] py-16 lg:py-20">
       <div className="max-w-[1170px] mx-auto px-4 flex justify-center">
@@ -74,57 +128,15 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
 
           {/* Row 2: Left Images + Right Text */}
           <div style={{ width: '1170px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            {/* Section 2: Complex Overlapping Images */}
-            <div style={{ width: '670px', height: '376px', position: 'relative', overflow: 'hidden' }}>
-              {/* Image 1 - Top right */}
-              {data.images[1]?.images?.[0] && (
-                <img 
-                  style={{ width: '154.48px', height: '154.48px', left: '500.52px', top: '111.17px', position: 'absolute', borderRadius: '24.72px' }} 
-                  src={data.images[1].images[0]} 
-                  alt="Tattoo 1"
-                />
-              )}
-              
-              {/* Image 2 - Left with background */}
-              <div style={{ width: '154.48px', height: '154.48px', left: '15px', top: '111.17px', position: 'absolute', background: 'white', borderRadius: '14.83px' }}></div>
-              {data.images[1]?.images?.[1] && (
-                <img 
-                  style={{ width: '154.48px', height: '154.48px', left: '15px', top: '111.17px', position: 'absolute', borderRadius: '14.83px' }} 
-                  src={data.images[1].images[1]} 
-                  alt="Tattoo 2"
-                />
-              )}
-              
-              {/* Image 3 - Mid right with background */}
-              <div style={{ width: '198.62px', height: '198.62px', left: '379.14px', top: '89.10px', position: 'absolute', background: 'white', borderRadius: '19.07px' }}></div>
-              {data.images[1]?.images?.[2] && (
-                <img 
-                  style={{ width: '198.62px', height: '198.62px', left: '379.14px', top: '89.10px', position: 'absolute', borderRadius: '19.07px' }} 
-                  src={data.images[1].images[2]} 
-                  alt="Tattoo 3"
-                />
-              )}
-              
-              {/* Image 4 - Mid left with shadow */}
-              {data.images[1]?.images?.[3] && (
-                <img 
-                  style={{ width: '198.62px', height: '198.62px', left: '92.24px', top: '89.10px', position: 'absolute', boxShadow: '0px 0px 66.20689392089844px rgba(0, 0, 0, 0.50)', borderRadius: '19.07px' }} 
-                  src={data.images[1].images[3]} 
-                  alt="Tattoo 4"
-                />
-              )}
-              
-              {/* Image 5 - Center largest with backgrounds and shadow */}
-              <div style={{ width: '264.83px', height: '264.83px', left: '202.59px', top: '56px', position: 'absolute', background: 'white', borderRadius: '25.42px' }}></div>
-              <div style={{ width: '264.83px', height: '264.83px', left: '202.59px', top: '56px', position: 'absolute', background: 'white', boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)', borderRadius: '25.42px' }}></div>
-              {data.images[1]?.images?.[4] && (
-                <img 
-                  style={{ width: '265.93px', height: '265.93px', left: '202.74px', top: '56.16px', position: 'absolute' }} 
-                  src={data.images[1].images[4]} 
-                  alt="Tattoo 5"
-                />
-              )}
-            </div>
+            {/* Section 2: Smooth Continuous Carousel */}
+            <ImageCarousel
+              images={data.images[1]?.images || []}
+              imageConfigs={section2CarouselConfig}
+              containerStyle={{ width: '670px', height: '376px' }}
+              autoPlay={true}
+              interval={4000}
+              pauseOnHover={true}
+            />
 
             {/* Section 2 Text: Endless Tattoo Styles */}
             <div style={{ width: '420px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '40px', display: 'flex' }}>

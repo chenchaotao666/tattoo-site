@@ -411,22 +411,6 @@ class GenerateService {
   }
 
   /**
-   * 获取样式预设
-   */
-  async getStylePresets(): Promise<any> {
-    try {
-      const responseData = await ApiUtils.get<any>('/api/images/generate-tattoo/style-presets');
-      return responseData.data;
-    } catch (error) {
-      console.error('Get style presets error:', error);
-      if (error instanceof ApiError) {
-        throw error;
-      }
-      throw new ApiError('2013', '获取样式预设失败');
-    }
-  }
-
-  /**
    * 获取示例图片
    */
   async getExampleImages(category: 'text' | 'image', pageSize: number = 3): Promise<BaseImage[]> {

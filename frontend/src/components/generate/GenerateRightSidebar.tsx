@@ -32,6 +32,41 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
   const { t } = useAsyncTranslation('generate');
   const { language } = useLanguage();
 
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  // 自定义滚动条样式 - 根据hover状态动态显示
+  const scrollbarStyles = `
+    .sidebar-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    .sidebar-container::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .sidebar-container::-webkit-scrollbar-thumb {
+      background: ${isHovered ? '#4E5056' : 'transparent'};
+      border-radius: 3px;
+      transition: background 0.2s ease;
+    }
+    .sidebar-container::-webkit-scrollbar-thumb:hover {
+      background: #6B7280 !important;
+    }
+  `;
+
+  React.useEffect(() => {
+    const styleElement = document.createElement('style');
+    styleElement.textContent = scrollbarStyles;
+    document.head.appendChild(styleElement);
+    return () => {
+      document.head.removeChild(styleElement);
+    };
+  }, [isHovered]);
+
+  // 处理滚动事件，阻止冒泡但保持平滑滚动
+  const handleWheel = React.useCallback((e: React.WheelEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  }, []);
+
 
   // 获取要显示的图片列表
   const displayImages = getDisplayImages(images);
@@ -58,7 +93,17 @@ const GenerateRightSidebar: React.FC<GenerateRightSidebarProps> = ({
   const displaySelectedId = getDisplaySelectedId(selectedImageId);
 
   return (
-    <div className="w-[140px] pt-5 pb-16 px-2 overflow-y-auto overflow-x-hidden h-full flex flex-col items-center max-w-[140px] bg-[#030414] relative">
+    <div 
+      ref={scrollContainerRef}
+      className="w-[140px] pt-5 pb-16 px-2 overflow-y-auto overflow-x-hidden h-full flex flex-col items-center max-w-[140px] bg-[#030414] relative sidebar-container"
+      style={{
+        scrollBehavior: 'smooth',
+        overscrollBehavior: 'contain'
+      }}
+      onWheel={handleWheel}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       {/* 左侧渐变边框 */}
       <div 
         className="absolute left-0 top-0" 

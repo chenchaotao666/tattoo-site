@@ -1,7 +1,6 @@
 import Layout from '../components/layout/Layout';
 import HomeTop from '../components/home/HomeTop';
 import CategoryGrid from '../components/categories/CategoryGrid';
-import { Button } from '../components/ui/Button';
 import HowToCreate from '../components/common/HowToCreate';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
@@ -16,7 +15,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Category } from '../services/categoriesService';
 import { useCategories } from '../contexts/CategoriesContext';
-import { getCategoryNameById } from '../utils/categoryUtils';
+import { getCategoryPathById } from '../utils/categoryUtils';
 import { navigateWithLanguage } from '../utils/navigationUtils';
 
 const HomePage = () => {
@@ -28,7 +27,7 @@ const HomePage = () => {
 
   const handleCategoryClick = (category: Category) => {
     // 使用映射表获取SEO友好的名称
-    const categoryPath = getCategoryNameById(category.id);
+    const categoryPath = getCategoryPathById(category.id);
     navigateWithLanguage(navigate, `/categories/${categoryPath}`);
   };
 

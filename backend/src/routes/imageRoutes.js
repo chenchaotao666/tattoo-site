@@ -127,17 +127,6 @@ function createImageRoutes(app) {
         }
     });
 
-    // GET /api/images/generate-tattoo/style-presets - 获取样式预设
-    router.get('/generate-tattoo/style-presets', async (req, res) => {
-        try {
-            const stylePresets = imageGenerateService.getStylePresets();
-            res.json(imageGenerateService.formatResponse(true, stylePresets, 'Style presets retrieved successfully'));
-        } catch (error) {
-            console.error('Get style presets error:', error);
-            res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
-        }
-    });
-
     // 最后添加基础CRUD路由，避免与具体路由冲突
     const baseRoutes = createBaseRoutes(imageService, 'Image');
     router.use('/', baseRoutes);

@@ -9,7 +9,7 @@ import { BaseImage } from '../services/imageService';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getLocalizedText } from '../utils/textUtils';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
-import { getCategoryIdByName, getCategoryNameById, isCategoryName, convertDisplayNameToPath, addCategoryToMappings } from '../utils/categoryUtils';
+import { getCategoryIdByName, getCategoryPathById, isCategoryName, convertDisplayNameToPath, addCategoryToMappings } from '../utils/categoryUtils';
 import { getImageNameById, updateImageMappings } from '../utils/imageUtils';
 import { navigateWithLanguage } from '../utils/navigationUtils';
 import SEOHead from '../components/common/SEOHead';
@@ -108,7 +108,7 @@ const CategoriesDetailPage: React.FC = () => {
           });
 
           if (foundCategory) {
-            actualCategoryId = foundCategory.categoryId;
+            actualCategoryId = foundCategory.id;
             // 添加到映射表以确保后续使用正常
             addCategoryToMappings(foundCategory);
           }
@@ -126,12 +126,12 @@ const CategoriesDetailPage: React.FC = () => {
 
         if (foundCategory) {
           setCategory(foundCategory);
-          setActualCategoryId(foundCategory.categoryId); // 保存实际的categoryId
+          setActualCategoryId(foundCategory.id); // 保存实际的categoryId
           setIsCategoryLoading(false); // 分类信息加载完成，立即显示
 
           // 异步加载分类图片，不阻塞分类信息显示（使用实际的categoryId）
           setIsImagesLoading(true);
-          const result = await CategoriesService.getImagesByCategoryId(foundCategory.categoryId);
+          const result = await CategoriesService.getImagesByCategoryId(foundCategory.id);
 
           setCategoryImages(result.images);
           setFilteredImages(result.images);
@@ -257,7 +257,7 @@ const CategoriesDetailPage: React.FC = () => {
               if (!category) return;
               
               const imagePath = getImageNameById(image.id);
-              const categoryPath = getCategoryNameById(category.id);
+              const categoryPath = getCategoryPathById(category.id);
               
               const targetPath = `/categories/${categoryPath}/${imagePath}`;
               navigateWithLanguage(navigate, targetPath, {

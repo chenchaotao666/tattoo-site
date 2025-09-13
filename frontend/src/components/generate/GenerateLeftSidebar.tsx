@@ -11,8 +11,6 @@ import { colors } from '../../styles/colors';
 const refreshIcon = '/images/generate/refresh-ideas.png';
 const crownIcon = '/images/generate/crown.svg';
 const tipIcon = '/images/generate/tip.svg';
-const subtractColorIcon = '/images/generate/subtract-color.svg';
-const subtractIcon = '/images/generate/generate-star.png';
 const textCountIcon = '/images/generate/text-count.svg';
 
 
@@ -344,20 +342,20 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
           disabled={isGenerating}
           className={`w-full h-12 rounded-lg flex items-center justify-center gap-2 transition-colors ${
             isGenerating
-              ? 'bg-[#F2F3F5] text-[#A4A4A4] cursor-not-allowed'
-              : 'text-black hover:bg-[#8AE84F]'
-            } ${!isGenerating ? '' : 'opacity-50'}`}
-            style={!isGenerating && !inputError ? { backgroundColor: colors.special.highlight } : {}}
+              ? 'bg-[#26262D] text-[#5D5D5D] cursor-not-allowed'
+              : 'bg-[#98FF59] hover:bg-[#B3FF7A] text-black'
+            }`}
         >
-          <img
-            src={isGenerating
-              ? subtractIcon
-              : subtractColorIcon
-            }
-            alt="Subtract"
-            className="w-5 h-5 mr-1"
-          />
-          <span className="font-bold text-lg">{20 * selectedQuantity}</span>
+          {isGenerating ? (
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-1 -mt-[2px]">
+              <path d="M8 6.10352e-05C12.4183 6.10352e-05 16 3.58178 16 8.00006C16 12.4183 12.4183 16.0001 8 16.0001C3.58172 16.0001 0 12.4183 0 8.00006C0 3.58178 3.58172 6.10352e-05 8 6.10352e-05ZM8.46191 3.11041C8.29112 2.69977 7.70888 2.69977 7.53809 3.11041L6.53027 5.53326C6.45827 5.70638 6.29529 5.82492 6.1084 5.8399L3.49219 6.04987C3.04886 6.08541 2.86926 6.63846 3.20703 6.9278L5.2002 8.6358C5.34257 8.75778 5.40483 8.94953 5.36133 9.1319L4.75195 11.6846C4.64877 12.1172 5.1195 12.4592 5.49902 12.2276L7.73926 10.8594C7.89927 10.7617 8.10073 10.7617 8.26074 10.8594L10.501 12.2276C10.8805 12.4592 11.3512 12.1172 11.248 11.6846L10.6387 9.1319C10.5952 8.94953 10.6574 8.75778 10.7998 8.6358L12.793 6.9278C13.1307 6.63846 12.9511 6.08541 12.5078 6.04987L9.8916 5.8399C9.70471 5.82492 9.54173 5.70638 9.46973 5.53326L8.46191 3.11041Z" fill="currentColor"/>
+            </svg>
+          ) : (
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-1 -mt-[2px]">
+              <path d="M8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0ZM8.46191 3.11035C8.29112 2.69971 7.70888 2.69971 7.53809 3.11035L6.53027 5.5332C6.45827 5.70632 6.29529 5.82486 6.1084 5.83984L3.49219 6.0498C3.04886 6.08535 2.86926 6.6384 3.20703 6.92773L5.2002 8.63574C5.34257 8.75772 5.40483 8.94947 5.36133 9.13184L4.75195 11.6846C4.64877 12.1171 5.1195 12.4592 5.49902 12.2275L7.73926 10.8594C7.89927 10.7616 8.10073 10.7616 8.26074 10.8594L10.501 12.2275C10.8805 12.4592 11.3512 12.1171 11.248 11.6846L10.6387 9.13184C10.5952 8.94947 10.6574 8.75772 10.7998 8.63574L12.793 6.92773C13.1307 6.6384 12.9511 6.08535 12.5078 6.0498L9.8916 5.83984C9.70471 5.82486 9.54173 5.70632 9.46973 5.5332L8.46191 3.11035Z" fill="currentColor"/>
+            </svg>
+          )}
+          <span className="font-bold text-lg -ml-2">{1 * selectedQuantity}</span>
           <span className="font-bold text-lg">
             {isGenerating ? t('generating.title') : 
              error ? t('actions.regenerate') :

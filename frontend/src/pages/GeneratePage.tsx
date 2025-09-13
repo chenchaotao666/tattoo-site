@@ -5,7 +5,7 @@ import useGeneratePage from '../hooks/useGeneratePage';
 import { useAuth } from '../contexts/AuthContext';
 import { getLocalizedText } from '../utils/textUtils';
 import DeleteImageConfirmDialog from '../components/ui/DeleteImageConfirmDialog';
-import Tooltip from '../components/ui/Tooltip';
+import CloseButton from '../components/ui/CloseButton';
 import HowToCreate from '../components/common/HowToCreate';
 import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
@@ -17,13 +17,6 @@ import GenerateCenterSidebar from '../components/generate/GenerateCenterSidebar'
 
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation, useLanguage } from '../contexts/LanguageContext';
-
-// 移动端还需要的图标
-const tipIcon = '/images/generate/tip.svg';
-const crownIcon = '/images/generate/crown.svg';
-const subtractColorIcon = '/images/generate/subtract-color.svg';
-const subtractIcon = '/images/generate/generate-star.png';
-
 
 const GeneratePage: React.FC = () => {
   // 获取翻译函数
@@ -446,14 +439,13 @@ const GeneratePage: React.FC = () => {
     setInputError('');
 
     // 3. 检查用户是否有足够积分（根据生成数量计算所需积分）
-    const requiredCredits = 20 * selectedQuantity;
+    const requiredCredits = 1 * selectedQuantity;
     if (user && user.credits < requiredCredits) {
-      navigate('/price');
+      setShowPricingModal(true);
       return;
     }
 
     // 4. 执行生成逻辑
-    // 清除之前的错误状态
     if (error) {
       clearError();
     }
@@ -574,138 +566,6 @@ const GeneratePage: React.FC = () => {
           />
         </div>
 
-        {/* 移动端主要内容区域 */}
-        <div className="flex flex-col lg:hidden h-[calc(100vh-70px)] bg-white">          
-          {/* 移动端标签选择器 */}
-          <div className="bg-white px-4 pb-4 border-b border-gray-200 flex-shrink-0">
-            <div className="bg-[#F2F3F5] h-12 rounded-lg flex items-center relative max-w-md mx-auto">
-              <div className="w-full h-10 rounded-lg bg-white mx-1"></div>
-              <div className="absolute inset-0 z-10 flex items-center justify-center">
-                <span className="text-[#FF5C07] font-bold text-sm">
-                  {t('tabs.textToImage')}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* 移动端内容 - 可滚动区域 */}
-          <div ref={mobileContentRef} className="flex-1 overflow-y-auto pb-48">
-            <GenerateCenterSidebar
-              mode="text"
-              error={error}
-              currentSelectedImage={currentSelectedImage}
-              isGenerating={isGenerating}
-              generationProgress={generationProgress}
-              generatedImages={filteredGeneratedImages}
-              hasGenerationHistory={hasGenerationHistory}
-              isInitialDataLoaded={isInitialDataLoaded}
-              dynamicImageDimensions={dynamicImageDimensions}
-              setDynamicImageDimensions={setDynamicImageDimensions}
-              onDownload={handleDownload}
-              onImagesDeleted={handleImagesDeleted}
-              onImageSelect={handleImageSelectWithTabMemory}
-            />
-            
-            {/* 移动端控制面板 */}
-            <div className="bg-[#19191F] p-4">
-              <GenerateLeftSidebar
-                prompt={prompt}
-                selectedColor={selectedColor}
-                selectedQuantity={selectedQuantity}
-                selectedStyle={selectedStyle}
-                inputError={inputError}
-                publicVisibility={publicVisibility}
-                isGenerating={isGenerating}
-                error={error}
-                styleSuggestions={styleSuggestions}
-                styles={styles}
-                showStyleSelector={showStyleSelector}
-                promptInputRef={promptInputRef}
-                handlePromptChange={handlePromptChange}
-                handleClearPrompt={handleClearPrompt}
-                handleStyleSuggestionClick={handleStyleSuggestionClick}
-                handleRefreshStyleSuggestions={handleRefreshStyleSuggestions}
-                handleVisibilityToggle={handleVisibilityToggle}
-                handleGenerate={handleGenerate}
-                setSelectedColor={setSelectedColor}
-                setSelectedQuantity={setSelectedQuantity}
-                setSelectedStyle={setSelectedStyle}
-                setInputError={setInputError}
-                setShowStyleSelector={setShowStyleSelector}
-              />
-              
-              {/* Public Visibility - Mobile */}
-              <div className="mt-5 flex items-center justify-between">
-                <div className="text-sm font-bold text-[#161616] flex items-center">
-                  {t('settings.visibility')}
-                  <Tooltip 
-                    content={t('settings.visibilityTip')}
-                    side="top"
-                    align="start"
-                    className="ml-1"
-                  >
-                    <span className="w-4 h-4 cursor-help inline-block">
-                      <img src={tipIcon} alt="Info" className="w-4 h-4" />
-                    </span>
-                  </Tooltip>
-                </div>
-                <div className="flex items-center">
-                  <Tooltip
-                    content="Premium Feature"
-                    side="top"
-                    align="center"
-                    className="mr-2"
-                  >
-                    <span className="w-4 h-4 cursor-help inline-block">
-                      <img src={crownIcon} alt="Premium" className="w-4 h-4" />
-                    </span>
-                  </Tooltip>
-                  <button
-                    className={`w-[30px] h-4 rounded-lg relative ${
-                      publicVisibility ? 'bg-lime-300' : 'bg-gray-300'
-                    } cursor-pointer`}
-                    onClick={() => handleVisibilityToggle()}
-                  >
-                    <div
-                      className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[1px] transition-all duration-200 ${
-                        publicVisibility ? 'right-[1px]' : 'left-[1px]'
-                      }`}
-                    ></div>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 移动端生成按钮 - 固定在底部 */}
-          <div className="fixed bottom-0 left-0 right-0 lg:hidden bg-[#19191F] p-4 z-50">
-            <button
-              onClick={handleGenerate}
-              disabled={isGenerating}
-              className={`w-full h-12 rounded-lg flex items-center justify-center gap-2 transition-colors ${
-                isGenerating
-                  ? 'bg-[#F2F3F5] text-[#A4A4A4] cursor-not-allowed'
-                  : 'bg-[#FF5C07] text-white hover:bg-[#FF7A47]'
-                }`}
-            >
-              <img
-                src={isGenerating
-                  ? subtractIcon
-                  : subtractColorIcon
-                }
-                alt="Subtract"
-                className="w-5 h-5 mr-1"
-              />
-              <span className="font-bold text-lg">{20 * selectedQuantity}</span>
-              <span className="font-bold text-lg">
-                {isGenerating ? t('generating.title') : 
-                 error ? t('actions.regenerate') :
-                 t('actions.generate')}
-              </span>
-            </button>
-          </div>
-        </div>
-
         {/* 桌面端中间内容区域 */}
         <div className="hidden lg:flex lg:flex-1 lg:h-[calc(100vh-70px)]">
           <GenerateCenterSidebar
@@ -782,14 +642,7 @@ const GeneratePage: React.FC = () => {
     {showPricingModal && (
       <div className="fixed inset-0 bg-white z-[9999] overflow-y-auto overflow-x-hidden transition-all duration-300 ease-in-out" style={{ overscrollBehavior: 'contain' }}>
         {/* Close Button */}
-        <button
-          onClick={() => setShowPricingModal(false)}
-          className="fixed top-4 right-4 w-12 h-12 text-[#6B7280] hover:text-[#161616] transition-all duration-200 z-[10000] bg-white rounded-full flex items-center justify-center shadow-lg hover:shadow-xl border border-gray-200"
-        >
-          <svg className="w-6 h-6" viewBox="0 0 16 16" fill="currentColor">
-            <path d="M12.854 4.854a.5.5 0 0 0-.708-.708L8 8.293 3.854 4.146a.5.5 0 1 0-.708.708L7.293 9l-4.147 4.146a.5.5 0 0 0 .708.708L8 9.707l4.146 4.147a.5.5 0 0 0 .708-.708L8.707 9l4.147-4.146z"/>
-          </svg>
-        </button>
+        <CloseButton onClick={() => setShowPricingModal(false)} />
         
         {/* Full Screen Pricing Section */}
         <PricingSection 

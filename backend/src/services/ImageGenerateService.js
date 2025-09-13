@@ -102,7 +102,7 @@ class ImageGenerateService {
             this.validateParams(input);
 
             // 启动异步生成任务
-            const result = await this.startGeneration(input);
+            const result = await this.startAsyncGeneration(input);
             
             return this.formatResponse(true, result, 'Generation task started successfully');
         } catch (error) {
@@ -286,7 +286,7 @@ The design should be professional quality, original, and ready for use as a tatt
     }
 
     // 启动异步生成任务
-    async startGeneration(input) {
+    async startAsyncGeneration(input) {
         try {
             // 详细检查环境变量
             if (!process.env.REPLICATE_API_TOKEN) {
@@ -385,40 +385,6 @@ The design should be professional quality, original, and ready for use as a tatt
                 throw new Error(`Model not found. Please check the model version: ${this.modelVersion}. Original error: ${error.message}`);
             }
 
-            throw new Error(`Replicate API call failed: ${error.message}`);
-        }
-    }
-
-    // 同步生成（等待完成）
-    async callReplicateAPI(input) {
-        try {
-            // 检查是否安装了replicate包
-            let Replicate;
-            try {
-                Replicate = require('replicate');
-            } catch (error) {
-                throw new Error('Replicate package not found. Please install: npm install replicate');
-            }
-
-            const replicate = new Replicate({
-                auth: process.env.REPLICATE_API_TOKEN,
-            });
-
-            // 运行模型（同步等待）
-            const output = await replicate.run(this.modelVersion, { input });
-
-            return {
-                id: this.generateId(),
-                status: 'succeeded',
-                input: input,
-                output: output,
-                created_at: new Date().toISOString(),
-                completed_at: new Date().toISOString()
-            };
-        } catch (error) {
-            if (error.message.includes('Replicate package not found')) {
-                throw error;
-            }
             throw new Error(`Replicate API call failed: ${error.message}`);
         }
     }
@@ -527,56 +493,6 @@ The design should be professional quality, original, and ready for use as a tatt
         } catch (error) {
             throw new Error(`Complete generation failed: ${error.message}`);
         }
-    }
-
-    // 获取预设样式参数
-    getStylePresets() {
-        return {
-            traditional: {
-                prompt_suffix: "traditional tattoo style, bold lines, classic colors",
-                guidance_scale: 8.0,
-                num_inference_steps: 30
-            },
-            realistic: {
-                prompt_suffix: "realistic tattoo, detailed shading, photorealistic",
-                guidance_scale: 7.5,
-                num_inference_steps: 35
-            },
-            minimalist: {
-                prompt_suffix: "minimalist tattoo, simple lines, clean design",
-                guidance_scale: 7.0,
-                num_inference_steps: 25
-            },
-            geometric: {
-                prompt_suffix: "geometric tattoo pattern, precise lines, symmetrical",
-                guidance_scale: 8.5,
-                num_inference_steps: 30
-            },
-            blackAndGrey: {
-                prompt_suffix: "black and grey tattoo, no color, detailed shading",
-                guidance_scale: 7.5,
-                num_inference_steps: 30,
-                negative_prompt: "ugly, broken, distorted, blurry, low quality, bad anatomy, colorful, bright colors"
-            }
-        };
-    }
-
-    // 应用样式预设
-    applyStylePreset(params, stylePreset) {
-        const presets = this.getStylePresets();
-        const preset = presets[stylePreset];
-
-        if (!preset) {
-            throw new Error(`Style preset '${stylePreset}' not found. Available presets: ${Object.keys(presets).join(', ')}`);
-        }
-
-        return {
-            ...params,
-            prompt: `${params.prompt}, ${preset.prompt_suffix}`,
-            guidance_scale: preset.guidance_scale,
-            num_inference_steps: preset.num_inference_steps,
-            ...(preset.negative_prompt && { negative_prompt: preset.negative_prompt })
-        };
     }
 
     // 生成唯一ID
@@ -707,7 +623,7 @@ The design should be professional quality, original, and ready for use as a tatt
                     description: null,
                     type: 'text2image', // 生成类型
                     styleId: originalParams.styleId || null, // 如果有样式ID
-                    isColor: originalParams.isColor !== undefined ? originalParams.isColor : this.detectColor(originalParams), // 使用传入的参数或检测
+                    isColor: originalParams.isColor !== undefined ? originalParams.isColor : false,
                     isPublic: originalParams.isPublic !== undefined ? originalParams.isPublic : false, // 使用传入的参数或默认不公开
                     isOnline: false, // 默认不上线
                     hotness: 0,
@@ -736,51 +652,6 @@ The design should be professional quality, original, and ready for use as a tatt
         }
 
         return savedRecords;
-    }
-
-    // 检测是否彩色图片（基于新的参数或提示词）
-    detectColor(params) {
-        // 如果直接传入了 isColor 参数，优先使用
-        if (params.isColor !== undefined) {
-            return params.isColor;
-        }
-        
-        const prompt = (params.prompt || '').toLowerCase();
-        const negativePrompt = (params.negative_prompt || '').toLowerCase();
-        
-        // 如果负面提示词包含颜色相关禁用词，认为是黑白
-        if (negativePrompt.includes('colorful') || negativePrompt.includes('bright colors') || 
-            negativePrompt.includes('color')) {
-            return false;
-        }
-        
-        // 如果提示词包含颜色相关词汇，认为是彩色
-        const colorKeywords = ['colorful', 'color', 'bright', 'vibrant', 'red', 'blue', 'green', 
-                              'yellow', 'purple', 'orange', 'pink', 'rainbow'];
-        const hasColorKeywords = colorKeywords.some(keyword => prompt.includes(keyword));
-        
-        // 如果明确提到黑白，返回false
-        if (prompt.includes('black and grey') || prompt.includes('black and white') || 
-            prompt.includes('monochrome')) {
-            return false;
-        }
-        
-        return hasColorKeywords;
-    }
-
-    // 获取模型信息
-    getModelInfo() {
-        return {
-            name: this.modelVersion,
-            description: "SDXL model fine-tuned on fresh tattoo photographs for realistic tattoo generation",
-            version: "8515c238222fa529763ec99b4ba1fa9d32ab5d6ebc82b4281de99e4dbdcec943",
-            defaultParams: this.defaultParams,
-            supportedParams: [
-                'prompt', 'negative_prompt', 'width', 'height', 'num_outputs',
-                'scheduler', 'guidance_scale', 'num_inference_steps',
-                'lora_scale', 'refine', 'high_noise_frac', 'apply_watermark', 'seed'
-            ]
-        };
     }
 }
 

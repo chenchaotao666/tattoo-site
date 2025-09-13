@@ -7,6 +7,7 @@ import { navigateWithLanguage } from '../../utils/navigationUtils';
 import { Style } from '../../hooks/useGeneratePage';
 import { colors } from '../../styles/colors';
 import BaseButton from '../ui/BaseButton';
+import React from 'react';
 
 // Fallback colors in case import fails
 const fallbackColors = {
@@ -50,6 +51,24 @@ const GenerateTextarea = ({
   const quantityDropdownRef = useRef<HTMLDivElement>(null);
   const colorDropdownRef = useRef<HTMLDivElement>(null);
   const styleSelectorRef = useRef<HTMLDivElement>(null);
+
+  // 自定义滚动条样式 - 始终显示
+  const scrollbarStyles = `
+    .style-dropdown-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .style-dropdown-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .style-dropdown-scrollbar::-webkit-scrollbar-thumb {
+      background: #4E5056;
+      border-radius: 3px;
+      transition: background 0.2s ease;
+    }
+    .style-dropdown-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #6B7280;
+    }
+  `;
 
   const handleGenerateClick = () => {
     if (onGenerate) {
@@ -132,6 +151,16 @@ const GenerateTextarea = ({
   // 初始化加载风格列表
   useEffect(() => {
     loadStyles();
+  }, []);
+
+  // 管理滚动条样式
+  useEffect(() => {
+    const styleElement = document.createElement('style');
+    styleElement.textContent = scrollbarStyles;
+    document.head.appendChild(styleElement);
+    return () => {
+      document.head.removeChild(styleElement);
+    };
   }, []);
 
   return (
@@ -274,7 +303,13 @@ const GenerateTextarea = ({
 
                 {/* Dropdown Menu */}
                 {showStyleSelector && (
-                  <div className="absolute top-full left-0 mt-1 bg-[#26262D] rounded-lg border border-[#393B42] shadow-lg z-50 min-w-full w-48 max-h-60 overflow-y-auto overflow-x-hidden">
+                  <div 
+                    className="absolute top-full left-0 mt-1 bg-[#26262D] rounded-lg border border-[#393B42] shadow-lg z-50 min-w-full w-48 max-h-60 overflow-y-auto overflow-x-hidden style-dropdown-scrollbar"
+                    style={{
+                      scrollBehavior: 'smooth',
+                      overscrollBehavior: 'contain'
+                    }}
+                  >
                     {/* No Style Option */}
                     <div 
                       className="px-3 py-2 hover:bg-[#393B42] cursor-pointer transition-colors flex items-center gap-2"

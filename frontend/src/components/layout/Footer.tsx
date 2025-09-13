@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import { Category } from '../../services/categoriesService';
 import { colors } from '../../styles/colors';
+import { handleCategoryClick } from '../../utils/categoryUtils';
+import { navigateWithLanguage } from '../../utils/navigationUtils';
 
 const logo = '/images/logo.svg';
 const socialIcon1 = '/images/footer/Link → SVG-1.svg';
@@ -17,22 +19,35 @@ interface FooterSectionProps {
   title: string;
   links: Array<{
     label: string;
-    url: string;
+    url?: string;
+    category?: Category;
   }>;
 }
 
 const FooterSection: React.FC<FooterSectionProps> = ({ title, links }) => {
+  const navigate = useNavigate();
+
+  const handleLinkClick = (link: { label: string; url?: string; category?: Category }) => {
+    if (link.category) {
+      // 使用categoryUtils中的handleCategoryClick
+      handleCategoryClick(link.category, navigate);
+    } else if (link.url) {
+      // 对于非分类链接，使用navigateWithLanguage保持语言一致性
+      navigateWithLanguage(navigate, link.url);
+    }
+  };
+
   return (
     <div className="w-full lg:w-[200px] flex flex-col gap-3 lg:gap-6">
       <div className="text-[#ECECEC] text-sm lg:text-sm font-bold">
         {title || '\u00A0'}
       </div>
-      <div className="flex flex-col gap-2 lg:gap-6">
+      <div className="flex flex-col gap-2">
         {links.map((link, index) => (
-          <Link 
-            key={index} 
-            to={link.url} 
-            className="text-[#A5A5A5] text-sm transition-colors duration-200"
+          <button
+            key={index}
+            onClick={() => handleLinkClick(link)}
+            className="text-[#A5A5A5] text-sm transition-colors duration-200 text-left cursor-pointer py-1 hover:bg-transparent"
             onMouseEnter={(e) => {
               e.currentTarget.style.color = colors.special.highlight;
             }}
@@ -41,7 +56,7 @@ const FooterSection: React.FC<FooterSectionProps> = ({ title, links }) => {
             }}
           >
             {link.label}
-          </Link>
+          </button>
         ))}
       </div>
     </div>
@@ -62,9 +77,8 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
     {
       title: t('footer.sections.tools'),
       links: [
-        { label: t('footer.links.textToColoringPage'), url: '/text-coloring-page' },
-        { label: t('footer.links.imageToColoringPage'), url: '/image-coloring-page' },
-        { label: t('footer.links.coloringPagesFree'), url: '/categories' },
+        { label: 'Create', url: '/create' },
+        { label: 'Inspiration', url: '/categories' },
       ],
     },
     // 使用前21个分类，分成3组，每组7个，与Header保持一致
@@ -73,21 +87,21 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
         title: t('categories.popularColoringPages'),
         links: categories.slice(0, 7).map(category => ({
           label: getLocalizedText(category.name, language),
-          url: `/categories/${category.id}`
+          category: category
         }))
       },
       {
         title: '',
         links: categories.slice(7, 14).map(category => ({
           label: getLocalizedText(category.name, language),
-          url: `/categories/${category.id}`
+          category: category
         }))
       },
       {
         title: '',
         links: categories.slice(14, 21).map(category => ({
           label: getLocalizedText(category.name, language),
-          url: `/categories/${category.id}`
+          category: category
         }))
       }
     ] : [
@@ -168,7 +182,7 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
 
         {/* 桌面端布局 */}
         <div className="hidden lg:flex">
-          <div className="w-[250px] flex flex-col gap-[22px]">
+          <div className="w-[350px] flex flex-col gap-[22px]">
             <div className="flex items-center gap-1 hover:opacity-80 transition-opacity duration-200 cursor-pointer">
               <img src={logo} alt="Logo" className="w-10 h-10" />
               <div className="text-white text-2xl font-medium">Tattooinkai</div>
@@ -202,7 +216,7 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
             </div>
           </div>
 
-          <div className="flex ml-[130px]">
+          <div className="flex">
             {sections.map((section, index) => (
               <FooterSection 
                 key={index}

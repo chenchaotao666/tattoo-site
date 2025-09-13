@@ -257,9 +257,9 @@ export const getEnglishTitleFromImage = (title: LocalizedText | string): string 
 /**
  * 更新图片映射表（从API数据动态生成）
  */
-export const updateImageMappings = (images: Array<{id: string, title: LocalizedText | string}>) => {
+export const updateImageMappings = (images: Array<BaseImage>) => {
   images.forEach(image => {
-    const seoName = getEnglishTitleFromImage(image.title);
+    const seoName = getEnglishTitleFromImage(image.slug) || getEnglishTitleFromImage(image.title);
     imageIdToNameMap[image.id] = seoName;
     imageNameToIdMap[seoName] = image.id;
   });

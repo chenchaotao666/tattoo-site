@@ -13,7 +13,7 @@ import { getLocalizedText } from '../utils/textUtils';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 import { useCategories } from '../contexts/CategoriesContext';
 import { getImageIdByName, isImageName, updateImageMappings, getImageNameById, getEnglishTitleFromImage } from '../utils/imageUtils';
-import { getCategoryIdByName, getCategoryNameById, isCategoryName, getEnglishNameFromCategory, updateCategoryMappings } from '../utils/categoryUtils';
+import { getCategoryIdByName, getCategoryPathById, isCategoryName, getEnglishNameFromCategory, updateCategoryMappings } from '../utils/categoryUtils';
 import { navigateWithLanguage } from '../utils/navigationUtils';
 import SEOHead from '../components/common/SEOHead';
 
@@ -245,13 +245,13 @@ const ImageDetailPage: React.FC = () => {
     if (category) {
       // 4层面包屑：Home > Coloring Pages Free > xxx category > 图片名字
       const categoryName = getLocalizedText(category.name, language);
-      const categoryPath = getCategoryNameById(category.id);
+      const categoryPath = getCategoryPathById(category.id);
 
       return [
         { label: t('breadcrumb.home'), path: '/' },
         { label: t('breadcrumb.categories'), path: '/categories' },
         { label: categoryName, path: `/categories/${categoryPath}` },
-        { label: image ? getLocalizedText(image.title, language) || '' : '', current: true }
+        { label: image ? getLocalizedText(image.title, language) || image.slug || '' : '', current: true }
       ];
     } else {
       // 默认2层面包屑：Home > 图片名字

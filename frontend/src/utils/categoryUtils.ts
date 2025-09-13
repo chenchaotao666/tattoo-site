@@ -35,7 +35,7 @@ export const getEnglishNameFromCategory = (displayName: LocalizedText | string):
 /**
  * 更新分类映射表（从API数据动态生成）
  */
-export const updateCategoryMappings = (categories: Array<{id: string, name: LocalizedText | string}>, append: boolean = false) => {
+export const updateCategoryMappings = (categories: Array<Category>, append: boolean = false) => {
   if (!append) {
     // 默认行为：重置映射表
     categoryIdToNameMap = {};
@@ -50,8 +50,8 @@ export const updateCategoryMappings = (categories: Array<{id: string, name: Loca
 /**
  * 添加单个分类到映射表
  */
-export const addCategoryToMappings = (category: {id: string, name: LocalizedText | string}) => {
-  const seoName = getEnglishNameFromCategory(category.name);
+export const addCategoryToMappings = (category: Category) => {
+  const seoName = getEnglishNameFromCategory(category.slug) || getEnglishNameFromCategory(category.name);
   categoryIdToNameMap[category.id] = seoName;
   categoryNameToIdMap[seoName] = category.id;
 };
@@ -59,7 +59,7 @@ export const addCategoryToMappings = (category: {id: string, name: LocalizedText
 /**
  * 根据分类ID获取SEO友好的名称
  */
-export const getCategoryNameById = (categoryId: string): string => {
+export const getCategoryPathById = (categoryId: string): string => {
   return categoryIdToNameMap[categoryId] || categoryId;
 };
 
@@ -92,6 +92,6 @@ export const handleCategoryClick = (
   navigate: NavigateFunction
 ) => {
   // 使用映射表获取SEO友好的名称
-  const categoryPath = getCategoryNameById(category.id);
+  const categoryPath = getCategoryPathById(category.id);
   navigateWithLanguage(navigate, `/categories/${categoryPath}`, { state: { category } });
 }; 

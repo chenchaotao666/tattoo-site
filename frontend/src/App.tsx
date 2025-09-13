@@ -20,7 +20,9 @@ import BlogPage from './pages/BlogPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 import ScrollToTop from './components/common/ScrollToTop';
 import TopLoadingBar from './components/ui/TopLoadingBar';
+import Toast from './components/ui/Toast';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
+import { ToastProvider, useToast } from './contexts/ToastContext';
 import { LanguageSyncProvider } from './components/common/LanguageSyncProvider';
 import { AuthProvider } from './contexts/AuthContext';
 import { UploadImageProvider } from './contexts/UploadImageContext';
@@ -30,6 +32,7 @@ import { LoadingProvider } from './contexts/LoadingContext';
 // 应用内容组件，处理语言加载状态
 function AppContent() {
   const { language } = useLanguage();
+  const { toast, hideToast } = useToast();
 
   // 动态更新HTML lang属性，帮助Google按钮自动选择正确语言
   React.useEffect(() => {
@@ -45,9 +48,9 @@ function AppContent() {
         {/* 英文路由（默认路径，无语言前缀） */}
         <Route path="/" element={<HomePage />} />
         <Route path="/price" element={<PricingPage />} />
-        <Route path="/create" element={<GeneratePage initialTab="text" />} />
-        <Route path="/text-coloring-page" element={<GeneratePage initialTab="text" />} />
-        <Route path="/image-coloring-page" element={<GeneratePage initialTab="image" />} />
+        <Route path="/create" element={<GeneratePage />} />
+        <Route path="/text-coloring-page" element={<GeneratePage />} />
+        <Route path="/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -67,9 +70,9 @@ function AppContent() {
         {/* 中文路由（/zh 前缀） */}
         <Route path="/zh" element={<HomePage />} />
         <Route path="/zh/price" element={<PricingPage />} />
-        <Route path="/zh/create" element={<GeneratePage initialTab="text" />} />
-        <Route path="/zh/text-coloring-page" element={<GeneratePage initialTab="text" />} />
-        <Route path="/zh/image-coloring-page" element={<GeneratePage initialTab="image" />} />
+        <Route path="/zh/create" element={<GeneratePage />} />
+        <Route path="/zh/text-coloring-page" element={<GeneratePage />} />
+        <Route path="/zh/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/zh/categories" element={<CategoriesPage />} />
         <Route path="/zh/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/zh/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -87,6 +90,12 @@ function AppContent() {
         <Route path="/zh/blog/:slug" element={<BlogDetailPage />} />
       </Routes>
       </LanguageSyncProvider>
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+      />
     </Router>
   );
 }
@@ -95,15 +104,17 @@ function AppContent() {
 function App() {
   return (
     <LanguageProvider>
-      <LoadingProvider>
-        <AuthProvider>
-          <UploadImageProvider>
-            <CategoriesProvider>
-              <AppContent />
-            </CategoriesProvider>
-          </UploadImageProvider>
-        </AuthProvider>
-      </LoadingProvider>
+      <ToastProvider>
+        <LoadingProvider>
+          <AuthProvider>
+            <UploadImageProvider>
+              <CategoriesProvider>
+                <AppContent />
+              </CategoriesProvider>
+            </UploadImageProvider>
+          </AuthProvider>
+        </LoadingProvider>
+      </ToastProvider>
     </LanguageProvider>
   );
 }

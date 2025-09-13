@@ -14,7 +14,7 @@ function createImageRoutes(app) {
     const db = app.locals.db;
     const models = createModels(db);
     const imageService = new ImageService(models.Image);
-    const imageGenerateService = new ImageGenerateService(models.Image);
+    const imageGenerateService = new ImageGenerateService(models.Image, models.User);
 
     // 先定义具体的路由，再定义通用路由，避免路径冲突
 
@@ -123,17 +123,6 @@ function createImageRoutes(app) {
             res.json(result);
         } catch (error) {
             console.error('Get generation status error:', error);
-            res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
-        }
-    });
-
-    // GET /api/images/generate-tattoo/style-presets - 获取样式预设
-    router.get('/generate-tattoo/style-presets', async (req, res) => {
-        try {
-            const stylePresets = imageGenerateService.getStylePresets();
-            res.json(imageGenerateService.formatResponse(true, stylePresets, 'Style presets retrieved successfully'));
-        } catch (error) {
-            console.error('Get style presets error:', error);
             res.status(500).json(imageGenerateService.formatResponse(false, null, error.message));
         }
     });

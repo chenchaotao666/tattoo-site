@@ -237,7 +237,7 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
         {/* Logo */}
         <Link to={createLocalizedLink("/")} className="relative z-10 pl-4 sm:pl-5 flex justify-start items-center gap-1 hover:opacity-90 transition-opacity duration-200">
           <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
-          <div className="text-white text-xl sm:text-2xl font-medium">Coloring</div>
+          <div className="text-white text-xl sm:text-2xl font-medium">Tattooinkai</div>
         </Link>
 
         {/* 桌面端导航菜单 */}
@@ -250,7 +250,7 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
             {navT('menu.create', 'Create')}
           </Link>
           
-          {/* 免费涂色页 - 带下拉菜单 */}
+          {/* 分类 - 带下拉菜单 */}
           <div 
             className="relative" 
             ref={categoriesDropdownRef}

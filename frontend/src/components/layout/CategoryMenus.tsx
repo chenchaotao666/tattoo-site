@@ -105,7 +105,7 @@ const CategoryMenus: React.FC<CategoryMenusProps> = ({
       {categoryGroups.map((group, groupIndex) => (
         <div
           key={groupIndex}
-          className="absolute flex flex-col gap-4"
+          className="absolute flex flex-col gap-2"
           style={{
             width: '187px',
             left: `${24 + groupIndex * 211}px`,
@@ -113,7 +113,7 @@ const CategoryMenus: React.FC<CategoryMenusProps> = ({
           }}
         >
           {/* 标题 */}
-          <div className="flex items-center gap-2" style={{ width: '177px' }}>
+          <div className="flex items-center gap-2 py-1" style={{ width: '177px' }}>
             <div 
               className={`flex-1 text-sm font-bold ${group.title ? 'text-[#ECECEC]' : 'opacity-0'}`}
               style={{ fontFamily: 'Inter' }}
@@ -124,13 +124,13 @@ const CategoryMenus: React.FC<CategoryMenusProps> = ({
 
           {/* 分类项 */}
           {group.items.map((item, itemIndex) => (
-            <div key={itemIndex} className="flex items-center gap-2" style={{ width: '177px' }}>
+            <div key={itemIndex} className="flex items-center" style={{ width: '177px' }}>
               <button
                 onClick={() => {
                   handleCategoryClick(item, navigate);
                   onClose();
                 }}
-                className="flex-1 text-left text-sm font-normal text-[#A5A5A5] hover:text-[#98FF59] transition-colors duration-200"
+                className="flex-1 text-left text-sm font-normal text-[#A5A5A5] hover:text-[#98FF59] transition-colors duration-200 py-1"
                 style={{ fontFamily: 'Inter' }}
               >
                 {getLocalizedText(item.name)}

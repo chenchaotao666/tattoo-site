@@ -5,7 +5,7 @@ const fetch = require('node-fetch');
 const { Client } = require('minio');
 
 class ImageGenerateService {
-    constructor(imageModel = null) {
+    constructor(imageModel = null, userModel = null) {
         // 强制Node.js使用node-fetch替代内置fetch
         if (!global.fetch) {
             global.fetch = require('node-fetch');
@@ -16,8 +16,9 @@ class ImageGenerateService {
         
         // 设置DNS解析
         require('dns').setDefaultResultOrder('ipv4first');
-        // Store the image model for database operations
+        // Store the image model and user model for database operations
         this.imageModel = imageModel;
+        this.userModel = userModel;
         
         // Initialize with default parameters for SDXL Fresh Ink model
         this.defaultParams = {
@@ -101,8 +102,11 @@ class ImageGenerateService {
             // 验证参数范围
             this.validateParams(input);
 
+            // 验证用户积分是否足够
+            await this.validateUserCredits(params.userId, input.num_outputs);
+
             // 启动异步生成任务
-            const result = await this.startGeneration(input);
+            const result = await this.startAsyncGeneration(input);
             
             return this.formatResponse(true, result, 'Generation task started successfully');
         } catch (error) {
@@ -285,8 +289,83 @@ The design should be professional quality, original, and ready for use as a tatt
         }
     }
 
+    // 验证用户积分是否足够
+    async validateUserCredits(userId, numOutputs) {
+        if (!userId) {
+            throw new Error('User ID is required for credit validation');
+        }
+
+        if (!this.userModel) {
+            throw new Error('User model not provided - cannot validate credits');
+        }
+
+        try {
+            // 查询用户信息
+            const user = await this.userModel.findById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            // 计算所需积分（1个输出图片需要1个积分）
+            const requiredCredits = numOutputs || 1;
+            
+            // 检查用户积分是否足够
+            if (user.credits < requiredCredits) {
+                throw new Error(`Insufficient credits. Required: ${requiredCredits}, Available: ${user.credits}`);
+            }
+
+            console.log(`User ${userId} has sufficient credits: ${user.credits} >= ${requiredCredits}`);
+            return true;
+        } catch (error) {
+            throw new Error(`Credit validation failed: ${error.message}`);
+        }
+    }
+
+    // 扣除用户积分
+    async deductUserCredits(userId, imageCount) {
+        if (!userId || !imageCount) {
+            throw new Error('User ID and image count are required for credit deduction');
+        }
+
+        if (!this.userModel) {
+            throw new Error('User model not provided - cannot deduct credits');
+        }
+
+        try {
+            // 查询用户信息
+            const user = await this.userModel.findById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            // 计算要扣除的积分（每张图片1积分）
+            const creditsToDeduct = imageCount;
+            
+            // 再次检查用户积分是否足够（防止并发问题）
+            if (user.credits < creditsToDeduct) {
+                throw new Error(`Insufficient credits for deduction. Required: ${creditsToDeduct}, Available: ${user.credits}`);
+            }
+
+            // 扣除积分
+            const newCredits = user.credits - creditsToDeduct;
+            await this.userModel.updateById(
+                userId,
+                { credits: newCredits }
+            );
+
+            console.log(`Deducted ${creditsToDeduct} credits from user ${userId}. New balance: ${newCredits}`);
+            return { 
+                deductedCredits: creditsToDeduct, 
+                newBalance: newCredits, 
+                previousBalance: user.credits 
+            };
+        } catch (error) {
+            throw new Error(`Credit deduction failed: ${error.message}`);
+        }
+    }
+
     // 启动异步生成任务
-    async startGeneration(input) {
+    async startAsyncGeneration(input) {
         try {
             // 详细检查环境变量
             if (!process.env.REPLICATE_API_TOKEN) {
@@ -385,40 +464,6 @@ The design should be professional quality, original, and ready for use as a tatt
                 throw new Error(`Model not found. Please check the model version: ${this.modelVersion}. Original error: ${error.message}`);
             }
 
-            throw new Error(`Replicate API call failed: ${error.message}`);
-        }
-    }
-
-    // 同步生成（等待完成）
-    async callReplicateAPI(input) {
-        try {
-            // 检查是否安装了replicate包
-            let Replicate;
-            try {
-                Replicate = require('replicate');
-            } catch (error) {
-                throw new Error('Replicate package not found. Please install: npm install replicate');
-            }
-
-            const replicate = new Replicate({
-                auth: process.env.REPLICATE_API_TOKEN,
-            });
-
-            // 运行模型（同步等待）
-            const output = await replicate.run(this.modelVersion, { input });
-
-            return {
-                id: this.generateId(),
-                status: 'succeeded',
-                input: input,
-                output: output,
-                created_at: new Date().toISOString(),
-                completed_at: new Date().toISOString()
-            };
-        } catch (error) {
-            if (error.message.includes('Replicate package not found')) {
-                throw error;
-            }
             throw new Error(`Replicate API call failed: ${error.message}`);
         }
     }
@@ -522,61 +567,16 @@ The design should be professional quality, original, and ready for use as a tatt
             if (this.imageModel && savedImages.length > 0) {
                 savedToDb = await this.saveToDatabase(prediction, savedImages, { ...originalParams, batchId });
             }
+
+            // 扣除用户积分（根据成功生成的图片数量）
+            if (originalParams.userId && savedImages.length > 0) {
+                await this.deductUserCredits(originalParams.userId, savedImages.length);
+            }
             
             return this.formatResponse(true, { localImages: savedToDb }, 'Generation completed and saved successfully');
         } catch (error) {
             throw new Error(`Complete generation failed: ${error.message}`);
         }
-    }
-
-    // 获取预设样式参数
-    getStylePresets() {
-        return {
-            traditional: {
-                prompt_suffix: "traditional tattoo style, bold lines, classic colors",
-                guidance_scale: 8.0,
-                num_inference_steps: 30
-            },
-            realistic: {
-                prompt_suffix: "realistic tattoo, detailed shading, photorealistic",
-                guidance_scale: 7.5,
-                num_inference_steps: 35
-            },
-            minimalist: {
-                prompt_suffix: "minimalist tattoo, simple lines, clean design",
-                guidance_scale: 7.0,
-                num_inference_steps: 25
-            },
-            geometric: {
-                prompt_suffix: "geometric tattoo pattern, precise lines, symmetrical",
-                guidance_scale: 8.5,
-                num_inference_steps: 30
-            },
-            blackAndGrey: {
-                prompt_suffix: "black and grey tattoo, no color, detailed shading",
-                guidance_scale: 7.5,
-                num_inference_steps: 30,
-                negative_prompt: "ugly, broken, distorted, blurry, low quality, bad anatomy, colorful, bright colors"
-            }
-        };
-    }
-
-    // 应用样式预设
-    applyStylePreset(params, stylePreset) {
-        const presets = this.getStylePresets();
-        const preset = presets[stylePreset];
-
-        if (!preset) {
-            throw new Error(`Style preset '${stylePreset}' not found. Available presets: ${Object.keys(presets).join(', ')}`);
-        }
-
-        return {
-            ...params,
-            prompt: `${params.prompt}, ${preset.prompt_suffix}`,
-            guidance_scale: preset.guidance_scale,
-            num_inference_steps: preset.num_inference_steps,
-            ...(preset.negative_prompt && { negative_prompt: preset.negative_prompt })
-        };
     }
 
     // 生成唯一ID
@@ -707,7 +707,7 @@ The design should be professional quality, original, and ready for use as a tatt
                     description: null,
                     type: 'text2image', // 生成类型
                     styleId: originalParams.styleId || null, // 如果有样式ID
-                    isColor: originalParams.isColor !== undefined ? originalParams.isColor : this.detectColor(originalParams), // 使用传入的参数或检测
+                    isColor: originalParams.isColor !== undefined ? originalParams.isColor : false,
                     isPublic: originalParams.isPublic !== undefined ? originalParams.isPublic : false, // 使用传入的参数或默认不公开
                     isOnline: false, // 默认不上线
                     hotness: 0,
@@ -736,51 +736,6 @@ The design should be professional quality, original, and ready for use as a tatt
         }
 
         return savedRecords;
-    }
-
-    // 检测是否彩色图片（基于新的参数或提示词）
-    detectColor(params) {
-        // 如果直接传入了 isColor 参数，优先使用
-        if (params.isColor !== undefined) {
-            return params.isColor;
-        }
-        
-        const prompt = (params.prompt || '').toLowerCase();
-        const negativePrompt = (params.negative_prompt || '').toLowerCase();
-        
-        // 如果负面提示词包含颜色相关禁用词，认为是黑白
-        if (negativePrompt.includes('colorful') || negativePrompt.includes('bright colors') || 
-            negativePrompt.includes('color')) {
-            return false;
-        }
-        
-        // 如果提示词包含颜色相关词汇，认为是彩色
-        const colorKeywords = ['colorful', 'color', 'bright', 'vibrant', 'red', 'blue', 'green', 
-                              'yellow', 'purple', 'orange', 'pink', 'rainbow'];
-        const hasColorKeywords = colorKeywords.some(keyword => prompt.includes(keyword));
-        
-        // 如果明确提到黑白，返回false
-        if (prompt.includes('black and grey') || prompt.includes('black and white') || 
-            prompt.includes('monochrome')) {
-            return false;
-        }
-        
-        return hasColorKeywords;
-    }
-
-    // 获取模型信息
-    getModelInfo() {
-        return {
-            name: this.modelVersion,
-            description: "SDXL model fine-tuned on fresh tattoo photographs for realistic tattoo generation",
-            version: "8515c238222fa529763ec99b4ba1fa9d32ab5d6ebc82b4281de99e4dbdcec943",
-            defaultParams: this.defaultParams,
-            supportedParams: [
-                'prompt', 'negative_prompt', 'width', 'height', 'num_outputs',
-                'scheduler', 'guidance_scale', 'num_inference_steps',
-                'lora_scale', 'refine', 'high_noise_frac', 'apply_watermark', 'seed'
-            ]
-        };
     }
 }
 

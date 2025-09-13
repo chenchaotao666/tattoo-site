@@ -81,15 +81,17 @@ export interface UseGeneratePageActions {
   resetForm: () => void;
   refreshStyleSuggestions: () => void;
   loadGeneratedImages: (user?: any) => Promise<void>;
-  deleteImage: (imageId: string) => Promise<boolean>;
-  deleteImagesBatch: (imageIds: string[]) => Promise<{successIds: string[], failedIds: string[]}>;
   
   // 积分相关操作
   checkUserCredits: (user?: any) => void;
   handleInsufficientCredits: () => void;
 }
 
-export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGeneratePageState & UseGeneratePageActions => {
+export const useGeneratePage = (
+  refreshUser?: () => Promise<void>, 
+  setShowPricingModal?: (show: boolean) => void,
+  showSuccessToast?: (message: string) => void
+): UseGeneratePageState & UseGeneratePageActions => {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const { language } = useLanguage();
@@ -206,7 +208,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
       const newState: Partial<UseGeneratePageState> = { selectedQuantity };
       // 当数量改变时，重新检查是否有足够积分
       if (prevState.userCredits !== null) {
-        newState.canGenerate = prevState.userCredits >= (20 * selectedQuantity);
+        newState.canGenerate = prevState.userCredits >= (1 * selectedQuantity);
       }
       return newState;
     });
@@ -243,13 +245,12 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         return;
       }
       
-      const canGenerate = user.credits >= (20 * state.selectedQuantity); // 根据生成数量计算所需积分
+      const canGenerate = user.credits >= (1 * state.selectedQuantity); // 根据生成数量计算所需积分
       updateState({ 
         userCredits: user.credits, 
         canGenerate
       });
     } catch (error) {
-      console.error('Failed to check user credits:', error);
       updateState({ 
         userCredits: 0, 
         canGenerate: false
@@ -259,9 +260,14 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
 
   // 处理积分不足
   const handleInsufficientCredits = useCallback(() => {
-    // 跳转到充值页面
-    window.location.href = '/price';
-  }, []);
+    if (setShowPricingModal) {
+      // 显示定价弹窗
+      setShowPricingModal(true);
+    } else {
+      // 后备方案：跳转到充值页面
+      window.location.href = '/price';
+    }
+  }, [setShowPricingModal]);
 
 
 
@@ -290,7 +296,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
         hasGenerationHistory
       });
     } catch (error) {
-      console.error('Failed to load generated images:', error);
       updateState({ 
         generatedImages: [], 
         isInitialDataLoaded: true,  // 即使出错也标记为加载完成
@@ -371,6 +376,18 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
             currentSelectedImage: localImages[0].id, // 选中新生成的第一张图片
           }));
           
+          // Show success toast
+          if (showSuccessToast) {
+            const imageCount = localImages.length;
+            if (imageCount === state.selectedQuantity) {
+              // 生成的图片数量与期望一致
+              showSuccessToast('Successfully generated');
+            } else {
+              // 生成的图片数量少于期望
+              showSuccessToast(`Successfully generated ${imageCount} image${imageCount > 1 ? 's' : ''}`);
+            }
+          }
+          
           // Refresh user credits
           checkUserCredits();
           if (refreshUser) {
@@ -385,7 +402,7 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
       }
       
       // If we get here, something went wrong
-      throw new Error('Generation failed - no local images received');
+      throw new Error('Generation failed');
     } catch (error) {
       updateState({
         error: error instanceof Error ? error.message : 'An error occurred',
@@ -629,96 +646,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     updateState({ styleSuggestions: randomSuggestions });
   }, [updateState, language]);
 
-  // 删除图片
-  const deleteImage = useCallback(async (imageId: string): Promise<boolean> => {
-    try {
-      const { ImageService } = await import('../services/imageService');
-      const success = await ImageService.deleteImage(imageId);
-      
-      if (success) {
-        // 从生成的图片列表中移除
-        setState(prevState => {
-          const newGeneratedImages = prevState.generatedImages.filter(img => img.id !== imageId);
-          
-          // 重新计算历史状态
-          const hasGenerationHistory = newGeneratedImages.length > 0;
-          
-          return {
-            ...prevState,
-            generatedImages: newGeneratedImages,
-            hasGenerationHistory
-          };
-        });
-      }
-      
-      return success;
-    } catch (error) {
-      console.error('Delete image error:', error);
-      updateState({
-        error: error instanceof Error ? error.message : 'Failed to delete image',
-      });
-      return false;
-    }
-  }, [updateState]);
-
-  // 批量删除图片（优化版本）
-  const deleteImagesBatch = useCallback(async (imageIds: string[]): Promise<{successIds: string[], failedIds: string[]}> => {
-    const successIds: string[] = [];
-    const failedIds: string[] = [];
-    
-    try {
-      const { ImageService } = await import('../services/imageService');
-      
-      // 并行执行所有删除操作
-      const deletePromises = imageIds.map(async (imageId) => {
-        try {
-          const success = await ImageService.deleteImage(imageId);
-          return { imageId, success };
-        } catch (error) {
-          console.error(`Delete image ${imageId} error:`, error);
-          return { imageId, success: false };
-        }
-      });
-      
-      const results = await Promise.all(deletePromises);
-      
-      // 分离成功和失败的图片ID
-      results.forEach(({ imageId, success }) => {
-        if (success) {
-          successIds.push(imageId);
-        } else {
-          failedIds.push(imageId);
-        }
-      });
-      
-      // 只在最后一次性更新状态（如果有成功删除的图片）
-      if (successIds.length > 0) {
-        setState(prevState => {
-          const newGeneratedImages = prevState.generatedImages.filter(
-            img => !successIds.includes(img.id)
-          );
-          
-          // 重新计算历史状态
-          const hasGenerationHistory = newGeneratedImages.length > 0;
-          
-          return {
-            ...prevState,
-            generatedImages: newGeneratedImages,
-            hasGenerationHistory
-          };
-        });
-      }
-      
-      return { successIds, failedIds };
-    } catch (error) {
-      console.error('Batch delete images error:', error);
-      updateState({
-        error: error instanceof Error ? error.message : 'Failed to delete images',
-      });
-      return { successIds, failedIds: imageIds };
-    }
-  }, [updateState]);
-
   // 初始化加载（只执行一次）
   useEffect(() => {
     loadStyleSuggestions(); // 风格建议也只需要加载一次
@@ -766,8 +693,6 @@ export const useGeneratePage = (refreshUser?: () => Promise<void>): UseGenerateP
     resetForm,
     refreshStyleSuggestions,
     loadGeneratedImages,
-    deleteImage,
-    deleteImagesBatch,
     checkUserCredits,
     handleInsufficientCredits,
   };

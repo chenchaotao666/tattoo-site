@@ -43,7 +43,7 @@ const ImageEnlargement: React.FC<ImageEnlargementProps> = ({
           }}
         />
         <div style={{
-          left: '376px',
+          left: '335px',
           top: '828px',
           position: 'absolute'
         }}>

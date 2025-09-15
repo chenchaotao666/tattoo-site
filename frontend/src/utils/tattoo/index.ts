@@ -102,7 +102,7 @@ export const SUPPORTED_IMAGE_FORMATS = [
  */
 export const DEFAULT_SETTINGS = {
   opacity: 0.8,
-  scale: 1.0,
+  scale: 0.1,
   rotation: 0,
   offsetX: 0,
   offsetY: 0,

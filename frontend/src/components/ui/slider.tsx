@@ -40,10 +40,10 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           value={value[0]}
           onChange={handleChange}
           disabled={disabled}
-          className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+          className="absolute inset-0 h-full w-full cursor-pointer opacity-0 z-10"
         />
         <div
-          className="absolute block h-5 w-5 rounded-full border-2 border-blue-500 bg-white ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+          className="absolute block h-5 w-5 rounded-full border-2 border-blue-500 bg-white ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 pointer-events-none"
           style={{ left: `calc(${percentage}% - 10px)` }}
         />
       </div>

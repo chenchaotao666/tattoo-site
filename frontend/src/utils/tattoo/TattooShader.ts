@@ -43,6 +43,26 @@ class TattooShader {
   }
 
   /**
+   * 创建虚拟透明纹理
+   */
+  private createDummyTexture(): THREE.Texture {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1;
+    canvas.height = 1;
+    const ctx = canvas.getContext('2d')!;
+    ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+    ctx.fillRect(0, 0, 1, 1);
+    
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    
+    return texture;
+  }
+
+  /**
    * 顶点着色器代码
    */
   private getVertexShader(): string {
@@ -116,8 +136,8 @@ class TattooShader {
         vec2 translatedUv = perspectiveUv - overlayOffset;
 
         // 旋转UV坐标
-        float cosTheta = cos(-overlayRotation);
-        float sinTheta = sin(-overlayRotation);
+        float cosTheta = cos(overlayRotation);
+        float sinTheta = sin(overlayRotation);
         vec2 rotatedUv = vec2(
           translatedUv.x * cosTheta - translatedUv.y * sinTheta,
           translatedUv.x * sinTheta + translatedUv.y * cosTheta
@@ -125,7 +145,7 @@ class TattooShader {
 
         // 旋转后应用缩放
         vec2 scaledUv = vec2(rotatedUv.x * overlayAspectRatio, rotatedUv.y);
-        vec2 finalUv = scaledUv * (1.0 / overlayScale) + 0.5;
+        vec2 finalUv = scaledUv / overlayScale + 0.5;
 
         // 采样纹身纹理
         vec4 overlay = vec4(0.0);
@@ -144,7 +164,7 @@ class TattooShader {
         overlay.rgb = (overlay.rgb - 0.5) * overlayContrast + 0.5;
 
         // 采样基础纹理
-        vec4 base = vec4(0.0);
+        vec4 base = vec4(1.0, 1.0, 1.0, 1.0); // 默认白色
         if (includeBase) {
           base = texture2D(baseTexture, vUv);
         }
@@ -153,23 +173,31 @@ class TattooShader {
         vec4 seg = texture2D(segmentationMap, vUv);
         float mask = seg.a;
 
-        // 默认颜色为纹身颜色
-        vec3 finalColor = overlay.rgb;
-
         // 如果启用擦除效果
         if (showEraseEffect && includeBase) {
           vec4 erase = texture2D(eraseMap, vUv);
           overlay.a *= (1.0 - erase.a); // 根据黑色像素应用擦除效果
         }
 
-        // 如果包含基础纹理
+        // 计算最终颜色
+        vec3 finalColor;
         if (includeBase) {
-          vec3 multiplied = base.rgb * overlay.rgb;
-          finalColor = mix(
-            base.rgb, 
-            applyMultiplyEffect ? multiplied : overlay.rgb, 
-            overlay.a * (mask > 0.0 ? mask : hintOutsideSegment)
-          );
+          // 有基础纹理时，基于是否有纹身来决定显示方式
+          if (overlay.a > 0.0) {
+            // 有纹身时进行混合
+            vec3 multiplied = base.rgb * overlay.rgb;
+            finalColor = mix(
+              base.rgb, 
+              applyMultiplyEffect ? multiplied : overlay.rgb, 
+              overlay.a * (mask > 0.0 ? mask : hintOutsideSegment)
+            );
+          } else {
+            // 没有纹身时直接显示基础图像
+            finalColor = base.rgb;
+          }
+        } else {
+          // 没有基础纹理时显示纹身颜色
+          finalColor = overlay.rgb;
         }
 
         gl_FragColor = vec4(
@@ -186,10 +214,10 @@ class TattooShader {
   createShaderMaterial(uniforms: Partial<ShaderUniforms>): THREE.ShaderMaterial {
     const defaultUniforms: Record<string, any> = {
       baseTexture: { value: null },
-      depthMap: { value: null },
-      overlayTexture: { value: null },
-      segmentationMap: { value: null },
-      eraseMap: { value: null },
+      depthMap: { value: this.createDummyTexture() },
+      overlayTexture: { value: this.createDummyTexture() },
+      segmentationMap: { value: this.createDummyTexture() },
+      eraseMap: { value: this.createDummyTexture() },
       
       overlayScale: { value: 1.0 },
       overlayRotation: { value: 0.0 },

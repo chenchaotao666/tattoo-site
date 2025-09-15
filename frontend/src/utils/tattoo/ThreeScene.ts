@@ -171,9 +171,22 @@ class ThreeScene {
    * 创建基础平面
    */
   createBasePlane(imageAspectRatio: number): void {
-    // 计算平面尺寸
-    const planeWidth = 2 * imageAspectRatio;
-    const planeHeight = 2;
+    // 计算平面尺寸，让其填满视口
+    // 根据图像宽高比，选择适合的尺寸
+    const viewportWidth = this.config.width;
+    const viewportHeight = this.config.height;
+    
+    let planeWidth, planeHeight;
+    
+    if (imageAspectRatio < viewportWidth / viewportHeight) {
+      // 图像更高，以高度为准
+      planeHeight = viewportHeight * 0.9; // 90% 的视口高度
+      planeWidth = planeHeight * imageAspectRatio;
+    } else {
+      // 图像更宽，以宽度为准
+      planeWidth = viewportWidth * 0.9; // 90% 的视口宽度  
+      planeHeight = planeWidth / imageAspectRatio;
+    }
 
     // 创建几何体
     const geometry = this.createPlane(planeWidth, planeHeight);

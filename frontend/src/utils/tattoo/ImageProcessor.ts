@@ -50,6 +50,294 @@ class ImageProcessor {
   }
 
   /**
+   * 去除图像背景（基于颜色相似度）
+   */
+  async removeBackground(imageUrl: string, options: {
+    tolerance?: number; // 颜色容差 (0-100)
+    backgroundColor?: string; // 背景色，默认白色
+    featherEdge?: number; // 边缘羽化 (0-10)
+  } = {}): Promise<string> {
+    const {
+      tolerance = 20,
+      backgroundColor = '#ffffff',
+      featherEdge = 2
+    } = options;
+
+    try {
+      // 加载图像
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      
+      return new Promise((resolve, reject) => {
+        img.onload = () => {
+          this.canvas.width = img.width;
+          this.canvas.height = img.height;
+          
+          // 绘制原图
+          this.ctx.drawImage(img, 0, 0);
+          
+          // 获取图像数据
+          const imageData = this.ctx.getImageData(0, 0, img.width, img.height);
+          const data = imageData.data;
+          
+          // 解析背景色
+          const bgColor = this.hexToRgb(backgroundColor);
+          
+          // 遍历所有像素
+          for (let i = 0; i < data.length; i += 4) {
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+            
+            // 计算与背景色的差异
+            const diff = Math.sqrt(
+              Math.pow(r - bgColor.r, 2) + 
+              Math.pow(g - bgColor.g, 2) + 
+              Math.pow(b - bgColor.b, 2)
+            );
+            
+            // 如果颜色差异小于容差，设为透明
+            if (diff < tolerance * 2.55) { // 转换为0-255范围
+              data[i + 3] = 0; // 设置alpha为0（透明）
+            } else if (featherEdge > 0) {
+              // 边缘羽化处理
+              const featherRange = tolerance * 2.55 * (1 + featherEdge / 10);
+              if (diff < featherRange) {
+                const alpha = Math.max(0, (diff - tolerance * 2.55) / (featherRange - tolerance * 2.55));
+                data[i + 3] = Math.floor(data[i + 3] * alpha);
+              }
+            }
+          }
+          
+          // 应用处理后的图像数据
+          this.ctx.putImageData(imageData, 0, 0);
+          
+          // 返回处理后的图像URL
+          resolve(this.canvas.toDataURL('image/png'));
+        };
+        
+        img.onerror = reject;
+        img.src = imageUrl;
+      });
+    } catch (error) {
+      console.error('Error removing background:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * 智能背景去除（基于边缘检测和色彩分析）
+   */
+  async smartRemoveBackground(imageUrl: string, options: {
+    tolerance?: number;
+    featherEdge?: number;
+  } = {}): Promise<string> {
+    const {
+      tolerance = 30, // 提高容差，更容易去除背景
+      featherEdge = 3  // 增加边缘羽化
+    } = options;
+
+    try {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      
+      return new Promise((resolve, reject) => {
+        img.onload = () => {
+          this.canvas.width = img.width;
+          this.canvas.height = img.height;
+          this.ctx.drawImage(img, 0, 0);
+          
+          const imageData = this.ctx.getImageData(0, 0, img.width, img.height);
+          const data = imageData.data;
+          
+          // 改进的背景色检测：分析四角和边缘
+          const backgroundColor = this.detectBackgroundColor(data, img.width, img.height);
+          
+          console.log('检测到的背景色:', backgroundColor);
+          
+          // 使用改进的去背景算法，包含边缘羽化
+          this.removeBackgroundWithFeather(data, backgroundColor, tolerance, featherEdge);
+          
+          this.ctx.putImageData(imageData, 0, 0);
+          
+          // 裁剪到有效内容区域以避免3D着色器缩放问题
+          const croppedCanvas = this.cropToContent(this.canvas);
+          resolve(croppedCanvas.toDataURL('image/png'));
+        };
+        
+        img.onerror = reject;
+        img.src = imageUrl;
+      });
+    } catch (error) {
+      console.error('Error in smart background removal:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * 辅助方法：十六进制颜色转RGB
+   */
+  private hexToRgb(hex: string): { r: number; g: number; b: number } {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : { r: 255, g: 255, b: 255 };
+  }
+
+
+  /**
+   * 改进的背景色检测（分析边缘像素）
+   */
+  private detectBackgroundColor(data: Uint8ClampedArray, width: number, height: number): { r: number; g: number; b: number } {
+    const edgePixels: number[][] = [];
+    
+    // 采样边缘像素（上边、下边、左边、右边）
+    const sampleSize = Math.min(20, Math.floor(Math.min(width, height) * 0.1));
+    
+    // 上边缘
+    for (let x = 0; x < width; x += Math.max(1, Math.floor(width / sampleSize))) {
+      const index = x * 4;
+      edgePixels.push([data[index], data[index + 1], data[index + 2]]);
+    }
+    
+    // 下边缘
+    for (let x = 0; x < width; x += Math.max(1, Math.floor(width / sampleSize))) {
+      const index = ((height - 1) * width + x) * 4;
+      edgePixels.push([data[index], data[index + 1], data[index + 2]]);
+    }
+    
+    // 左边缘
+    for (let y = 0; y < height; y += Math.max(1, Math.floor(height / sampleSize))) {
+      const index = y * width * 4;
+      edgePixels.push([data[index], data[index + 1], data[index + 2]]);
+    }
+    
+    // 右边缘
+    for (let y = 0; y < height; y += Math.max(1, Math.floor(height / sampleSize))) {
+      const index = (y * width + width - 1) * 4;
+      edgePixels.push([data[index], data[index + 1], data[index + 2]]);
+    }
+    
+    // 计算平均颜色作为背景色
+    let avgR = 0, avgG = 0, avgB = 0;
+    edgePixels.forEach(([r, g, b]) => {
+      avgR += r;
+      avgG += g;
+      avgB += b;
+    });
+    
+    const count = edgePixels.length;
+    return {
+      r: Math.round(avgR / count),
+      g: Math.round(avgG / count),
+      b: Math.round(avgB / count)
+    };
+  }
+
+  /**
+   * 带边缘羽化的背景去除
+   */
+  private removeBackgroundWithFeather(
+    data: Uint8ClampedArray, 
+    bgColor: { r: number; g: number; b: number }, 
+    tolerance: number, 
+    featherEdge: number
+  ): void {
+    const toleranceThreshold = tolerance * 2.55; // 转换为0-255范围
+    const featherRange = toleranceThreshold * (1 + featherEdge / 10);
+    
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      
+      // 计算与背景色的差异
+      const diff = Math.sqrt(
+        Math.pow(r - bgColor.r, 2) + 
+        Math.pow(g - bgColor.g, 2) + 
+        Math.pow(b - bgColor.b, 2)
+      );
+      
+      if (diff < toleranceThreshold) {
+        // 完全透明
+        data[i + 3] = 0;
+      } else if (featherEdge > 0 && diff < featherRange) {
+        // 边缘羽化：渐变透明度
+        const alpha = Math.max(0, (diff - toleranceThreshold) / (featherRange - toleranceThreshold));
+        data[i + 3] = Math.floor(data[i + 3] * alpha);
+      }
+      // 否则保持原始透明度
+    }
+  }
+
+
+  /**
+   * 裁剪到有效内容区域（去除透明边缘）
+   */
+  private cropToContent(canvas: HTMLCanvasElement): HTMLCanvasElement {
+    const ctx = canvas.getContext('2d')!;
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    
+    let minX = canvas.width, minY = canvas.height;
+    let maxX = -1, maxY = -1;
+    
+    // 找到有效内容的边界
+    for (let y = 0; y < canvas.height; y++) {
+      for (let x = 0; x < canvas.width; x++) {
+        const index = (y * canvas.width + x) * 4;
+        const alpha = data[index + 3];
+        
+        // 如果像素不完全透明，则认为是有效内容
+        if (alpha > 10) { // 使用小阈值以包含半透明边缘
+          minX = Math.min(minX, x);
+          minY = Math.min(minY, y);
+          maxX = Math.max(maxX, x);
+          maxY = Math.max(maxY, y);
+        }
+      }
+    }
+    
+    // 如果没有找到有效内容，返回原画布
+    if (maxX === -1) {
+      console.warn('没有找到有效内容，返回原图');
+      return canvas;
+    }
+    
+    // 添加一些边距
+    const padding = 5;
+    minX = Math.max(0, minX - padding);
+    minY = Math.max(0, minY - padding);
+    maxX = Math.min(canvas.width - 1, maxX + padding);
+    maxY = Math.min(canvas.height - 1, maxY + padding);
+    
+    const cropWidth = maxX - minX + 1;
+    const cropHeight = maxY - minY + 1;
+    
+    console.log('裁剪信息:', {
+      original: { width: canvas.width, height: canvas.height },
+      crop: { x: minX, y: minY, width: cropWidth, height: cropHeight },
+      reduction: ((canvas.width * canvas.height - cropWidth * cropHeight) / (canvas.width * canvas.height) * 100).toFixed(1) + '%'
+    });
+    
+    // 创建新的画布并绘制裁剪后的内容
+    const croppedCanvas = document.createElement('canvas');
+    croppedCanvas.width = cropWidth;
+    croppedCanvas.height = cropHeight;
+    const croppedCtx = croppedCanvas.getContext('2d')!;
+    
+    croppedCtx.drawImage(
+      canvas,
+      minX, minY, cropWidth, cropHeight,
+      0, 0, cropWidth, cropHeight
+    );
+    
+    return croppedCanvas;
+  }
+
+  /**
    * 获取图像元数据
    */
   async getImageMetadata(imageUrl: string): Promise<ImageMetadata> {

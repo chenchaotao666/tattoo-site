@@ -31,6 +31,9 @@ interface TattooSettings {
 interface LoadedAssets {
   baseImage?: string;
   tattooImage?: string;
+  originalTattooImage?: string; // 保存原始纹身图像URL
+  originalTattooAspectRatio?: number; // 保存原始纹身图像宽高比
+  tattooAspectRatio?: number;
   bodyMask?: string;
   depthMap?: string;
   eraseMap?: string;
@@ -62,7 +65,7 @@ class TattooEngine {
     // 初始化默认设置
     this.settings = {
       opacity: 0.8,
-      scale: 1.0,
+      scale: 0.1, // 默认小尺寸
       rotation: 0,
       offsetX: 0,
       offsetY: 0,
@@ -122,21 +125,35 @@ class TattooEngine {
    */
   private setupGestureControls(): void {
     const canvas = this.scene.getCanvas();
+    let dragStartOffsets = { x: 0, y: 0 }; // 记录拖动开始时的偏移量
     
     const handlers: InteractionHandlers = {
       onDragStart: () => {
         console.log('Drag started');
+        // 记录拖动开始时的当前偏移量
+        dragStartOffsets = { 
+          x: this.settings.offsetX, 
+          y: this.settings.offsetY 
+        };
+        // 改变光标样式为拖动状态
+        canvas.style.cursor = 'grabbing';
       },
       onDragMove: (delta) => {
+        // 基于拖动起始位置计算绝对偏移，避免累积误差
         const normalizedDelta = {
           x: delta.x / this.config.width,
-          y: -delta.y / this.config.height
+          y: -delta.y / this.config.height // 反转Y轴以匹配屏幕坐标系
         };
         
         this.updateSettings({
-          offsetX: this.settings.offsetX + normalizedDelta.x * 0.5,
-          offsetY: this.settings.offsetY + normalizedDelta.y * 0.5
+          offsetX: dragStartOffsets.x + normalizedDelta.x * 0.5, // 降低灵敏度，与鼠标同步
+          offsetY: dragStartOffsets.y + normalizedDelta.y * 0.5
         });
+      },
+      onDragEnd: () => {
+        console.log('Drag ended');
+        // 恢复光标样式
+        canvas.style.cursor = 'grab';
       },
       onScaleChange: (scaleRatio) => {
         const newScale = Math.max(0.1, this.settings.scale * scaleRatio);
@@ -149,6 +166,9 @@ class TattooEngine {
     };
 
     this.gestureController = new GestureController(canvas, handlers);
+    
+    // 设置初始光标样式
+    canvas.style.cursor = 'grab';
   }
 
   /**
@@ -163,7 +183,7 @@ class TattooEngine {
       console.log('Base image metadata:', metadata);
 
       // 生成人体分割遮罩
-      const bodyMask = await this.segmentation.generateBodyMask(imageUrl);
+      const bodyMask = await this.segmentation.generateMask(imageUrl);
       
       // 生成深度图
       const imageBitmap = await this.imageProcessor.urlToImageBitmap(imageUrl);
@@ -200,8 +220,24 @@ class TattooEngine {
       const metadata = await this.imageProcessor.getImageMetadata(imageUrl);
       console.log('Tattoo image metadata:', metadata);
 
+      // 自动去除纹身图片背景
+      let processedImageUrl = imageUrl;
+      console.log('自动处理纹身图片去除背景...');
+      try {
+        processedImageUrl = await this.imageProcessor.smartRemoveBackground(imageUrl);
+        console.log('纹身背景去除成功');
+      } catch (error) {
+        console.warn('背景去除失败，使用原图:', error);
+        processedImageUrl = imageUrl;
+      }
+
       // 保存资源
-      this.assets.tattooImage = imageUrl;
+      this.assets.originalTattooImage = imageUrl; // 保存原始URL
+      this.assets.tattooImage = processedImageUrl;
+      
+      // 保存原始和当前纹身图像的宽高比
+      this.assets.originalTattooAspectRatio = metadata.aspectRatio;
+      this.assets.tattooAspectRatio = metadata.aspectRatio;
 
       // 更新着色器
       await this.updateShaderMaterial();
@@ -219,9 +255,17 @@ class TattooEngine {
    * 更新着色器材质
    */
   private async updateShaderMaterial(): Promise<void> {
-    if (!this.assets.baseImage || !this.assets.tattooImage) return;
+    if (!this.assets.baseImage) return; // 只需要基础图像即可显示
 
     try {
+      console.log('Loading textures with assets:', {
+        baseImage: !!this.assets.baseImage,
+        depthMap: !!this.assets.depthMap,
+        tattooImage: !!this.assets.tattooImage,
+        bodyMask: !!this.assets.bodyMask,
+        eraseMap: !!this.assets.eraseMap
+      });
+      
       // 加载所有纹理
       const textures = await this.shader.loadTextures({
         baseTexture: this.assets.baseImage,
@@ -230,6 +274,8 @@ class TattooEngine {
         segmentationMap: this.assets.bodyMask,
         eraseMap: this.assets.eraseMap
       });
+      
+      console.log('Loaded textures:', Object.keys(textures));
 
       // 创建uniforms
       const uniforms: Partial<ShaderUniforms> = {
@@ -240,9 +286,10 @@ class TattooEngine {
         eraseMap: textures.eraseMap || null,
         
         overlayScale: this.settings.scale,
-        overlayRotation: this.settings.rotation,
+        overlayRotation: this.settings.rotation * Math.PI / 180, // 将角度转换为弧度
         overlayOffset: [this.settings.offsetX, this.settings.offsetY],
-        overlayOpacity: this.settings.opacity,
+        overlayOpacity: this.assets.tattooImage ? this.settings.opacity : 0.0,
+        overlayAspectRatio: this.assets.tattooAspectRatio || 1.0,
         overlayContrast: this.settings.contrast,
         overlayBlackAndWhite: this.settings.blackAndWhite,
         applyMultiplyEffect: this.settings.multiplyEffect,
@@ -254,6 +301,13 @@ class TattooEngine {
         includeBase: true,
         showEraseEffect: !!this.assets.eraseMap
       };
+      
+      console.log('着色器uniforms参数:', {
+        overlayScale: uniforms.overlayScale,
+        overlayAspectRatio: uniforms.overlayAspectRatio,
+        overlayOpacity: uniforms.overlayOpacity,
+        settings: this.settings
+      });
 
       // 创建着色器材质
       const material = this.shader.createShaderMaterial(uniforms);
@@ -267,6 +321,14 @@ class TattooEngine {
   }
 
   /**
+   * 获取原始纹身图像URL
+   */
+  private getOriginalTattooImageUrl(): string | null {
+    return this.assets.originalTattooImage || null;
+  }
+
+
+  /**
    * 更新纹身设置
    */
   updateSettings(newSettings: Partial<TattooSettings>): void {
@@ -278,13 +340,14 @@ class TattooEngine {
     
     if (newSettings.opacity !== undefined) shaderUniforms.overlayOpacity = newSettings.opacity;
     if (newSettings.scale !== undefined) shaderUniforms.overlayScale = newSettings.scale;
-    if (newSettings.rotation !== undefined) shaderUniforms.overlayRotation = newSettings.rotation;
+    if (newSettings.rotation !== undefined) shaderUniforms.overlayRotation = newSettings.rotation * Math.PI / 180;
     if (newSettings.offsetX !== undefined || newSettings.offsetY !== undefined) {
       shaderUniforms.overlayOffset = [this.settings.offsetX, this.settings.offsetY];
     }
     if (newSettings.contrast !== undefined) shaderUniforms.overlayContrast = newSettings.contrast;
     if (newSettings.blackAndWhite !== undefined) shaderUniforms.overlayBlackAndWhite = newSettings.blackAndWhite;
     if (newSettings.multiplyEffect !== undefined) shaderUniforms.applyMultiplyEffect = newSettings.multiplyEffect;
+
 
     this.shader.updateUniforms(shaderUniforms);
 
@@ -349,7 +412,7 @@ class TattooEngine {
   resetSettings(): void {
     this.updateSettings({
       opacity: 0.8,
-      scale: 1.0,
+      scale: 0.1,
       rotation: 0,
       offsetX: 0,
       offsetY: 0,

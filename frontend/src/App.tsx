@@ -18,6 +18,7 @@ import TermsPage from './pages/TermsPage';
 import RefundPolicyPage from './pages/RefundPolicyPage';
 import BlogPage from './pages/BlogPage';
 import BlogDetailPage from './pages/BlogDetailPage';
+import TattooPreviewPage from './pages/TattooPreviewPage';
 import ScrollToTop from './components/common/ScrollToTop';
 import TopLoadingBar from './components/ui/TopLoadingBar';
 import Toast from './components/ui/Toast';
@@ -66,6 +67,7 @@ function AppContent() {
         <Route path="/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogDetailPage />} />
+        <Route path="/preview" element={<TattooPreviewPage />} />
 
         {/* 中文路由（/zh 前缀） */}
         <Route path="/zh" element={<HomePage />} />
@@ -88,6 +90,7 @@ function AppContent() {
         <Route path="/zh/refund-policy" element={<RefundPolicyPage />} />
         <Route path="/zh/blog" element={<BlogPage />} />
         <Route path="/zh/blog/:slug" element={<BlogDetailPage />} />
+        <Route path="/zh/preview" element={<TattooPreviewPage />} />
       </Routes>
       </LanguageSyncProvider>
       <Toast

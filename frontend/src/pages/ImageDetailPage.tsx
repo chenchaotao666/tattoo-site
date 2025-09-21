@@ -16,6 +16,7 @@ import { getImageIdByName, isImageName, updateImageMappings, getImageNameById, g
 import { getCategoryIdByName, getCategoryPathById, isCategoryName, getEnglishNameFromCategory, updateCategoryMappings } from '../utils/categoryUtils';
 import { navigateWithLanguage } from '../utils/navigationUtils';
 import SEOHead from '../components/common/SEOHead';
+import TryNow from '../components/common/TryNow';
 
 const ImageDetailPage: React.FC = () => {
   const { t } = useAsyncTranslation('categories');
@@ -229,7 +230,7 @@ const ImageDetailPage: React.FC = () => {
 
     try {
       // 生成文件名
-      const titleText = getLocalizedText(image.title, language) || 'image';
+      const titleText = getLocalizedText(image.name, language) || 'image';
       const fileName = `coloring-page-${titleText.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 20)}-${image.id.slice(-8)}.${format}`;
 
       // 根据格式选择不同的下载方式
@@ -251,7 +252,7 @@ const ImageDetailPage: React.FC = () => {
         { label: t('breadcrumb.home'), path: '/' },
         { label: t('breadcrumb.categories'), path: '/categories' },
         { label: categoryName, path: `/categories/${categoryPath}` },
-        { label: image ? getLocalizedText(image.title, language) || image.slug || '' : '', current: true }
+        { label: image ? getLocalizedText(image.name, language) || image.slug || '' : '', current: true }
       ];
     } else {
       // 默认2层面包屑：Home > 图片名字
@@ -292,14 +293,15 @@ const ImageDetailPage: React.FC = () => {
 
   return (
     <Layout>
-      <SEOHead
-        title={image ? `${getLocalizedText(image.title, language)} - Free Coloring Page` : 'Coloring Page'}
-        description={image ? `Download free printable ${getLocalizedText(image.title, language).toLowerCase()} coloring page. High-quality PDF and PNG formats available instantly.` : 'Download free printable coloring pages.'}
-        keywords={image ? `${getLocalizedText(image.title, language).toLowerCase()} coloring page, free printable coloring page, ${getLocalizedText(image.title, language).toLowerCase()} coloring sheet` : 'coloring page, printable coloring page'}
-        ogTitle={image ? `${getLocalizedText(image.title, language)} - Free Coloring Page` : 'Coloring Page'}
-        ogDescription={image ? `Download free printable ${getLocalizedText(image.title, language).toLowerCase()} coloring page. High-quality PDF and PNG formats available instantly.` : 'Download free printable coloring pages.'}
-        noIndex={true}
-      />
+    <SEOHead
+      title={image ? `${getLocalizedText(image.description, 'en')} - AI Tattoo Design` : 'AI Tattoo Design'}
+      description={image ? `Create ${getLocalizedText(image.description, 'en').toLowerCase()} tattoo designs with AI. Preview with AR and download high-res artwork for your artist.` : 'Create custom tattoo designs with AI. Preview with AR and download high-quality artwork.'}
+      keywords={image ? `${getLocalizedText(image.description, 'en').toLowerCase()} tattoo, AI tattoo generator` : 'AI tattoo, tattoo generator'}
+      ogTitle={image ? `${getLocalizedText(image.description, 'en')} - AI Tattoo Design` : 'AI Tattoo Design'}
+      ogDescription={image ? `Create ${getLocalizedText(image.description, 'en').toLowerCase()} tattoo designs with AI. Preview with AR and download high-res artwork for your artist.` : 'Create custom tattoo designs with AI. Preview with AR and download high-quality artwork.'}
+      canonicalUrl={`${window.location.origin}/images/${imageId}`}
+      noIndex={true}
+    />
       <div className="w-full bg-[#030414] relative">
         {/* Breadcrumb - 始终显示 */}
         <Breadcrumb items={breadcrumbPath} />
@@ -318,7 +320,7 @@ const ImageDetailPage: React.FC = () => {
               <div className="flex justify-center lg:justify-start lg:w-[400px]">
                 <img 
                   src={image.tattooUrl}
-                  alt={getLocalizedText(image.title, language)}
+                  alt={getLocalizedText(image.prompt || image.description, language)}
                   className="w-full max-w-[500px] h-auto object-contain rounded-lg"
                 />
               </div>
@@ -387,7 +389,8 @@ const ImageDetailPage: React.FC = () => {
 
             return (
               <article className="mb-4 max-w-[1170px] mx-auto">
-                <div 
+                <h1 className="text-[#ECECEC] text-2xl font-bold mb-6">Tattoo picture details</h1>
+                <div
                   className='prose prose-dark'
                   dangerouslySetInnerHTML={{ __html: additionalInfo }}
                 />
@@ -432,6 +435,14 @@ const ImageDetailPage: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* TryNow component */}
+        <TryNow
+          title={t('tryNow.title')}
+          description={t('tryNow.description')}
+          buttonText={t('tryNow.tryNow')}
+          buttonLink="/create"
+        />
       </div>
     </Layout>
   );

@@ -46,12 +46,12 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
           
           {/* Top - Text content */}
           <div className="w-full text-center">
-            <h2 className="text-[32px] font-bold text-[#ECECEC] capitalize leading-tight mb-6">
+            <h1 className="text-[32px] font-bold text-[#ECECEC] capitalize leading-tight mb-6">
               {title}
-            </h2>
-            <p className="text-[14px] text-[#A5A5A5] leading-relaxed max-w-[600px] mx-auto">
+            </h1>
+            <h3 className="text-[14px] text-[#A5A5A5] leading-relaxed max-w-[600px] mx-auto">
               {description}
-            </p>
+            </h3>
           </div>
 
           {/* Left arrow - outside image (only show when images are loaded) */}

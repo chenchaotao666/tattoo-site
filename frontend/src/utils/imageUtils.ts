@@ -259,7 +259,7 @@ export const getEnglishTitleFromImage = (title: LocalizedText | string): string 
  */
 export const updateImageMappings = (images: Array<BaseImage>) => {
   images.forEach(image => {
-    const seoName = getEnglishTitleFromImage(image.slug) || getEnglishTitleFromImage(image.title);
+    const seoName = getEnglishTitleFromImage(image.slug) || getEnglishTitleFromImage(image.name);
     imageIdToNameMap[image.id] = seoName;
     imageNameToIdMap[seoName] = image.id;
   });

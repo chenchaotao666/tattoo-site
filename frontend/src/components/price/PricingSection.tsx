@@ -102,12 +102,14 @@ interface PricingSectionProps {
   showFAQ?: boolean;
   showCTA?: boolean;
   showTitle?: boolean;
+  titleH1?: boolean;
 }
 
 const PricingSection: React.FC<PricingSectionProps> = ({
   showFAQ = false,
   showCTA = false,
-  showTitle = false
+  showTitle = false,
+  titleH1 = true
 }) => {
   const { t, translations } = useAsyncTranslation('pricing');
   const navigate = useNavigate();
@@ -246,7 +248,11 @@ const PricingSection: React.FC<PricingSectionProps> = ({
       <div className="relative z-10 pt-4 lg:pt-20 flex flex-col items-center px-4">
         {/* 标题 - 可选 */}
         {showTitle && (
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E6E6E6] mb-4 sm:mb-12 md:mb-16 text-center capitalize">Plans & Pricing</h1>
+          titleH1 ? (
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E6E6E6] mb-4 sm:mb-12 md:mb-16 text-center capitalize">Plans & Pricing</h1>
+          ) : (
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E6E6E6] mb-4 sm:mb-12 md:mb-16 text-center capitalize">Plans & Pricing</h2>
+          )
         )}
 
         {/* 内容容器 */}

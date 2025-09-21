@@ -179,6 +179,7 @@ const HomePage = () => {
         keywords={tCommon('seo.home.keywords')}
         ogTitle={tCommon('seo.home.title')}
         ogDescription={tCommon('seo.home.description')}
+        canonicalUrl={`${window.location.origin}/`}
         noIndex={true}
       />
       <Layout>
@@ -189,12 +190,12 @@ const HomePage = () => {
           <div className="w-full bg-[#030414] pb-12 sm:pb-16 md:pb-20 lg:pb-[5rem] pt-12 sm:pt-16 md:pt-20 lg:pt-[5rem]">
             <div className="container mx-auto px-4 sm:px-6">
               <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-[48px] px-4 sm:px-0 max-w-[1200px] mx-auto">
-                <div className="text-center text-[#E6E6E6] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[46px] font-bold font-inter capitalize break-words">
+                <h2 className="text-center text-[#E6E6E6] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[46px] font-bold font-inter capitalize break-words">
                   Draw inspiration from tattoo designs
-                </div>
-                <div className="max-w-[1100px] mx-auto mt-8 text-center text-[#A5A5A5] text-sm sm:text-base md:text-lg font-inter font-normal break-words">
+                </h2>
+                <h3 className="max-w-[1100px] mx-auto mt-8 text-center text-[#A5A5A5] text-sm sm:text-base md:text-lg font-inter font-normal break-words">
                   Discover what Tattooink.ai can create for you. Each design is uniquely crafted for our users based on their ideas.
-                </div>
+                </h3>
               </div>
               
               <CategoryGrid 
@@ -235,7 +236,7 @@ const HomePage = () => {
               ]}
             />
           </div>
-          <PricingSection showTitle={true} />
+          <PricingSection showTitle={true} titleH1={false}/>
           <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
             <GenerateFAQ 
               faqData={homeFAQData} 

@@ -33,7 +33,7 @@ const HomeTop: React.FC<HomeTopProps> = ({
       {/* Titles Container */}
       <div className="text-center flex flex-col">
         {/* AI Tattoo Generator Title */}
-        <div 
+        <h1 
           className="text-[56px] font-['Roboto'] font-bold capitalize"
           style={{
             background: colors.gradient.primary,
@@ -43,18 +43,18 @@ const HomeTop: React.FC<HomeTopProps> = ({
           }}
         >
           AI Tattoo Generator
-        </div>
+        </h1>
 
         {/* Title */}
-        <div className="text-[#ECECEC] text-[56px] font-['Roboto'] font-bold capitalize leading-tight">
+        <h2 className="text-[#ECECEC] text-[56px] font-['Roboto'] font-bold capitalize leading-tight">
           Create Stunning Tattoos in Seconds
-        </div>
+        </h2>
       </div>
 
       {/* Description */}
-      <div className="text-[#A5A5A5] text-lg font-['Roboto'] font-normal text-center max-w-4xl mb-6">
+      <h3 className="text-[#A5A5A5] text-lg font-['Roboto'] font-normal text-center max-w-4xl mb-6">
         Our AI Tattoo Generator turns your ideas into realistic designs in 10 seconds. Fast, creative, and precise.
-      </div>
+      </h3>
 
       {/* Generator Interface */}
       <GenerateTextarea />

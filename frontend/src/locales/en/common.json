@@ -157,5 +157,10 @@
   },
   "coloringPageTool": {
     "createdBy": "Created By Colorpages"
+  },
+  "tryNow": {
+    "title": "Create Your AI Tattoo Now",
+    "description": "Create your first hyper-realistic tattoo in seconds with no skills needed. Just your idea, our AI Tattoo Generator, and a few clicks.",
+    "tryNow": "Start Creating"
   }
 } 

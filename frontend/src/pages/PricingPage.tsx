@@ -13,6 +13,7 @@ const PricingPage: React.FC = () => {
       <SEOHead
         title={t('seo.title')}
         description={t('seo.description')}
+        canonicalUrl={`${window.location.origin}/pricing`}
       />
       <PricingSection 
         showTitle={true}

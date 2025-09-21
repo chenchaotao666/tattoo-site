@@ -22,7 +22,7 @@ const RefundPolicyPage = () => {
       <SEOHead
         title="Refund Policy | tattooinkai"
         description="Review the official tattooinkai Refund Policy. Understand our terms for digital purchases, how to cancel your subscription, and the specific exceptions for billing errors or technical issues."
-        canonicalUrl="/refund-policy"
+        canonicalUrl={`${window.location.origin}/refund-policy`}
       />
       <Layout>
         <div className="md:max-w-screen-sm lg:max-w-[992px] px-4 sm:px-6 lg:px-8 pb-12 md:pt-6 sm:pb-20 mx-auto">

@@ -556,7 +556,6 @@ export const useGeneratePage = (
       
       // Text to Image: 回填示例图片的信息到界面
       const promptToUse = getLocalizedText(exampleImage.prompt, language) || 
-                         getLocalizedText(exampleImage.title, language) || 
                          getLocalizedText(exampleImage.description, language) || '';
       
       if (!promptToUse.trim()) {

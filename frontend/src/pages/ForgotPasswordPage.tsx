@@ -81,6 +81,7 @@ const ForgotPasswordPage: React.FC = () => {
           keywords="reset password, forgot password, AI coloring pages"
           ogTitle={`${tForms('auth.resetPasswordTitle', 'Reset Password')} - AI Coloring Page Generator`}
           ogDescription="Password reset email sent successfully."
+          canonicalUrl={`${window.location.origin}/forgot-password`}
           noIndex={true}
         />
         <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
@@ -148,6 +149,7 @@ const ForgotPasswordPage: React.FC = () => {
         keywords="reset password, forgot password, AI coloring pages"
         ogTitle={`${tForms('auth.resetPasswordTitle', 'Reset Password')} - AI Coloring Page Generator`}
         ogDescription="Reset your password to regain access to your AI coloring page generator account."
+        canonicalUrl={`${window.location.origin}/forgot-password`}
         noIndex={true}
       />
       <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">

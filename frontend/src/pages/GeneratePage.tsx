@@ -507,6 +507,7 @@ const GeneratePage: React.FC = () => {
         ogTitle={t('seo.generate.title')}
         ogDescription={t('seo.generate.description')}
         noIndex={true}
+        canonicalUrl={`${window.location.origin}/generate`}
       />
 
       <div className="flex flex-col bg-[#030414] relative">
@@ -616,6 +617,7 @@ const GeneratePage: React.FC = () => {
           showTitle={true}
           showFAQ={true}
           showCTA={true}
+          titleH1={false}
         />
       </div>
     )}

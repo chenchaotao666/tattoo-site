@@ -39,14 +39,14 @@ const WhatUserSaying: React.FC<WhatUserSayingProps> = ({ data }) => {
   return (
     <div className="relative w-[1440px] h-[1161px]">
       {/* Title */}
-      <div className="absolute left-[413px] top-0 text-center text-[#ECECEC] text-[46px] font-inter font-bold capitalize break-words">
+      <h2 className="absolute left-[413px] top-0 text-center text-[#ECECEC] text-[46px] font-inter font-bold capitalize break-words">
         {data.title}
-      </div>
+      </h2>
       
       {/* Subtitle */}
-      <div className="absolute w-[900px] left-[270px] top-[72px] text-center text-[#A5A5A5] text-lg font-inter font-normal break-words">
+      <h3 className="absolute w-[900px] left-[270px] top-[72px] text-center text-[#A5A5A5] text-lg font-inter font-normal break-words">
         {data.subtitle}
-      </div>
+      </h3>
       
       {/* Testimonial Columns */}
       {data.testimonials.map((column, columnIndex) => {

@@ -23,12 +23,12 @@ class ImageGenerateService {
         
         // Initialize with default parameters for SDXL Fresh Ink model
         this.defaultParams = {
-            width: 1024,
-            height: 1024,
+            width: 1024,  // 恢复到1024分辨率
+            height: 1024, // 恢复到1024分辨率
             num_outputs: 1,
             scheduler: "K_EULER",
             guidance_scale: 7.5,
-            num_inference_steps: 50,
+            num_inference_steps: 50, // 恢复推理步数
             negative_prompt: "ugly, broken, distorted, blurry, low quality, bad anatomy",
             lora_scale: 0.6,
             refine: "expert_ensemble_refiner",
@@ -99,9 +99,6 @@ class ImageGenerateService {
 
             // 验证参数范围
             this.validateParams(input);
-
-            // 验证用户积分是否足够
-            await this.validateUserCredits(params.userId, input.num_outputs);
 
             // 启动异步生成任务
             const result = await this.startAsyncGeneration(input);
@@ -287,81 +284,6 @@ The design should be professional quality, original, and ready for use as a tatt
         }
     }
 
-    // 验证用户积分是否足够
-    async validateUserCredits(userId, numOutputs) {
-        if (!userId) {
-            throw new Error('User ID is required for credit validation');
-        }
-
-        if (!this.userModel) {
-            throw new Error('User model not provided - cannot validate credits');
-        }
-
-        try {
-            // 查询用户信息
-            const user = await this.userModel.findById(userId);
-            if (!user) {
-                throw new Error('User not found');
-            }
-
-            // 计算所需积分（1个输出图片需要1个积分）
-            const requiredCredits = numOutputs || 1;
-            
-            // 检查用户积分是否足够
-            if (user.credits < requiredCredits) {
-                throw new Error(`Insufficient credits. Required: ${requiredCredits}, Available: ${user.credits}`);
-            }
-
-            console.log(`User ${userId} has sufficient credits: ${user.credits} >= ${requiredCredits}`);
-            return true;
-        } catch (error) {
-            throw new Error(`Credit validation failed: ${error.message}`);
-        }
-    }
-
-    // 扣除用户积分
-    async deductUserCredits(userId, imageCount) {
-        if (!userId || !imageCount) {
-            throw new Error('User ID and image count are required for credit deduction');
-        }
-
-        if (!this.userModel) {
-            throw new Error('User model not provided - cannot deduct credits');
-        }
-
-        try {
-            // 查询用户信息
-            const user = await this.userModel.findById(userId);
-            if (!user) {
-                throw new Error('User not found');
-            }
-
-            // 计算要扣除的积分（每张图片1积分）
-            const creditsToDeduct = imageCount;
-            
-            // 再次检查用户积分是否足够（防止并发问题）
-            if (user.credits < creditsToDeduct) {
-                throw new Error(`Insufficient credits for deduction. Required: ${creditsToDeduct}, Available: ${user.credits}`);
-            }
-
-            // 扣除积分
-            const newCredits = user.credits - creditsToDeduct;
-            await this.userModel.updateById(
-                userId,
-                { credits: newCredits }
-            );
-
-            console.log(`Deducted ${creditsToDeduct} credits from user ${userId}. New balance: ${newCredits}`);
-            return { 
-                deductedCredits: creditsToDeduct, 
-                newBalance: newCredits, 
-                previousBalance: user.credits 
-            };
-        } catch (error) {
-            throw new Error(`Credit deduction failed: ${error.message}`);
-        }
-    }
-
     // 启动异步生成任务
     async startAsyncGeneration(input) {
         try {
@@ -535,7 +457,7 @@ The design should be professional quality, original, and ready for use as a tatt
         }
     }
 
-    // 完成异步生成任务的后处理（下载保存）
+    // 完成异步生成任务的后处理（只返回生成信息，不下载保存）
     async completeGeneration(predictionId, originalParams = {}) {
         try {
             // 获取生成状态
@@ -552,26 +474,20 @@ The design should be professional quality, original, and ready for use as a tatt
 
             // 生成批次ID（如果没有提供）
             const batchId = originalParams.batchId || this.generateId();
+            
+            // 只返回生成信息，不执行下载和保存操作
+            const generationResult = {
+                predictionId: prediction.id,
+                batchId: batchId,
+                imageUrls: prediction.output, // 直接返回Replicate的图片URL
+                status: prediction.status,
+                input: prediction.input,
+                created_at: prediction.created_at,
+                completed_at: prediction.completed_at,
+                originalParams: originalParams
+            };
 
-            // 下载并保存生成的图片
-            const savedImages = await this.downloadAndSaveImages(prediction.output, prediction.id, batchId);
-            
-            // 更新结果，包含本地文件路径和批次ID
-            prediction.localImages = savedImages;
-            prediction.batchId = batchId;
-            
-            // 保存到数据库
-            let savedToDb = null;
-            if (this.imageModel && savedImages.length > 0) {
-                savedToDb = await this.saveToDatabase(savedImages, { ...originalParams, batchId });
-            }
-
-            // 扣除用户积分（根据成功生成的图片数量）
-            if (originalParams.userId && savedImages.length > 0) {
-                await this.deductUserCredits(originalParams.userId, savedImages.length);
-            }
-            
-            return this.formatResponse(true, { localImages: savedToDb }, 'Generation completed and saved successfully');
+            return this.formatResponse(true, generationResult, 'Generation completed successfully');
         } catch (error) {
             throw new Error(`Complete generation failed: ${error.message}`);
         }
@@ -648,7 +564,7 @@ The design should be professional quality, original, and ready for use as a tatt
             throw new Error('No image URLs provided');
         }
 
-        const generatedDir = process.env.GENERATED_IMAGES_DIR || 'site';
+        const generatedDir = process.env.GENERATED_IMAGES_DIR || 'generated';
 
         if (!this.minioClient) {
             throw new Error('MinIO client not initialized');
@@ -670,9 +586,12 @@ The design should be professional quality, original, and ready for use as a tatt
         for (let i = 0; i < imageUrls.length; i++) {
             const imageUrl = imageUrls[i];
 
+            // 从URL提取原始文件名或使用默认名称
+            const originalName = FileUtils.extractFilenameFromUrl(imageUrl);
+
             // 使用共用的文件名生成方法
             let filename = `${generatedDir}/${FileUtils.generateFilename(
-                'tattoo',
+                originalName,
                 slug, // 传递slug
                 nameEn, // 传递nameEn
                 'generated'
@@ -763,7 +682,7 @@ The design should be professional quality, original, and ready for use as a tatt
     }
 
     // 保存生成结果到数据库
-    async saveToDatabase(savedImages, originalParams) {
+    async saveToDatabase(generationResult, savedImages, originalParams) {
         if (!this.imageModel) {
             throw new Error('Image model not provided - cannot save to database');
         }
@@ -779,12 +698,11 @@ The design should be professional quality, original, and ready for use as a tatt
             }
 
             try {
-                const id = this.generateId();
                 // 构建数据库记录数据
                 const imageData = {
-                    id: id,
+                    id: this.generateId(),
                     name: null,
-                    slug: `generated-tattoo-${id}-${i}`,
+                    slug: `${generatedDir}-tattoo-${generationResult.id}-${i}`,
                     tattooUrl: savedImage.minioPath || savedImage.relativePath, // 使用MinIO路径或相对路径
                     scourceUrl: savedImage.originalUrl, // 原始Replicate URL
                     title: null,

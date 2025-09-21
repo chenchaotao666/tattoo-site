@@ -18,19 +18,20 @@ const TryNow: React.FC<TryNowProps> = ({
   onButtonClick
 }) => {
   return (
-    <div className={`w-full py-12 lg:py-16 sm:py-20 lg:py-24 bg-[#030414] bg-cover bg-center bg-no-repeat relative ${className}`} style={{backgroundImage: 'url(/images/try-now/try-now-bg.png)'}}>
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 w-full h-full" style={{background: 'linear-gradient(180deg, rgba(3, 4, 20, 0.60) 0%, rgba(0, 0, 0, 0.40) 100%)'}}></div>
-      
-      <div className="w-full flex justify-center items-center px-4 sm:px-6 relative z-10">
-        <div className="w-full max-w-[1200px] flex flex-col justify-start items-center gap-4 sm:gap-6">
+    <div className={`w-full flex justify-center ${className}`}>
+      <div className="w-[1440px] mx-4 sm:mx-6 bg-cover bg-center bg-no-repeat relative rounded-lg overflow-hidden" style={{backgroundImage: 'url(/images/try-now/try-now-bg.png)'}}>
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 w-full h-full" style={{background: 'linear-gradient(180deg, rgba(3, 4, 20, 0.60) 0%, rgba(0, 0, 0, 0.40) 100%)'}}></div>
+
+        <div className="w-full flex justify-center items-center px-4 sm:px-6 py-12 lg:py-16 relative z-10">
+          <div className="w-full flex flex-col justify-start items-center gap-4 sm:gap-6">
           <h2 className="text-center text-[#ECECEC] text-2xl sm:text-3xl md:text-4xl lg:text-[56px] font-bold leading-tight sm:leading-[1.25] lg:leading-[67.2px] px-4 sm:px-0 capitalize">
             {title}
           </h2>
           
-          <p className="w-full text-center text-[#ECECEC] text-lg leading-6 px-4 sm:px-0">
+          <h3 className="w-full text-center text-[#ECECEC] text-lg leading-6 px-4 sm:px-0">
             {description}
-          </p>
+          </h3>
           
           {onButtonClick ? (
             <button
@@ -56,6 +57,7 @@ const TryNow: React.FC<TryNowProps> = ({
               </button>
             </Link>
           )}
+          </div>
         </div>
       </div>
     </div>

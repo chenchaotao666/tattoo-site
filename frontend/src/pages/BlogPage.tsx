@@ -8,7 +8,7 @@ import { PostsService, Post } from '../services/postsService';
 import { createLanguageAwarePath } from '../utils/navigationUtils';
 import { getLocalizedText } from '../utils/textUtils';
 import { useLoading } from '../contexts/LoadingContext';
-
+import TryNow from '../components/common/TryNow';
 
 
 const ITEMS_PER_PAGE = 20; // 临时设置为20，便于测试分页功能
@@ -126,6 +126,7 @@ const BlogPage = () => {
         keywords={t('blog.seo.keywords')}
         ogTitle={t('blog.seo.title')}
         ogDescription={t('blog.seo.description')}
+        canonicalUrl={`${window.location.origin}/blog`}
       />
       
       <div className="min-h-screen bg-[#030414]">
@@ -261,7 +262,16 @@ const BlogPage = () => {
           </section>
         </div>
       </div>
-      
+
+      <div className="pt-20">
+        {/* TryNow component */}
+        <TryNow
+          title={t('tryNow.title')}
+          description={t('tryNow.description')}
+          buttonText={t('tryNow.tryNow')}
+          buttonLink="/create"
+        />
+      </div>
       <BackToTop />
     </Layout>
   );

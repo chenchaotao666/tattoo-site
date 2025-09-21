@@ -14,6 +14,7 @@ import { getImageNameById, updateImageMappings } from '../utils/imageUtils';
 import { navigateWithLanguage } from '../utils/navigationUtils';
 import SEOHead from '../components/common/SEOHead';
 import ImageGrid from '../components/iamges/ImageGrid';
+import GenerateTextarea from '../components/common/GenerateTextarea';
 
 
 const CategoriesDetailPage: React.FC = () => {
@@ -222,14 +223,15 @@ const CategoriesDetailPage: React.FC = () => {
   return (
     <Layout>
       <SEOHead
-        title={category ? `${categoryImages.length} ${getLocalizedText(category.seoTitle || category.name, language)}` : 'Category - Free Coloring Pages'}
-        description={category ? getLocalizedText(category.seoDesc || `Download free printable ${getLocalizedText(category.name, language).toLowerCase()} coloring pages. High-quality PDF and PNG formats available instantly.`, language) : 'Browse free printable coloring pages by category.'}
-        keywords={category ? `${getLocalizedText(category.name, language).toLowerCase()} coloring pages, free printable coloring pages, ${getLocalizedText(category.name, language).toLowerCase()} coloring sheets` : 'coloring pages, printable coloring pages'}
-        ogTitle={category ? `${categoryImages.length} ${getLocalizedText(category.seoTitle || category.name, language)}` : 'Category - Free Coloring Pages'}
-        ogDescription={category ? getLocalizedText(category.seoDesc || `Download free printable ${getLocalizedText(category.name, language).toLowerCase()} coloring pages. High-quality PDF and PNG formats available instantly.`, language) : 'Browse free printable coloring pages by category.'}
+        title={category ? `${categoryImages.length} ${getLocalizedText(category.seoTitle || category.name, 'en')}` : 'Category - Free Coloring Pages'}
+        description={category ? getLocalizedText(category.seoDesc || `Download free printable ${getLocalizedText(category.name, 'en').toLowerCase()} coloring pages. High-quality PDF and PNG formats available instantly.`, 'en') : 'Browse free printable coloring pages by category.'}
+        keywords={category ? `${getLocalizedText(category.name, 'en').toLowerCase()} coloring pages, free printable coloring pages, ${getLocalizedText(category.name, 'en').toLowerCase()} coloring sheets` : 'coloring pages, printable coloring pages'}
+        ogTitle={category ? `${categoryImages.length} ${getLocalizedText(category.seoTitle || category.name, 'en')}` : 'Category - Free Coloring Pages'}
+        ogDescription={category ? getLocalizedText(category.seoDesc || `Download free printable ${getLocalizedText(category.name, 'en').toLowerCase()} coloring pages. High-quality PDF and PNG formats available instantly.`, 'en') : 'Browse free printable coloring pages by category.'}
+        canonicalUrl={category ? `${window.location.origin}/categories/${category.slug || category.id}` : `${window.location.origin}${window.location.pathname}`}
         noIndex={true}
       />
-      <div className="w-full bg-[#030414] pb-4 md:pb-20 relative">
+      <div className="w-full bg-[#030414] relative">
         {/* Breadcrumb - 始终显示 */}
         <div>
           <Breadcrumb items={getBreadcrumbPathEarly()} />
@@ -241,14 +243,14 @@ const CategoriesDetailPage: React.FC = () => {
             <h1 className="font-bold text-white text-center text-[42px] mb-4">
               {getLocalizedText(category.name, language)}
             </h1>
-            <p className="text-gray-300 text-center mb-8">
+            <h2 className="text-gray-300 text-center mb-8">
               {getLocalizedText(category.description || category.name, language)}
-            </p>
+            </h2>
           </div>
         )}
 
         {/* Images Grid */}
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 pb-20">
           <ImageGrid
             images={filteredImages}
             isLoading={isImagesLoading}
@@ -268,6 +270,24 @@ const CategoriesDetailPage: React.FC = () => {
               });
             }}
           />
+        </div>
+
+        {/* Generate Section */}
+        <div className="container mx-auto px-4 mb-20 mt-20">
+          {/* Title */}
+          <div className="w-full text-center mb-12">
+            <h2 className="text-[#ECECEC] text-[46px] font-['Inter'] font-bold capitalize leading-none">
+              Try creating your own tattoo
+            </h2>
+          </div>
+          
+          {/* Generate Textarea */}
+          <div className="flex justify-center">
+            <GenerateTextarea 
+              showBorderGradient={false}
+              showDescriptionLabel={false}
+            />
+          </div>
         </div>
       </div>
     </Layout>

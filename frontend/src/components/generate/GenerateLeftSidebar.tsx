@@ -6,6 +6,7 @@ import { Style } from '../../hooks/useGeneratePage';
 import Tooltip from '../ui/Tooltip';
 import StyleSelector from './StyleSelector';
 import { colors } from '../../styles/colors';
+import { UrlUtils } from '../../utils/urlUtils';
 
 // 图标路径定义
 const refreshIcon = '/images/generate/refresh-ideas.png';
@@ -179,7 +180,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
               <div className="w-[46px] h-[46px] bg-[#393B42] rounded-lg flex items-center justify-center flex-shrink-0 relative">
                 {selectedStyle ? (
                   <img 
-                    src={selectedStyle.imageUrl || "https://placehold.co/46x46"} 
+                    src={UrlUtils.ensureAbsoluteUrl(selectedStyle.imageUrl) || "https://placehold.co/46x46"} 
                     alt="Style" 
                     className="w-[46px] h-[46px] object-cover rounded-lg" 
                   />

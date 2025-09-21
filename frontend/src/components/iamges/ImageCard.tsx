@@ -16,7 +16,7 @@ const ImageCard: React.FC<ImageCardProps> = ({
 }) => {
   const { language } = useLanguage();
   const imageUrl = image.tattooUrl || 'https://placehold.co/278x278';
-  const prompt = getLocalizedText(image.prompt, language);
+  const prompt = getLocalizedText(image.prompt || image.description, language);
   const tags = image.tags || [];
   return (
     <div 
@@ -41,9 +41,9 @@ const ImageCard: React.FC<ImageCardProps> = ({
       {showPrompt && (
         <div className="px-4 py-5 flex-1">
           {/* prompt */}
-          <div className="text-[#ECECEC] text-sm font-normal leading-5 break-words mb-4">
+          <h3 className="text-[#ECECEC] text-sm font-normal leading-5 break-words mb-4">
             {prompt}
-          </div>
+          </h3>
           
           {/* Tags */}
           <div className="flex flex-wrap gap-2 items-center">

@@ -10,7 +10,7 @@ import { createLanguageAwarePath, navigateWithLanguage } from '../utils/navigati
 import { getLocalizedText } from '../utils/textUtils';
 import { useLoading } from '../contexts/LoadingContext';
 import { UrlUtils } from '../utils/urlUtils';
-
+import TryNow from '../components/common/TryNow';
 
 const BlogDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -76,17 +76,18 @@ const BlogDetailPage = () => {
         const currentTitle = getLocalizedContent(article.title);
         const currentContent = getLocalizedContent(article.content);
         const currentExcerpt = getLocalizedContentOptional(article.excerpt);
-        const currentMetaTitle = getLocalizedContentOptional(article.meta_title);
-        const currentMetaDescription = getLocalizedContentOptional(article.meta_description);
+        const currentMetaTitle = getLocalizedContentOptional(article.metaTitle);
+        const currentMetaDescription = getLocalizedContentOptional(article.metaDesc);
 
         return (<>
           <SEOHead
             title={currentMetaTitle || currentTitle}
             description={currentMetaDescription || currentExcerpt || ''}
-            keywords="AI music, blog, tutorial"
+            keywords="tattoo ideas, AI tattoo designs, tattoo inspiration, tattoo styles, tattoo tips"
             ogTitle={currentMetaTitle || currentTitle}
             ogDescription={currentMetaDescription || currentExcerpt || ''}
             ogImage={article.featuredImageUrl}
+            canonicalUrl={`${window.location.origin}/blog/${article.slug}`}
           />
 
           <div className="min-h-screen bg-[#030414]">
@@ -150,18 +151,25 @@ const BlogDetailPage = () => {
               {/* Back to Blog */}
               <div className="flex justify-center">
                 <button
-                  className="h-[60px] px-[70px] pr-3 bg-white rounded-lg flex justify-center items-center gap-10 hover:bg-gray-300 transition-colors duration-200"
+                  className="h-[60px] px-[50px] bg-white rounded-lg flex justify-center items-center gap-10 hover:bg-gray-300 transition-colors duration-200"
                   onClick={() => navigateWithLanguage(navigate, '/blog')}
                 >
                   <div className="text-black text-xl font-bold">
                     {t('blog.backToBlog')}
                   </div>
-                  <div className="w-9 h-9 bg-[#030414] rounded-full flex items-center justify-center">
-                    <img src="/images/try-now/right-arrow.png" alt="Right arrow" className="w-6 h-6" />
-                  </div>
                 </button>
               </div>
             </div>
+          </div>
+
+          <div className="pt-20">
+            {/* TryNow component */}
+            <TryNow
+              title={t('tryNow.title')}
+              description={t('tryNow.description')}
+              buttonText={t('tryNow.tryNow')}
+              buttonLink="/create"
+            />
           </div>
 
           <BackToTop />

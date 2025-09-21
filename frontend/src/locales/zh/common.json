@@ -157,5 +157,10 @@
   },
   "coloringPageTool": {
     "createdBy": "由 Colorpages 创建"
+  },
+  "tryNow": {
+    "title": "立即创建您的AI纹身",
+    "description": "无需技能，几秒钟即可创建您的第一个超写实纹身。只需您的想法、我们的AI纹身生成器，以及几次点击。",
+    "tryNow": "开始创作"
   }
 } 

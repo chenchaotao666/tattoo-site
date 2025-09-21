@@ -14,7 +14,7 @@ interface HowToCreateProps {
 const HowToCreate: React.FC<HowToCreateProps> = ({ title, steps }) => {
   return (
     <div style={{ width: '1170px', minHeight: '367px', position: 'relative', borderRadius: '16px' }}>
-      <div style={{
+      <h2 style={{
         left: '289px',
         top: '0px',
         position: 'absolute',
@@ -27,7 +27,7 @@ const HowToCreate: React.FC<HowToCreateProps> = ({ title, steps }) => {
         wordWrap: 'break-word'
       }}>
         {title}
-      </div>
+      </h2>
       
       <div style={{
         display: 'flex',
@@ -77,7 +77,7 @@ const HowToCreate: React.FC<HowToCreateProps> = ({ title, steps }) => {
               }}>
                 {step.step}
               </div>
-              <div style={{
+              <h3 style={{
                 alignSelf: 'stretch',
                 color: 'var(--white-200, #ECECEC)',
                 fontSize: '20px',
@@ -88,7 +88,7 @@ const HowToCreate: React.FC<HowToCreateProps> = ({ title, steps }) => {
                 whiteSpace: 'normal'
               }}>
                 {step.title}
-              </div>
+              </h3>
             </div>
             <div style={{
               alignSelf: 'stretch',

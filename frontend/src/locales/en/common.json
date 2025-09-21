@@ -30,34 +30,34 @@
   },
   "seo": {
     "home": {
-      "title": "AI Coloring Pages - Free Printable Generator",
-      "description": "Create unlimited free AI-generated coloring pages instantly! Convert text or images to printable coloring pages. Perfect for kids, parents, and teachers. Print PDF & PNG formats.",
-      "keywords": "AI coloring pages, free coloring pages, printable coloring pages, coloring book generator, kids coloring pages, custom coloring pages, AI art generator"
+      "title": "AI Tattoo Generator | Create Realistic Tattoos with AR Preview",
+      "description": "Turn your tattoo idea into a hyper-realistic design in seconds. Our AI tool offers endless styles and lets you preview it on your skin with AR, so you can commit with 100% confidence. Try it now for free!",
+      "keywords": "AI tattoo generator, realistic tattoo maker, AR tattoo preview, custom tattoo designs, free tattoo"
     },
     "generate": {
-      "title": "AI Coloring Generator - Text & Image to Coloring Page",
-      "description": "Generate unique coloring pages with AI! Transform text prompts or upload images to create personalized coloring pages. Fast, free, and printable in high quality.",
-      "keywords": "AI coloring generator, text to coloring page, image to coloring page, custom coloring pages, AI art generator, printable coloring pages"
+      "title": "Free AI Tattoo Generator: Custom Designs, Styles & AR Preview",
+      "description": "See how to create your perfect tattoo in 3 simple steps. Our AI tool lets you generate unlimited designs, customize endless styles, and preview it on your skin before you commit. Get your high-res tattoo design ready for your artist.",
+      "keywords": "free AI tattoo generator, custom tattoo designs, unlimited tattoo designs, high resolution"
     },
     "categories": {
-      "title": "Free Coloring Categories - Disney, Animals & More",
-      "description": "Browse our collection of free printable coloring pages by category. Disney characters, animals, superheroes, and more. Download PDF and PNG formats instantly.",
-      "keywords": "coloring page categories, Disney coloring pages, animal coloring pages, character coloring pages, free printable coloring pages"
+      "title": "AI Tattoo Ideas & Styles | Explore 100s of Unique Designs",
+      "description": "Find your next tattoo inspiration in our AI-generated gallery. Browse hundreds of designs across styles like Japanese, Minimalist, Watercolor, and Tribal. See an idea you love? Customize it instantly with our AI Tattoo Generator. Discover your perfect style today!",
+      "keywords": "tattoo ideas, tattoo styles, Japanese tattoos, minimalist tattoos, watercolor tattoos"
     },
     "creations": {
-      "title": "AI Coloring Gallery - User Creations & Inspiration",
-      "description": "Explore amazing AI-generated coloring pages created by our community. Get inspired and discover new ideas for your next coloring project.",
-      "keywords": "AI coloring gallery, user creations, coloring page inspiration, AI-generated art, community coloring pages"
+      "title": "AI Tattoo Gallery - User Creations & Inspiration",
+      "description": "Explore amazing AI-generated tattoos created by our community. Get inspired and discover new ideas for your next tattoo project.",
+      "keywords": "AI tattoo gallery, user tattoo creations, tattoo inspiration, community tattoo designs"
     },
     "pricing": {
-      "title": "Pricing Plans - Premium AI Coloring Features",
-      "description": "Choose the perfect plan for unlimited AI coloring page generation. Free trial available with premium features for unlimited creativity.",
-      "keywords": "coloring page pricing, AI generator subscription, premium coloring features, unlimited coloring pages"
+      "title": "AI Tattoo Generator Pricing | Flexible Plans & Full Access",
+      "description": "Find the perfect plan for our AI Tattoo Generator. Get unlimited designs, high-resolution downloads, and full access starting at just $12.99. Choose your plan and start creating today!",
+      "keywords": "tattoo generator pricing, AI tattoo subscription, premium tattoo features, unlimited"
     },
     "profile": {
       "title": "Profile - Account Management",
       "description": "Manage your account information and settings. Update username, password, avatar and other personal information.",
-      "keywords": "profile, account management, user settings, password change, avatar upload"
+      "keywords": "profile management, account settings, user profile, password change, avatar upload"
     }
   },
   "status": {
@@ -150,12 +150,17 @@
     "errorLoading": "Error loading article",
     "errorMessage": "Failed to load the article. Please try again.",
     "seo": {
-      "title": "Blog - AI Coloring Pages",
-      "description": "Discover the latest insights, tips, and tutorials about AI coloring pages, digital art, and creative technology.",
-      "keywords": "blog, AI coloring pages, digital art, tutorials, tips"
+      "title": "AI Tattoo Ideas & Inspiration Blog | Tattooinkai",
+      "description": "Your ultimate source for tattoo inspiration. Explore hundreds of AI-generated designs, read guides on every style, and get expert tips for your next piece of art. Find your perfect idea with Tattooinkai!",
+      "keywords": "tattoo ideas blog, tattoo inspiration, AI tattoo designs, tattoo style guides, expert tattoo tips"
     }
   },
   "coloringPageTool": {
     "createdBy": "Created By Colorpages"
+  },
+  "tryNow": {
+    "title": "Create Your AI Tattoo Now",
+    "description": "Create your first hyper-realistic tattoo in seconds with no skills needed. Just your idea, our AI Tattoo Generator, and a few clicks.",
+    "tryNow": "Start Creating"
   }
 } 

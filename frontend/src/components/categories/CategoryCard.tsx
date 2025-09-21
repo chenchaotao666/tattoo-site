@@ -139,9 +139,9 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
       
       {/* 标题 */}
       {showNameAndButton && (
-        <div className="w-[246px] absolute left-4 top-[294px] text-base font-bold leading-5 break-words" style={{ color: colors.text.secondary }}>
+        <h3 className="w-[246px] absolute left-4 top-[294px] text-base font-bold leading-5 break-words" style={{ color: colors.text.secondary }}>
           {getLocalizedText(category.name, language)}
-        </div>
+        </h3>
       )}
       
       {/* 底部按钮区域 */}

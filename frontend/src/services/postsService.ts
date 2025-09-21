@@ -9,11 +9,11 @@ export interface Post {
   author: string;
   publishedAt: string;
   status: 'draft' | 'published' | 'archived';
-  featured_image: string;
+  featuredImageUrl: string;
   excerpt: LocalizedText;
   content: LocalizedText;
-  meta_title: LocalizedText;
-  meta_description: LocalizedText;
+  metaTitle: LocalizedText;
+  metaDesc: LocalizedText;
   createdAt: string;
   updatedAt: string;
 }

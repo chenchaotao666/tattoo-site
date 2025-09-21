@@ -8,8 +8,8 @@ export class UrlUtils {
    * @param url 原始URL（可能是相对路径）
    * @returns 处理后的绝对URL
    */
-  static ensureAbsoluteUrl(url: string): string {
-    if (!url) return url;
+  static ensureAbsoluteUrl(url: string | undefined): string {
+    if (!url) return '';
     
     // 如果已经是完整URL，直接返回
     if (url.startsWith('http://') || url.startsWith('https://')) {

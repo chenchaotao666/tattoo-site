@@ -27,14 +27,14 @@ const CreateOnGo: React.FC<CreateOnGoProps> = ({ data }) => {
   return (
     <div className="relative w-[1099px] h-[1057px]">
       {/* Main Title */}
-      <div className="absolute left-[308px] top-[-8px] text-center text-[#ECECEC] text-[56px] font-inter font-bold capitalize break-words">
+      <h2 className="absolute left-[308px] top-[-8px] text-center text-[#ECECEC] text-[56px] font-inter font-bold capitalize break-words">
         {data.title}
-      </div>
+      </h2>
       
       {/* Description */}
-      <div className="absolute w-[888px] left-[106px] top-20 text-center text-[#A5A5A5] text-lg font-inter font-medium break-words">
+      <h3 className="absolute w-[888px] left-[106px] top-20 text-center text-[#A5A5A5] text-lg font-inter font-medium break-words">
         {data.description}
-      </div>
+      </h3>
       
       {/* App Store Button */}
       <div className="absolute w-[212px] h-[60px] left-[330px] top-[164px] px-4 py-2 rounded-lg border border-[#5D5D5D] flex flex-col justify-start items-center gap-2.5">
@@ -78,7 +78,7 @@ const CreateOnGo: React.FC<CreateOnGoProps> = ({ data }) => {
               </div>
             </div>
             <div className="self-stretch flex flex-col justify-start items-center gap-3">
-              <div className="self-stretch text-center text-[#ECECEC] text-xl font-inter font-bold break-words">{feature.title}</div>
+              <h3 className="self-stretch text-center text-[#ECECEC] text-xl font-inter font-bold break-words">{feature.title}</h3>
               <div className="self-stretch text-center text-[#A5A5A5] text-base font-inter font-normal leading-6 break-words">{feature.description}</div>
             </div>
           </div>

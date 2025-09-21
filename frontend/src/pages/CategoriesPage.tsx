@@ -44,6 +44,7 @@ const CategoriesPage: React.FC = () => {
         keywords={tCommon('seo.categories.keywords')}
         ogTitle={tCommon('seo.categories.title')}
         ogDescription={tCommon('seo.categories.description')}
+        canonicalUrl={`${window.location.origin}/categories`}
         noIndex={true}
       />
       <div className="w-full bg-[#030414]">

@@ -10,6 +10,7 @@ import DeleteImageConfirmDialog from '../components/ui/DeleteImageConfirmDialog'
 import BackToTop from '../components/common/BackToTop';
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
+import TryNow from '../components/common/TryNow';
 
 // 图标导入
 const noResultIcon = '/images/no-data.svg';
@@ -202,21 +203,22 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
   return (
     <Layout>
       <SEOHead
-        title={tCommon('seo.creations.title', 'AI-Generated Coloring Pages Gallery - User Creations & Inspiration')}
-        description={tCommon('seo.creations.description', 'Explore amazing AI-generated coloring pages created by our community. Get inspired and discover new ideas for your next coloring project.')}
-        keywords={tCommon('seo.creations.keywords', 'AI coloring gallery, user creations, coloring page inspiration, AI-generated art, community coloring pages')}
-        ogTitle={tCommon('seo.creations.title', 'AI-Generated Coloring Pages Gallery - User Creations & Inspiration')}
-        ogDescription={tCommon('seo.creations.description', 'Explore amazing AI-generated coloring pages created by our community. Get inspired and discover new ideas for your next coloring project.')}
+        title={tCommon('seo.creations.title')}
+        description={tCommon('seo.creations.description')}
+        keywords={tCommon('seo.creations.keywords')}
+        ogTitle={tCommon('seo.creations.title')}
+        ogDescription={tCommon('seo.creations.description')}
         noIndex={true}
+        canonicalUrl={`${window.location.origin}/creations`}
       />
       <div className="min-h-screen bg-[#030414]">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 py-10">
           {/* 页面标题 */}
           <div className="mb-8">
             <div className="mx-auto" style={{ width: '1184px' }}>
-              <div style={{ color: '#ECECEC', fontSize: '20px', fontFamily: 'Inter', fontWeight: 700, wordWrap: 'break-word', textAlign: 'left' }}>
+              <h1 style={{ color: '#ECECEC', fontSize: '20px', fontFamily: 'Inter', fontWeight: 700, wordWrap: 'break-word', textAlign: 'left' }}>
                 My creations
-              </div>
+              </h1>
             </div>
           </div>
 
@@ -240,6 +242,16 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
             </div>
           )}
         </div>
+      </div>
+
+      <div className="pt-20">
+        {/* TryNow component */}
+        <TryNow
+          title={tCommon('tryNow.title')}
+          description={tCommon('tryNow.description')}
+          buttonText={tCommon('tryNow.tryNow')}
+          buttonLink="/create"
+        />
       </div>
 
       {/* 删除确认对话框 */}

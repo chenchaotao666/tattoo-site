@@ -92,9 +92,9 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
             {/* Section 1 Text: Turn Your Creative into Stunning Tattoo Art */}
             <div style={{ width: '420px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '40px', display: 'flex' }}>
               <div style={{ alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '12px', display: 'flex' }}>
-                <div style={{ alignSelf: 'stretch', color: '#ECECEC', fontSize: '36px', fontFamily: 'Inter', fontWeight: '700', wordWrap: 'break-word' }}>
+                <h2 style={{ alignSelf: 'stretch', color: '#ECECEC', fontSize: '36px', fontFamily: 'Inter', fontWeight: '700', wordWrap: 'break-word' }}>
                   {data.sections[0]?.title}
-                </div>
+                </h2>
                 <div style={{ alignSelf: 'stretch', color: '#A5A5A5', fontSize: '18px', fontFamily: 'Inter', fontWeight: '500', lineHeight: '26px', wordWrap: 'break-word' }}>
                   {data.sections[0]?.description}
                 </div>
@@ -141,9 +141,9 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
             {/* Section 2 Text: Endless Tattoo Styles */}
             <div style={{ width: '420px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '40px', display: 'flex' }}>
               <div style={{ alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '12px', display: 'flex' }}>
-                <div style={{ alignSelf: 'stretch', color: '#ECECEC', fontSize: '36px', fontFamily: 'Inter', fontWeight: '700', wordWrap: 'break-word' }}>
+                <h2 style={{ alignSelf: 'stretch', color: '#ECECEC', fontSize: '36px', fontFamily: 'Inter', fontWeight: '700', wordWrap: 'break-word' }}>
                   {data.sections[1]?.title}
-                </div>
+                </h2>
                 <div style={{ alignSelf: 'stretch', color: '#A5A5A5', fontSize: '18px', fontFamily: 'Inter', fontWeight: '500', lineHeight: '26px', wordWrap: 'break-word' }}>
                   {data.sections[1]?.description}
                 </div>
@@ -167,9 +167,9 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
             {/* Section 3 Text: Made to Share */}
             <div style={{ width: '420px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '40px', display: 'flex' }}>
               <div style={{ alignSelf: 'stretch', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '12px', display: 'flex' }}>
-                <div style={{ alignSelf: 'stretch', color: '#ECECEC', fontSize: '36px', fontFamily: 'Inter', fontWeight: '700', wordWrap: 'break-word' }}>
+                <h2 style={{ alignSelf: 'stretch', color: '#ECECEC', fontSize: '36px', fontFamily: 'Inter', fontWeight: '700', wordWrap: 'break-word' }}>
                   {data.sections[2]?.title}
-                </div>
+                </h2>
                 <div style={{ alignSelf: 'stretch', color: '#A5A5A5', fontSize: '18px', fontFamily: 'Inter', fontWeight: '500', lineHeight: '26px', wordWrap: 'break-word' }}>
                   {data.sections[2]?.description}
                 </div>

@@ -369,9 +369,10 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Layout>
-      <SEOHead 
-        title={tCommon('seo.profile.title')} 
-        description={tCommon('seo.profile.description')} 
+      <SEOHead
+        title={tCommon('seo.profile.title')}
+        description={tCommon('seo.profile.description')}
+        canonicalUrl={`${window.location.origin}/profile`}
       />
       <div className="min-h-screen bg-gray-50">
         <div className="max-w-screen-xl px-4 pt-6 pb-10 mx-auto">
@@ -405,7 +406,7 @@ const ProfilePage: React.FC = () => {
                   </button>
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-gray-900">{user?.username}</h3>
+                  <h2 className="text-xl font-semibold text-gray-900">{user?.username}</h2>
                   <p className="text-gray-600">{user?.email}</p>
                   <div className="flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-lg mt-2 inline-flex" style={{backgroundColor: '#F9FAFB'}}>
                     <img src="/images/credits.svg" alt={t('credits')} className="w-4 h-4" />
@@ -446,7 +447,7 @@ const ProfilePage: React.FC = () => {
         {/* 订单记录 */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">{t('sections.orderHistory')}</h3>
+            <h1 className="text-lg font-semibold text-gray-900">{t('sections.orderHistory')}</h1>
           </div>
           <div className="px-6 py-4">
             {isLoadingOrders ? null : (
@@ -523,7 +524,7 @@ const ProfilePage: React.FC = () => {
         {/* 基本信息和密码修改 */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">{t('sections.basicInfo')}</h3>
+            <h2 className="text-lg font-semibold text-gray-900">{t('sections.basicInfo')}</h2>
           </div>
           <form onSubmit={handleSubmit} className="px-6 py-6 space-y-6">
             {successMessage && (
@@ -545,9 +546,9 @@ const ProfilePage: React.FC = () => {
             )}
             {/* 用户名 */}
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              <h3 htmlFor="username" className="block text-sm font-medium text-gray-700">
                 {t('fields.username')}
-              </label>
+              </h3>
               <div className="mt-1">
                 <input
                   id="username"
@@ -569,9 +570,9 @@ const ProfilePage: React.FC = () => {
 
             {/* 邮箱（只读） */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <h3 htmlFor="email" className="block text-sm font-medium text-gray-700">
                 {t('fields.email')}
-              </label>
+              </h3>
               <div className="mt-1">
                 <input
                   id="email"

@@ -3,6 +3,7 @@ import { useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import { Style } from '../../hooks/useGeneratePage';
 import { colors } from '../../styles/colors';
+import { UrlUtils } from '../../utils/urlUtils';
 
 interface StyleSelectorProps {
   styles: Style[];
@@ -120,10 +121,10 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({
                 }}
                 onClick={() => onStyleSelect(style)}
               >
-                <img 
-                  className="w-[200px] h-[200px] absolute left-0 top-0 object-cover" 
+                <img
+                  className="w-[200px] h-[200px] absolute left-0 top-0 object-cover"
                   style={{ borderRadius: '12px 12px 0 0' }}
-                  src={style.imageUrl || "https://placehold.co/200x200"} 
+                  src={style.imageUrl ? UrlUtils.ensureAbsoluteUrl(style.imageUrl) : ''}
                   alt={getLocalizedText(style.name, language)}
                 />
                 <div className="absolute left-[50%] transform -translate-x-1/2 top-[212px] text-center text-[#ECECEC] text-sm font-medium whitespace-nowrap">

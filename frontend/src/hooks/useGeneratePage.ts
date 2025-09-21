@@ -496,9 +496,6 @@ export const useGeneratePage = (
       const { default: stylesService } = await import('../services/stylesService');
       const apiStyles = await stylesService.getAll();
       
-      // Debug logging for loaded styles
-      console.log('🔍 Debug - API styles loaded:', apiStyles);
-      
       // 将API数据转换为本地Style接口格式
       const styles: Style[] = apiStyles.map(apiStyle => {
         // 确保title和prompt字段正确转换

@@ -4,14 +4,13 @@ import Layout from '../components/layout/Layout';
 import SEOHead from '../components/common/SEOHead';
 import BackToTop from '../components/common/BackToTop';
 import Breadcrumb from '../components/common/Breadcrumb';
-import BaseButton from '../components/ui/BaseButton';
 import { useAsyncTranslation, useLanguage } from '../contexts/LanguageContext';
 import { PostsService, Post } from '../services/postsService';
 import { createLanguageAwarePath, navigateWithLanguage } from '../utils/navigationUtils';
 import { getLocalizedText } from '../utils/textUtils';
 import { useLoading } from '../contexts/LoadingContext';
+import { UrlUtils } from '../utils/urlUtils';
 
-const arrowRightIcon = '/images/arrow-right-outline.svg';
 
 const BlogDetailPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -87,7 +86,7 @@ const BlogDetailPage = () => {
             keywords="AI music, blog, tutorial"
             ogTitle={currentMetaTitle || currentTitle}
             ogDescription={currentMetaDescription || currentExcerpt || ''}
-            ogImage={article.featured_image}
+            ogImage={article.featuredImageUrl}
           />
 
           <div className="min-h-screen bg-[#030414]">
@@ -125,12 +124,12 @@ const BlogDetailPage = () => {
                 </div>
 
                 {/* Featured Image */}
-                {article.featured_image && article.featured_image.trim() !== '' && (
-                  <div className="mb-4">
+                {article.featuredImageUrl && article.featuredImageUrl.trim() !== '' && (
+                  <div className="my-4">
                     <img
-                      src={article.featured_image}
+                      src={UrlUtils.ensureAbsoluteUrl(article.featuredImageUrl)}
                       alt={currentTitle}
-                      className="w-full h-64 md:h-96 object-cover rounded-lg shadow-lg"
+                      className="w-auto h-auto object-contain rounded-lg shadow-lg"
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
                       }}

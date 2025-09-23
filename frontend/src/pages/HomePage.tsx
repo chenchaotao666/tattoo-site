@@ -180,7 +180,6 @@ const HomePage = () => {
         ogTitle={tCommon('seo.home.title')}
         ogDescription={tCommon('seo.home.description')}
         canonicalUrl={`${window.location.origin}/`}
-        noIndex={true}
       />
       <Layout>
         <div className="w-full min-w-0">

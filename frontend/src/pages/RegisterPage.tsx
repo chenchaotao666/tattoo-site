@@ -172,7 +172,6 @@ const RegisterPage: React.FC = () => {
         ogTitle={`${tForms('auth.registerTitle', 'Register')} - AI Coloring Page Generator`}
         ogDescription={tForms('auth.registerTitle', 'Register') + " to create your account and start generating unlimited AI coloring pages."}
         canonicalUrl={`${window.location.origin}/register`}
-        noIndex={true}
       />
       <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
         {/* Logo */}

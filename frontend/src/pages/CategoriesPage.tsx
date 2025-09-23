@@ -45,7 +45,6 @@ const CategoriesPage: React.FC = () => {
         ogTitle={tCommon('seo.categories.title')}
         ogDescription={tCommon('seo.categories.description')}
         canonicalUrl={`${window.location.origin}/categories`}
-        noIndex={true}
       />
       <div className="w-full bg-[#030414]">
         {/* Breadcrumb */}

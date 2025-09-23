@@ -166,7 +166,6 @@ const ResetPasswordPage: React.FC = () => {
           title={`${tForms('auth.linkInvalid', 'Link Invalid')} - AI Coloring Page Generator`}
           description="Password reset link is invalid or expired."
           keywords="password reset, invalid link"
-          noIndex={true}
           canonicalUrl={`${window.location.origin}/reset-password`}
         />
         <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
@@ -218,7 +217,6 @@ const ResetPasswordPage: React.FC = () => {
           title={`${tForms('auth.resetSuccess', 'Reset Successful')} - AI Coloring Page Generator`}
           description="Password has been successfully reset."
           keywords="password reset, success"
-          noIndex={true}
           canonicalUrl={`${window.location.origin}/reset-password`}
         />
         <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
@@ -268,7 +266,6 @@ const ResetPasswordPage: React.FC = () => {
           title={`${tForms('auth.resetPasswordTitle', 'Reset Password')} - AI Coloring Page Generator`}
           description="Reset your password to regain access to your account."
           keywords="password reset, account recovery"
-          noIndex={true}
           canonicalUrl={`${window.location.origin}/reset-password`}
         />
         <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
@@ -287,7 +284,6 @@ const ResetPasswordPage: React.FC = () => {
         title={`${tForms('auth.resetPasswordTitle', 'Reset Password')} - AI Coloring Page Generator`}
         description="Reset your password to regain access to your account."
         keywords="password reset, account recovery"
-        noIndex={true}
         canonicalUrl={`${window.location.origin}/reset-password`}
       />
       <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">

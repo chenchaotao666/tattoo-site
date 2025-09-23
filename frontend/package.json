@@ -1,5 +1,5 @@
 {
-  "name": "tattoo-frontend",
+  "name": "tattoo-site-frontend",
   "type": "module",
   "engines": {
     "node": ">=14.0.0",
@@ -37,10 +37,11 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "npx vite build",
+    "build": "npm run generate-sitemap && npx vite build",
     "build-with-types": "tsc -b && npx vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "check-google-oauth": "node scripts/check-google-oauth.cjs"
+    "generate-sitemap": "node scripts/generate-sitemap.cjs",
+    "pm2:start": "pm2 start ecosystem.config.cjs"
   }
 }

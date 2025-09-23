@@ -300,7 +300,6 @@ const ImageDetailPage: React.FC = () => {
       ogTitle={image ? `${getLocalizedText(image.description, 'en')} - AI Tattoo Design` : 'AI Tattoo Design'}
       ogDescription={image ? `Create ${getLocalizedText(image.description, 'en').toLowerCase()} tattoo designs with AI. Preview with AR and download high-res artwork for your artist.` : 'Create custom tattoo designs with AI. Preview with AR and download high-quality artwork.'}
       canonicalUrl={`${window.location.origin}/images/${imageId}`}
-      noIndex={true}
     />
       <div className="w-full bg-[#030414] relative">
         {/* Breadcrumb - 始终显示 */}

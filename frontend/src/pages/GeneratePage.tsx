@@ -506,7 +506,6 @@ const GeneratePage: React.FC = () => {
         keywords={t('seo.generate.keywords')}
         ogTitle={t('seo.generate.title')}
         ogDescription={t('seo.generate.description')}
-        noIndex={true}
         canonicalUrl={`${window.location.origin}/generate`}
       />
 

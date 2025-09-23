@@ -208,7 +208,6 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
         keywords={tCommon('seo.creations.keywords')}
         ogTitle={tCommon('seo.creations.title')}
         ogDescription={tCommon('seo.creations.description')}
-        noIndex={true}
         canonicalUrl={`${window.location.origin}/creations`}
       />
       <div className="min-h-screen bg-[#030414]">

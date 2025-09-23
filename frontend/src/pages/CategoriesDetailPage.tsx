@@ -229,7 +229,6 @@ const CategoriesDetailPage: React.FC = () => {
         ogTitle={category ? `${categoryImages.length} ${getLocalizedText(category.seoTitle || category.name, 'en')}` : 'Category - Free Coloring Pages'}
         ogDescription={category ? getLocalizedText(category.seoDesc || `Download free printable ${getLocalizedText(category.name, 'en').toLowerCase()} coloring pages. High-quality PDF and PNG formats available instantly.`, 'en') : 'Browse free printable coloring pages by category.'}
         canonicalUrl={category ? `${window.location.origin}/categories/${category.slug || category.id}` : `${window.location.origin}${window.location.pathname}`}
-        noIndex={true}
       />
       <div className="w-full bg-[#030414] relative">
         {/* Breadcrumb - 始终显示 */}

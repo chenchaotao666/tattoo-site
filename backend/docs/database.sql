@@ -143,6 +143,9 @@ CREATE TABLE recharges (
   gift_month char(7) NOT NULL DEFAULT '' COMMENT 'YYYY-MM；系统月赠幂等键', -- 标记赠送积分对应的月份，仅系统发放积分使用
   createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 创建时间（插入时自动记录）
   updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 更新时间（记录变动时自动刷新）
+  captureId varchar(50) DEFAULT NULL COMMENT 'PayPal Capture ID',
+  captureStatus enum('PENDING','COMPLETED','DECLINED','FAILED','PARTIALLY_REFUNDED','REFUNDED') DEFAULT NULL COMMENT 'Capture状态',
+  vaultTokenUsed tinyint(1) DEFAULT '0' COMMENT '是否使用vault token支付',
 
   -- 主键
   PRIMARY KEY (id),

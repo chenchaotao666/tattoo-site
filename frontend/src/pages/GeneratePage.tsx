@@ -506,7 +506,7 @@ const GeneratePage: React.FC = () => {
         keywords={t('seo.generate.keywords')}
         ogTitle={t('seo.generate.title')}
         ogDescription={t('seo.generate.description')}
-        canonicalUrl={`${window.location.origin}/generate`}
+        canonicalUrl={`${window.location.origin}/create`}
       />
 
       <div className="flex flex-col bg-[#030414] relative">

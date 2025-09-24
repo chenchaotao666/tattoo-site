@@ -299,7 +299,7 @@ const ImageDetailPage: React.FC = () => {
       keywords={image ? `${getLocalizedText(image.description, 'en').toLowerCase()} tattoo, AI tattoo generator` : 'AI tattoo, tattoo generator'}
       ogTitle={image ? `${getLocalizedText(image.description, 'en')} - AI Tattoo Design` : 'AI Tattoo Design'}
       ogDescription={image ? `Create ${getLocalizedText(image.description, 'en').toLowerCase()} tattoo designs with AI. Preview with AR and download high-res artwork for your artist.` : 'Create custom tattoo designs with AI. Preview with AR and download high-quality artwork.'}
-      canonicalUrl={`${window.location.origin}/images/${imageId}`}
+      canonicalUrl={(category && image) ? `${window.location.origin}/categories/${getCategoryPathById(category.id)}/${getImageNameById(image.id)}` : `${window.location.origin}/images/${imageId}`}
     />
       <div className="w-full bg-[#030414] relative">
         {/* Breadcrumb - 始终显示 */}

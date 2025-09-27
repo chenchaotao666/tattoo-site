@@ -186,21 +186,6 @@ CREATE TABLE credit_usage_logs (
     CONSTRAINT fk_credit_usage_logs_users FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- 创建积分清理统计表
-CREATE TABLE credit_cleanup_stats (
-    id VARCHAR(36) PRIMARY KEY,
-    timestamp DATETIME NOT NULL,
-    duration VARCHAR(20),
-    expiredRecordsCleaned INT DEFAULT 0,
-    expiringRecordsFound INT DEFAULT 0,
-    success BOOLEAN DEFAULT TRUE,
-    error TEXT NULL,
-    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    INDEX idx_timestamp (timestamp),
-    INDEX idx_success (success)
-);
-
 -- 创建 image_reports 表
 CREATE TABLE image_reports (
   id VARCHAR(36) PRIMARY KEY,

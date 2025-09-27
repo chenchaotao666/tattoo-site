@@ -8,6 +8,7 @@ const Tag = require('./Tag');
 const Post = require('./Post');
 const Recharge = require('./Recharge');
 const ImageReport = require('./ImageReport');
+const CreditUsageLog = require('./CreditUsageLog');
 
 // 模型工厂函数
 function createModels(db) {
@@ -20,7 +21,8 @@ function createModels(db) {
         Tag: new Tag(db),
         Post: new Post(db),
         Recharge: new Recharge(db),
-        ImageReport: new ImageReport(db)
+        ImageReport: new ImageReport(db),
+        CreditUsageLog: new CreditUsageLog(db)
     };
 }
 
@@ -35,5 +37,6 @@ module.exports = {
     Post,
     Recharge,
     ImageReport,
+    CreditUsageLog,
     BaseModel
 };

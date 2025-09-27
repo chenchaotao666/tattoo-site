@@ -222,7 +222,9 @@ function createPaymentRoutes(app) {
     const db = app.locals.db;
     const models = createModels(db);
     const userService = new UserService(models.User);
-    const creditService = new CreditService(models.Recharge, userService);
+    const creditService = new CreditService(models.Recharge, userService, models.CreditUsageLog);
+    // Update userService with creditService after creditService is created
+    userService.creditService = creditService;
     const paymentService = new PaymentService(models.Recharge, userService, creditService);
 
     // POST /api/payment/order - 创建支付订单
@@ -371,74 +373,6 @@ function createPaymentRoutes(app) {
             });
         } catch (error) {
             console.error('Get credit stats error:', error);
-            res.status(500).json({
-                status: 'fail',
-                message: error.message
-            });
-        }
-    });
-
-    // POST /api/payment/credits/deduct - 扣除积分（生成纹身时调用）
-    router.post('/credits/deduct', authenticateUser, async (req, res) => {
-        try {
-            const { credits, reason = 'tattoo_generation' } = req.body;
-
-            if (!credits || credits <= 0) {
-                return res.status(400).json({
-                    status: 'fail',
-                    message: 'Invalid credits amount'
-                });
-            }
-
-            // 验证积分是否足够
-            const validation = await creditService.validateSufficientCredits(req.userId, credits);
-            if (!validation.sufficient) {
-                return res.status(400).json({
-                    status: 'fail',
-                    message: `Insufficient credits. Available: ${validation.available}, Required: ${validation.required}`,
-                    data: validation
-                });
-            }
-
-            // 扣除积分
-            const result = await creditService.deductCredits(req.userId, credits, reason);
-
-            res.json({
-                status: 'success',
-                data: {
-                    deducted: result.totalDeducted,
-                    remaining: result.remainingCredits,
-                    recordsUpdated: result.recordsUpdated.length
-                },
-                message: 'Credits deducted successfully'
-            });
-        } catch (error) {
-            console.error('Deduct credits error:', error);
-            res.status(500).json({
-                status: 'fail',
-                message: error.message
-            });
-        }
-    });
-
-    // GET /api/payment/credits/history - 获取积分历史
-    router.get('/credits/history', authenticateUser, async (req, res) => {
-        try {
-            const { page = 1, pageSize = 20 } = req.query;
-
-            const history = await creditService.getUserCreditHistory(req.userId, {
-                currentPage: parseInt(page),
-                pageSize: parseInt(pageSize)
-            });
-
-            res.json({
-                status: 'success',
-                data: history.data,
-                pagination: history.pagination,
-                message: 'Credit history retrieved successfully'
-            });
-        } catch (error) {
-            console.error('Get credit history error:', error);
             res.status(500).json({
                 status: 'fail',
                 message: error.message

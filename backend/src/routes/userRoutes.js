@@ -11,8 +11,10 @@ const router = express.Router();
 function createUserRoutes(app) {
     const db = app.locals.db;
     const models = createModels(db);
-    const creditService = new CreditService(models.Recharge);
-    const userService = new UserService(models.User, creditService);
+    const userService = new UserService(models.User);
+    const creditService = new CreditService(models.Recharge, userService, models.CreditUsageLog);
+    // Update userService with creditService after creditService is created
+    userService.creditService = creditService;
 
     // 特定路由（必须在参数化路由之前定义）
 

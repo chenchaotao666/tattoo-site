@@ -4,6 +4,7 @@ const BaseService = require('../services/BaseService');
 const ImageService = require('../services/ImageService');
 const ImageGenerateService = require('../services/ImageGenerateService');
 const CreditService = require('../services/CreditService');
+const UserService = require('../services/UserService');
 const { createBaseRoutes, validateBody, validateUUID } = require('./baseRoutes');
 const { optionalAuth, authenticateToken } = require('../middleware/auth');
 
@@ -15,7 +16,10 @@ function createImageRoutes(app) {
     const db = app.locals.db;
     const models = createModels(db);
     const imageService = new ImageService(models.Image);
-    const creditService = new CreditService(models.Recharge);
+    const userService = new UserService(models.User);
+    const creditService = new CreditService(models.Recharge, userService, models.CreditUsageLog);
+    // Update userService with creditService after creditService is created
+    userService.creditService = creditService;
     const imageGenerateService = new ImageGenerateService(models.Image, models.User, creditService);
 
     // 先定义具体的路由，再定义通用路由，避免路径冲突

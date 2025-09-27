@@ -82,15 +82,17 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
         const paypal = window.paypal;
         if (!paypal || !paypalRef.current) return;
 
-        // 清空容器
-        paypalRef.current.innerHTML = '';
-        
+        // 只在容器为空时才清空，避免重复渲染
+        if (paypalRef.current.children.length > 0) {
+          return;
+        }
+
         // 渲染 PayPal 按钮
         if (paypal?.Buttons) {
           paypal.Buttons({
           style: {
             shape: 'rect',
-            color: 'blue', 
+            color: 'blue',
             layout: 'vertical',
             label: 'paypal',
           },
@@ -159,10 +161,6 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
               try {
                 const { orderID } = data;
                 await PricingService.captureOrder(orderID);
-                await refreshUser();
-                onBack();
-                alert(t('payment.success.message'));
-                navigate('/text-coloring-page');
               } catch (error) {
                 console.error('支付失败:', error);
                 alert(t('payment.errors.paymentFailed'));
@@ -195,10 +193,24 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
             // 延迟渲染确保 DOM 元素存在
             setTimeout(() => {
               try {
-                cardFieldInstance.NameField?.(cardFieldOptions)?.render("#card-name-field-container");
-                cardFieldInstance.NumberField?.(cardFieldOptions)?.render("#card-number-field-container");
-                cardFieldInstance.CVVField?.(cardFieldOptions)?.render("#card-cvv-field-container");
-                cardFieldInstance.ExpiryField?.(cardFieldOptions)?.render("#card-expiry-field-container");
+                // 检查容器是否存在且为空
+                const nameContainer = document.getElementById("card-name-field-container");
+                const numberContainer = document.getElementById("card-number-field-container");
+                const cvvContainer = document.getElementById("card-cvv-field-container");
+                const expiryContainer = document.getElementById("card-expiry-field-container");
+
+                if (nameContainer && !nameContainer.hasChildNodes()) {
+                  cardFieldInstance.NameField?.(cardFieldOptions)?.render("#card-name-field-container");
+                }
+                if (numberContainer && !numberContainer.hasChildNodes()) {
+                  cardFieldInstance.NumberField?.(cardFieldOptions)?.render("#card-number-field-container");
+                }
+                if (cvvContainer && !cvvContainer.hasChildNodes()) {
+                  cardFieldInstance.CVVField?.(cardFieldOptions)?.render("#card-cvv-field-container");
+                }
+                if (expiryContainer && !expiryContainer.hasChildNodes()) {
+                  cardFieldInstance.ExpiryField?.(cardFieldOptions)?.render("#card-expiry-field-container");
+                }
               } catch (error) {
                 console.error('CardFields render error:', error);
               }
@@ -222,6 +234,10 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
     setCardLoading(true);
     try {
       await cardField.submit();
+      await refreshUser();
+      onBack();
+      alert(t('payment.success.message'));
+      navigate('/text-coloring-page');
     } catch (error) {
       console.error('Card payment failed:', error);
       alert('信用卡支付失败，请重试');

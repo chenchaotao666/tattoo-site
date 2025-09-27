@@ -4,9 +4,10 @@ const BaseService = require('./BaseService');
  * 积分管理服务 - 基于Recharge模型
  */
 class CreditService extends BaseService {
-    constructor(rechargeModel, userService) {
+    constructor(rechargeModel, userService, creditUsageLogModel) {
         super(rechargeModel);
         this.userService = userService;
+        this.creditUsageLogModel = creditUsageLogModel;
     }
 
     /**
@@ -49,8 +50,6 @@ class CreditService extends BaseService {
                     updatedAt: new Date()
                 });
 
-                // 更新用户的总积分缓存
-                await this.updateUserCreditsCache(userId);
 
                 return {
                     id: sourceId,
@@ -91,9 +90,6 @@ class CreditService extends BaseService {
             // 记录使用日志
             await this.logCreditUsage(userId, creditsToDeduct, reason, result);
 
-            // 更新用户的总积分缓存
-            await this.updateUserCreditsCache(userId);
-
             return result;
         } catch (error) {
             throw new Error(`Deduct credits failed: ${error.message}`);
@@ -105,46 +101,35 @@ class CreditService extends BaseService {
      */
     async logCreditUsage(userId, creditsUsed, reason, deductionResult) {
         try {
-            // 这里可以记录到日志表，暂时输出到控制台
             const logEntry = {
                 userId: userId,
                 creditsUsed: creditsUsed,
                 reason: reason,
                 recordsAffected: deductionResult.recordsUpdated.length,
-                timestamp: new Date(),
                 details: deductionResult.recordsUpdated
             };
 
-            console.log('Credit usage log:', JSON.stringify(logEntry, null, 2));
+            // 保存到积分使用日志表
+            const savedLog = await this.creditUsageLogModel.create(logEntry);
 
-            // 如果有积分使用日志表，可以在这里保存
-            // await this.creditUsageLogModel.create(logEntry);
+            console.log('Credit usage logged:', JSON.stringify(logEntry, null, 2));
 
-            return logEntry;
+            return savedLog;
         } catch (error) {
             console.error('Log credit usage failed:', error);
             // 日志记录失败不应该影响主要功能
+            // 但仍然返回logEntry用于调试
+            return {
+                userId: userId,
+                creditsUsed: creditsUsed,
+                reason: reason,
+                recordsAffected: deductionResult.recordsUpdated.length,
+                details: deductionResult.recordsUpdated,
+                error: error.message
+            };
         }
     }
 
-    /**
-     * 更新用户积分缓存
-     */
-    async updateUserCreditsCache(userId) {
-        try {
-            const totalCredits = await this.getUserTotalCredits(userId);
-
-            // 如果用户模型有credits字段，更新它
-            if (this.userService && typeof this.userService.updateUser === 'function') {
-                await this.userService.updateUser(userId, { credits: totalCredits });
-            }
-
-            return totalCredits;
-        } catch (error) {
-            console.error('Update user credits cache failed:', error);
-            // 缓存更新失败不应该影响主要功能
-        }
-    }
 
     /**
      * 获取用户积分历史（基于Recharge记录）
@@ -157,27 +142,26 @@ class CreditService extends BaseService {
         }
     }
 
+
     /**
-     * 清理过期积分
+     * 获取用户积分使用历史
      */
-    async cleanupExpiredCredits() {
+    async getUserCreditUsageHistory(userId, options = {}) {
         try {
-            const affectedRows = await this.model.cleanupExpiredCredits();
-            console.log(`Cleaned up ${affectedRows} expired credit records`);
-            return affectedRows;
+            return await this.creditUsageLogModel.findByUserId(userId, options);
         } catch (error) {
-            throw new Error(`Cleanup expired credits failed: ${error.message}`);
+            throw new Error(`Get user credit usage history failed: ${error.message}`);
         }
     }
 
     /**
-     * 获取即将过期的积分（用于提醒）
+     * 获取用户积分使用统计
      */
-    async getCreditsExpiringWithinDays(days = 7) {
+    async getUserCreditUsageStats(userId) {
         try {
-            return await this.model.getCreditsExpiringWithinDays(days);
+            return await this.creditUsageLogModel.getUserUsageStats(userId);
         } catch (error) {
-            throw new Error(`Get credits expiring within days failed: ${error.message}`);
+            throw new Error(`Get user credit usage stats failed: ${error.message}`);
         }
     }
 

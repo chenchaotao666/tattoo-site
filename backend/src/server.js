@@ -31,30 +31,25 @@ const pool = mysql.createPool({
 // 将数据库连接池挂载到app上，供其他模块使用
 app.locals.db = pool;
 
-// 初始化积分清理服务
+// 初始化服务
 const { createModels } = require('./models');
 const UserService = require('./services/UserService');
 const CreditService = require('./services/CreditService');
-const CreditCleanupService = require('./services/CreditCleanupService');
 
 const models = createModels(pool);
 const userService = new UserService(models.User);
-const creditService = new CreditService(models.Recharge, userService);
-const creditCleanupService = new CreditCleanupService(creditService);
+const creditService = new CreditService(models.Recharge, userService, models.CreditUsageLog);
+// Update userService with creditService after creditService is created
+userService.creditService = creditService;
 
-// 启动积分清理定时任务
-creditCleanupService.start();
-
-// 优雅关闭时停止清理服务
+// 优雅关闭处理
 process.on('SIGTERM', () => {
     console.log('SIGTERM received, shutting down gracefully');
-    creditCleanupService.stop();
     process.exit(0);
 });
 
 process.on('SIGINT', () => {
     console.log('SIGINT received, shutting down gracefully');
-    creditCleanupService.stop();
     process.exit(0);
 });
 

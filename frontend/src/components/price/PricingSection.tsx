@@ -9,32 +9,31 @@ import PricingCard from './PricingCard';
 import TryNow from '../common/TryNow';
 
 interface PlanConfig {
-  monthly: {
-    price: number;
-    credits: number;
-    code: string;
-  };
-  yearly: {
-    price: number;
-    credits: number;
-    code: string;
-    monthlyPrice: number;
-  };
+  price: number;
+  credits: number;
+  code: string;
+  days: number;
 }
 
-// 套餐配置 - 按天数访问计划
+// 套餐配置 - 按天数购买积分
 const planConfigs: Record<string, PlanConfig> = {
   '7-Day Access': {
-    monthly: { price: 12.99, credits: 20, code: 'DAY7_ACCESS' },
-    yearly: { price: 12.99, credits: 20, code: 'DAY7_ACCESS', monthlyPrice: 12.99 }
+    price: 12.99,
+    credits: 20,
+    code: 'day7',
+    days: 7
   },
   '14-Day Access': {
-    monthly: { price: 16.99, credits: 40, code: 'DAY14_ACCESS' },
-    yearly: { price: 16.99, credits: 40, code: 'DAY14_ACCESS', monthlyPrice: 16.99 }
+    price: 16.99,
+    credits: 40,
+    code: 'day14',
+    days: 14
   },
   '30-Day Access': {
-    monthly: { price: 23.99, credits: 80, code: 'DAY30_ACCESS' },
-    yearly: { price: 23.99, credits: 80, code: 'DAY30_ACCESS', monthlyPrice: 23.99 }
+    price: 23.99,
+    credits: 80,
+    code: 'day30',
+    days: 30
   }
 };
 
@@ -143,17 +142,11 @@ const PricingSection: React.FC<PricingSectionProps> = ({
     }
   ];
 
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successCredits] = useState(0);
   const [currentPlan, setCurrentPlan] = useState<string>('');
   const [currentPlanCode, setCurrentPlanCode] = useState<string>('');
   const [showPaypalPayment, setShowPaypalPayment] = useState(false);
-
-  // Function to handle billing period change
-  const handleBillingPeriodChange = (period: 'monthly' | 'yearly') => {
-    setBillingPeriod(period);
-  };
 
   // 处理购买按钮点击
   const handleBuyClick = (planTitle: string) => {
@@ -165,9 +158,8 @@ const PricingSection: React.FC<PricingSectionProps> = ({
     // 获取计划配置
     const config = planConfigs[planTitle as keyof typeof planConfigs];
     if (config) {
-      const planCode = config[billingPeriod].code;
       setCurrentPlan(planTitle);
-      setCurrentPlanCode(planCode);
+      setCurrentPlanCode(config.code);
       setShowPaypalPayment(true);
     }
   };
@@ -180,28 +172,19 @@ const PricingSection: React.FC<PricingSectionProps> = ({
   // 获取当前计划的积分数
   const getCurrentCredits = () => {
     const config = planConfigs[currentPlan as keyof typeof planConfigs];
-    if (config) {
-      return config[billingPeriod].credits;
-    }
-    return 0;
+    return config ? config.credits : 0;
   };
 
-  // 获取当前计划的月付价格
-  const getCurrentMonthlyPrice = () => {
+  // 获取当前计划的天数
+  const getCurrentDays = () => {
     const config = planConfigs[currentPlan as keyof typeof planConfigs];
-    if (config) {
-      return billingPeriod === 'monthly' ? config.monthly.price.toFixed(2) : config.yearly.monthlyPrice.toFixed(2);
-    }
-    return '';
+    return config ? config.days : 0;
   };
 
   // 获取当前计划的价格
   const getCurrentPrice = () => {
     const config = planConfigs[currentPlan as keyof typeof planConfigs];
-    if (config) {
-      return config[billingPeriod].price.toFixed(2);
-    }
-    return '';
+    return config ? config.price.toFixed(2) : '';
   };
 
   // 处理开始创作按钮点击
@@ -272,30 +255,27 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 justify-items-center w-full max-w-[1170px]">
                   {Object.entries(planConfigs).map(([planKey, plan]) => {
                     const isPopular = planKey === '14-Day Access';
-                    const planKeyForFeatures = planKey === '7-Day Access' ? 'day7' :
-                      planKey === '14-Day Access' ? 'day14' :
-                        planKey === '30-Day Access' ? 'day30' : planKey;
-                    
+
                     // Define original prices and discounts for each plan
-                    const originalPrice = planKey === '14-Day Access' ? '31.98' : 
+                    const originalPrice = planKey === '14-Day Access' ? '31.98' :
                                          planKey === '30-Day Access' ? '55.96' : undefined;
-                    const discount = planKey === '14-Day Access' ? '47%' : 
+                    const discount = planKey === '14-Day Access' ? '47%' :
                                     planKey === '30-Day Access' ? '57%' : undefined;
-                    const priceNote = planKey === '7-Day Access' ? 'Perfect starter plan' : 
+                    const priceNote = planKey === '7-Day Access' ? 'Perfect starter plan' :
                                      planKey === '14-Day Access' ? 'Best value for most users' :
                                      planKey === '30-Day Access' ? 'Ultimate creative freedom' : undefined;
-                    
+
                     return (
                       <PricingCard
                         key={planKey}
                         title={planKey}
-                        type={planKeyForFeatures as 'day7' | 'day14' | 'day30'}
-                        price={plan.monthly.price.toString()}
+                        type={plan.code as 'day7' | 'day14' | 'day30'}
+                        price={plan.price.toString()}
                         originalPrice={originalPrice}
                         discount={discount}
                         priceNote={priceNote}
                         popular={isPopular}
-                        features={getFeatures(planKeyForFeatures)}
+                        features={getFeatures(plan.code)}
                         onBuyClick={() => handleBuyClick(planKey)}
                       />
                     );
@@ -337,11 +317,9 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                 onBack={handleBackToPricing}
                 planTitle={currentPlan}
                 credits={getCurrentCredits()}
-                monthlyPrice={getCurrentMonthlyPrice()}
+                days={getCurrentDays()}
                 totalPrice={getCurrentPrice()}
-                discount="46%"
                 planCode={currentPlanCode}
-                billingPeriod={billingPeriod}
               />
             </div>
           </div>

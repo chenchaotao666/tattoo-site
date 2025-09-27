@@ -1,8 +1,9 @@
 const BaseService = require('./BaseService');
 
 class UserService extends BaseService {
-    constructor(userModel) {
+    constructor(userModel, creditService = null) {
         super(userModel);
+        this.creditService = creditService;
     }
 
     // 处理用户数据字段映射
@@ -101,41 +102,7 @@ class UserService extends BaseService {
         }
     }
 
-    // 更新用户积分
-    async updateUserCredits(userId, creditsChange) {
-        try {
-            if (!userId) {
-                throw new Error('User ID is required');
-            }
 
-            if (typeof creditsChange !== 'number') {
-                throw new Error('Credits change must be a number');
-            }
-
-            const user = await this.model.updateCredits(userId, creditsChange);
-            return this.processUserData(user);
-        } catch (error) {
-            throw new Error(`Update user credits failed: ${error.message}`);
-        }
-    }
-
-    // 更新用户余额
-    async updateUserBalance(userId, balanceChange) {
-        try {
-            if (!userId) {
-                throw new Error('User ID is required');
-            }
-
-            if (typeof balanceChange !== 'number') {
-                throw new Error('Balance change must be a number');
-            }
-
-            const user = await this.model.updateBalance(userId, balanceChange);
-            return this.processUserData(user);
-        } catch (error) {
-            throw new Error(`Update user balance failed: ${error.message}`);
-        }
-    }
 
     // 获取用户统计信息
     async getUserStats(userId) {
@@ -150,14 +117,6 @@ class UserService extends BaseService {
         }
     }
 
-    // 获取即将到期的会员
-    async getExpiringMemberships(days = 7) {
-        try {
-            return await this.model.findExpiringMemberships(days);
-        } catch (error) {
-            throw new Error(`Get expiring memberships failed: ${error.message}`);
-        }
-    }
 
     // 创建用户（带验证）
     async createUser(userData) {
@@ -203,8 +162,6 @@ class UserService extends BaseService {
             // 设置默认值
             const defaultUserData = {
                 id: uuidv4(),
-                credits: 0,
-                balance: 0.00,
                 role: 'normal',
                 level: 'free',
                 ...processedUserData
@@ -282,15 +239,71 @@ class UserService extends BaseService {
             }
 
             const user = await this.model.findById(userId);
-            
+
             if (!user) {
                 throw new Error('User not found');
             }
 
-            // 返回处理后的用户数据（不包含敏感信息）
-            return this.processUserData(user);
+            // 处理用户数据
+            const processedUser = this.processUserData(user);
+
+            // 如果有CreditService，获取用户积分信息
+            if (this.creditService) {
+                try {
+                    const totalCredits = await this.creditService.getUserTotalCredits(userId);
+                    processedUser.credits = totalCredits;
+                } catch (creditError) {
+                    console.warn(`Failed to get user credits for user ${userId}:`, creditError.message);
+                    // 如果积分获取失败，设置为0，不影响用户资料的获取
+                    processedUser.credits = 0;
+                }
+            } else {
+                // 如果没有CreditService，设置默认值
+                processedUser.credits = 0;
+            }
+
+            return processedUser;
         } catch (error) {
             throw new Error(`Get user profile failed: ${error.message}`);
+        }
+    }
+
+    // 添加积分和订阅（支付成功后调用）
+    async addCreditsAndSubscription(userId, subscriptionData) {
+        try {
+            if (!userId) {
+                throw new Error('User ID is required');
+            }
+
+            const { planCode, duration, chargeType } = subscriptionData;
+
+            // 获取当前用户信息
+            const user = await this.model.findById(userId);
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            // 准备更新数据
+            const updateData = {
+                updatedAt: new Date()
+            };
+
+            // 如果是订阅类型（不是单纯充值积分），更新会员等级
+            if (duration > 0 && planCode !== 'FREE') {
+                updateData.level = planCode.toLowerCase(); // 'lite' 或 'pro'
+
+                // 如果是年费，记录购买的套餐类型
+                if (chargeType === 'Yearly') {
+                    updateData.yearlyPlan = planCode;
+                }
+            }
+
+            // 更新用户数据
+            const updatedUser = await this.model.updateById(userId, updateData);
+
+            return this.processUserData(updatedUser);
+        } catch (error) {
+            throw new Error(`Add credits and subscription failed: ${error.message}`);
         }
     }
 }

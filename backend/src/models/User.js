@@ -61,50 +61,17 @@ class User extends BaseModel {
         }
     }
 
-    // 更新用户积分
-    async updateCredits(userId, creditsChange) {
-        try {
-            const query = `UPDATE ${this.tableName} SET credits = credits + ?, updatedAt = NOW() WHERE id = ?`;
-            const [result] = await this.db.execute(query, [creditsChange, userId]);
-            
-            if (result.affectedRows === 0) {
-                throw new Error(`User with ID ${userId} not found`);
-            }
 
-            return await this.findById(userId);
-        } catch (error) {
-            throw new Error(`Update user credits failed: ${error.message}`);
-        }
-    }
-
-    // 更新用户余额
-    async updateBalance(userId, balanceChange) {
-        try {
-            const query = `UPDATE ${this.tableName} SET balance = balance + ?, updatedAt = NOW() WHERE id = ?`;
-            const [result] = await this.db.execute(query, [balanceChange, userId]);
-            
-            if (result.affectedRows === 0) {
-                throw new Error(`User with ID ${userId} not found`);
-            }
-
-            return await this.findById(userId);
-        } catch (error) {
-            throw new Error(`Update user balance failed: ${error.message}`);
-        }
-    }
 
     // 获取用户统计信息
     async getUserStats(userId) {
         try {
             const query = `
-                SELECT 
+                SELECT
                     u.id,
                     u.username,
                     u.email,
-                    u.credits,
-                    u.balance,
                     u.level,
-                    u.membershipExpiry,
                     COUNT(i.id) as imageCount,
                     COUNT(r.id) as reportCount
                 FROM ${this.tableName} u
@@ -120,21 +87,6 @@ class User extends BaseModel {
         }
     }
 
-    // 获取会员即将到期的用户
-    async findExpiringMemberships(days = 7) {
-        try {
-            const query = `
-                SELECT * FROM ${this.tableName} 
-                WHERE membershipExpiry IS NOT NULL 
-                AND membershipExpiry BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL ? DAY)
-                ORDER BY membershipExpiry ASC
-            `;
-            const [rows] = await this.db.execute(query, [days]);
-            return rows;
-        } catch (error) {
-            throw new Error(`Find expiring memberships failed: ${error.message}`);
-        }
-    }
 
     // 按角色查找用户
     async findByRole(role, options = {}) {

@@ -50,6 +50,22 @@ class CreditService extends BaseService {
                     updatedAt: new Date()
                 });
 
+                // 用户充值成功后，将用户等级升级为 pro
+                if (this.userService) {
+                    try {
+                        const currentUser = await this.userService.model.findById(userId);
+                        if (currentUser && currentUser.level !== 'pro') {
+                            await this.userService.model.updateById(userId, {
+                                level: 'pro',
+                                updatedAt: new Date()
+                            });
+                            console.log(`User ${userId} upgraded to pro level after successful payment`);
+                        }
+                    } catch (userUpdateError) {
+                        console.error(`Failed to upgrade user ${userId} to pro level:`, userUpdateError.message);
+                        // 用户等级升级失败不应该影响积分添加
+                    }
+                }
 
                 return {
                     id: sourceId,

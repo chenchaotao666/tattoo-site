@@ -1,9 +1,10 @@
 const BaseService = require('./BaseService');
 
 class UserService extends BaseService {
-    constructor(userModel, creditService = null) {
+    constructor(userModel, creditService = null, rechargeModel = null) {
         super(userModel);
         this.creditService = creditService;
+        this.rechargeModel = rechargeModel;
     }
 
     // 处理用户数据字段映射
@@ -168,6 +169,39 @@ class UserService extends BaseService {
             };
 
             const createdUser = await this.model.create(defaultUserData);
+
+            // 为新用户赠送 2 积分
+            if (this.rechargeModel) {
+                try {
+                    const welcomeRecharge = {
+                        id: uuidv4(),
+                        userId: createdUser.id,
+                        orderId: null, // 系统赠送无订单号
+                        amount: 0.00, // 系统赠送金额为0
+                        currency: 'USD',
+                        status: 'success',
+                        method: 'system',
+                        planCode: 'welcome',
+                        creditsAdded: 2,
+                        chargeType: 'Credit',
+                        duration: 0,
+                        monthlyCredit: 0,
+                        gift_month: '',
+                        validDays: 365, // 365天有效期
+                        expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000), // 1年后过期
+                        remainingCredits: 2,
+                        createdAt: new Date(),
+                        updatedAt: new Date()
+                    };
+
+                    await this.rechargeModel.create(welcomeRecharge);
+                    console.log(`Welcome credits granted to user ${createdUser.id}: 2 credits`);
+                } catch (creditError) {
+                    console.error(`Failed to grant welcome credits to user ${createdUser.id}:`, creditError.message);
+                    // 积分赠送失败不应该影响用户创建
+                }
+            }
+
             return this.processUserData(createdUser);
         } catch (error) {
             throw new Error(`Create user failed: ${error.message}`);

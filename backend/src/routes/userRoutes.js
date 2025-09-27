@@ -11,7 +11,7 @@ const router = express.Router();
 function createUserRoutes(app) {
     const db = app.locals.db;
     const models = createModels(db);
-    const userService = new UserService(models.User);
+    const userService = new UserService(models.User, null, models.Recharge);
     const creditService = new CreditService(models.Recharge, userService, models.CreditUsageLog);
     // Update userService with creditService after creditService is created
     userService.creditService = creditService;

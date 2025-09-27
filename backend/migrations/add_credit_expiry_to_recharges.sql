@@ -14,18 +14,3 @@ CREATE TABLE IF NOT EXISTS credit_usage_logs (
 
     CONSTRAINT fk_credit_usage_logs_users FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
 );
-
--- 创建积分清理统计表（可选）
-CREATE TABLE IF NOT EXISTS credit_cleanup_stats (
-    id VARCHAR(36) PRIMARY KEY,
-    timestamp DATETIME NOT NULL,
-    duration VARCHAR(20),
-    expiredRecordsCleaned INT DEFAULT 0,
-    expiringRecordsFound INT DEFAULT 0,
-    success BOOLEAN DEFAULT TRUE,
-    error TEXT NULL,
-    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    INDEX idx_timestamp (timestamp),
-    INDEX idx_success (success)
-);

@@ -37,7 +37,7 @@ const UserService = require('./services/UserService');
 const CreditService = require('./services/CreditService');
 
 const models = createModels(pool);
-const userService = new UserService(models.User);
+const userService = new UserService(models.User, null, models.Recharge);
 const creditService = new CreditService(models.Recharge, userService, models.CreditUsageLog);
 // Update userService with creditService after creditService is created
 userService.creditService = creditService;
@@ -64,6 +64,7 @@ const createPostRoutes = require('./routes/postRoutes');
 const createRechargeRoutes = require('./routes/rechargeRoutes');
 const createReportRoutes = require('./routes/reportRoutes');
 const createPaymentRoutes = require('./routes/paymentRoutes');
+const createWebhookRoutes = require('./routes/webhookRoutes');
 
 // 注册路由
 app.use('/api/users', createUserRoutes(app));
@@ -76,6 +77,7 @@ app.use('/api/posts', createPostRoutes(app));
 app.use('/api/recharges', createRechargeRoutes(app));
 app.use('/api/reports', createReportRoutes(app));
 app.use('/api/payment', createPaymentRoutes(app));
+app.use('/api/webhook', createWebhookRoutes(app));
 
 // MinIO图片访问路由
 app.get('/images/*', async (req, res) => {

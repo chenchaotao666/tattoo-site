@@ -275,34 +275,6 @@ class PayPalService {
         }
     }
 
-    /**
-     * 处理webhook事件
-     */
-    async handleWebhookEvent(eventType, eventData) {
-        try {
-            console.log(`Processing PayPal webhook event: ${eventType}`);
-
-            switch (eventType) {
-                case 'CHECKOUT.ORDER.APPROVED':
-                    // 订单已批准
-                    break;
-                case 'PAYMENT.CAPTURE.COMPLETED':
-                    // 支付捕获完成
-                    break;
-                case 'PAYMENT.CAPTURE.DENIED':
-                    // 支付捕获被拒绝
-                    break;
-                case 'PAYMENT.CAPTURE.REFUNDED':
-                    // 支付已退款
-                    break;
-                default:
-                    console.log(`Unhandled PayPal webhook event: ${eventType}`);
-            }
-        } catch (error) {
-            console.error('Handle PayPal webhook event error:', error);
-            throw error;
-        }
-    }
 }
 
 module.exports = PayPalService;

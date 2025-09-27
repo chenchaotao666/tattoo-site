@@ -2,10 +2,10 @@ import { ApiUtils, ApiError } from '../utils/apiUtils';
 
 // 支付订单创建请求接口
 export interface CreateOrderRequest {
-  planCode: 'FREE' | 'LITE' | 'PRO';
+  planCode: 'day7' | 'day14' | 'day30';
   method: 'paypal' | 'card' | 'applepay';
-  chargeType: 'Monthly' | 'Yearly' | 'Credit';
-  rechargeAmount?: number; // 充值金额，默认 0。Monthly/Yearly 可省略或传 0，Credit 类型下必填且 ≥ 10
+  chargeType: 'Credit'; // 新系统统一使用Credit类型
+  rechargeAmount?: number; // 将根据planCode自动计算，此字段保留兼容性
 }
 
 // PayPal订单创建响应接口

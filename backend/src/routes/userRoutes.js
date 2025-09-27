@@ -1,6 +1,7 @@
 const express = require('express');
 const { createModels } = require('../models');
 const UserService = require('../services/UserService');
+const CreditService = require('../services/CreditService');
 const { validateBody, validateUUID } = require('./baseRoutes');
 const { generateTokens, authenticateToken } = require('../middleware/auth');
 
@@ -10,7 +11,8 @@ const router = express.Router();
 function createUserRoutes(app) {
     const db = app.locals.db;
     const models = createModels(db);
-    const userService = new UserService(models.User);
+    const creditService = new CreditService(models.Recharge);
+    const userService = new UserService(models.User, creditService);
 
     // 特定路由（必须在参数化路由之前定义）
 
@@ -85,48 +87,8 @@ function createUserRoutes(app) {
         }
     });
 
-    // POST /api/users/:id/credits - 更新用户积分
-    router.post('/:id/credits', validateUUID, validateBody(['creditsChange']), async (req, res) => {
-        try {
-            const { id } = req.params;
-            const { creditsChange } = req.body;
-            
-            const user = await userService.updateUserCredits(id, creditsChange);
-            res.json(userService.formatResponse(true, user, 'User credits updated successfully'));
-        } catch (error) {
-            console.error('Update user credits error:', error);
-            const statusCode = error.message.includes('not found') ? 404 : 500;
-            res.status(statusCode).json(userService.formatResponse(false, null, error.message));
-        }
-    });
 
-    // POST /api/users/:id/balance - 更新用户余额
-    router.post('/:id/balance', validateUUID, validateBody(['balanceChange']), async (req, res) => {
-        try {
-            const { id } = req.params;
-            const { balanceChange } = req.body;
-            
-            const user = await userService.updateUserBalance(id, balanceChange);
-            res.json(userService.formatResponse(true, user, 'User balance updated successfully'));
-        } catch (error) {
-            console.error('Update user balance error:', error);
-            const statusCode = error.message.includes('not found') ? 404 : 500;
-            res.status(statusCode).json(userService.formatResponse(false, null, error.message));
-        }
-    });
 
-    // GET /api/users/memberships/expiring - 获取即将到期的会员
-    router.get('/memberships/expiring', async (req, res) => {
-        try {
-            const { days } = req.query;
-            const users = await userService.getExpiringMemberships(parseInt(days) || 7);
-            
-            res.json(userService.formatResponse(true, users, 'Expiring memberships retrieved successfully'));
-        } catch (error) {
-            console.error('Get expiring memberships error:', error);
-            res.status(500).json(userService.formatResponse(false, null, error.message));
-        }
-    });
 
     // 基础CRUD路由（放在最后，避免路由冲突）
 

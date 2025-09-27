@@ -18,28 +18,30 @@ interface PaypalPaymentProps {
   onBack: () => void;
   planTitle?: string;
   credits?: number;
-  monthlyPrice?: string;
+  days?: number;
   totalPrice?: string;
-  discount?: string;
   planCode?: string;
-  billingPeriod?: 'monthly' | 'yearly';
 }
 
 const PaypalPayment: React.FC<PaypalPaymentProps> = ({
   onBack,
-  planTitle = "Pro",
-  credits = 60000,
-  monthlyPrice = "13.00",
-  totalPrice = "156.00",
-  discount = "46%",
-  planCode = "PRO_MONTHLY",
-  billingPeriod: _billingPeriod = "monthly"
+  planTitle = "7-Day Access",
+  credits = 20,
+  days = 7,
+  totalPrice = "12.99",
+  planCode = "day7"
 }) => {
   const { t } = useAsyncTranslation('pricing');
   const { refreshUser } = useAuth();
   const navigate = useNavigate();
   const paypalRef = useRef<HTMLDivElement>(null);
+  const planCodeRef = useRef(planCode); // 使用ref保存最新的planCode值
   const [isProcessing, setIsProcessing] = useState(false);
+
+  // 更新planCodeRef当planCode变化时
+  useEffect(() => {
+    planCodeRef.current = planCode;
+  }, [planCode]);
 
   // 加载PayPal SDK
   const [paypalLoaded, setPaypalLoaded] = useState(false);
@@ -95,13 +97,11 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
           createOrder: async () => {
             try {
               setIsProcessing(true);
-              const planCodeValue = planTitle?.toUpperCase() as 'LITE' | 'PRO';
-              const chargeType = planCode?.includes('MONTHLY') ? 'Monthly' as const : 'Yearly' as const;
-              
+
               const response = await PricingService.createOrder({
-                planCode: planCodeValue,
+                planCode: (planCodeRef.current as 'day7' | 'day14' | 'day30') || 'day7',
                 method: 'paypal',
-                chargeType
+                chargeType: 'Credit'
               });
               return response.id;
             } catch (error) {
@@ -142,13 +142,11 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
             createOrder: async () => {
               try {
                 setIsProcessing(true);
-                const planCodeValue = planTitle?.toUpperCase() as 'LITE' | 'PRO';
-                const chargeType = planCode?.includes('MONTHLY') ? 'Monthly' as const : 'Yearly' as const;
-                
+
                 const response = await PricingService.createOrder({
-                  planCode: planCodeValue,
+                  planCode: (planCodeRef.current as 'day7' | 'day14' | 'day30') || 'day7',
                   method: 'card',
-                  chargeType
+                  chargeType: 'Credit'
                 });
                 return response.id;
               } catch (error) {
@@ -231,6 +229,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
       setCardLoading(false);
     }
   };
+  
   return (
     <div className="p-8 h-full w-full">
       <div 
@@ -266,26 +265,23 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
           {/* 左侧 - 订单信息 */}
           <div className="flex flex-col p-10 text-gray-800 bg-gray-50 rounded-l-2xl">
             <div className="mb-[60px]">
-              <h3 className="mb-2 text-lg text-gray-600">订阅 {planTitle}</h3>
-              <div className="mb-6 text-4xl font-bold text-gray-900">{credits.toLocaleString()} 积分</div>
+              <h3 className="mb-2 text-lg text-gray-600">购买 {planTitle}</h3>
+              <div className="mb-6 text-4xl font-bold text-gray-900">{credits} 积分</div>
+              <div className="text-sm text-gray-600">{days} 天有效期</div>
             </div>
-            
+
             <div className="space-y-4">
               <div className="flex justify-between">
-                <span>月付</span>
-                <span>US${monthlyPrice}/mo</span>
+                <span>积分数量</span>
+                <span>{credits} 积分</span>
               </div>
-              <hr className="border-gray-300" />
               <div className="flex justify-between">
-                <span>小计</span>
-                <span>US$288.00</span>
-              </div>
-              <div className="flex justify-end text-green-600">
-                <span>享受 {discount} 折扣&nbsp;</span>
+                <span>有效期</span>
+                <span>{days} 天</span>
               </div>
               <hr className="border-gray-300" />
               <div className="flex justify-between text-lg font-bold">
-                <span>今日应付总金额</span>
+                <span>总金额</span>
                 <span>US${totalPrice}</span>
               </div>
             </div>

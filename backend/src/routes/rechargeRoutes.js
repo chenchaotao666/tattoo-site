@@ -64,6 +64,61 @@ class RechargeService extends BaseService {
             throw new Error(`Get recharges by status failed: ${error.message}`);
         }
     }
+
+    // 根据捕获ID获取充值记录
+    async getByCaptureId(captureId) {
+        try {
+            if (!captureId) {
+                throw new Error('Capture ID is required');
+            }
+
+            return await this.model.findByCaptureId(captureId);
+        } catch (error) {
+            throw new Error(`Get recharge by capture ID failed: ${error.message}`);
+        }
+    }
+
+    // 更新捕获状态
+    async updateCaptureStatus(id, captureStatus, captureId = null) {
+        try {
+            const updateData = { captureStatus };
+            if (captureId) {
+                updateData.captureId = captureId;
+            }
+
+            return await this.model.update(id, updateData);
+        } catch (error) {
+            throw new Error(`Update capture status failed: ${error.message}`);
+        }
+    }
+
+    // 按捕获状态获取充值记录
+    async getByCaptureStatus(captureStatus, query = {}) {
+        try {
+            const pagination = this.normalizePaginationParams(query);
+            const sort = this.normalizeSortParams(query);
+            const filters = this.normalizeFilters(query);
+
+            const options = { ...pagination, ...sort, filters };
+            return await this.model.findByCaptureStatus(captureStatus, options);
+        } catch (error) {
+            throw new Error(`Get recharges by capture status failed: ${error.message}`);
+        }
+    }
+
+    // 获取使用vault token的充值记录
+    async getVaultTokenRecharges(query = {}) {
+        try {
+            const pagination = this.normalizePaginationParams(query);
+            const sort = this.normalizeSortParams(query);
+            const filters = this.normalizeFilters(query);
+
+            const options = { ...pagination, ...sort, filters };
+            return await this.model.findVaultTokenRecharges(options);
+        } catch (error) {
+            throw new Error(`Get vault token recharges failed: ${error.message}`);
+        }
+    }
 }
 
 // 创建充值路由
@@ -125,6 +180,69 @@ function createRechargeRoutes(app) {
             res.json(rechargeService.formatPaginatedResponse(result, `Recharges with status ${status} retrieved successfully`));
         } catch (error) {
             console.error('Get recharges by status error:', error);
+            res.status(500).json(rechargeService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // GET /api/recharges/capture/:captureId - 根据捕获ID获取充值记录
+    router.get('/capture/:captureId', async (req, res) => {
+        try {
+            const { captureId } = req.params;
+            const recharge = await rechargeService.getByCaptureId(captureId);
+
+            if (!recharge) {
+                return res.status(404).json(rechargeService.formatResponse(false, null, 'Recharge not found'));
+            }
+
+            res.json(rechargeService.formatResponse(true, recharge, 'Recharge retrieved successfully'));
+        } catch (error) {
+            console.error('Get recharge by capture ID error:', error);
+            res.status(500).json(rechargeService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // PUT /api/recharges/:id/capture-status - 更新捕获状态
+    router.put('/:id/capture-status', validateUUID, async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { captureStatus, captureId } = req.body;
+
+            if (!captureStatus) {
+                return res.status(400).json(rechargeService.formatResponse(false, null, 'Capture status is required'));
+            }
+
+            const allowedStatuses = ['PENDING', 'COMPLETED', 'DECLINED', 'FAILED', 'PARTIALLY_REFUNDED', 'REFUNDED'];
+            if (!allowedStatuses.includes(captureStatus)) {
+                return res.status(400).json(rechargeService.formatResponse(false, null, 'Invalid capture status'));
+            }
+
+            const result = await rechargeService.updateCaptureStatus(id, captureStatus, captureId);
+            res.json(rechargeService.formatResponse(true, result, 'Capture status updated successfully'));
+        } catch (error) {
+            console.error('Update capture status error:', error);
+            res.status(500).json(rechargeService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // GET /api/recharges/capture-status/:status - 按捕获状态获取充值记录
+    router.get('/capture-status/:status', async (req, res) => {
+        try {
+            const { status } = req.params;
+            const result = await rechargeService.getByCaptureStatus(status, req.query);
+            res.json(rechargeService.formatPaginatedResponse(result, `Recharges with capture status ${status} retrieved successfully`));
+        } catch (error) {
+            console.error('Get recharges by capture status error:', error);
+            res.status(500).json(rechargeService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // GET /api/recharges/vault-token - 获取使用vault token的充值记录
+    router.get('/vault-token', async (req, res) => {
+        try {
+            const result = await rechargeService.getVaultTokenRecharges(req.query);
+            res.json(rechargeService.formatPaginatedResponse(result, 'Vault token recharges retrieved successfully'));
+        } catch (error) {
+            console.error('Get vault token recharges error:', error);
             res.status(500).json(rechargeService.formatResponse(false, null, error.message));
         }
     });

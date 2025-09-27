@@ -14,12 +14,9 @@ CREATE TABLE users (
   email VARCHAR(100),
   passwordHash VARCHAR(255),
   avatarUrl VARCHAR(255),
-  credits INT,
   role VARCHAR(20), -- admin/normal
-  level VARCHAR(20), -- free/lite/pro
+  level VARCHAR(20), -- free/pro
   refreshToken VARCHAR(255),
-  balance DECIMAL(10,2),
-  membershipExpiry DATETIME,
   resetPasswordToken VARCHAR(255),
   firstlogintAt DATETIME,
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -141,6 +138,9 @@ CREATE TABLE recharges (
   duration tinyint unsigned NOT NULL DEFAULT '0', -- 会籍时长（单位：月），仅 Yearly/Monthly 有效
   monthlyCredit int unsigned NOT NULL DEFAULT '0', -- 月度赠送积分（仅 Yearly 有效）
   gift_month char(7) NOT NULL DEFAULT '' COMMENT 'YYYY-MM；系统月赠幂等键', -- 标记赠送积分对应的月份，仅系统发放积分使用
+  validDays INT DEFAULT 0 COMMENT '积分有效天数', -- 积分有效天数
+  expiryDate DATETIME NULL COMMENT '积分过期时间', -- 积分过期时间
+  remainingCredits INT UNSIGNED DEFAULT 0 COMMENT '剩余积分数（扣除后更新）', -- 剩余积分数
   createdAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, -- 创建时间（插入时自动记录）
   updatedAt timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 更新时间（记录变动时自动刷新）
   captureId varchar(50) DEFAULT NULL COMMENT 'PayPal Capture ID',
@@ -149,9 +149,6 @@ CREATE TABLE recharges (
 
   -- 主键
   PRIMARY KEY (id),
-
-  -- 唯一约束：防止同一用户在同一月份对同一类型的充值（例如系统月赠）重复入账
-  UNIQUE KEY uq_user_month (userId, gift_month, chargeType),
 
   -- 唯一约束：防止同一支付订单号被重复写入
   UNIQUE KEY orderId (orderId),
@@ -162,10 +159,46 @@ CREATE TABLE recharges (
   -- 普通索引：加速通过 chargeType 查询
   KEY idx_chargeType (chargeType),
 
+  -- 积分过期相关索引：优化查询性能
+  KEY idx_userId_expiry (userId, expiryDate),
+  KEY idx_expiry_remaining (expiryDate, remainingCredits),
+
   -- 外键约束：保证 userId 的合法性；若用户删除，相关充值记录也将被删除
-  CONSTRAINT fk_recharges_user FOREIGN KEY (userId) REFERENCES users (id) 
-    ON DELETE CASCADE 
+  CONSTRAINT fk_recharges_user FOREIGN KEY (userId) REFERENCES users (id)
+    ON DELETE CASCADE
     ON UPDATE CASCADE
+);
+
+-- 创建积分使用日志表
+CREATE TABLE credit_usage_logs (
+    id VARCHAR(36) PRIMARY KEY,
+    userId VARCHAR(36) NOT NULL,
+    creditsUsed INT NOT NULL,
+    reason VARCHAR(100) NOT NULL,
+    recordsAffected INT NOT NULL DEFAULT 0,
+    details JSON,
+    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_userId (userId),
+    INDEX idx_reason (reason),
+    INDEX idx_createdAt (createdAt),
+
+    CONSTRAINT fk_credit_usage_logs_users FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- 创建积分清理统计表
+CREATE TABLE credit_cleanup_stats (
+    id VARCHAR(36) PRIMARY KEY,
+    timestamp DATETIME NOT NULL,
+    duration VARCHAR(20),
+    expiredRecordsCleaned INT DEFAULT 0,
+    expiringRecordsFound INT DEFAULT 0,
+    success BOOLEAN DEFAULT TRUE,
+    error TEXT NULL,
+    createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    INDEX idx_timestamp (timestamp),
+    INDEX idx_success (success)
 );
 
 -- 创建 image_reports 表
@@ -212,7 +245,6 @@ CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_username ON users(username);
 CREATE INDEX idx_users_role ON users(role);
 CREATE INDEX idx_users_level ON users(level);
-CREATE INDEX idx_users_membership_expiry ON users(membershipExpiry);
 
 -- categories表索引
 CREATE INDEX idx_categories_hotness ON categories(hotness DESC);

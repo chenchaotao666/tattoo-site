@@ -6,20 +6,21 @@ const { Client } = require('minio');
 const FileUtils = require('../utils/fileUtils');
 
 class ImageGenerateService {
-    constructor(imageModel = null, userModel = null) {
+    constructor(imageModel = null, userModel = null, creditService = null) {
         // 强制Node.js使用node-fetch替代内置fetch
         if (!global.fetch) {
             global.fetch = require('node-fetch');
         }
-        
+
         // 设置Node.js网络相关环境变量
         process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'; // 临时禁用TLS验证进行测试
-        
+
         // 设置DNS解析
         require('dns').setDefaultResultOrder('ipv4first');
         // Store the image model and user model for database operations
         this.imageModel = imageModel;
         this.userModel = userModel;
+        this.creditService = creditService;
         
         // Initialize with default parameters for SDXL Fresh Ink model
         this.defaultParams = {
@@ -293,26 +294,23 @@ The design should be professional quality, original, and ready for use as a tatt
             throw new Error('User ID is required for credit validation');
         }
 
-        if (!this.userModel) {
-            throw new Error('User model not provided - cannot validate credits');
+        if (!this.creditService) {
+            throw new Error('Credit service not provided - cannot validate credits');
         }
 
         try {
-            // 查询用户信息
-            const user = await this.userModel.findById(userId);
-            if (!user) {
-                throw new Error('User not found');
-            }
-
             // 计算所需积分（1个输出图片需要1个积分）
             const requiredCredits = numOutputs || 1;
-            
+
+            // 通过creditService直接获取用户的总有效积分
+            const availableCredits = await this.creditService.getUserTotalCredits(userId);
+
             // 检查用户积分是否足够
-            if (user.credits < requiredCredits) {
-                throw new Error(`Insufficient credits. Required: ${requiredCredits}, Available: ${user.credits}`);
+            if (availableCredits < requiredCredits) {
+                throw new Error(`Insufficient credits. Required: ${requiredCredits}, Available: ${availableCredits}`);
             }
 
-            console.log(`User ${userId} has sufficient credits: ${user.credits} >= ${requiredCredits}`);
+            console.log(`User ${userId} has sufficient credits: ${availableCredits} >= ${requiredCredits}`);
             return true;
         } catch (error) {
             throw new Error(`Credit validation failed: ${error.message}`);
@@ -325,37 +323,23 @@ The design should be professional quality, original, and ready for use as a tatt
             throw new Error('User ID and image count are required for credit deduction');
         }
 
-        if (!this.userModel) {
-            throw new Error('User model not provided - cannot deduct credits');
+        if (!this.creditService) {
+            throw new Error('Credit service not provided - cannot deduct credits');
         }
 
         try {
-            // 查询用户信息
-            const user = await this.userModel.findById(userId);
-            if (!user) {
-                throw new Error('User not found');
-            }
-
             // 计算要扣除的积分（每张图片1积分）
             const creditsToDeduct = imageCount;
-            
-            // 再次检查用户积分是否足够（防止并发问题）
-            if (user.credits < creditsToDeduct) {
-                throw new Error(`Insufficient credits for deduction. Required: ${creditsToDeduct}, Available: ${user.credits}`);
-            }
 
-            // 扣除积分
-            const newCredits = user.credits - creditsToDeduct;
-            await this.userModel.updateById(
-                userId,
-                { credits: newCredits }
-            );
+            // 使用creditService扣除积分
+            const result = await this.creditService.deductCredits(userId, creditsToDeduct, 'tattoo_generation');
 
-            console.log(`Deducted ${creditsToDeduct} credits from user ${userId}. New balance: ${newCredits}`);
-            return { 
-                deductedCredits: creditsToDeduct, 
-                newBalance: newCredits, 
-                previousBalance: user.credits 
+            console.log(`Deducted ${creditsToDeduct} credits from user ${userId}. Remaining: ${result.remainingCredits}`);
+            return {
+                deductedCredits: creditsToDeduct,
+                newBalance: result.remainingCredits,
+                previousBalance: result.remainingCredits + creditsToDeduct,
+                deductionDetails: result
             };
         } catch (error) {
             throw new Error(`Credit deduction failed: ${error.message}`);

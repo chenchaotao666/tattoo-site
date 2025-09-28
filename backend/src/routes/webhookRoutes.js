@@ -242,20 +242,31 @@ function createWebhookRoutes(app) {
     const webhookService = new PayPalWebhookService(models.Recharge, userService, creditService);
 
     // PayPal webhook 端点
-    router.post('/paypal', express.raw({ type: 'application/json' }), async (req, res) => {
+    router.post('/paypal', async (req, res) => {
         try {
             const headers = req.headers;
             const body = req.body;
 
             // 解析 webhook 事件数据
             let eventData;
-            try {
-                eventData = JSON.parse(body.toString());
-            } catch (parseError) {
-                console.error('Failed to parse webhook body:', parseError);
+            if (typeof body === 'string') {
+                try {
+                    eventData = JSON.parse(body);
+                } catch (parseError) {
+                    console.error('Failed to parse webhook body:', parseError);
+                    return res.status(400).json({
+                        success: false,
+                        message: 'Invalid JSON payload'
+                    });
+                }
+            } else if (typeof body === 'object' && body !== null) {
+                // Body is already parsed by express.json() middleware
+                eventData = body;
+            } else {
+                console.error('Invalid webhook body type:', typeof body);
                 return res.status(400).json({
                     success: false,
-                    message: 'Invalid JSON payload'
+                    message: 'Invalid body format'
                 });
             }
 

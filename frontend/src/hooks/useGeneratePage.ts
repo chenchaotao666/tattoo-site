@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
-import GenerateServiceInstance, { StyleSuggestion } from '../services/generateService';
+import GenerateServiceInstance, { IdeaSuggestion } from '../services/generateService';
 import { STYLE_SUGGESTIONS, getRandomSuggestions } from '../utils/ideaSuggestions';
 
 import { BaseImage } from '../services/imageService';
@@ -30,7 +30,8 @@ export interface UseGeneratePageState {
   
   // 数据状态
   generatedImages: BaseImage[]; // 生成的图片
-  styleSuggestions: StyleSuggestion[];
+  ideaSuggestions: IdeaSuggestion[];
+  allIdeas: IdeaSuggestion[]; // 全量创意数据
   styles: Style[]; // 风格列表
   
   // UI状态
@@ -71,7 +72,7 @@ export interface UseGeneratePageActions {
   
   // API 操作
   generateImages: () => Promise<void>;
-  loadStyleSuggestions: () => Promise<void>;
+  loadIdeaSuggestions: () => Promise<void>;
   loadStyles: () => Promise<void>;
   recreateExample: (exampleId: string) => Promise<void>;
   downloadImage: (imageId: string, format: 'png' | 'pdf') => Promise<void>;
@@ -79,7 +80,7 @@ export interface UseGeneratePageActions {
   // 工具操作
   clearError: () => void;
   resetForm: () => void;
-  refreshStyleSuggestions: () => void;
+  refreshIdeaSuggestions: () => void;
   loadGeneratedImages: (user?: any) => Promise<void>;
   
   // 积分相关操作
@@ -154,7 +155,8 @@ export const useGeneratePage = (
     
     // 数据状态
     generatedImages: [],
-    styleSuggestions: [],
+    ideaSuggestions: [],
+    allIdeas: [], // 全量创意数据
     styles: [], // 风格列表
     
     // UI状态
@@ -466,26 +468,40 @@ export const useGeneratePage = (
   }, [updateState]);
 
 
-  // 加载风格建议
-  const loadStyleSuggestions = useCallback(async () => {
+  // 加载创意建议
+  const loadIdeaSuggestions = useCallback(async () => {
     try {
       updateState({ isLoadingStyles: true, error: null });
-      
-      // 模拟异步加载（可选，让用户感觉更真实）
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      // 从50种建议中随机选择6种
-      const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 6, language);
-      
-      updateState({ styleSuggestions: randomSuggestions });
-    } catch (error) {
+
+      // 从后端 ideas 表读取全量数据
+      const { default: ideasService } = await import('../services/ideasService');
+      const response = await ideasService.getAll({ pageSize: 1000, currentPage: 1 }); // 获取大量数据
+
+      // 将后端数据转换为 IdeaSuggestion 格式
+      const backendIdeas = response.data.map(idea => ({
+        id: idea.id,
+        name: idea.title?.[language] || idea.title?.en || 'Untitled',
+        content: idea.prompt?.[language] || idea.prompt?.en || 'No description'
+      }));
+
+      // 存储全量数据并随机选择6种显示
+      const shuffled = [...backendIdeas].sort(() => 0.5 - Math.random());
+      const randomSuggestions = shuffled.slice(0, 6);
+
       updateState({
-        error: error instanceof Error ? error.message : 'Failed to load styles',
+        allIdeas: backendIdeas, // 存储全量数据
+        ideaSuggestions: randomSuggestions
       });
+    } catch (error) {
+      console.error('Failed to load idea suggestions from backend, falling back to local data:', error);
+
+      // 如果后端请求失败，回退到本地数据
+      const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 6, language);
+      updateState({ ideaSuggestions: randomSuggestions });
     } finally {
       updateState({ isLoadingStyles: false });
     }
-  }, [updateState]);
+  }, [updateState, language]);
 
   // 加载风格列表
   const loadStyles = useCallback(async () => {
@@ -635,24 +651,40 @@ export const useGeneratePage = (
   }, [updateState]);
 
 
-  // 刷新风格建议
-  const refreshStyleSuggestions = useCallback(async () => {
-    // 直接重新随机选择，不需要调用 loadStyleSuggestions
-    const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 6, language);
-    updateState({ styleSuggestions: randomSuggestions });
-  }, [updateState, language]);
+  // 刷新创意建议
+  const refreshIdeaSuggestions = useCallback(() => {
+    // 如果没有全量数据，回退到本地数据
+    if (state.allIdeas.length === 0) {
+      const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 6, language);
+      updateState({ ideaSuggestions: randomSuggestions });
+      return;
+    }
+
+    try {
+      // 从已存储的全量数据中重新随机选择
+      const shuffled = [...state.allIdeas].sort(() => 0.5 - Math.random());
+      const randomSuggestions = shuffled.slice(0, 6);
+
+      updateState({ ideaSuggestions: randomSuggestions });
+    } catch (error) {
+      console.error('Failed to refresh idea suggestions, falling back to local data:', error);
+
+      // 如果出错，回退到本地数据
+      const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 6, language);
+      updateState({ ideaSuggestions: randomSuggestions });
+    }
+  }, [state.allIdeas, updateState, language]);
 
   // 初始化加载（只执行一次）
   useEffect(() => {
-    loadStyleSuggestions(); // 风格建议也只需要加载一次
+    loadIdeaSuggestions(); // 创意建议也只需要加载一次
     loadStyles(); // 加载风格列表
   }, []); // 空依赖数组，确保只执行一次
 
-  // 当语言切换时重新加载风格建议
+  // 当语言切换时重新加载创意建议
   useEffect(() => {
-    const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 6, language);
-    updateState({ styleSuggestions: randomSuggestions });
-  }, [language, updateState]);
+    refreshIdeaSuggestions();
+  }, [language, refreshIdeaSuggestions]);
 
 
 
@@ -681,13 +713,13 @@ export const useGeneratePage = (
     setShowStyleSelector,
     setCurrentSelectedImage,
     generateImages,
-    loadStyleSuggestions,
+    loadIdeaSuggestions,
     loadStyles,
     recreateExample,
     downloadImage,
     clearError,
     resetForm,
-    refreshStyleSuggestions,
+    refreshIdeaSuggestions,
     loadGeneratedImages,
     checkUserCredits,
     handleInsufficientCredits,

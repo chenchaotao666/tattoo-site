@@ -8,8 +8,7 @@ export interface User {
   email: string;
   avatar: string | null;
   credits: number;
-  membershipLevel: 'free' | 'lite' | 'pro';
-  membershipExpiry: string | null;
+  level: 'free' | 'lite' | 'pro';
   createdAt: string;
   updatedAt?: string;
 }

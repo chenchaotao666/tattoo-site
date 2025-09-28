@@ -99,7 +99,7 @@ const GeneratePage: React.FC = () => {
     selectedStyle,
     publicVisibility,
     generatedImages,
-    styleSuggestions,
+    ideaSuggestions,
     styles,
     showStyleSelector,
     currentSelectedImage,
@@ -122,7 +122,7 @@ const GeneratePage: React.FC = () => {
     generateImages,
     downloadImage,
     clearError,
-    refreshStyleSuggestions,
+    refreshIdeaSuggestions,
     checkUserCredits,
     loadGeneratedImages,
   } = useGeneratePage(refreshUser, setShowPricingModal, showSuccessToast);
@@ -473,8 +473,8 @@ const GeneratePage: React.FC = () => {
     if (inputError) setInputError('');
   };
 
-  const handleRefreshStyleSuggestions = () => {
-    refreshStyleSuggestions();
+  const handleRefreshIdeaSuggestions = () => {
+    refreshIdeaSuggestions();
   };
 
   // MoreMenu删除成功后的回调，直接更新本地状态
@@ -485,7 +485,7 @@ const GeneratePage: React.FC = () => {
 
   const handleVisibilityToggle = () => {
     // Check if user is not premium (free or expired membership)
-    const isNotPremium = !user?.membershipLevel || user?.membershipLevel === 'free';
+    const isNotPremium = !user?.level || user?.level === 'free';
     
     if (isNotPremium) {
       // Show pricing modal for free users
@@ -522,14 +522,16 @@ const GeneratePage: React.FC = () => {
             publicVisibility={publicVisibility}
             isGenerating={isGenerating}
             error={error}
-            styleSuggestions={styleSuggestions}
+            ideaSuggestions={ideaSuggestions}
             styles={styles}
             showStyleSelector={showStyleSelector}
+            user={user}
+            setShowPricingModal={setShowPricingModal}
             promptInputRef={promptInputRef}
             handlePromptChange={handlePromptChange}
             handleClearPrompt={handleClearPrompt}
             handleStyleSuggestionClick={handleStyleSuggestionClick}
-            handleRefreshStyleSuggestions={handleRefreshStyleSuggestions}
+            handleRefreshIdeaSuggestions={handleRefreshIdeaSuggestions}
             handleVisibilityToggle={handleVisibilityToggle}
             handleGenerate={handleGenerate}
             setSelectedColor={setSelectedColor}

@@ -40,16 +40,26 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         onBlur={onBlur}
         placeholder={placeholder}
         required={required}
-        className={`w-full px-3 py-3 pr-12 text-sm border ${
-          error ? 'border-red-300' : 'border-gray-300'
-        } rounded-lg focus:ring-blue-500 focus:border-blue-500 focus:outline-none ${className}`}
+        className={`w-full px-3 py-3 pr-12 text-sm border rounded-lg focus:outline-none ${className}`}
+        style={{
+          backgroundColor: '#131317',
+          borderColor: error ? '#ff6b6b' : '#666666',
+          color: '#CCCCCC'
+        }}
       />
-      
+
       {/* 显示/隐藏密码按钮 */}
       <button
         type="button"
         onClick={togglePasswordVisibility}
-        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700"
+        className="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none"
+        style={{color: '#666666'}}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.color = '#98FF59';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.color = '#666666';
+        }}
         aria-label={showPassword ? 'Hide password' : 'Show password'}
       >
         {showPassword ? (

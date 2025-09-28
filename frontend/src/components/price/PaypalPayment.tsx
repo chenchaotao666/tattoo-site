@@ -4,6 +4,7 @@ import { loadScript as loadScriptPaypal } from "@paypal/paypal-js";
 import { useAuth } from '../../contexts/AuthContext';
 import { PricingService } from '../../services/pricingService';
 import { useAsyncTranslation } from '../../contexts/LanguageContext';
+import { useToast } from '../../contexts/ToastContext';
 
 // PayPal Types
 import type { PayPalNamespace } from "@paypal/paypal-js";
@@ -34,14 +35,51 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
   const { t } = useAsyncTranslation('pricing');
   const { refreshUser } = useAuth();
   const navigate = useNavigate();
+  const { showSuccessToast, showErrorToast } = useToast();
   const paypalRef = useRef<HTMLDivElement>(null);
   const planCodeRef = useRef(planCode); // 使用ref保存最新的planCode值
+  const creditsRef = useRef(credits); // 使用ref保存最新的credits值
   const [isProcessing, setIsProcessing] = useState(false);
 
   // 更新planCodeRef当planCode变化时
   useEffect(() => {
     planCodeRef.current = planCode;
   }, [planCode]);
+
+  // 更新creditsRef当credits变化时
+  useEffect(() => {
+    creditsRef.current = credits;
+  }, [credits]);
+
+  // 处理支付结果
+  const handlePaymentResult = async (orderID: string) => {
+    try {
+      const response = await PricingService.captureOrder(orderID);
+      if (response.status === 'COMPLETED') {
+        await refreshUser();
+        showSuccessToast(`支付成功！${creditsRef.current} 积分已添加到您的账户，5秒后跳转到创建页面`);
+
+        setIsProcessing(false);
+        setCardLoading(false);
+
+        // 延迟跳转，让用户看到成功消息
+        setTimeout(() => {
+          onBack();
+          navigate('/text-coloring-page');
+        }, 5000);
+      } else {
+        showErrorToast('支付处理失败，请重试');
+      }
+    } catch (error: any) {
+      console.error('支付失败:', error);
+      // ApiError 的消息直接在 error.message 中
+      const errorMessage = '支付失败，请重试';
+      showErrorToast(errorMessage);
+    } finally {
+      setIsProcessing(false);
+      setCardLoading(false);
+    }
+  };
 
   // 加载PayPal SDK
   const [paypalLoaded, setPaypalLoaded] = useState(false);
@@ -56,7 +94,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
             components: "buttons,card-fields",
           });
         }
-        
+
         await loadPaypal.current;
         setPaypalLoaded(true);
         console.log('PayPal SDK loaded successfully');
@@ -82,8 +120,9 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
         const paypal = window.paypal;
         if (!paypal || !paypalRef.current) return;
 
-        // 只在容器为空时才清空，避免重复渲染
+        // 检查是否已经渲染过
         if (paypalRef.current.children.length > 0) {
+          setPaypalInitialized(true);
           return;
         }
 
@@ -95,6 +134,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
             color: 'blue',
             layout: 'vertical',
             label: 'paypal',
+            height: 46,
           },
           createOrder: async () => {
             try {
@@ -113,23 +153,12 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
             }
           },
           onApprove: async (data: any) => {
-            try {
-              const { orderID } = data;
-              await PricingService.captureOrder(orderID);
-              await refreshUser();
-              onBack();
-              alert(t('payment.success.message'));
-              navigate('/text-coloring-page');
-            } catch (error) {
-              console.error('支付失败:', error);
-              alert(t('payment.errors.paymentFailed'));
-            } finally {
-              setIsProcessing(false);
-            }
+            const { orderID } = data;
+            await handlePaymentResult(orderID);
           },
           onError: (error: any) => {
             console.error('PayPal错误:', error);
-            alert(t('payment.errors.paypalError'));
+            showErrorToast('PayPal支付出现错误，请重试');
             setIsProcessing(false);
           },
           onCancel: () => {
@@ -154,24 +183,19 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
               } catch (error) {
                 console.error('创建订单失败:', error);
                 setIsProcessing(false);
+                setCardLoading(false);
                 throw error;
               }
             },
             onApprove: async (data: any) => {
-              try {
-                const { orderID } = data;
-                await PricingService.captureOrder(orderID);
-              } catch (error) {
-                console.error('支付失败:', error);
-                alert(t('payment.errors.paymentFailed'));
-              } finally {
-                setIsProcessing(false);
-              }
+              const { orderID } = data;
+              await handlePaymentResult(orderID);
             },
             onError: (error: any) => {
               console.error('CardFields错误:', error);
-              alert(t('payment.errors.cardError'));
+              showErrorToast('信用卡支付出现错误，请重试');
               setIsProcessing(false);
+              setCardLoading(false);
             }
           });
 
@@ -181,109 +205,152 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
             style: {
               input: {
                 padding: "10px 15px",
-                background: "#F5F5F5",
                 "font-size": "14px",
-                border: "1px solid #E6E6E6",
-                "border-radius": "4px",
+                border: "1px solid #26262D",
+                "border-radius": "8px",
+                height: "46px",
               },
             },
           };
 
           if (cardFieldInstance.isEligible()) {
-            // 延迟渲染确保 DOM 元素存在
-            setTimeout(() => {
+            // 确保 DOM 元素存在后立即渲染
+            const renderFields = () => {
               try {
-                // 检查容器是否存在且为空
                 const nameContainer = document.getElementById("card-name-field-container");
                 const numberContainer = document.getElementById("card-number-field-container");
                 const cvvContainer = document.getElementById("card-cvv-field-container");
                 const expiryContainer = document.getElementById("card-expiry-field-container");
 
-                if (nameContainer && !nameContainer.hasChildNodes()) {
-                  cardFieldInstance.NameField?.(cardFieldOptions)?.render("#card-name-field-container");
-                }
                 if (numberContainer && !numberContainer.hasChildNodes()) {
-                  cardFieldInstance.NumberField?.(cardFieldOptions)?.render("#card-number-field-container");
-                }
-                if (cvvContainer && !cvvContainer.hasChildNodes()) {
-                  cardFieldInstance.CVVField?.(cardFieldOptions)?.render("#card-cvv-field-container");
+                  cardFieldInstance.NumberField(cardFieldOptions).render("#card-number-field-container");
                 }
                 if (expiryContainer && !expiryContainer.hasChildNodes()) {
-                  cardFieldInstance.ExpiryField?.(cardFieldOptions)?.render("#card-expiry-field-container");
+                  cardFieldInstance.ExpiryField(cardFieldOptions).render("#card-expiry-field-container");
                 }
+                if (cvvContainer && !cvvContainer.hasChildNodes()) {
+                  cardFieldInstance.CVVField(cardFieldOptions).render("#card-cvv-field-container");
+                }
+                if (nameContainer && !nameContainer.hasChildNodes()) {
+                  cardFieldInstance.NameField(cardFieldOptions).render("#card-name-field-container");
+                }
+
+                setPaypalInitialized(true);
               } catch (error) {
                 console.error('CardFields render error:', error);
+                setPaypalInitialized(true);
               }
-            }, 100);
+            };
+
+            // 立即尝试渲染，如果DOM还没准备好则稍等片刻
+            const numberContainer = document.getElementById("card-number-field-container");
+            if (numberContainer) {
+              renderFields();
+            } else {
+              setTimeout(renderFields, 50);
+            }
           }
+        } else {
+          // 如果 CardFields 不可用，直接设置为初始化完成
+          setPaypalInitialized(true);
         }
 
-        setPaypalInitialized(true);
       } catch (error) {
         console.error('PayPal initialization error:', error);
+        setPaypalInitialized(true);
       }
     };
 
     initializePayPal();
-  }, [paypalLoaded, paypalInitialized]);
+  }, [paypalLoaded]);
 
   // 处理信用卡支付
   const handleCardSubmit = async () => {
-    if (!cardField) return;
-    
+    if (!cardField) {
+      showErrorToast('支付系统未准备就绪，请稍后重试');
+      return;
+    }
+
     setCardLoading(true);
     try {
       await cardField.submit();
-      await refreshUser();
-      onBack();
-      alert(t('payment.success.message'));
-      navigate('/text-coloring-page');
+      // CardFields 的 onApprove 会处理后续流程
     } catch (error) {
       console.error('Card payment failed:', error);
-      alert('信用卡支付失败，请重试');
-    } finally {
+      showErrorToast('信用卡支付失败，请检查卡片信息后重试');
       setCardLoading(false);
     }
   };
   
   return (
-    <div className="p-8 h-full w-full">
-      <div 
-        id="checkout-container" 
-        className="w-full flex-shrink-0 mx-auto max-w-[1280px]"
+    <div className="pb-8 px-8 h-full w-full bg-[#030414] min-h-screen">
+      <style>
+        {`
+          .paypal-field-loading {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
+            overflow: hidden;
+          }
+
+          .paypal-field-ready {
+            position: relative;
+            left: auto;
+            opacity: 1;
+            visibility: visible;
+            height: auto;
+            transition: opacity 0.3s ease;
+          }
+
+          .paypal-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 10;
+          }
+
+        `}
+      </style>
+      <div
+        id="checkout-container"
+        className="w-full flex-shrink-0 mx-auto max-w-[1170px]"
       >
         {/* 返回按钮 */}
         <div className="mb-6">
-          <button 
-            className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
+          <button
+            className="flex items-center text-[#C8C8C8] hover:text-[#98FF59] transition-colors"
             onClick={onBack}
           >
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="mr-2 h-4 w-4" 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="mr-2 h-4 w-4"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M12 19l-7-7 7-7m7 7H5"
               />
-            </svg> 
+            </svg>
             返回套餐
           </button>
         </div>
 
         {/* 支付表单容器 */}
-        <div className="grid grid-cols-1 rounded-2xl border-[1px] border-gray-300 bg-white lg:grid-cols-2 w-full">
+        <div className="grid grid-cols-1 rounded-2xl border-[1px] border-[#26262D] bg-[#131317] lg:grid-cols-2 w-full">
           {/* 左侧 - 订单信息 */}
-          <div className="flex flex-col p-10 text-gray-800 bg-gray-50 rounded-l-2xl">
+          <div className="flex flex-col p-10 text-[#ECECEC] bg-[#19191F] rounded-l-2xl">
             <div className="mb-[60px]">
-              <h3 className="mb-2 text-lg text-gray-600">购买 {planTitle}</h3>
-              <div className="mb-6 text-4xl font-bold text-gray-900">{credits} 积分</div>
-              <div className="text-sm text-gray-600">{days} 天有效期</div>
+              <h3 className="mb-2 text-lg text-[#C8C8C8]">购买 {planTitle}</h3>
+              <div className="mb-6 text-4xl font-bold text-[#FFFFFF]">{credits} 积分</div>
+              <div className="text-sm text-[#C8C8C8]">{days} 天有效期</div>
             </div>
 
             <div className="space-y-4">
@@ -295,8 +362,8 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                 <span>有效期</span>
                 <span>{days} 天</span>
               </div>
-              <hr className="border-gray-300" />
-              <div className="flex justify-between text-lg font-bold">
+              <hr className="border-[#26262D]" />
+              <div className="flex justify-between text-lg font-bold text-[#FFFFFF]">
                 <span>总金额</span>
                 <span>US${totalPrice}</span>
               </div>
@@ -304,65 +371,89 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
           </div>
 
           {/* 右侧 - 支付表单 */}
-          <div className="rounded-r-2xl bg-white p-10 text-[#5D5D5D]">
+          <div className="rounded-r-2xl bg-[#131317] p-10 text-[#ECECEC]">
             <div className="space-y-3">
               {/* PayPal 按钮容器 */}
               <div ref={paypalRef} id="paypal-button-container"></div>
               
               {isProcessing && (
-                <div className="text-center text-sm text-[#6B7280] mb-4">
+                <div className="text-center text-sm text-[#C8C8C8] mb-4">
                   {t('payment.processing')}
                 </div>
               )}
 
               {/* 分割线 */}
               <div className="flex items-center my-4">
-                <hr className="flex-1 border-gray-300" />
-                <span className="px-4 text-[#5d5d5d]">或使用银行卡支付</span>
-                <hr className="flex-1 border-gray-300" />
+                <hr className="flex-1 border-[#26262D]" />
+                <span className="px-4 text-[#C8C8C8]">或使用银行卡支付</span>
+                <hr className="flex-1 border-[#26262D]" />
               </div>
-              
+
               {/* 银行卡信息 */}
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <label className="text-[#161616] font-medium">银行卡信息</label>
+                  <label className="text-[#FFFFFF] font-medium">银行卡信息</label>
                   <div className="flex items-center gap-2">
-                    <img 
-                      src="/images/paypal/mastercard.svg" 
-                      alt="Mastercard" 
-                      className="h-5 w-[30px]" 
+                    <img
+                      src="/images/paypal/mastercard.svg"
+                      alt="Mastercard"
+                      className="h-5 w-[30px]"
                     />
-                    <img 
-                      src="/images/paypal/visa.png" 
-                      alt="Visa" 
-                      className="h-5" 
+                    <img
+                      src="/images/paypal/visa.png"
+                      alt="Visa"
+                      className="h-5"
                     />
                   </div>
                 </div>
 
                 {/* PayPal CardFields 动态渲染的输入框 */}
-                <div className="mb-4">
-                  <div id="card-number-field-container"></div>
+                <div className="mb-8 relative h-[46px]">
+                  <div
+                    id="card-number-field-container"
+                    className={`w-full h-[46px] ${paypalInitialized ? 'paypal-field-ready' : 'paypal-field-loading'}`}
+                  ></div>
+                  <div className={`paypal-placeholder h-[46px] bg-[rgb(25,25,31)] border border-[#26262D] rounded-lg flex items-center ${paypalInitialized ? 'hidden' : ''}`}>
+                    <span className="text-[#818181] text-sm">卡号</span>
+                  </div>
                 </div>
 
                 {/* 有效期和CVV */}
-                <div className="flex gap-3 mb-4">
-                  <div className="flex-1">
-                    <div id="card-expiry-field-container"></div>
+                <div className="flex gap-3 mb-8">
+                  <div className="flex-1 relative h-[46px]">
+                    <div
+                      id="card-expiry-field-container"
+                      className={`w-full h-[46px] ${paypalInitialized ? 'paypal-field-ready' : 'paypal-field-loading'}`}
+                    ></div>
+                    <div className={`paypal-placeholder h-[46px] bg-[rgb(25,25,31)] border border-[#26262D] rounded-lg flex items-center ${paypalInitialized ? 'hidden' : ''}`}>
+                      <span className="text-[#818181] text-sm">MM/YY</span>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <div id="card-cvv-field-container"></div>
+                  <div className="flex-1 relative h-[46px]">
+                    <div
+                      id="card-cvv-field-container"
+                      className={`w-full h-[46px] ${paypalInitialized ? 'paypal-field-ready' : 'paypal-field-loading'}`}
+                    ></div>
+                    <div className={`paypal-placeholder h-[46px] bg-[rgb(25,25,31)] border border-[#26262D] rounded-lg flex items-center ${paypalInitialized ? 'hidden' : ''}`}>
+                      <span className="text-[#818181] text-sm">CVV</span>
+                    </div>
                   </div>
                 </div>
 
                 {/* 持卡人姓名 */}
-                <div className="mb-6">
-                  <div id="card-name-field-container"></div>
+                <div className="mb-8 relative h-[46px]">
+                  <div
+                    id="card-name-field-container"
+                    className={`w-full h-[46px] ${paypalInitialized ? 'paypal-field-ready' : 'paypal-field-loading'}`}
+                  ></div>
+                  <div className={`paypal-placeholder h-[46px] bg-[rgb(25,25,31)] border border-[#26262D] rounded-lg flex items-center ${paypalInitialized ? 'hidden' : ''}`}>
+                    <span className="text-[#818181] text-sm">持卡人姓名</span>
+                  </div>
                 </div>
 
                 {/* 支付按钮 */}
-                <button 
-                  className="w-full h-12 bg-[#FF2478] hover:bg-[#E1206B] text-white text-lg font-medium rounded transition-colors border-none disabled:opacity-50"
+                <button
+                  className="w-full h-12 bg-gradient-to-r from-[#871CDF] to-[#F42F74] hover:from-[#7A19C7] hover:to-[#E1206B] text-white text-lg font-medium rounded-lg transition-all duration-200 border-none disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleCardSubmit}
                   disabled={cardLoading || isProcessing}
                 >
@@ -371,15 +462,12 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
 
                 {/* 底部说明文字 */}
                 <div className="mt-4 space-y-2 text-center">
-                  <p className="text-sm text-[#5D5D5D]">
-                    确认订阅即表示您授权我们根据我们的条款从您的银行卡中扣除未来付款。您可以随时取消订阅。
-                  </p>
-                  <div className="flex items-center justify-center text-sm text-[#5D5D5D]">
+                  <div className="flex items-center justify-center text-sm text-[#C8C8C8]">
                     <span>技术支持</span>
-                    <img 
-                      src="/images/paypal/paypal.webp" 
-                      alt="PayPal" 
-                      className="ml-1 h-4" 
+                    <img
+                      src="/images/paypal/paypal.webp"
+                      alt="PayPal"
+                      className="ml-1 h-4"
                     />
                   </div>
                 </div>

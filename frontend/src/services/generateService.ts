@@ -83,11 +83,11 @@ export interface TaskStatus {
   image?: BaseImage; // 兼容字段
 }
 
-export interface StyleSuggestion {
+export interface IdeaSuggestion {
   id: string;
   name: string;
   content: string;
-  category: string;
+  category?: string;
 }
 
 export interface UserTask {

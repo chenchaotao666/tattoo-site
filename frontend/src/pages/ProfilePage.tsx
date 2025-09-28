@@ -242,33 +242,6 @@ const ProfilePage: React.FC = () => {
     fileInputRef.current?.click();
   };
 
-  // 更换套餐
-  const handleChangePlan = () => {
-    navigateWithLanguage(navigate, '/price');
-  };
-
-  // 取消订阅
-  const handleCancelSubscription = async () => {
-    if (!confirm(t('messages.confirmCancelSubscription'))) {
-      return;
-    }
-
-    try {
-      setIsLoading(true);
-      await UserService.cancelSubscription();
-      await refreshUser();
-      setSuccessMessage(t('messages.subscriptionCancelled'));
-    } catch (error) {
-      console.error('Cancel subscription failed:', error);
-      if (error instanceof ApiError) {
-        setErrors({ general: error.message });
-      } else {
-        setErrors({ general: t('messages.cancelSubscriptionFailed') });
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   // 处理表单提交
   const handleSubmit = async (e: React.FormEvent) => {
@@ -374,10 +347,10 @@ const ProfilePage: React.FC = () => {
         description={tCommon('seo.profile.description')}
         canonicalUrl={`${window.location.origin}/profile`}
       />
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen" style={{backgroundColor: '#030414'}}>
         <div className="max-w-screen-xl px-4 pt-6 pb-10 mx-auto">
         {/* 用户信息区域 */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
+        <div className="rounded-lg shadow-sm border mb-6" style={{backgroundColor: '#19191F', borderColor: '#131317'}}>
           <div className="px-6 py-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               {/* 用户基本信息 */}
@@ -406,38 +379,20 @@ const ProfilePage: React.FC = () => {
                   </button>
                 </div>
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900">{user?.username}</h2>
-                  <p className="text-gray-600">{user?.email}</p>
-                  <div className="flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-lg mt-2 inline-flex" style={{backgroundColor: '#F9FAFB'}}>
-                    <img src="/images/credits.svg" alt={t('credits')} className="w-4 h-4" />
-                    <span className="text-sm font-medium text-orange-600">{user?.credits}</span>
-                  </div>
+                  <h2 className="text-xl font-semibold" style={{color: '#98FF59'}}>{user?.username}</h2>
+                  <p style={{color: '#CCCCCC'}}>{user?.email}</p>
                 </div>
               </div>
 
-              {/* 套餐信息 */}
+              {/* 积分信息 */}
               <div className="flex items-center gap-4">
-                <div className="px-4 py-2 bg-gray-50 rounded-lg">
-                  <span className="text-sm font-medium text-gray-700">
-                    {t(`subscription.${user?.membershipLevel}`)}
+                <div className="flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-lg" style={{backgroundColor: 'rgba(255, 255, 255, 0.1)'}}>
+                  <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 0C12.4183 0 16 3.58172 16 8C16 12.4183 12.4183 16 8 16C3.58172 16 0 12.4183 0 8C0 3.58172 3.58172 0 8 0ZM8.46191 3.11035C8.29112 2.69971 7.70888 2.69971 7.53809 3.11035L6.53027 5.5332C6.45827 5.70632 6.29529 5.82486 6.1084 5.83984L3.49219 6.0498C3.04886 6.08535 2.86926 6.6384 3.20703 6.92773L5.2002 8.63574C5.34257 8.75772 5.40483 8.94947 5.36133 9.13184L4.75195 11.6846C4.64877 12.1171 5.1195 12.4592 5.49902 12.2275L7.73926 10.8594C7.89927 10.7616 8.10073 10.7616 8.26074 10.8594L10.501 12.2275C10.8805 12.4592 11.3512 12.1171 11.248 11.6846L10.6387 9.13184C10.5952 8.94947 10.6574 8.75772 10.7998 8.63574L12.793 6.92773C13.1307 6.6384 12.9511 6.08535 12.5078 6.0498L9.8916 5.83984C9.70471 5.82486 9.54173 5.70632 9.46973 5.5332L8.46191 3.11035Z" fill="#98FF59"/>
+                  </svg>
+                  <span className="text-sm font-medium text-white tabular-nums">
+                    {user ? user.credits : 0}
                   </span>
-                </div>
-                
-                {/* 套餐控制按钮 */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleChangePlan}
-                    className="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                  >
-                    {t('buttons.changePlan')}
-                  </button>
-                  <button
-                    onClick={handleCancelSubscription}
-                    disabled={user?.membershipLevel === 'free' || isLoading}
-                    className="px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {t('buttons.cancelSubscription')}
-                  </button>
                 </div>
               </div>
             </div>
@@ -445,9 +400,9 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* 订单记录 */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-6">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h1 className="text-lg font-semibold text-gray-900">{t('sections.orderHistory')}</h1>
+        <div className="rounded-lg shadow-sm border mb-6" style={{backgroundColor: '#19191F', borderColor: '#131317'}}>
+          <div className="px-6 py-4 border-b" style={{borderColor: '#131317'}}>
+            <h1 className="text-lg font-semibold text-white">{t('sections.orderHistory')}</h1>
           </div>
           <div className="px-6 py-4">
             {isLoadingOrders ? null : (
@@ -455,46 +410,46 @@ const ProfilePage: React.FC = () => {
                 <div className="overflow-x-auto">
                   <table className="w-full">
                     <thead>
-                      <tr className="bg-gray-50">
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                      <tr style={{backgroundColor: '#131317'}}>
+                        <th className="px-4 py-3 text-left text-xs font-medium tracking-wider" style={{color: '#CCCCCC'}}>
                           {t('orderTable.orderId')}
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-medium tracking-wider" style={{color: '#CCCCCC'}}>
                           {t('orderTable.planInfo')}
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-medium tracking-wider" style={{color: '#CCCCCC'}}>
                           {t('orderTable.amount')}
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-medium tracking-wider" style={{color: '#CCCCCC'}}>
                           {t('orderTable.createdAt')}
                         </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">
+                        <th className="px-4 py-3 text-left text-xs font-medium tracking-wider" style={{color: '#CCCCCC'}}>
                           {t('orderTable.paymentStatus')}
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
+                    <tbody className="divide-y" style={{backgroundColor: '#19191F', borderColor: '#131317'}}>
                       {orderHistory && orderHistory.length > 0 ? (
                           orderHistory.map((order) => {
                             const statusDisplay = getOrderStatusDisplay(order.status);
                             return (
                               <tr key={order.orderId}>
-                                <td className="px-4 py-4 whitespace-nowrap text-gray-500">
+                                <td className="px-4 py-4 whitespace-nowrap" style={{color: '#CCCCCC'}}>
                                   <h3 className="text-sm font-medium">{order.orderId}</h3>
                                 </td>
-                                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td className="px-4 py-4 whitespace-nowrap text-sm" style={{color: '#CCCCCC'}}>
                                   <div className="flex items-center gap-2">
                                     <span>{order.planCode}</span>
                                     <span>{order.chargeType}</span>
                                     {order.creditsAdded > 0 && (
-                                      <span className="text-orange-600">+{order.creditsAdded} 积分</span>
+                                      <span style={{color: '#98FF59'}}>+{order.creditsAdded} 积分</span>
                                     )}
                                   </div>
                                 </td>
-                                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td className="px-4 py-4 whitespace-nowrap text-sm" style={{color: '#CCCCCC'}}>
                                   {order.amount} {order.currency}
                                 </td>
-                                <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <td className="px-4 py-4 whitespace-nowrap text-sm" style={{color: '#CCCCCC'}}>
                                   {new Date(order.createdAt).toLocaleString()}
                                 </td>
                                 <td className="px-4 py-4 whitespace-nowrap">
@@ -507,7 +462,7 @@ const ProfilePage: React.FC = () => {
                           })
                         ) : (
                           <tr>
-                            <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                            <td colSpan={5} className="px-4 py-8 text-center" style={{color: '#CCCCCC'}}>
                               {t('orderTable.noOrders')}
                             </td>
                           </tr>
@@ -522,33 +477,33 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* 基本信息和密码修改 */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">{t('sections.basicInfo')}</h2>
+        <div className="rounded-lg shadow-sm border" style={{backgroundColor: '#19191F', borderColor: '#131317'}}>
+          <div className="px-6 py-4 border-b" style={{borderColor: '#131317'}}>
+            <h2 className="text-lg font-semibold text-white">{t('sections.basicInfo')}</h2>
           </div>
           <form onSubmit={handleSubmit} className="px-6 py-6 space-y-6">
             {successMessage && (
-              <div className="rounded-md bg-green-50 p-4">
-                <div className="text-sm text-green-700">{successMessage}</div>
+              <div className="rounded-md p-4" style={{backgroundColor: '#1a4f3a'}}>
+                <div className="text-sm" style={{color: '#98FF59'}}>{successMessage}</div>
               </div>
             )}
 
             {errors.general && (
-              <div className="rounded-md bg-red-50 p-4">
-                <div className="text-sm text-red-700">{errors.general}</div>
+              <div className="rounded-md p-4" style={{backgroundColor: '#4a1a1a'}}>
+                <div className="text-sm" style={{color: '#ff6b6b'}}>{errors.general}</div>
               </div>
             )}
 
             {errors.avatar && (
-              <div className="rounded-md bg-red-50 p-4">
-                <div className="text-sm text-red-700">{errors.avatar}</div>
+              <div className="rounded-md p-4" style={{backgroundColor: '#4a1a1a'}}>
+                <div className="text-sm" style={{color: '#ff6b6b'}}>{errors.avatar}</div>
               </div>
             )}
             {/* 用户名 */}
             <div>
-              <h3 htmlFor="username" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="username" className="block text-sm font-medium" style={{color: '#CCCCCC'}}>
                 {t('fields.username')}
-              </h3>
+              </label>
               <div className="mt-1">
                 <input
                   id="username"
@@ -557,22 +512,25 @@ const ProfilePage: React.FC = () => {
                   required
                   value={formData.username}
                   onChange={handleInputChange}
-                  className={`block w-full px-3 py-2 border ${
-                    errors.username ? 'border-red-300' : 'border-gray-300'
-                  } rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
+                  className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 sm:text-sm`}
+                  style={{
+                    backgroundColor: '#131317',
+                    borderColor: errors.username ? '#ff6b6b' : '#666666',
+                    color: '#CCCCCC'
+                  }}
                   placeholder={t('placeholders.username')}
                 />
                 {errors.username && (
-                  <p className="mt-1 text-sm text-red-600">{errors.username}</p>
+                  <p className="mt-1 text-sm" style={{color: '#ff6b6b'}}>{errors.username}</p>
                 )}
               </div>
             </div>
 
             {/* 邮箱（只读） */}
             <div>
-              <h3 htmlFor="email" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="email" className="block text-sm font-medium" style={{color: '#CCCCCC'}}>
                 {t('fields.email')}
-              </h3>
+              </label>
               <div className="mt-1">
                 <input
                   id="email"
@@ -580,22 +538,37 @@ const ProfilePage: React.FC = () => {
                   type="email"
                   value={user?.email || ''}
                   disabled
-                  className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-50 text-gray-500 sm:text-sm"
+                  className="block w-full px-3 py-2 border rounded-md shadow-sm sm:text-sm"
+                  style={{
+                    backgroundColor: '#0f0f0f',
+                    borderColor: '#666666',
+                    color: '#888888'
+                  }}
                 />
-                <p className="mt-1 text-xs text-gray-500">{t('hints.emailReadonly')}</p>
+                <p className="mt-1 text-xs" style={{color: '#888888'}}>{t('hints.emailReadonly')}</p>
               </div>
             </div>
 
             {/* 密码修改 - 可折叠 */}
-            <div className="border border-gray-200 rounded-lg">
+            <div className="border rounded-lg" style={{borderColor: '#131317'}}>
               <button
                 type="button"
                 onClick={() => setIsPasswordSectionOpen(!isPasswordSectionOpen)}
-                className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+                className="w-full px-4 py-3 text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-inset"
+                style={{
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#131317';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
               >
-                <h4 className="text-md font-medium text-gray-900">{t('sections.changePassword')}</h4>
+                <h4 className="text-md font-medium" style={{color: '#98FF59'}}>{t('sections.changePassword')}</h4>
                 <svg
-                  className={`h-5 w-5 text-gray-500 transition-transform ${isPasswordSectionOpen ? 'rotate-180' : ''}`}
+                  className={`h-5 w-5 transition-transform ${isPasswordSectionOpen ? 'rotate-180' : ''}`}
+                  style={{color: '#98FF59'}}
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -605,11 +578,11 @@ const ProfilePage: React.FC = () => {
               </button>
               
               {isPasswordSectionOpen && (
-                <div className="px-4 pb-4 space-y-1 border-t border-gray-200">
+                <div className="px-4 pb-4 space-y-1 border-t" style={{borderColor: '#131317'}}>
                   
                   {/* 当前密码 */}
                   <div>
-                    <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mt-4">
+                    <label htmlFor="currentPassword" className="block text-sm font-medium mt-4" style={{color: '#CCCCCC'}}>
                       {t('fields.currentPassword')}
                     </label>
                     <div className="mt-1">
@@ -624,7 +597,7 @@ const ProfilePage: React.FC = () => {
                       />
                       <div className="mt-1 h-5">
                         {errors.currentPassword && (
-                          <p className="text-sm text-red-600">{errors.currentPassword}</p>
+                          <p className="text-sm" style={{color: '#ff6b6b'}}>{errors.currentPassword}</p>
                         )}
                       </div>
                     </div>
@@ -632,7 +605,7 @@ const ProfilePage: React.FC = () => {
 
                   {/* 新密码 */}
                   <div>
-                    <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="newPassword" className="block text-sm font-medium" style={{color: '#CCCCCC'}}>
                       {t('fields.newPassword')}
                     </label>
                     <div className="mt-1">
@@ -647,7 +620,7 @@ const ProfilePage: React.FC = () => {
                       />
                       <div className="mt-1 h-5">
                         {errors.newPassword && (
-                          <p className="text-sm text-red-600">{errors.newPassword}</p>
+                          <p className="text-sm" style={{color: '#ff6b6b'}}>{errors.newPassword}</p>
                         )}
                       </div>
                     </div>
@@ -655,7 +628,7 @@ const ProfilePage: React.FC = () => {
 
                   {/* 确认新密码 */}
                   <div>
-                    <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="confirmPassword" className="block text-sm font-medium" style={{color: '#CCCCCC'}}>
                       {t('fields.confirmPassword')}
                     </label>
                     <div className="mt-1">
@@ -670,7 +643,7 @@ const ProfilePage: React.FC = () => {
                       />
                       <div className="mt-1 h-5">
                         {errors.confirmPassword && (
-                          <p className="text-sm text-red-600">{errors.confirmPassword}</p>
+                          <p className="text-sm" style={{color: '#ff6b6b'}}>{errors.confirmPassword}</p>
                         )}
                       </div>
                     </div>
@@ -680,32 +653,68 @@ const ProfilePage: React.FC = () => {
             </div>
 
             {/* 按钮组 */}
-            <div className="flex justify-between pt-6 border-t border-gray-200">
+            <div className="flex justify-between pt-6 border-t" style={{borderColor: '#131317'}}>
               <button
                 type="button"
                 onClick={handleLogout}
-                className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="inline-flex justify-center py-2 px-4 border shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2"
+                style={{
+                  backgroundColor: '#131317',
+                  borderColor: '#666666',
+                  color: '#CCCCCC'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#19191F';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#131317';
+                }}
               >
                 {t('buttons.logout')}
               </button>
-              
+
               <div className="flex space-x-3">
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="inline-flex justify-center py-2 px-4 border shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2"
+                  style={{
+                    backgroundColor: '#131317',
+                    borderColor: '#666666',
+                    color: '#CCCCCC'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#19191F';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#131317';
+                  }}
                 >
                   {t('buttons.cancel')}
                 </button>
-                
+
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    backgroundColor: '#98FF59',
+                    color: '#030414'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!e.currentTarget.disabled) {
+                      e.currentTarget.style.backgroundColor = '#7BCC47';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!e.currentTarget.disabled) {
+                      e.currentTarget.style.backgroundColor = '#98FF59';
+                    }
+                  }}
                 >
                   {isLoading ? (
                     <div className="flex items-center">
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5" style={{color: '#030414'}} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 818-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>

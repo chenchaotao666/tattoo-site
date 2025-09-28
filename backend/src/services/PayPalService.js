@@ -203,9 +203,7 @@ class PayPalService {
                             brand_name: 'Tattoo Design Studio',
                             locale: 'en-US',
                             landing_page: 'LOGIN',
-                            user_action: 'PAY_NOW',
-                            return_url: process.env.PAYPAL_RETURN_URL || 'https://example.com/return',
-                            cancel_url: process.env.PAYPAL_CANCEL_URL || 'https://example.com/cancel'
+                            user_action: 'PAY_NOW'
                         }
                     }
                 };
@@ -213,8 +211,7 @@ class PayPalService {
                 return {
                     card: {
                         experience_context: {
-                            return_url: process.env.PAYPAL_RETURN_URL || 'https://example.com/return',
-                            cancel_url: process.env.PAYPAL_CANCEL_URL || 'https://example.com/cancel'
+                            brand_name: 'Tattoo Design Studio'
                         }
                     }
                 };

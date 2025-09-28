@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSuggestion } from '../../services/generateService';
+import { IdeaSuggestion } from '../../services/generateService';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import { Style } from '../../hooks/useGeneratePage';
@@ -25,18 +25,22 @@ interface GenerateLeftSidebarProps {
   publicVisibility: boolean;
   isGenerating: boolean;
   error: string | null;
-  styleSuggestions: StyleSuggestion[];
+  ideaSuggestions: IdeaSuggestion[];
   styles: Style[];
   showStyleSelector: boolean;
-  
+
+  // User state for premium features
+  user: any;
+  setShowPricingModal: (show: boolean) => void;
+
   // Refs
   promptInputRef: React.RefObject<HTMLTextAreaElement | null>;
-  
+
   // Event handlers
   handlePromptChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   handleClearPrompt: () => void;
   handleStyleSuggestionClick: (styleContent: string) => void;
-  handleRefreshStyleSuggestions: () => void;
+  handleRefreshIdeaSuggestions: () => void;
   handleVisibilityToggle: () => void;
   handleGenerate: () => void;
   setSelectedColor: (isColor: boolean) => void;
@@ -55,14 +59,16 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
   publicVisibility,
   isGenerating,
   error,
-  styleSuggestions,
+  ideaSuggestions,
   styles,
   showStyleSelector,
+  user,
+  setShowPricingModal,
   promptInputRef,
   handlePromptChange,
   handleClearPrompt,
   handleStyleSuggestionClick,
-  handleRefreshStyleSuggestions,
+  handleRefreshIdeaSuggestions,
   handleVisibilityToggle,
   handleGenerate,
   setSelectedColor,
@@ -73,6 +79,21 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
 }) => {
   const { t } = useAsyncTranslation('generate');
   const { language } = useLanguage();
+
+  // Handle 4 images quantity selection (premium feature)
+  const handleQuantity4Selection = () => {
+    // Check if user is not premium (free or expired membership)
+    const isNotPremium = !user?.level || user?.level === 'free';
+
+    if (isNotPremium) {
+      // Show pricing modal for free users
+      setShowPricingModal(true);
+      return;
+    }
+
+    // Premium users can select 4 images
+    setSelectedQuantity(4);
+  };
 
   // Click outside to close style selector
   React.useEffect(() => {
@@ -145,17 +166,17 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
           <div className="flex justify-between items-start gap-2">
             <div className="text-[#818181] text-xs flex flex-wrap items-center gap-2 flex-1">
               <span className="shrink-0 text-[#818181]">{t('prompt.ideas')}：</span>
-              {styleSuggestions.map((style) => (
+              {ideaSuggestions.map((idea) => (
                 <span
-                  key={style.id}
+                  key={idea.id}
                   className="cursor-pointer hover:text-lime-300 transition-colors text-[#818181] text-xs"
-                  onClick={() => handleStyleSuggestionClick(style.content)}
+                  onClick={() => handleStyleSuggestionClick(idea.content)}
                 >
-                  {style.name}
+                  {idea.name}
                 </span>
               ))}
             </div>
-            <span className="cursor-pointer hover:brightness-125 transition-all shrink-0 mt-0.5" onClick={handleRefreshStyleSuggestions}>
+            <span className="cursor-pointer hover:brightness-125 transition-all shrink-0 mt-0.5" onClick={handleRefreshIdeaSuggestions}>
               <img src={refreshIcon} alt="Refresh" className="w-4 h-4" style={{filter: 'brightness(0) saturate(100%) invert(46%) sepia(0%) saturate(0%) hue-rotate(130deg) brightness(105%) contrast(85%)'}} />
             </span>
           </div>
@@ -281,12 +302,20 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
                 className={`h-full flex items-center justify-center text-sm transition-all duration-200 ${
                   selectedQuantity === 4 ? 'text-lime-300 font-bold' : 'text-[#C8C8C8] hover:text-white font-medium'
                 }`}
-                onClick={() => setSelectedQuantity(4)}
+                onClick={handleQuantity4Selection}
               >
                 <div className="flex items-center gap-1">
                   <span>4</span>
                   {/* Premium Crown Icon */}
-                  <img src={crownIcon} alt="Premium" className="w-[18px] h-[18px]" />
+                  <Tooltip
+                    content="Premium Feature"
+                    side="top"
+                    align="center"
+                  >
+                    <span className="cursor-help inline-block">
+                      <img src={crownIcon} alt="Premium" className="w-[18px] h-[18px]" />
+                    </span>
+                  </Tooltip>
                 </div>
               </button>
             </div>

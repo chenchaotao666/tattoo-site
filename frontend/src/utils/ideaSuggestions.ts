@@ -1,4 +1,4 @@
-import { StyleSuggestion } from '../services/generateService';
+import { IdeaSuggestion } from '../services/generateService';
 
 // 预设的50种常用图片生成建议
 export const STYLE_SUGGESTIONS = {
@@ -119,7 +119,7 @@ export const STYLE_SUGGESTIONS = {
 };
 
 // 从数组中随机选择指定数量的元素
-export const getRandomSuggestions = (suggestions: { zh: StyleSuggestion[], en: StyleSuggestion[], ja?: StyleSuggestion[] }, count: number = 6, language: 'zh' | 'en' | 'ja' = 'zh'): StyleSuggestion[] => {
+export const getRandomSuggestions = (suggestions: { zh: IdeaSuggestion[], en: IdeaSuggestion[], ja?: IdeaSuggestion[] }, count: number = 6, language: 'zh' | 'en' | 'ja' = 'zh'): IdeaSuggestion[] => {
   const languageSuggestions = suggestions[language] || suggestions['en'] || [];
   const shuffled = [...languageSuggestions].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);

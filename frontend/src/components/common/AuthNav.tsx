@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-const creditsIcon = '/images/credits.svg';
-const defaultAvatar = '/images/default-avatar.svg';
+const creditsIcon = '/imgs/credits.svg';
+const defaultAvatar = '/imgs/default-avatar.svg';
 
 const AuthNav: React.FC = () => {
   const { user, isAuthenticated, isLoading, logout } = useAuth();

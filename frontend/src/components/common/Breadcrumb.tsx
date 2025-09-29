@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 import { colors } from '../../styles/colors';
 
-const homeIcon = '/images/breadcrumb/home.png';
-const chevronRightIcon = '/images/breadcrumb/chevron-right.svg';
+const homeIcon = '/imgs/breadcrumb/home.png';
+const chevronRightIcon = '/imgs/breadcrumb/chevron-right.svg';
 
 export interface BreadcrumbItem {
   label: string;

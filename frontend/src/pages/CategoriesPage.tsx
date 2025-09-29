@@ -9,7 +9,7 @@ import { useCategories } from '../contexts/CategoriesContext';
 import SEOHead from '../components/common/SEOHead';
 import { handleCategoryClick } from '../utils/categoryUtils';
 import GenerateTextarea from '../components/common/GenerateTextarea';
-const noResultIcon = '/images/no-data.svg';
+const noResultIcon = '/imgs/no-data.svg';
 
 const CategoriesPage: React.FC = () => {
   const { t } = useAsyncTranslation('categories');

@@ -116,7 +116,7 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
             <div style={{ width: '670px', height: '376px', position: 'relative' }}>
               <div style={{ width: '670px', height: '376px', left: '0px', top: '0px', position: 'absolute' }}></div>
               <div style={{ width: '670px', height: '70px', left: '0px', top: '33px', position: 'absolute', borderRadius: '16px', border: '1px solid #ECECEC' }}></div>
-              <img style={{ width: '24px', height: '24px', left: '20px', top: '54px', position: 'absolute' }} src="/images/generate-introduction/star-2.png" alt="Star icon" />
+              <img style={{ width: '24px', height: '24px', left: '20px', top: '54px', position: 'absolute' }} src="/imgs/generate-introduction/star-2.png" alt="Star icon" />
               <div style={{ left: '53px', top: '52px', position: 'absolute', color: '#ECECEC', fontSize: '20px', fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }}>
                 {data.images[0]?.prompt || "The patterns of mechanical metal structures"}
               </div>
@@ -203,25 +203,25 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
                   </div>
                   <div style={{ left: '235px', top: '40px', position: 'absolute', justifyContent: 'flex-start', alignItems: 'center', gap: '33.33px', display: 'inline-flex' }}>
                     <div style={{ width: '40px', height: '40px', position: 'relative', overflow: 'hidden' }}>
-                      <img style={{ width: '33.33px', height: '33.13px', left: '3.33px', top: '3.33px', position: 'absolute' }} src="/images/generate-introduction/link-1.png" alt="Social link 1" />
+                      <img style={{ width: '33.33px', height: '33.13px', left: '3.33px', top: '3.33px', position: 'absolute' }} src="/imgs/generate-introduction/link-1.png" alt="Social link 1" />
                     </div>
                     <div style={{ width: '40px', height: '40px', position: 'relative', overflow: 'hidden' }}>
-                      <img style={{ width: '33.33px', height: '33.33px', left: '3.33px', top: '3.33px', position: 'absolute' }} src="/images/generate-introduction/link-2.png" alt="Social link 2" />
+                      <img style={{ width: '33.33px', height: '33.33px', left: '3.33px', top: '3.33px', position: 'absolute' }} src="/imgs/generate-introduction/link-2.png" alt="Social link 2" />
                     </div>
                     <div style={{ width: '40px', height: '40px', position: 'relative', overflow: 'hidden' }}>
-                      <img style={{ width: '29.35px', height: '30px', left: '5.33px', top: '5px', position: 'absolute' }} src="/images/generate-introduction/link-3.png" alt="Social link 3" />
+                      <img style={{ width: '29.35px', height: '30px', left: '5.33px', top: '5px', position: 'absolute' }} src="/imgs/generate-introduction/link-3.png" alt="Social link 3" />
                     </div>
                     <div style={{ width: '40px', height: '40px', position: 'relative', overflow: 'hidden' }}>
-                      <img style={{ width: '33.33px', height: '32.56px', left: '3.33px', top: '3.33px', position: 'absolute' }} src="/images/generate-introduction/link-4.png" alt="Social link 4" />
+                      <img style={{ width: '33.33px', height: '32.56px', left: '3.33px', top: '3.33px', position: 'absolute' }} src="/imgs/generate-introduction/link-4.png" alt="Social link 4" />
                     </div>
                     <div style={{ width: '40px', height: '40px', position: 'relative', overflow: 'hidden' }}>
-                      <img style={{ width: '33.33px', height: '23.33px', left: '3.33px', top: '8.33px', position: 'absolute' }} src="/images/generate-introduction/link-5.png" alt="Social link 5" />
+                      <img style={{ width: '33.33px', height: '23.33px', left: '3.33px', top: '8.33px', position: 'absolute' }} src="/imgs/generate-introduction/link-5.png" alt="Social link 5" />
                     </div>
                   </div>
                   <img style={{ width: '210px', height: '210px', left: '0px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[2]?.images?.[0] || "https://placehold.co/210x210"} alt="Tattoo design 1" />
                   <img style={{ width: '210px', height: '210px', left: '460px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[2]?.images?.[2] || "https://placehold.co/210x210"} alt="Tattoo design 3" />
                   <img style={{ width: '210px', height: '210px', left: '230px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[2]?.images?.[1] || "https://placehold.co/210x210"} alt="Tattoo design 2" />
-                  <img style={{ width: '102.28px', height: '110.53px', left: '80.52px', top: '4.69px', position: 'absolute', transform: 'rotate(15deg)', transformOrigin: 'top left', opacity: '0.50' }} src="/images/generate-introduction/hand-drawn-arrow.svg" alt="Hand drawn arrow" />
+                  <img style={{ width: '102.28px', height: '110.53px', left: '80.52px', top: '4.69px', position: 'absolute', transform: 'rotate(15deg)', transformOrigin: 'top left', opacity: '0.50' }} src="/imgs/generate-introduction/hand-drawn-arrow.svg" alt="Hand drawn arrow" />
                 </>
               )}
             </div>

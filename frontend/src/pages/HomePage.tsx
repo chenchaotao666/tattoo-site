@@ -71,25 +71,25 @@ const HomePage = () => {
       text2: "Google Play"
     },
     phoneImages: [
-      "/images/home-create-on-go/ai-create.png",
-      "/images/home-create-on-go/inspiration.png",
-      "/images/home-create-on-go/try-on.png"
+      "/imgs/home-create-on-go/ai-create.png",
+      "/imgs/home-create-on-go/inspiration.png",
+      "/imgs/home-create-on-go/try-on.png"
     ],
     features: [
       {
         title: "Design Instantly",
         description: "Create stunning tattoos in seconds with AI precision . Just type your idea.",
-        icon: "/images/home-create-on-go/logo.svg"
+        icon: "/imgs/home-create-on-go/logo.svg"
       },
       {
         title: "Inspire Creativity",
         description: "Explore a curated library of AI tattoo ideas to spark fresh designs.",
-        icon: "/images/home-create-on-go/tattoo.svg"
+        icon: "/imgs/home-create-on-go/tattoo.svg"
       },
       {
         title: "Preview with Confidence",
         description: "Use AR to see your tattoo on skin before committing.",
-        icon: "/images/home-create-on-go/four-leaf.svg"
+        icon: "/imgs/home-create-on-go/four-leaf.svg"
       }
     ]
   };
@@ -118,25 +118,25 @@ const HomePage = () => {
     images: [
       {
         images: [
-          "/images/home-introduction/row-1-1.png",
-          "/images/home-introduction/row-1-2.png",
-          "/images/home-introduction/row-1-3.png"
+          "/imgs/home-introduction/row-1-1.png",
+          "/imgs/home-introduction/row-1-2.png",
+          "/imgs/home-introduction/row-1-3.png"
         ],
         prompt: "A terrifying tattoo, with a skull and horns combined"
       },
       {
         images: [
-          "/images/home-introduction/row-2-1.png",
-          "/images/home-introduction/row-2-2.png", 
-          "/images/home-introduction/row-2-3.png",
-          "/images/home-introduction/row-2-4.png",
-          "/images/home-introduction/row-2-5.png"
+          "/imgs/home-introduction/row-2-1.png",
+          "/imgs/home-introduction/row-2-2.png", 
+          "/imgs/home-introduction/row-2-3.png",
+          "/imgs/home-introduction/row-2-4.png",
+          "/imgs/home-introduction/row-2-5.png"
         ]
       },
       {
         images: [
-          "/images/home-introduction/row-3-1.png",
-          "/images/home-introduction/row-3-2.png"
+          "/imgs/home-introduction/row-3-1.png",
+          "/imgs/home-introduction/row-3-2.png"
         ],
         twoImageMode: true
       }

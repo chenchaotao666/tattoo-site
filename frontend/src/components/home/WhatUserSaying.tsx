@@ -28,7 +28,7 @@ const WhatUserSaying: React.FC<WhatUserSayingProps> = ({ data }) => {
           <img 
             key={index}
             className="w-5 h-[18.89px]"
-            src="/images/star.svg"
+            src="/imgs/star.svg"
             alt="star"
           />
         ))}
@@ -109,7 +109,7 @@ export const sampleWhatUserSayingData: WhatUserSayingData = {
         user: {
           name: "Sophia Kim",
           title: "Tattoo Enthusiast",
-          avatar: "/images/avatar/avatar1.png"
+          avatar: "/imgs/avatar/avatar1.png"
         }
       },
       {
@@ -118,7 +118,7 @@ export const sampleWhatUserSayingData: WhatUserSayingData = {
         user: {
           name: "Liam Davis",
           title: "Graphic Designer",
-          avatar: "/images/avatar/avatar2.png"
+          avatar: "/imgs/avatar/avatar2.png"
         }
       },
       {
@@ -127,7 +127,7 @@ export const sampleWhatUserSayingData: WhatUserSayingData = {
         user: {
           name: "Isabella Kim",
           title: "Advertising Strategist",
-          avatar: "/images/avatar/avatar3.png"
+          avatar: "/imgs/avatar/avatar3.png"
         }
       }
     ],
@@ -139,7 +139,7 @@ export const sampleWhatUserSayingData: WhatUserSayingData = {
         user: {
           name: "Ethan Walker",
           title: "Photographer",
-          avatar: "/images/avatar/avatar4.png"
+          avatar: "/imgs/avatar/avatar4.png"
         }
       },
       {
@@ -148,7 +148,7 @@ export const sampleWhatUserSayingData: WhatUserSayingData = {
         user: {
           name: "Hannah Nguyen",
           title: "College Student",
-          avatar: "/images/avatar/avatar5.png"
+          avatar: "/imgs/avatar/avatar5.png"
         }
       },
       {
@@ -157,7 +157,7 @@ export const sampleWhatUserSayingData: WhatUserSayingData = {
         user: {
           name: "Miles Hernandez",
           title: "Music Student",
-          avatar: "/images/avatar/avatar6.png"
+          avatar: "/imgs/avatar/avatar6.png"
         }
       }
     ],
@@ -169,7 +169,7 @@ export const sampleWhatUserSayingData: WhatUserSayingData = {
         user: {
           name: "Maria Lopez",
           title: "Tattoo Artist",
-          avatar: "/images/avatar/avatar7.png"
+          avatar: "/imgs/avatar/avatar7.png"
         }
       },
       {
@@ -178,7 +178,7 @@ export const sampleWhatUserSayingData: WhatUserSayingData = {
         user: {
           name: "Jack Thompson",
           title: "Freelance Illustrator",
-          avatar: "/images/avatar/avatar8.png"
+          avatar: "/imgs/avatar/avatar8.png"
         }
       },
       {
@@ -187,7 +187,7 @@ export const sampleWhatUserSayingData: WhatUserSayingData = {
         user: {
           name: "Noah Garcia",
           title: "DJ",
-          avatar: "/images/avatar/avatar9.png"
+          avatar: "/imgs/avatar/avatar9.png"
         }
       }
     ]

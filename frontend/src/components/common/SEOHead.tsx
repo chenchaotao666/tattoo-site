@@ -107,9 +107,9 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     };
 
     // 设置各种尺寸的favicon
-    updateOrCreateLink('icon', '/images/logo.svg', 'image/svg+xml');
-    updateOrCreateLink('apple-touch-icon', '/images/logo.svg');
-    updateOrCreateLink('shortcut icon', '/images/logo.svg');
+    updateOrCreateLink('icon', '/imgs/logo.svg', 'image/svg+xml');
+    updateOrCreateLink('apple-touch-icon', '/imgs/logo.svg');
+    updateOrCreateLink('shortcut icon', '/imgs/logo.svg');
 
   }, [title, description, keywords, ogTitle, ogDescription, ogImage, canonicalUrl, language]);
 

@@ -15,7 +15,7 @@ const HomeTop: React.FC<HomeTopProps> = ({
     <div 
       className="w-full flex flex-col items-center gap-8 pt-16 pb-20"
       style={{
-        backgroundImage: `linear-gradient(rgba(3, 4, 20, 0.3), rgba(3, 4, 20, 0.7)), url('./images/header/bg.png')`,
+        backgroundImage: `linear-gradient(rgba(3, 4, 20, 0.3), rgba(3, 4, 20, 0.7)), url('./imgs/header/bg.png')`,
         backgroundSize: 'auto 100%',
         backgroundPosition: '-8px top',
         backgroundRepeat: 'repeat-x',

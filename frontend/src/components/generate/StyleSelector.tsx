@@ -65,7 +65,7 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({
       >
         <img 
           className="w-4 h-4" 
-          src="/images/styles/close-x.png" 
+          src="/imgs/styles/close-x.png" 
           alt="Close"
         />
       </div>
@@ -100,7 +100,7 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({
               >
                 <img 
                   className="w-auto h-auto max-w-[120px] max-h-[120px] object-contain" 
-                  src="/images/styles/no-style.png" 
+                  src="/imgs/styles/no-style.png" 
                   alt="No Style"
                 />
               </div>

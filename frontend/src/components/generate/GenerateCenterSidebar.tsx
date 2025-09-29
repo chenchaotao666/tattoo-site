@@ -10,7 +10,7 @@ import ImageEnlargement from './ImageEnlargement';
 import DownloadButton from './DownloadButton';
 
 // 图标导入
-const generateFailIcon = '/images/generate-fail.svg';
+const generateFailIcon = '/imgs/generate-fail.svg';
 
 interface GenerateCenterSidebarProps {
   mode: 'text' | 'image';
@@ -72,21 +72,21 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
   // 根据模式选择对应的示例图片和加载状态
   const currentExampleImages = [
     {
-      url: "/images/text-examples/cross-and-rose-on-arm.png",
+      url: "/imgs/text-examples/cross-and-rose-on-arm.png",
       prompt: {
         zh: "手臂上的十字架和玫瑰纹身",
         en: "Tattoos of a cross and a rose on the arm"
       }
     },
     {
-      url: "/images/text-examples/rose-on-back.png", 
+      url: "/imgs/text-examples/rose-on-back.png", 
       prompt: {
         zh: "背部玫瑰和骷髅纹身",
         en: "A tattoo of a rose and a skull on the back"
       }
     },
     {
-      url: "/images/text-examples/english-on-wrist.png",
+      url: "/imgs/text-examples/english-on-wrist.png",
       prompt: {
         zh: "手腕上的英文纹身",
         en: "There is an English tattoo on the wrist"

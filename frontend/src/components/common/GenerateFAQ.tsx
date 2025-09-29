@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { colors } from '../../styles/colors';
 
-const expandDefaultIcon = '/images/expand-default.svg';
-const expandColorIcon = '/images/expand-color.svg';
+const expandDefaultIcon = '/imgs/expand-default.svg';
+const expandColorIcon = '/imgs/expand-color.svg';
 
 interface FAQItemProps {
   question: string;

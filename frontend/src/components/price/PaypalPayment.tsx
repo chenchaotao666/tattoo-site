@@ -395,12 +395,12 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                   <label className="text-[#FFFFFF] font-medium">银行卡信息</label>
                   <div className="flex items-center gap-2">
                     <img
-                      src="/images/paypal/mastercard.svg"
+                      src="/imgs/paypal/mastercard.svg"
                       alt="Mastercard"
                       className="h-5 w-[30px]"
                     />
                     <img
-                      src="/images/paypal/visa.png"
+                      src="/imgs/paypal/visa.png"
                       alt="Visa"
                       className="h-5"
                     />
@@ -465,7 +465,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                   <div className="flex items-center justify-center text-sm text-[#C8C8C8]">
                     <span>技术支持</span>
                     <img
-                      src="/images/paypal/paypal.webp"
+                      src="/imgs/paypal/paypal.webp"
                       alt="PayPal"
                       className="ml-1 h-4"
                     />

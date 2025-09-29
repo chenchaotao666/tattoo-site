@@ -13,7 +13,7 @@ import { useAsyncTranslation } from '../contexts/LanguageContext';
 import TryNow from '../components/common/TryNow';
 
 // 图标导入
-const noResultIcon = '/images/no-data.svg';
+const noResultIcon = '/imgs/no-data.svg';
 
 interface CreationsPageProps {}
 

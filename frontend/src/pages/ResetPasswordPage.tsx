@@ -171,7 +171,7 @@ const ResetPasswordPage: React.FC = () => {
         <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           {/* Logo */}
           <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-gray-900 mr-[20px] ">
-            <img src="/images/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
+            <img src="/imgs/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
             <span className="text-2xl font-bold text-gray-900">ColorPage</span>
           </Link>
           
@@ -222,7 +222,7 @@ const ResetPasswordPage: React.FC = () => {
         <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           {/* Logo */}
           <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-gray-900 mr-[20px]">
-            <img src="/images/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
+            <img src="/imgs/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
             <span className="text-2xl font-bold text-gray-900">ColorPage</span>
           </Link>
           
@@ -289,7 +289,7 @@ const ResetPasswordPage: React.FC = () => {
       <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
         {/* Logo */}
         <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-gray-900 mr-[20px]">
-          <img src="/images/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
+          <img src="/imgs/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
           <span className="text-2xl font-bold text-gray-900">ColorPage</span>
         </Link>
         

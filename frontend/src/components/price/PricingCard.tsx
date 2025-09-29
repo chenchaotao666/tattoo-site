@@ -1,7 +1,7 @@
 import { colors } from '../../styles/colors';
 import BaseButton from '../ui/BaseButton';
 
-const protectIcon = '/images/protect.svg';
+const protectIcon = '/imgs/protect.svg';
 
 interface FeatureItemProps {
   text: string;

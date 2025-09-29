@@ -10,10 +10,10 @@ import DropDownMenus, { DropDownMenuItem } from './DropDownMenus';
 import { colors } from '../../styles/colors';
 
 // 导入图标 - 使用正确的 public 路径
-const logo = '/images/header/logo.svg';
-const defaultAvatar = '/images/default-avatar.svg';
-const googleDefaultAvatar = '/images/default-avatar-g.png';
-const colorPaletteIcon = '/images/color-palette.png';
+const logo = '/imgs/header/logo.svg';
+const defaultAvatar = '/imgs/default-avatar.svg';
+const googleDefaultAvatar = '/imgs/default-avatar-g.png';
+const colorPaletteIcon = '/imgs/color-palette.png';
 
 
 interface HeaderProps {
@@ -226,7 +226,7 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
         className="fixed top-0 left-0 right-0 w-full h-[70px] py-[15px] backdrop-blur-md flex justify-between items-center z-50"
         style={{
           ...(isHomePage && {
-            backgroundImage: `url('/images/header/bg.png')`,
+            backgroundImage: `url('/imgs/header/bg.png')`,
             backgroundSize: 'auto auto',
             backgroundPosition: '-6px top',
             backgroundRepeat: 'repeat-x',

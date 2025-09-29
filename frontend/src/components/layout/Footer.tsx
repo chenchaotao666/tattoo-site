@@ -7,12 +7,12 @@ import { colors } from '../../styles/colors';
 import { handleCategoryClick } from '../../utils/categoryUtils';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 
-const logo = '/images/logo.svg';
-const socialIcon1 = '/images/footer/Link → SVG-1.svg';
-const socialIcon2 = '/images/footer/Link → SVG-2.svg';
-const socialIcon3 = '/images/footer/Link → SVG-3.svg';
-const socialIcon4 = '/images/footer/Link → SVG-4.svg';
-const socialIcon5 = '/images/footer/Link → SVG-5.svg';
+const logo = '/imgs/logo.svg';
+const socialIcon1 = '/imgs/footer/Link → SVG-1.svg';
+const socialIcon2 = '/imgs/footer/Link → SVG-2.svg';
+const socialIcon3 = '/imgs/footer/Link → SVG-3.svg';
+const socialIcon4 = '/imgs/footer/Link → SVG-4.svg';
+const socialIcon5 = '/imgs/footer/Link → SVG-5.svg';
 
 // Interface for footer links section
 interface FooterSectionProps {

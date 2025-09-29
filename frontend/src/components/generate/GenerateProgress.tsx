@@ -26,7 +26,7 @@ const GenerateProgress: React.FC<GenerateProgressProps> = ({
         playsInline
         className={`${videoSize} bg-blend-lighten object-cover rounded-full`}
       >
-        <source src="/images/generate/loading.mp4" type="video/mp4" />
+        <source src="/imgs/generate/loading.mp4" type="video/mp4" />
         {/* 如果视频加载失败，显示备用的圆圈动画 */}
       </video>
       

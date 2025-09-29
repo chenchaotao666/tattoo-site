@@ -217,26 +217,26 @@ const GeneratePage: React.FC = () => {
     images: [
       {
         images: [
-          "/images/generate-introduction/row-1-1.png",
-          "/images/generate-introduction/row-1-2.png", 
-          "/images/generate-introduction/row-1-3.png"
+          "/imgs/generate-introduction/row-1-1.png",
+          "/imgs/generate-introduction/row-1-2.png", 
+          "/imgs/generate-introduction/row-1-3.png"
         ],
         prompt: "The patterns of mechanical metal structures"
       },
       {
         images: [
-          "/images/generate-introduction/row-2-1.png",
-          "/images/generate-introduction/row-2-2.png",
-          "/images/generate-introduction/row-2-3.png",
-          "/images/generate-introduction/row-2-4.png",
-          "/images/generate-introduction/row-2-5.png"
+          "/imgs/generate-introduction/row-2-1.png",
+          "/imgs/generate-introduction/row-2-2.png",
+          "/imgs/generate-introduction/row-2-3.png",
+          "/imgs/generate-introduction/row-2-4.png",
+          "/imgs/generate-introduction/row-2-5.png"
         ]
       },
       {
         images: [
-          "/images/generate-introduction/row-3-1.png",
-          "/images/generate-introduction/row-3-2.png",
-          "/images/generate-introduction/row-3-3.png"
+          "/imgs/generate-introduction/row-3-1.png",
+          "/imgs/generate-introduction/row-3-2.png",
+          "/imgs/generate-introduction/row-3-3.png"
         ],
         prompt: "The patterns of mechanical metal structures"
       }

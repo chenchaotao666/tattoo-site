@@ -283,7 +283,7 @@ const GenerateTextarea = ({
                       />
                     ) : (
                       <img 
-                        src="/images/generate-textarea/style.svg" 
+                        src="/imgs/generate-textarea/style.svg" 
                         alt="No Style" 
                         className="w-4 h-4" 
                       />
@@ -323,7 +323,7 @@ const GenerateTextarea = ({
                     >
                       <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0">
                         <img 
-                          src="/images/generate-textarea/style.svg" 
+                          src="/imgs/generate-textarea/style.svg" 
                           alt="No Style" 
                           className="w-4 h-4" 
                         />
@@ -353,7 +353,7 @@ const GenerateTextarea = ({
                             />
                           ) : (
                             <img 
-                              src="/images/generate-textarea/style.svg" 
+                              src="/imgs/generate-textarea/style.svg" 
                               alt="Style" 
                               className="w-4 h-4" 
                             />
@@ -375,7 +375,7 @@ const GenerateTextarea = ({
                   onClick={() => setShowColorDropdown(!showColorDropdown)}
                 >
                   <img 
-                    src="/images/generate-textarea/color.svg" 
+                    src="/imgs/generate-textarea/color.svg" 
                     alt="Color" 
                     className="w-[18px] h-[18px]" 
                   />

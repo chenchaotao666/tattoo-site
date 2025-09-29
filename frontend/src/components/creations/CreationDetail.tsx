@@ -183,7 +183,7 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onCl
                   className={`w-5 h-5 transition-colors duration-200`}
                   style={{
                     backgroundColor: isCopyHovered ? '#ECECEC' : '#A5A5A5',
-                    maskImage: 'url("/images/creations/copy.svg")',
+                    maskImage: 'url("/imgs/creations/copy.svg")',
                     maskRepeat: 'no-repeat',
                     maskPosition: 'center',
                     maskSize: 'contain',

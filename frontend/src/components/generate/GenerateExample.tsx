@@ -106,7 +106,7 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
 
                   {/* Left logo - AI icon (一半在图片上，一半在外面) */}
                   <img 
-                    src="/images/text-examples/AI.svg"
+                    src="/imgs/text-examples/AI.svg"
                     alt="AI"
                     className="absolute z-10"
                     style={{
@@ -121,7 +121,7 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
 
                   {/* Right logo - Text icon (一半在图片上，一半在外面) */}
                   <img 
-                    src="/images/text-examples/T.svg"
+                    src="/imgs/text-examples/T.svg"
                     alt="Text"
                     className="absolute z-10"
                     style={{
@@ -156,7 +156,7 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
                     }}
                   >
                     <img 
-                      src="/images/text-examples/star-2.png"
+                      src="/imgs/text-examples/star-2.png"
                       alt="Star"
                       style={{
                         width: '16px',

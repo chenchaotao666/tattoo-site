@@ -14,7 +14,7 @@ const NoData: React.FC<NoDataProps> = ({
       {/* SVG Image */}
       <div className="mb-6">
         <img 
-          src="/images/no-data.svg" 
+          src="/imgs/no-data.svg" 
           alt="No data" 
           className="w-[305px] h-[200px] opacity-60"
         />

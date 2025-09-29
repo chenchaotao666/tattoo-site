@@ -359,7 +359,7 @@ const ProfilePage: React.FC = () => {
                   {avatarPreview || user?.avatar ? (
                     <img
                       className="w-16 h-16 rounded-full object-cover"
-                      src={avatarPreview || user?.avatar || '/images/default-avatar.svg'}
+                      src={avatarPreview || user?.avatar || '/imgs/default-avatar.svg'}
                       alt={t('avatar')}
                     />
                   ) : (

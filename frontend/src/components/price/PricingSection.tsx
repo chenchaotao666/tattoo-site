@@ -59,7 +59,7 @@ const SuccessModal = ({
         <div className="relative bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 sm:p-8 pt-16 sm:pt-20 max-w-md w-full border border-orange-200">
           {/* credits-big.svg 图片 - 响应式大小，绝对定位，一半在弹框内，一半在外部 */}
           <img
-            src="/images/credits-big.svg"
+            src="/imgs/credits-big.svg"
             alt="Credits"
             className="absolute w-32 h-32 sm:w-40 sm:h-40 left-1/2 transform -translate-x-1/2 -top-16 sm:-top-20 z-10"
           />

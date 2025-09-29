@@ -19,7 +19,7 @@ const TryNow: React.FC<TryNowProps> = ({
 }) => {
   return (
     <div className={`w-full flex justify-center ${className}`}>
-      <div className="w-[1440px] mx-4 sm:mx-6 bg-cover bg-center bg-no-repeat relative rounded-lg overflow-hidden" style={{backgroundImage: 'url(/images/try-now/try-now-bg.png)'}}>
+      <div className="w-[1440px] mx-4 sm:mx-6 bg-cover bg-center bg-no-repeat relative rounded-lg overflow-hidden" style={{backgroundImage: 'url(/imgs/try-now/try-now-bg.png)'}}>
         {/* Gradient overlay */}
         <div className="absolute inset-0 w-full h-full" style={{background: 'linear-gradient(180deg, rgba(3, 4, 20, 0.60) 0%, rgba(0, 0, 0, 0.40) 100%)'}}></div>
 
@@ -42,7 +42,7 @@ const TryNow: React.FC<TryNowProps> = ({
                 {buttonText}
               </div>
               <div className="w-9 h-9 bg-[#030414] rounded-full flex items-center justify-center">
-                <img src="/images/try-now/right-arrow.png" alt="Right arrow" className="w-6 h-6" />
+                <img src="/imgs/try-now/right-arrow.png" alt="Right arrow" className="w-6 h-6" />
               </div>
             </button>
           ) : (
@@ -52,7 +52,7 @@ const TryNow: React.FC<TryNowProps> = ({
                   {buttonText}
                 </div>
                 <div className="w-9 h-9 bg-[#030414] rounded-full flex items-center justify-center">
-                  <img src="/images/try-now/right-arrow.png" alt="Right arrow" className="w-6 h-6" />
+                  <img src="/imgs/try-now/right-arrow.png" alt="Right arrow" className="w-6 h-6" />
                 </div>
               </button>
             </Link>

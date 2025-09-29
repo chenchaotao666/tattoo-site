@@ -40,7 +40,7 @@ const CreateOnGo: React.FC<CreateOnGoProps> = ({ data }) => {
       <div className="absolute w-[212px] h-[60px] left-[330px] top-[164px] px-4 py-2 rounded-lg border border-[#5D5D5D] flex flex-col justify-start items-center gap-2.5">
         <div className="flex justify-start items-center gap-3">
           <div className="w-9 h-9 relative overflow-hidden">
-            <img className="w-9 h-9 absolute" src="/images/home-create-on-go/apple.png" alt="Apple logo" />
+            <img className="w-9 h-9 absolute" src="/imgs/home-create-on-go/apple.png" alt="Apple logo" />
           </div>
           <div className="flex flex-col justify-start items-start">
             <div className="self-stretch text-[#ECECEC] text-xs font-inter font-normal break-words">{data.appStore.text1}</div>
@@ -53,7 +53,7 @@ const CreateOnGo: React.FC<CreateOnGoProps> = ({ data }) => {
       <div className="absolute w-[212px] h-[60px] left-[558px] top-[164px] px-4 py-2 rounded-lg border border-[#5D5D5D] flex flex-col justify-start items-start gap-2.5">
         <div className="flex justify-start items-center gap-3">
           <div className="w-9 h-9 relative overflow-hidden">
-            <img className="w-9 h-9 absolute" src="/images/home-create-on-go/google.png" alt="Google Play logo" />
+            <img className="w-9 h-9 absolute" src="/imgs/home-create-on-go/google.png" alt="Google Play logo" />
           </div>
           <div className="flex flex-col justify-start items-start">
             <div className="self-stretch text-[#ECECEC] text-xs font-inter font-normal break-words">{data.googlePlay.text1}</div>

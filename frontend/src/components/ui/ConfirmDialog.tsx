@@ -48,14 +48,14 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           onClick={onClose}
           className="absolute top-5 right-5 w-4 h-4 flex items-center justify-center hover:opacity-70 transition-opacity"
         >
-          <img src="/images/close-x.svg" alt="Close" className="w-4 h-4 filter brightness-0 invert" />
+          <img src="/imgs/close-x.svg" alt="Close" className="w-4 h-4 filter brightness-0 invert" />
         </button>
 
         {/* 内容区域 */}
         <div className="absolute left-[30px] top-[30px]">
           {/* 警告图标 */}
           <div className="w-6 h-6 flex items-center justify-center overflow-hidden">
-            <img src="/images/notice.svg" alt="Notice" className="w-6 h-6" />
+            <img src="/imgs/notice.svg" alt="Notice" className="w-6 h-6" />
           </div>
         </div>
         

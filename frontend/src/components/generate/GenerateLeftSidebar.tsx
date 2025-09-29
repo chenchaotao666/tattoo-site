@@ -9,10 +9,10 @@ import { colors } from '../../styles/colors';
 import { UrlUtils } from '../../utils/urlUtils';
 
 // 图标路径定义
-const refreshIcon = '/images/generate/refresh-ideas.png';
-const crownIcon = '/images/generate/crown.svg';
-const tipIcon = '/images/generate/tip.svg';
-const textCountIcon = '/images/generate/text-count.svg';
+const refreshIcon = '/imgs/generate/refresh-ideas.png';
+const crownIcon = '/imgs/generate/crown.svg';
+const tipIcon = '/imgs/generate/tip.svg';
+const textCountIcon = '/imgs/generate/text-count.svg';
 
 
 interface GenerateLeftSidebarProps {
@@ -143,7 +143,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
                 className="absolute top-3 right-3 w-5 h-5 flex items-center justify-center bg-[#818181] hover:bg-[#6B6B6B] rounded-full transition-colors"
                 title={t('prompt.clear')}
               >
-                <img src="/images/close-x.svg" alt="Clear" className="w-3 h-3" />
+                <img src="/imgs/close-x.svg" alt="Clear" className="w-3 h-3" />
               </button>
             )}
 
@@ -208,7 +208,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
                 ) : (
                   /* No Style Icon */
                   <img 
-                    src="/images/styles/no-style-small.svg" 
+                    src="/imgs/styles/no-style-small.svg" 
                     alt="No Style" 
                     className="w-[26px] h-[26px]" 
                   />

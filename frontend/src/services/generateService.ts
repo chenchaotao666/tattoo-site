@@ -150,7 +150,7 @@ class GenerateService {
         ...(data.seed && { seed: data.seed })
       };
       
-      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/images/generate-tattoo/async', requestBody, true);
+      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/imgs/generate-tattoo/async', requestBody, true);
       
       return responseData;
     } catch (error) {
@@ -167,7 +167,7 @@ class GenerateService {
    */
   async getTattooGenerationStatus(predictionId: string): Promise<TattooGenerationStatusResponse> {
     try {
-      const responseData = await ApiUtils.get<TattooGenerationStatusResponse>(`/api/images/generate-tattoo/status/${predictionId}`, {}, true);
+      const responseData = await ApiUtils.get<TattooGenerationStatusResponse>(`/api/imgs/generate-tattoo/status/${predictionId}`, {}, true);
       
       return responseData;
     } catch (error) {
@@ -189,7 +189,7 @@ class GenerateService {
         originalParams
       };
       
-      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/images/generate-tattoo/complete', requestBody, true);
+      const responseData = await ApiUtils.post<TattooGenerationResponse>('/api/imgs/generate-tattoo/complete', requestBody, true);
       
       return responseData;
     } catch (error) {

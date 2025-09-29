@@ -130,7 +130,12 @@ app.get('/images/*', async (req, res) => {
         stream.pipe(res);
         
     } catch (error) {
-        console.error('获取MinIO图片失败:', error.message);
+        console.error('获取MinIO图片失败:', {
+            error: error.message,
+            filename: filename,
+            bucketName: bucketName,
+            requestPath: req.path
+        });
         res.status(404).json({
             success: false,
             message: 'Image not found'

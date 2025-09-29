@@ -278,7 +278,7 @@ export class ImageService {
    */
   static async deleteImage(imageId: string): Promise<boolean> {
     try {
-      await ApiUtils.delete<any>(`/api/imgs/${imageId}`, true);
+      await ApiUtils.delete<any>(`/api/images/${imageId}`, true);
       return true;
     } catch (error) {
       console.error(`Failed to delete image ${imageId}:`, error);
@@ -296,7 +296,7 @@ export class ImageService {
    */
   static async reportImage(data: ReportImageRequest): Promise<boolean> {
     try {
-      await ApiUtils.post<any>('/api/imgs/report', data, true);
+      await ApiUtils.post<any>('/api/images/report', data, true);
       return true;
     } catch (error) {
       console.error('Failed to report image:', error);
@@ -325,7 +325,7 @@ export class ImageService {
 
   /**
    * 📦 获取用户自己创建的图片（专用接口）
-   * 接口地址：GET /api/imgs/generated
+   * 接口地址：GET /api/images/generated
    * 用户获取自己创建的图片时，调用这个接口
    * @param params 查询参数
    * @returns Promise<SearchResult>
@@ -346,7 +346,7 @@ export class ImageService {
 
     try {
       return await this.performImageSearch(
-        '/api/imgs/generated',
+        '/api/images/generated',
         searchParams,
         true, // 需要认证
       );
@@ -379,7 +379,7 @@ export class ImageService {
       });
 
       const queryString = searchParams.toString();
-      const url = queryString ? `/api/imgs/count?${queryString}` : '/api/imgs/count';
+      const url = queryString ? `/api/images/count?${queryString}` : '/api/images/count';
       
       const response = await ApiUtils.get<{
         count: number;

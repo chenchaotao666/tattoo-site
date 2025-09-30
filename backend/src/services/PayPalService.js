@@ -24,6 +24,8 @@ class PayPalService {
      */
     async getAccessToken() {
         try {
+            console.log(`[PayPalService] Requesting access token from: ${this.baseURL}`);
+
             const auth = Buffer.from(`${this.clientId}:${this.clientSecret}`).toString('base64');
 
             const response = await axios.post(`${this.baseURL}/v1/oauth2/token`,
@@ -36,9 +38,13 @@ class PayPalService {
                 }
             );
 
+            console.log(`[PayPalService] Access token obtained successfully`);
             return response.data.access_token;
         } catch (error) {
-            console.error('Get PayPal access token error:', error.response?.data || error.message);
+            console.error('[PayPalService] Get PayPal access token error:', error.response?.data || error.message);
+            if (error.response?.status) {
+                console.error('[PayPalService] HTTP Status:', error.response.status);
+            }
             throw new Error('Failed to get PayPal access token');
         }
     }

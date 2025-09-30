@@ -42,29 +42,45 @@ class PayPalWebhookService {
     // 处理支付完成事件
     async handlePaymentCaptureCompleted(eventData) {
         try {
+            console.log(`[Webhook] Starting handlePaymentCaptureCompleted`);
+            console.log(`[Webhook] Event data:`, JSON.stringify(eventData, null, 2));
+
             const captureId = eventData.resource.id;
             const orderId = eventData.resource.supplementary_data?.related_ids?.order_id;
+            const amount = eventData.resource.amount?.value;
+            const currency = eventData.resource.amount?.currency_code;
+
+            console.log(`[Webhook] Extracted info - captureId: ${captureId}, orderId: ${orderId}, amount: ${amount} ${currency}`);
 
             if (!orderId) {
-                console.error('Order ID not found in webhook event');
+                console.error('[Webhook] Order ID not found in webhook event');
                 return;
             }
 
-            console.log(`Processing payment capture completed for order: ${orderId}`);
+            console.log(`[Webhook] Processing payment capture completed for order: ${orderId}`);
 
             // 查找对应的充值记录
             const recharge = await this.rechargeModel.findByOrderId(orderId);
             if (!recharge) {
-                console.error(`Recharge record not found for order: ${orderId}`);
+                console.error(`[Webhook] Recharge record not found for order: ${orderId}`);
                 return;
             }
+
+            console.log(`[Webhook] Found recharge record:`, {
+                id: recharge.id,
+                userId: recharge.userId,
+                status: recharge.status,
+                creditsAdded: recharge.creditsAdded,
+                validDays: recharge.validDays
+            });
 
             // 检查是否已经处理过
             if (recharge.status === 'success') {
-                console.log(`Order ${orderId} already processed`);
+                console.log(`[Webhook] Order ${orderId} already processed, skipping`);
                 return;
             }
 
+            console.log(`[Webhook] Updating recharge record status to success`);
             // 更新充值记录状态
             await this.rechargeModel.updateById(recharge.id, {
                 status: 'success',
@@ -73,6 +89,7 @@ class PayPalWebhookService {
                 updatedAt: new Date()
             });
 
+            console.log(`[Webhook] Adding credits to user: ${recharge.userId} - ${recharge.creditsAdded} credits for ${recharge.validDays} days`);
             // 添加积分并升级用户等级
             await this.creditService.addCredits(
                 recharge.userId,
@@ -82,10 +99,10 @@ class PayPalWebhookService {
                 recharge.id
             );
 
-            console.log(`Payment completed and credits added for user: ${recharge.userId}, order: ${orderId}`);
+            console.log(`[Webhook] Payment completed and credits added successfully for user: ${recharge.userId}, order: ${orderId}`);
 
         } catch (error) {
-            console.error('Error processing payment capture completed:', error);
+            console.error('[Webhook] Error processing payment capture completed:', error);
             throw error;
         }
     }
@@ -93,22 +110,37 @@ class PayPalWebhookService {
     // 处理支付失败事件
     async handlePaymentCaptureDenied(eventData) {
         try {
+            console.log(`[Webhook] Starting handlePaymentCaptureDenied`);
+            console.log(`[Webhook] Event data:`, JSON.stringify(eventData, null, 2));
+
+            const captureId = eventData.resource.id;
             const orderId = eventData.resource.supplementary_data?.related_ids?.order_id;
+            const denialReason = eventData.resource.reason_code;
+
+            console.log(`[Webhook] Extracted info - captureId: ${captureId}, orderId: ${orderId}, reason: ${denialReason}`);
 
             if (!orderId) {
-                console.error('Order ID not found in webhook event');
+                console.error('[Webhook] Order ID not found in webhook event');
                 return;
             }
 
-            console.log(`Processing payment capture denied for order: ${orderId}`);
+            console.log(`[Webhook] Processing payment capture denied for order: ${orderId}`);
 
             // 查找对应的充值记录
             const recharge = await this.rechargeModel.findByOrderId(orderId);
             if (!recharge) {
-                console.error(`Recharge record not found for order: ${orderId}`);
+                console.error(`[Webhook] Recharge record not found for order: ${orderId}`);
                 return;
             }
 
+            console.log(`[Webhook] Found recharge record:`, {
+                id: recharge.id,
+                userId: recharge.userId,
+                status: recharge.status,
+                amount: recharge.amount
+            });
+
+            console.log(`[Webhook] Updating recharge record status to failed with reason: ${denialReason}`);
             // 更新充值记录状态为失败
             await this.rechargeModel.updateById(recharge.id, {
                 status: 'failed',
@@ -117,10 +149,10 @@ class PayPalWebhookService {
                 updatedAt: new Date()
             });
 
-            console.log(`Payment denied for user: ${recharge.userId}, order: ${orderId}`);
+            console.log(`[Webhook] Payment denied processed for user: ${recharge.userId}, order: ${orderId}`);
 
         } catch (error) {
-            console.error('Error processing payment capture denied:', error);
+            console.error('[Webhook] Error processing payment capture denied:', error);
             throw error;
         }
     }
@@ -128,34 +160,51 @@ class PayPalWebhookService {
     // 处理退款事件
     async handlePaymentCaptureRefunded(eventData) {
         try {
-            const captureId = eventData.resource.id;
-            const refundAmount = eventData.resource.amount.value;
+            console.log(`[Webhook] Starting handlePaymentCaptureRefunded`);
+            console.log(`[Webhook] Event data:`, JSON.stringify(eventData, null, 2));
 
-            console.log(`Processing refund for capture: ${captureId}, amount: ${refundAmount}`);
+            const captureId = eventData.resource.id;
+            const refundId = eventData.resource.refund_id;
+            const refundAmount = eventData.resource.amount.value;
+            const currency = eventData.resource.amount.currency_code;
+            const refundStatus = eventData.resource.status;
+
+            console.log(`[Webhook] Extracted info - captureId: ${captureId}, refundId: ${refundId}, amount: ${refundAmount} ${currency}, status: ${refundStatus}`);
 
             // 查找对应的充值记录
             const recharge = await this.rechargeModel.findByCaptureId(captureId);
             if (!recharge) {
-                console.error(`Recharge record not found for capture: ${captureId}`);
+                console.error(`[Webhook] Recharge record not found for capture: ${captureId}`);
                 return;
             }
 
+            console.log(`[Webhook] Found recharge record:`, {
+                id: recharge.id,
+                userId: recharge.userId,
+                status: recharge.status,
+                creditsAdded: recharge.creditsAdded,
+                remainingCredits: recharge.remainingCredits,
+                amount: recharge.amount
+            });
+
             // 检查是否已经成功处理过支付（即是否已经添加了积分）
             if (recharge.status === 'success') {
-                console.log(`Refunding credits for user: ${recharge.userId}, credits: ${recharge.creditsAdded}`);
+                console.log(`[Webhook] Processing refund for successful payment - user: ${recharge.userId}, credits: ${recharge.creditsAdded}`);
 
                 // 先更新充值记录状态为退款，并将剩余积分清零
+                console.log(`[Webhook] Updating recharge status to refund and clearing ${recharge.remainingCredits} remaining credits`);
                 await this.rechargeModel.updateById(recharge.id, {
                     status: 'refund',
                     captureStatus: 'REFUNDED',
                     remainingCredits: 0,  // 退款时将剩余积分清零
                     updatedAt: new Date()
                 });
-                console.log(`Cleared ${recharge.remainingCredits} remaining credits for refunded recharge ${recharge.id}`);
 
                 // 然后检查用户是否应该降级等级
+                console.log(`[Webhook] Checking if user ${recharge.userId} should be downgraded after refund`);
                 try {
                     const userCreditHistory = await this.creditService.getUserCreditHistory(recharge.userId, { pageSize: 10 });
+                    console.log(`[Webhook] User credit history retrieved, records count: ${userCreditHistory.data?.length || 0}`);
 
                     // 如果用户没有其他有效的付费充值记录，将等级降回 free
                     const hasPaidCredits = userCreditHistory.data.some(record =>
@@ -164,29 +213,35 @@ class PayPalWebhookService {
                         record.id !== recharge.id
                     );
 
+                    console.log(`[Webhook] User has other paid credits: ${hasPaidCredits}`);
+
                     if (!hasPaidCredits) {
+                        console.log(`[Webhook] Downgrading user ${recharge.userId} to free level`);
                         await this.userService.model.updateById(recharge.userId, {
                             level: 'free',
                             updatedAt: new Date()
                         });
-                        console.log(`User ${recharge.userId} downgraded to free level after refund`);
+                        console.log(`[Webhook] User ${recharge.userId} downgraded to free level after refund`);
+                    } else {
+                        console.log(`[Webhook] User ${recharge.userId} keeps paid level (has other active purchases)`);
                     }
                 } catch (levelError) {
-                    console.error(`Failed to check/update user level after refund for user ${recharge.userId}:`, levelError.message);
+                    console.error(`[Webhook] Failed to check/update user level after refund for user ${recharge.userId}:`, levelError.message);
                 }
             } else {
+                console.log(`[Webhook] Processing refund for non-successful payment (status: ${recharge.status})`);
                 // 如果充值记录不是成功状态，只更新 captureStatus
                 await this.rechargeModel.updateById(recharge.id, {
                     captureStatus: 'REFUNDED',
                     updatedAt: new Date()
                 });
-                console.log(`Refund noted for non-successful recharge ${recharge.id} (status: ${recharge.status})`);
+                console.log(`[Webhook] Refund noted for non-successful recharge ${recharge.id} (status: ${recharge.status})`);
             }
 
-            console.log(`Refund processed for user: ${recharge.userId}, capture: ${captureId}`);
+            console.log(`[Webhook] Refund processed successfully for user: ${recharge.userId}, capture: ${captureId}`);
 
         } catch (error) {
-            console.error('Error processing payment capture refunded:', error);
+            console.error('[Webhook] Error processing payment capture refunded:', error);
             throw error;
         }
     }

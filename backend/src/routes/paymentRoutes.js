@@ -23,21 +23,21 @@ class PaymentService extends BaseService {
         const plans = {
             'day7': {
                 // amount: 12.99,
-                amount: 0.01,
+                amount: 1,
                 credits: 20,
                 days: 7,
                 description: '7天有效期积分包'
             },
             'day14': {
                 // amount: 16.99,
-                amount: 0.02,
+                amount: 1,
                 credits: 40,
                 days: 14,
                 description: '14天有效期积分包'
             },
             'day30': {
                 // amount: 23.99,
-                amount: 0.03,
+                amount: 1,
                 credits: 80,
                 days: 30,
                 description: '30天有效期积分包'

@@ -23,21 +23,21 @@ class PaymentService extends BaseService {
         const plans = {
             'day7': {
                 // amount: 12.99,
-                amount: 1,
+                amount: 0.01,
                 credits: 20,
                 days: 7,
                 description: '7天有效期积分包'
             },
             'day14': {
                 // amount: 16.99,
-                amount: 1,
+                amount: 0.02,
                 credits: 40,
                 days: 14,
                 description: '14天有效期积分包'
             },
             'day30': {
                 // amount: 23.99,
-                amount: 1,
+                amount: 0.03,
                 credits: 80,
                 days: 30,
                 description: '30天有效期积分包'
@@ -139,7 +139,7 @@ class PaymentService extends BaseService {
             const captureResult = await this.paypalService.captureOrder(orderId);
             console.log(`[PaymentService] Capture result:`, JSON.stringify(captureResult, null, 2));
 
-            if (captureResult.status === 'COMPLETED') {
+            if (captureResult.captureStatus === 'COMPLETED') {
                 console.log(`[PaymentService] Payment completed successfully for orderId: ${orderId}`);
 
                 // 更新充值记录状态
@@ -164,13 +164,13 @@ class PaymentService extends BaseService {
 
                 return { status: 'COMPLETED', message: 'Payment completed successfully' };
             } else {
-                console.log(`[PaymentService] Payment capture failed for orderId: ${orderId}, status: ${captureResult.status}`);
+                console.log(`[PaymentService] Payment capture failed for orderId: ${orderId}, status: ${captureResult.captureStatus}`);
 
                 // 更新为失败状态
                 await this.model.updateById(recharge.id, {
                     status: 'failed',
                     captureId: captureResult.captureId,
-                    captureStatus: captureResult.status,
+                    captureStatus: captureResult.captureStatus,
                     updatedAt: new Date()
                 });
                 console.log(`[PaymentService] Recharge record updated to failed for rechargeId: ${recharge.id}`);

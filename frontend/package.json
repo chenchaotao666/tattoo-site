@@ -47,6 +47,6 @@
     "sitemap:build": "bash scripts/cron-build-sitemap.sh",
     "sitemap:cron:install": "bash scripts/install-cron.sh",
     "sitemap:cron:uninstall": "bash scripts/uninstall-cron.sh",
-    "sitemap:cron:status": "crontab -l | grep -E '(sitemap|build)' || echo 'No sitemap cron jobs found'"
+    "sitemap:cron:status": "crontab -l | grep 'tattoo-site-frontend' || echo 'No cron jobs found for tattoo-site-frontend'"
   }
 }

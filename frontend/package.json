@@ -32,16 +32,17 @@
   "devDependencies": {
     "@types/node": "^22.15.30",
     "@types/react": "^19.1.6",
-    "@types/three": "^0.169.0"
+    "@types/three": "^0.169.0",
+    "vite-plugin-robots-txt": "^0.2.0",
+    "vite-plugin-sitemap": "^0.8.2"
   },
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "npm run generate-sitemap && npx vite build",
+    "build": "npx vite build",
     "build-with-types": "tsc -b && npx vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate-sitemap": "node scripts/generate-sitemap.cjs",
     "pm2:start": "pm2 start ecosystem.config.cjs"
   }
 }

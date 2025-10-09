@@ -25,11 +25,11 @@ async function getDynamicRoutes() {
                 let changefreq = 'weekly'; // 默认更新频率
 
                 if (route.startsWith('/categories/')) {
-                    priority = 0.7;
+                    priority = 0.8;
                     changefreq = 'weekly';
                 } else if (route.startsWith('/blog/')) {
-                    priority = 0.5;
-                    changefreq = 'monthly';
+                    priority = 0.8;
+                    changefreq = 'weekly';
                 }
 
                 allRoutes.push({

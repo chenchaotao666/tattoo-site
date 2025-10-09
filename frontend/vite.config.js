@@ -84,13 +84,13 @@ const staticRoutesConfig = [
         path: '/register',
         priority: 0.4,
         changefreq: 'monthly',
-        multilang: false
+        multilang: true
     },
     {
         path: '/login',
         priority: 0.4,
         changefreq: 'monthly',
-        multilang: false
+        multilang: true
     },
     {
         path: '/privacy-policy',

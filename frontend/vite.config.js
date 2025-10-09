@@ -18,11 +18,25 @@ async function getDynamicRoutes() {
         // 为每个动态路由生成多语言版本
         dynamicRoutes.forEach(route => {
             languages.forEach(lang => {
-                if (lang === 'en') {
-                    allRoutes.push(route);
-                } else {
-                    allRoutes.push(`/${lang}${route}`);
+                const routePath = lang === 'en' ? route : `/${lang}${route}`;
+
+                // 根据路由类型设置不同的优先级和更新频率
+                let priority = 0.6; // 默认优先级
+                let changefreq = 'weekly'; // 默认更新频率
+
+                if (route.startsWith('/categories/')) {
+                    priority = 0.7;
+                    changefreq = 'weekly';
+                } else if (route.startsWith('/blog/')) {
+                    priority = 0.5;
+                    changefreq = 'monthly';
                 }
+
+                allRoutes.push({
+                    url: routePath,
+                    changefreq: changefreq,
+                    priority: priority
+                });
             });
         });
 
@@ -34,18 +48,68 @@ async function getDynamicRoutes() {
     }
 }
 
-// 静态路由
-const staticRoutes = [
-    '/',
-    '/price',
-    '/create',
-    '/categories',
-    '/register',
-    '/login',
-    '/privacy-policy',
-    '/terms',
-    '/refund-policy',
-    '/blog'
+// 静态路由配置 - 包含优先级和更新频率
+const staticRoutesConfig = [
+    {
+        path: '/',
+        priority: 1.0,
+        changefreq: 'daily',
+        multilang: true
+    },
+    {
+        path: '/create',
+        priority: 0.9,
+        changefreq: 'weekly',
+        multilang: true
+    },
+    {
+        path: '/categories',
+        priority: 0.8,
+        changefreq: 'weekly',
+        multilang: true
+    },
+    {
+        path: '/price',
+        priority: 0.7,
+        changefreq: 'monthly',
+        multilang: true
+    },
+    {
+        path: '/blog',
+        priority: 0.8,
+        changefreq: 'weekly',
+        multilang: true
+    },
+    {
+        path: '/register',
+        priority: 0.4,
+        changefreq: 'monthly',
+        multilang: false
+    },
+    {
+        path: '/login',
+        priority: 0.4,
+        changefreq: 'monthly',
+        multilang: false
+    },
+    {
+        path: '/privacy-policy',
+        priority: 0.3,
+        changefreq: 'yearly',
+        multilang: true
+    },
+    {
+        path: '/terms',
+        priority: 0.3,
+        changefreq: 'yearly',
+        multilang: true
+    },
+    {
+        path: '/refund-policy',
+        priority: 0.3,
+        changefreq: 'yearly',
+        multilang: true
+    }
 ];
 
 // 生成多语言静态路由
@@ -53,14 +117,24 @@ function generateStaticRoutes() {
     const languages = ['en', 'zh'];
     const routes = [];
 
-    languages.forEach(lang => {
-        staticRoutes.forEach(route => {
-            if (lang === 'en') {
-                routes.push(route);
-            } else {
-                routes.push(`/${lang}${route}`);
-            }
-        });
+    staticRoutesConfig.forEach(routeConfig => {
+        if (routeConfig.multilang) {
+            languages.forEach(lang => {
+                const routePath = lang === 'en' ? routeConfig.path : `/${lang}${routeConfig.path}`;
+                routes.push({
+                    url: routePath,
+                    changefreq: routeConfig.changefreq,
+                    priority: routeConfig.priority
+                });
+            });
+        } else {
+            // 单语言页面只使用英文版本
+            routes.push({
+                url: routeConfig.path,
+                changefreq: routeConfig.changefreq,
+                priority: routeConfig.priority
+            });
+        }
     });
 
     return routes;
@@ -72,6 +146,17 @@ export default defineConfig(async () => {
     const staticRoutesWithI18n = generateStaticRoutes();
     const dynamicRoutesWithI18n = await getDynamicRoutes();
     const allRoutes = [...staticRoutesWithI18n, ...dynamicRoutesWithI18n];
+
+    // 创建去重的路由映射，保留优先级最高的配置
+    const uniqueRoutes = new Map();
+    allRoutes.forEach(route => {
+        if (!uniqueRoutes.has(route.url) || uniqueRoutes.get(route.url).priority < route.priority) {
+            uniqueRoutes.set(route.url, route);
+        }
+    });
+
+    const finalRoutes = Array.from(uniqueRoutes.values());
+    console.log(`📊 Generated ${allRoutes.length} routes, after deduplication: ${finalRoutes.length} unique routes`);
 
     return {
         plugins: [
@@ -109,9 +194,18 @@ export default defineConfig(async () => {
             }),
             sitemapPlugin({
                 hostname: 'https://aitattoo.art',
-                dynamicRoutes: allRoutes,
-                changefreq: 'weekly',
-                priority: 0.8,
+                dynamicRoutes: finalRoutes.map(route => route.url),
+                exclude: [], // 明确排除自动路由扫描
+                outDir: 'dist',
+                extensions: [], // 不自动扫描文件
+                changefreq: finalRoutes.reduce((acc, route) => {
+                    acc[route.url] = route.changefreq;
+                    return acc;
+                }, {}),
+                priority: finalRoutes.reduce((acc, route) => {
+                    acc[route.url] = route.priority;
+                    return acc;
+                }, {}),
                 lastmod: new Date(),
                 generateRobotsTxt: false // 我们单独处理 robots.txt
             })

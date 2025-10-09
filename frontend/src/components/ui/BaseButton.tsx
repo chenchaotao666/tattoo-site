@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface BaseButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (event?: React.MouseEvent<HTMLButtonElement>) => void;
   variant?: 'primary' | 'secondary';
   width?: string;
   height?: string;
@@ -39,7 +39,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({
   return (
     <button
       className={finalClassName}
-      onClick={disabled ? undefined : onClick}
+      onClick={disabled ? undefined : (e) => onClick?.(e)}
       disabled={disabled}
       style={style}
     >

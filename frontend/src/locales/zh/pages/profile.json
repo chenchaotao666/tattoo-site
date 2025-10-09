@@ -86,9 +86,11 @@
     "paymentStatus": "支付状态",
     "unpaid": "未支付",
     "paid": "已支付",
+    "success": "成功",
     "failed": "支付失败",
     "pending": "待支付",
     "cancelled": "已取消",
+    "refunded": "已退款",
     "noOrders": "暂无订单记录"
   }
 } 

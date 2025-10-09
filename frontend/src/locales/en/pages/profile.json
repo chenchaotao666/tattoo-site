@@ -86,9 +86,11 @@
     "paymentStatus": "Payment Status",
     "unpaid": "Unpaid",
     "paid": "Paid",
+    "success": "Success",
     "failed": "Failed",
     "pending": "Pending",
     "cancelled": "Cancelled",
+    "refunded": "Refunded",
     "noOrders": "No orders found"
   }
 } 

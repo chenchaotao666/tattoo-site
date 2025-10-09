@@ -9,6 +9,7 @@ import { navigateWithLanguage } from '../utils/navigationUtils';
 import SEOHead from '../components/common/SEOHead';
 import Layout from '../components/layout/Layout';
 import PasswordInput from '../components/ui/PasswordInput';
+import BaseButton from '../components/ui/BaseButton';
 
 const ProfilePage: React.FC = () => {
   const { t } = useAsyncTranslation('profile');
@@ -320,20 +321,18 @@ const ProfilePage: React.FC = () => {
   // 获取订单状态显示
   const getOrderStatusDisplay = (status: string) => {
     switch (status) {
-      case 'completed':
-        return { text: t('orderTable.paid'), className: 'bg-green-100 text-green-800' };
+      case 'success':
+        return { text: t('orderTable.success'), className: 'bg-green-100 text-green-800' };
       case 'failed':
-        return { text: t('orderTable.failed'), className: 'bg-red-100 text-red-800' };
+        return { text: t('orderTable.failed'), className: 'bg-gray-100 text-gray-700' };
       case 'pending':
         return { text: t('orderTable.pending'), className: 'bg-yellow-100 text-yellow-800' };
-      case 'cancelled':
-        return { text: t('orderTable.cancelled'), className: 'bg-gray-100 text-gray-800' };
+      case 'refund':
+        return { text: t('orderTable.refunded'), className: 'bg-blue-100 text-blue-800' };
       default:
-        return { text: t('orderTable.unpaid'), className: 'bg-red-100 text-red-800' };
+        return { text: t('orderTable.unpaid'), className: 'bg-orange-100 text-orange-700' };
     }
   };
-
-
 
   // 显示加载状态：认证初始化期间或用户数据加载期间
   if (authLoading || isLoadingUser) {
@@ -350,7 +349,7 @@ const ProfilePage: React.FC = () => {
       <div className="min-h-screen" style={{backgroundColor: '#030414'}}>
         <div className="max-w-screen-xl px-4 pt-6 pb-10 mx-auto">
         {/* 用户信息区域 */}
-        <div className="rounded-lg shadow-sm border mb-6" style={{backgroundColor: '#19191F', borderColor: '#131317'}}>
+        <div className="rounded-lg shadow-sm border mb-6" style={{backgroundColor: '#19191F', borderColor: '#404040'}}>
           <div className="px-6 py-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               {/* 用户基本信息 */}
@@ -400,8 +399,8 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* 订单记录 */}
-        <div className="rounded-lg shadow-sm border mb-6" style={{backgroundColor: '#19191F', borderColor: '#131317'}}>
-          <div className="px-6 py-4 border-b" style={{borderColor: '#131317'}}>
+        <div className="rounded-lg shadow-sm border mb-6" style={{backgroundColor: '#19191F', borderColor: '#404040'}}>
+          <div className="px-6 py-4 border-b" style={{borderColor: '#404040'}}>
             <h1 className="text-lg font-semibold text-white">{t('sections.orderHistory')}</h1>
           </div>
           <div className="px-6 py-4">
@@ -428,7 +427,7 @@ const ProfilePage: React.FC = () => {
                         </th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y" style={{backgroundColor: '#19191F', borderColor: '#131317'}}>
+                    <tbody className="divide-y" style={{backgroundColor: '#19191F', borderColor: '#1E1E1E'}}>
                       {orderHistory && orderHistory.length > 0 ? (
                           orderHistory.map((order) => {
                             const statusDisplay = getOrderStatusDisplay(order.status);
@@ -477,8 +476,8 @@ const ProfilePage: React.FC = () => {
         </div>
 
         {/* 基本信息和密码修改 */}
-        <div className="rounded-lg shadow-sm border" style={{backgroundColor: '#19191F', borderColor: '#131317'}}>
-          <div className="px-6 py-4 border-b" style={{borderColor: '#131317'}}>
+        <div className="rounded-lg shadow-sm border" style={{backgroundColor: '#19191F', borderColor: '#404040'}}>
+          <div className="px-6 py-4 border-b" style={{borderColor: '#404040'}}>
             <h2 className="text-lg font-semibold text-white">{t('sections.basicInfo')}</h2>
           </div>
           <form onSubmit={handleSubmit} className="px-6 py-6 space-y-6">
@@ -550,25 +549,18 @@ const ProfilePage: React.FC = () => {
             </div>
 
             {/* 密码修改 - 可折叠 */}
-            <div className="border rounded-lg" style={{borderColor: '#131317'}}>
+            <div className="border rounded-lg" style={{borderColor: '#404040'}}>
               <button
                 type="button"
                 onClick={() => setIsPasswordSectionOpen(!isPasswordSectionOpen)}
-                className="w-full px-4 py-3 text-left flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-inset"
+                className="w-full px-4 py-3 text-left flex items-center justify-between focus:outline-none group"
                 style={{
                   backgroundColor: 'transparent'
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#131317';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }}
               >
-                <h4 className="text-md font-medium" style={{color: '#98FF59'}}>{t('sections.changePassword')}</h4>
+                <h4 className="text-md font-medium text-white group-hover:text-[#98FF59] transition-colors duration-200">{t('sections.changePassword')}</h4>
                 <svg
-                  className={`h-5 w-5 transition-transform ${isPasswordSectionOpen ? 'rotate-180' : ''}`}
-                  style={{color: '#98FF59'}}
+                  className={`h-5 w-5 transition-all duration-200 ${isPasswordSectionOpen ? 'rotate-180' : ''} text-white group-hover:text-[#98FF59]`}
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -578,7 +570,7 @@ const ProfilePage: React.FC = () => {
               </button>
               
               {isPasswordSectionOpen && (
-                <div className="px-4 pb-4 space-y-1 border-t" style={{borderColor: '#131317'}}>
+                <div className="px-4 pb-4 space-y-1 border-t" style={{borderColor: '#404040'}}>
                   
                   {/* 当前密码 */}
                   <div>
@@ -653,64 +645,41 @@ const ProfilePage: React.FC = () => {
             </div>
 
             {/* 按钮组 */}
-            <div className="flex justify-between pt-6 border-t" style={{borderColor: '#131317'}}>
-              <button
-                type="button"
+            <div className="flex justify-between pt-6 border-t" style={{borderColor: '#404040'}}>
+              <BaseButton
+                variant="secondary"
                 onClick={handleLogout}
-                className="inline-flex justify-center py-2 px-4 border shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2"
-                style={{
-                  backgroundColor: '#131317',
-                  borderColor: '#666666',
-                  color: '#CCCCCC'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#19191F';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#131317';
-                }}
+                width="w-auto"
+                height="h-[40px]"
+                fontSize="text-base"
+                className="px-4"
               >
                 {t('buttons.logout')}
-              </button>
+              </BaseButton>
 
               <div className="flex space-x-3">
-                <button
-                  type="button"
+                <BaseButton
+                  variant="secondary"
                   onClick={() => navigate(-1)}
-                  className="inline-flex justify-center py-2 px-4 border shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2"
-                  style={{
-                    backgroundColor: '#131317',
-                    borderColor: '#666666',
-                    color: '#CCCCCC'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = '#19191F';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = '#131317';
-                  }}
+                  width="w-auto"
+                  height="h-[40px]"
+                  fontSize="text-base"
+                  className="px-4"
                 >
                   {t('buttons.cancel')}
-                </button>
+                </BaseButton>
 
-                <button
-                  type="submit"
+                <BaseButton
+                  variant="primary"
+                  onClick={(e) => {
+                    e?.preventDefault();
+                    handleSubmit(e as any);
+                  }}
+                  width="w-auto"
+                  height="h-[40px]"
+                  fontSize="text-base"
+                  className="px-4"
                   disabled={isLoading}
-                  className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                  style={{
-                    backgroundColor: '#98FF59',
-                    color: '#030414'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor = '#7BCC47';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!e.currentTarget.disabled) {
-                      e.currentTarget.style.backgroundColor = '#98FF59';
-                    }
-                  }}
                 >
                   {isLoading ? (
                     <div className="flex items-center">
@@ -722,7 +691,7 @@ const ProfilePage: React.FC = () => {
                   ) : (
                     t('buttons.save')
                   )}
-                </button>
+                </BaseButton>
               </div>
             </div>
             <input

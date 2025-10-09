@@ -12,8 +12,6 @@ import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 import TryNow from '../components/common/TryNow';
 
-// 图标导入
-const noResultIcon = '/imgs/no-data.svg';
 
 interface CreationsPageProps {}
 
@@ -138,11 +136,6 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
     } finally {
       setSubmittingReport(false);
     }
-  };
-
-  // 处理删除确认
-  const handleDeleteConfirm = (imageId: string) => {
-    setShowDeleteConfirm(imageId);
   };
 
   // 处理图片点击

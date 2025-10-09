@@ -1,4 +1,22 @@
 User-agent: *
-Disallow:
+Allow: /
+Allow: /en/
+Allow: /de/
+Allow: /tr/
+Allow: /it/
+Allow: /es/
+Allow: /fr/
+Allow: /pt/
+Allow: /nn/
+Allow: /ar/
+Allow: /ja/
+Allow: /ko/
+Allow: /zh/
+Allow: /tw/
+Allow: /ru/
+Allow: /nl/
+Allow: /sv/
+Allow: /hi/
+Disallow: /api/
 
-Sitemap: http://localhost:3008/sitemap.xml
+Sitemap: https://aitattoo.art/sitemap.xml

@@ -60,11 +60,11 @@ function createUserRoutes(app) {
         try {
             const { email } = req.params;
             const user = await userService.getUserByEmail(email);
-            
+
             if (!user) {
                 return res.status(404).json(userService.formatResponse(false, null, 'User not found'));
             }
-            
+
             res.json(userService.formatResponse(true, user, 'User retrieved successfully'));
         } catch (error) {
             console.error('Get user by email error:', error);
@@ -72,24 +72,19 @@ function createUserRoutes(app) {
         }
     });
 
-    // GET /api/users/:id/stats - 获取用户统计信息
-    router.get('/:id/stats', validateUUID, async (req, res) => {
+    // PUT /api/users/update - 更新当前登录用户信息
+    router.put('/update', authenticateToken, async (req, res) => {
         try {
-            const { id } = req.params;
-            const stats = await userService.getUserStats(id);
-            
-            if (!stats) {
-                return res.status(404).json(userService.formatResponse(false, null, 'User not found'));
-            }
-            
-            res.json(userService.formatResponse(true, stats, 'User stats retrieved successfully'));
+            const userId = req.userId;
+            const user = await userService.updateUser(userId, req.body);
+            res.json(userService.formatResponse(true, user, 'User updated successfully'));
         } catch (error) {
-            console.error('Get user stats error:', error);
-            res.status(500).json(userService.formatResponse(false, null, error.message));
+            console.error('Update user error:', error);
+            const statusCode = error.message.includes('not found') ? 404 :
+                              error.message.includes('already exists') || error.message.includes('Validation failed') ? 400 : 500;
+            res.status(statusCode).json(userService.formatResponse(false, null, error.message));
         }
     });
-
-
 
 
     // 基础CRUD路由（放在最后，避免路由冲突）
@@ -138,7 +133,7 @@ function createUserRoutes(app) {
             res.json(userService.formatResponse(true, user, 'User updated successfully'));
         } catch (error) {
             console.error('Update user error:', error);
-            const statusCode = error.message.includes('not found') ? 404 : 
+            const statusCode = error.message.includes('not found') ? 404 :
                               error.message.includes('already exists') || error.message.includes('Validation failed') ? 400 : 500;
             res.status(statusCode).json(userService.formatResponse(false, null, error.message));
         }
@@ -148,8 +143,8 @@ function createUserRoutes(app) {
     router.delete('/:id', validateUUID, async (req, res) => {
         try {
             const { id } = req.params;
-            const success = await userService.delete(id);
-            res.json(userService.formatResponse(true, success, 'User deleted successfully'));
+            const success = await userService.deleteById(id);
+            res.json(userService.formatResponse(success, null, success ? 'User deleted successfully' : 'Failed to delete user'));
         } catch (error) {
             console.error('Delete user error:', error);
             const statusCode = error.message.includes('not found') ? 404 : 500;

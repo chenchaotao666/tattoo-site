@@ -514,13 +514,13 @@ const ProfilePage: React.FC = () => {
                   className={`block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 sm:text-sm`}
                   style={{
                     backgroundColor: '#131317',
-                    borderColor: errors.username ? '#ff6b6b' : '#666666',
+                    borderColor: errors.username ? '#98FF59' : '#666666',
                     color: '#CCCCCC'
                   }}
                   placeholder={t('placeholders.username')}
                 />
                 {errors.username && (
-                  <p className="mt-1 text-sm" style={{color: '#ff6b6b'}}>{errors.username}</p>
+                  <p className="mt-1 text-sm" style={{color: '#98FF59'}}>{errors.username}</p>
                 )}
               </div>
             </div>

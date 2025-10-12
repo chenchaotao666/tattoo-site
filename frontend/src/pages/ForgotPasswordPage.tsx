@@ -83,15 +83,15 @@ const ForgotPasswordPage: React.FC = () => {
           ogDescription="Password reset email sent successfully."
           canonicalUrl={`${window.location.origin}/forgot-password`}
         />
-        <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+        <div className="min-h-screen bg-[#030414] flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           {/* Logo */}
-          <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-gray-900 mr-[20px]">
+          <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-[#E6E6E6] mr-[20px]">
             <img src="/imgs/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
-            <span className="text-2xl font-bold text-gray-900">ColorPage</span>
+            <span className="text-2xl font-bold text-[#E6E6E6]">ColorPage</span>
           </Link>
-          
+
           {/* Success Card */}
-          <div className="w-full bg-white border border-gray-200 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
+          <div className="w-full bg-[#161622] border border-gray-700 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
             <div className="p-12">
               <div className="text-center">
                 <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-green-100 mb-6">
@@ -99,16 +99,16 @@ const ForgotPasswordPage: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
-                <h1 className="mb-6 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+                <h1 className="mb-6 text-xl font-bold leading-tight tracking-tight text-[#E6E6E6] md:text-2xl">
                   邮件已发送
                 </h1>
-                <p className="mb-4 text-sm text-gray-600">
+                <p className="mb-4 text-sm text-gray-400">
                   重置密码的邮件已发送到：
                 </p>
                 <p className="mb-6 text-sm font-medium text-blue-600">
                   {email}
                 </p>
-                <p className="mb-8 text-sm text-gray-600">
+                <p className="mb-8 text-sm text-gray-400">
                   请检查您的邮箱并点击邮件中的链接来重置密码。
                 </p>
                 
@@ -150,17 +150,17 @@ const ForgotPasswordPage: React.FC = () => {
         ogDescription="Reset your password to regain access to your AI coloring page generator account."
         canonicalUrl={`${window.location.origin}/forgot-password`}
       />
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+      <div className="min-h-screen bg-[#030414] flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
         {/* Logo */}
-        <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-gray-900 mr-[20px]">
+        <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-[#E6E6E6] mr-[20px]">
           <img src="/imgs/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
-          <span className="text-2xl font-bold text-gray-900">ColorPage</span>
+          <span className="text-2xl font-bold text-[#E6E6E6] ml-2">AI Tattoo</span>
         </Link>
-        
+
         {/* Reset Password Card */}
-        <div className="w-full bg-white border border-gray-200 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
+        <div className="w-full bg-[#161622] border border-gray-700 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
           <div className="p-12">
-            <h1 className="mb-8 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+            <h1 className="mb-8 text-xl font-bold leading-tight tracking-tight text-[#E6E6E6] md:text-2xl">
               {tForms('auth.resetYourPassword', '重置密码')}
             </h1>
 
@@ -173,22 +173,27 @@ const ForgotPasswordPage: React.FC = () => {
 
               {/* 邮箱输入 */}
               <div className="mb-6">
-                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
-                  <span className="text-red-500 mr-1">*</span>{tForms('fields.emailAddress', '邮件')}
+                <label htmlFor="email" className="block mb-2 text-sm font-medium text-[#E6E6E6]">
+                  {tForms('fields.emailAddress', '邮件')}
                 </label>
                 <input
                   id="email"
                   name="email"
+                  type="email"
+                  autoComplete="email"
                   value={email}
                   onChange={handleEmailChange}
-                  className={`w-full px-3 py-3 text-sm border ${
-                    errors.email ? 'border-red-300' : 'border-gray-300'
-                  } rounded-lg focus:ring-blue-500 focus:border-blue-500 focus:outline-none`}
+                  className="w-full px-3 py-3 text-sm border rounded-lg focus:outline-none [&:-webkit-autofill]:!bg-[#131317] [&:-webkit-autofill]:!text-[#CCCCCC] [&:-webkit-autofill]:!border-[#666666] [&:-webkit-autofill:hover]:!bg-[#131317] [&:-webkit-autofill:focus]:!bg-[#131317] [&:-webkit-autofill:active]:!bg-[#131317]"
+                  style={{
+                    backgroundColor: '#131317',
+                    borderColor: errors.email ? '#98FF59' : '#666666',
+                    color: '#CCCCCC'
+                  }}
                   placeholder={tForms('placeholders.emailAddress', '请输入您的邮箱地址')}
                 />
                 <div className="h-4 mt-1">
                   {errors.email && (
-                    <p className="text-sm text-red-600">{errors.email}</p>
+                    <p className="text-sm" style={{color: '#98FF59'}}>{errors.email}</p>
                   )}
                 </div>
               </div>
@@ -198,7 +203,7 @@ const ForgotPasswordPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading ? (
                     <div className="flex items-center justify-center">
@@ -214,7 +219,7 @@ const ForgotPasswordPage: React.FC = () => {
               </div>
 
               {/* 返回登录链接 */}
-              <p className="text-sm font-light text-center text-gray-500">
+              <p className="text-sm font-light text-center text-gray-400">
                 {tForms('auth.rememberPassword', '记住密码？')}{' '}
                 <Link to="/login" className="font-medium text-blue-600 hover:underline">
                   {tForms('auth.backToLogin', '返回登录')}

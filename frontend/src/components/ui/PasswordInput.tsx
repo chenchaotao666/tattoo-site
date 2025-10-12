@@ -39,11 +39,12 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         onChange={onChange}
         onBlur={onBlur}
         placeholder={placeholder}
-        required={required}
-        className={`w-full px-3 py-3 pr-12 text-sm border rounded-lg focus:outline-none ${className}`}
+        autoComplete="off"
+        data-lpignore="true"
+        className={`w-full px-3 py-3 pr-12 text-sm border rounded-lg focus:outline-none [&:-webkit-autofill]:!bg-[#131317] [&:-webkit-autofill]:!text-[#CCCCCC] [&:-webkit-autofill]:!border-[#666666] [&:-webkit-autofill:hover]:!bg-[#131317] [&:-webkit-autofill:focus]:!bg-[#131317] [&:-webkit-autofill:active]:!bg-[#131317] ${className}`}
         style={{
           backgroundColor: '#131317',
-          borderColor: error ? '#ff6b6b' : '#666666',
+          borderColor: error ? '#98FF59' : '#666666',
           color: '#CCCCCC'
         }}
       />
@@ -60,7 +61,6 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         onMouseLeave={(e) => {
           e.currentTarget.style.color = '#666666';
         }}
-        aria-label={showPassword ? 'Hide password' : 'Show password'}
       >
         {showPassword ? (
           // 隐藏图标 (眼睛被划掉)

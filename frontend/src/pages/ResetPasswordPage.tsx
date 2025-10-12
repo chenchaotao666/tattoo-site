@@ -168,21 +168,21 @@ const ResetPasswordPage: React.FC = () => {
           keywords="password reset, invalid link"
           canonicalUrl={`${window.location.origin}/reset-password`}
         />
-        <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+        <div className="min-h-screen bg-[#030414] flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           {/* Logo */}
-          <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-gray-900 mr-[20px] ">
+          <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-[#E6E6E6] mr-[20px] ">
             <img src="/imgs/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
-            <span className="text-2xl font-bold text-gray-900">ColorPage</span>
+            <span className="text-2xl font-bold text-[#E6E6E6] ml-2">AI Tattoo</span>
           </Link>
-          
+
           {/* Error Card */}
-          <div className="w-full bg-white border border-gray-200 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
+          <div className="w-full bg-[#161622] border border-gray-700 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
             <div className="p-12">
               <div className="text-center">
-                <h1 className="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+                <h1 className="mb-4 text-xl font-bold leading-tight tracking-tight text-[#E6E6E6] md:text-2xl">
                   {tForms('auth.linkInvalid', '链接无效')}
                 </h1>
-                <p className="mb-8 text-sm text-gray-600">
+                <p className="mb-8 text-sm text-gray-400">
                   {tForms('auth.linkInvalidDesc', '此重置链接已过期或无效，请重新申请')}
                 </p>
               </div>
@@ -195,8 +195,8 @@ const ResetPasswordPage: React.FC = () => {
                   {tForms('auth.requestNewReset', '重新申请重置')}
                 </Link>
               </div>
-              
-              <p className="text-sm font-light text-center text-gray-500">
+
+              <p className="text-sm font-light text-center text-gray-400">
                 {tForms('auth.rememberPassword', '记住密码？')}{' '}
                 <Link to="/login" className="font-medium text-blue-600 hover:underline">
                   {tForms('auth.backToLogin', '返回登录')}
@@ -219,15 +219,15 @@ const ResetPasswordPage: React.FC = () => {
           keywords="password reset, success"
           canonicalUrl={`${window.location.origin}/reset-password`}
         />
-        <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+        <div className="min-h-screen bg-[#030414] flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           {/* Logo */}
-          <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-gray-900 mr-[20px]">
+          <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-[#E6E6E6] mr-[20px]">
             <img src="/imgs/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
-            <span className="text-2xl font-bold text-gray-900">ColorPage</span>
+            <span className="text-2xl font-bold text-[#E6E6E6]">ColorPage</span>
           </Link>
-          
+
           {/* Success Card */}
-          <div className="w-full bg-white border border-gray-200 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
+          <div className="w-full bg-[#161622] border border-gray-700 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
             <div className="p-12">
               <div className="text-center">
                 <div className="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-green-100 mb-6">
@@ -235,10 +235,10 @@ const ResetPasswordPage: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h1 className="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+                <h1 className="mb-4 text-xl font-bold leading-tight tracking-tight text-[#E6E6E6] md:text-2xl">
                   {tForms('auth.resetSuccess', '重置成功')}
                 </h1>
-                <p className="mb-8 text-sm text-gray-600">
+                <p className="mb-8 text-sm text-gray-400">
                   {tForms('auth.resetSuccessDesc', '您的密码已成功重置，现在可以使用新密码登录')}
                 </p>
               </div>
@@ -286,20 +286,20 @@ const ResetPasswordPage: React.FC = () => {
         keywords="password reset, account recovery"
         canonicalUrl={`${window.location.origin}/reset-password`}
       />
-      <div className="min-h-screen bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
+      <div className="min-h-screen bg-[#030414] flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
         {/* Logo */}
-        <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-gray-900 mr-[20px]">
+        <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-[#E6E6E6] mr-[20px]">
           <img src="/imgs/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
-          <span className="text-2xl font-bold text-gray-900">ColorPage</span>
+          <span className="text-2xl font-bold text-[#E6E6E6]">ColorPage</span>
         </Link>
-        
+
         {/* Reset Password Card */}
-        <div className="w-full bg-white border border-gray-200 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
+        <div className="w-full bg-[#161622] border border-gray-700 rounded-lg shadow sm:max-w-[31rem] xl:p-0">
           <div className="p-12">
-            <h1 className="mb-4 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+            <h1 className="mb-4 text-xl font-bold leading-tight tracking-tight text-[#E6E6E6] md:text-2xl">
               {tForms('auth.resetPasswordTitle', '重置密码')}
             </h1>
-            <p className="mb-8 text-sm text-gray-600">
+            <p className="mb-8 text-sm text-gray-400">
               {tForms('auth.resetPasswordDesc', '请输入您的新密码')}
             </p>
 
@@ -312,8 +312,8 @@ const ResetPasswordPage: React.FC = () => {
 
               {/* 新密码输入 */}
               <div className="mb-6">
-                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
-                  <span className="text-red-500 mr-1">*</span>{tForms('auth.newPassword', '新密码')}
+                <label htmlFor="password" className="block mb-2 text-sm font-medium text-[#E6E6E6]">
+                  {tForms('auth.newPassword', '新密码')}
                 </label>
                 <PasswordInput
                   id="password"
@@ -326,15 +326,15 @@ const ResetPasswordPage: React.FC = () => {
                 />
                 <div className="h-4 mt-1">
                   {errors.password && (
-                    <p className="text-sm text-red-600">{errors.password}</p>
+                    <p className="text-sm" style={{color: '#98FF59'}}>{errors.password}</p>
                   )}
                 </div>
               </div>
 
               {/* 确认密码输入 */}
               <div className="mb-6">
-                <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-900">
-                  <span className="text-red-500 mr-1">*</span>{tForms('auth.confirmNewPassword', '确认新密码')}
+                <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-[#E6E6E6]">
+                  {tForms('auth.confirmNewPassword', '确认新密码')}
                 </label>
                 <PasswordInput
                   id="confirmPassword"
@@ -347,7 +347,7 @@ const ResetPasswordPage: React.FC = () => {
                 />
                 <div className="h-4 mt-1">
                   {errors.confirmPassword && (
-                    <p className="text-sm text-red-600">{errors.confirmPassword}</p>
+                    <p className="text-sm" style={{color: '#98FF59'}}>{errors.confirmPassword}</p>
                   )}
                 </div>
               </div>
@@ -373,7 +373,7 @@ const ResetPasswordPage: React.FC = () => {
               </div>
 
               {/* 返回登录链接 */}
-              <p className="text-sm font-light text-center text-gray-500">
+              <p className="text-sm font-light text-center text-gray-400">
                 {tForms('auth.rememberPassword', '记住密码？')}{' '}
                 <Link to="/login" className="font-medium text-blue-600 hover:underline">
                   {tForms('auth.backToLogin', '返回登录')}

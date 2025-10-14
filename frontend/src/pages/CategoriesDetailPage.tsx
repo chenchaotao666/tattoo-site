@@ -223,12 +223,32 @@ const CategoriesDetailPage: React.FC = () => {
   return (
     <Layout>
       <SEOHead
-        title={category ? `${categoryImages.length} ${getLocalizedText(category.seoTitle || category.name, 'en')}` : 'Category - Free Coloring Pages'}
-        description={category ? getLocalizedText(category.seoDesc || `Download free printable ${getLocalizedText(category.name, 'en').toLowerCase()} coloring pages. High-quality PDF and PNG formats available instantly.`, 'en') : 'Browse free printable coloring pages by category.'}
-        keywords={category ? `${getLocalizedText(category.name, 'en').toLowerCase()} coloring pages, free printable coloring pages, ${getLocalizedText(category.name, 'en').toLowerCase()} coloring sheets` : 'coloring pages, printable coloring pages'}
-        ogTitle={category ? `${categoryImages.length} ${getLocalizedText(category.seoTitle || category.name, 'en')}` : 'Category - Free Coloring Pages'}
-        ogDescription={category ? getLocalizedText(category.seoDesc || `Download free printable ${getLocalizedText(category.name, 'en').toLowerCase()} coloring pages. High-quality PDF and PNG formats available instantly.`, 'en') : 'Browse free printable coloring pages by category.'}
-        canonicalUrl={category ? `${window.location.origin}/categories/${category.slug || category.id}` : `${window.location.origin}${window.location.pathname}`}
+        title={
+          category
+            ? `${categoryImages.length > 0 ? categoryImages.length : ''} ${getLocalizedText(category.name, 'en')} Tattoo Designs - Free AI Generator`
+            : `${categoryId ? categoryId.replace(/-/g, ' ') : 'Category'} Tattoo Designs - Free AI Generator`
+        }
+        description={
+          category
+            ? `Browse and download free ${getLocalizedText(category.name, 'en').toLowerCase()} tattoo designs. Create custom ${getLocalizedText(category.name, 'en').toLowerCase()} tattoo artwork with our AI generator. High-quality designs for tattoo enthusiasts.`
+            : `Explore ${categoryId ? categoryId.replace(/-/g, ' ') : 'various'} tattoo designs and create custom tattoo artwork with our AI generator. Free high-quality designs for tattoo enthusiasts.`
+        }
+        keywords={
+          category
+            ? `${getLocalizedText(category.name, 'en').toLowerCase()} tattoo designs, ${getLocalizedText(category.name, 'en').toLowerCase()} tattoo ideas, AI tattoo generator, custom ${getLocalizedText(category.name, 'en').toLowerCase()} tattoos, free tattoo designs`
+            : `${categoryId ? categoryId.replace(/-/g, ' ') : 'tattoo'} designs, AI tattoo generator, custom tattoo designs, free tattoo ideas`
+        }
+        ogTitle={
+          category
+            ? `${categoryImages.length > 0 ? categoryImages.length : ''} ${getLocalizedText(category.name, 'en')} Tattoo Designs`
+            : `${categoryId ? categoryId.replace(/-/g, ' ') : 'Category'} Tattoo Designs`
+        }
+        ogDescription={
+          category
+            ? `Browse and download free ${getLocalizedText(category.name, 'en').toLowerCase()} tattoo designs. High-quality AI-generated designs.`
+            : `Explore ${categoryId ? categoryId.replace(/-/g, ' ') : 'various'} tattoo designs with our AI generator.`
+        }
+        canonicalUrl={`${window.location.origin}/categories/${categoryId || 'category'}`}
       />
       <div className="w-full bg-[#030414] relative">
         {/* Breadcrumb - 始终显示 */}
@@ -236,39 +256,63 @@ const CategoriesDetailPage: React.FC = () => {
           <Breadcrumb items={getBreadcrumbPathEarly()} />
         </div>
 
-        {/* Category Header */}
-        {category && (
-          <div className="container mx-auto px-4 pb-4">
-            <h1 className="font-bold text-white text-center text-[42px] mb-4">
-              {getLocalizedText(category.name, language)}
-            </h1>
-            <h2 className="text-gray-300 text-center mb-8">
-              {getLocalizedText(category.description || category.name, language)}
-            </h2>
-          </div>
-        )}
-
-        {/* Images Grid */}
+        {/* Main Content Container */}
         <div className="container mx-auto px-4 pb-20">
-          <ImageGrid
-            images={filteredImages}
-            isLoading={isImagesLoading}
-            noDataTitle={t('detail.noImages.title') || 'No images found'}
-            onImageClick={(image) => {
-              if (!category) return;
-              
-              const imagePath = getImageNameById(image.id);
-              const categoryPath = getCategoryPathById(category.id);
-              
-              const targetPath = `/categories/${categoryPath}/${imagePath}`;
-              navigateWithLanguage(navigate, targetPath, {
-                state: { 
-                  image: image,
-                  category: category
-                }
-              });
-            }}
-          />
+          {isCategoryLoading ? (
+            /* 分类信息加载中 - 显示加载状态但保持页面结构 */
+            <div className="flex justify-center items-center py-20 h-[400px]">
+              <div className="text-white text-center">
+                <h1 className="font-bold text-[42px] mb-4">Loading...</h1>
+                <p className="text-gray-300">Please wait while we load the tattoo designs</p>
+              </div>
+            </div>
+          ) : category ? (
+            /* 分类内容 - 分类信息加载完成后立即显示 */
+            <>
+              {/* Category Header */}
+              <div className="pb-4">
+                <h1 className="font-bold text-white text-center text-[42px] mb-4">
+                  {getLocalizedText(category.name, language)}
+                </h1>
+                <h2 className="text-gray-300 text-center mb-8">
+                  {getLocalizedText(category.description || category.name, language)}
+                </h2>
+              </div>
+
+              {/* Images Grid */}
+              <ImageGrid
+                images={filteredImages}
+                isLoading={isImagesLoading}
+                noDataTitle={t('detail.noImages.title') || 'No images found'}
+                onImageClick={(image) => {
+                  if (!category) return;
+
+                  const imagePath = getImageNameById(image.id);
+                  const categoryPath = getCategoryPathById(category.id);
+
+                  const targetPath = `/categories/${categoryPath}/${imagePath}`;
+                  navigateWithLanguage(navigate, targetPath, {
+                    state: {
+                      image: image,
+                      category: category
+                    }
+                  });
+                }}
+              />
+            </>
+          ) : (
+            /* 分类未找到时的默认内容 */
+            <div className="text-white text-center py-20">
+              <h1 className="font-bold text-[42px] mb-4">Category Not Found</h1>
+              <p className="text-gray-300 mb-8">The requested tattoo category could not be found.</p>
+              <button
+                onClick={handleBackToCategories}
+                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:opacity-90 transition-opacity"
+              >
+                Browse All Categories
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Generate Section */}

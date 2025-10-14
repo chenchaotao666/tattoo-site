@@ -199,56 +199,15 @@ export class ApiUtils {
         const fullUrl = `${API_BASE_URL}${endpoint}`;
         console.log(`🌐 Making request to: ${fullUrl}`);
 
-        // 对于 Google 检查工具，使用 XMLHttpRequest 以获得更好的兼容性
-        const isGoogleInspectionTool = typeof navigator !== 'undefined' &&
-          /google-inspectiontool/i.test(navigator.userAgent);
-
-        let response: Response;
-
-        if (isGoogleInspectionTool) {
-          // 使用 XMLHttpRequest 作为备用方案
-          response = await new Promise<Response>((resolve, reject) => {
-            const xhr = new XMLHttpRequest();
-            xhr.open(options.method || 'GET', fullUrl);
-
-            // 设置请求头
-            Object.entries(headers).forEach(([key, value]) => {
-              xhr.setRequestHeader(key, value);
-            });
-
-            xhr.timeout = 15000; // 15秒超时
-            xhr.onload = () => {
-              const mockResponse = {
-                ok: xhr.status >= 200 && xhr.status < 300,
-                status: xhr.status,
-                statusText: xhr.statusText,
-                json: async () => JSON.parse(xhr.responseText),
-                text: async () => xhr.responseText,
-              } as Response;
-              resolve(mockResponse);
-            };
-
-            xhr.onerror = () => reject(new Error('Network error'));
-            xhr.ontimeout = () => reject(new Error('Request timeout'));
-
-            if (options.body) {
-              xhr.send(options.body as string);
-            } else {
-              xhr.send();
-            }
-          });
-        } else {
-          // 普通情况使用 fetch
-          response = await fetch(fullUrl, {
-            ...options,
-            headers,
-            signal: options.signal || timeoutController.signal,
-            mode: 'cors',
-            credentials: 'omit',
-            cache: 'no-cache',
-            redirect: 'follow',
-          });
-        }
+        const response = await fetch(fullUrl, {
+          ...options,
+          headers,
+          signal: options.signal || timeoutController.signal,
+          mode: 'cors',
+          credentials: 'omit',
+          cache: 'no-cache',
+          redirect: 'follow',
+        });
 
         clearTimeout(timeoutId);
         const endTime = performance.now();

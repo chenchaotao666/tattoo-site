@@ -186,7 +186,10 @@ export default defineConfig(async () => {
                             // '/hi/'
                         ],
                         disallow: [
-                            '/api/'
+                            '/api/auth/',
+                            '/api/admin/',
+                            '/api/user/',
+                            '/api/upload/'
                         ]
                     }
                 ],

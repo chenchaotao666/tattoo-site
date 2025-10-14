@@ -202,6 +202,7 @@ const CategoriesDetailPage: React.FC = () => {
             ]}
           />
 
+          <div className="flex flex-col items-center justify-center text-xl font-semibold text-[#fff] mb-2">allCategories.length: {allCategories.length}</div>
           <div className="container mx-auto px-4">
             <div className="flex flex-col items-center justify-center py-16">
               <div className="text-center">

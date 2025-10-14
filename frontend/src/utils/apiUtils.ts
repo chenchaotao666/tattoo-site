@@ -189,6 +189,8 @@ export class ApiUtils {
       const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         ...options,
         headers,
+        // 添加超时和连接优化，特别针对爬虫
+        signal: options.signal || AbortSignal.timeout(10000), // 10秒超时
       });
 
       // 处理 HTTP 错误状态码
@@ -201,6 +203,11 @@ export class ApiUtils {
         }
         if (response.status === 403) {
           throw new ApiError('403', '访问被拒绝');
+        }
+        if (response.status === 499) {
+          // 499 Client Closed Request - 特别针对爬虫超时问题
+          console.warn(`499 Client Closed Request for ${endpoint} - possible crawler timeout`);
+          throw new ApiError('499', '请求超时，客户端主动关闭连接');
         }
         // 其他 HTTP 错误
         throw new ApiError(response.status.toString(), `HTTP 错误: ${response.status} ${response.statusText}`);

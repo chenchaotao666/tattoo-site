@@ -28,9 +28,11 @@ export const CategoriesProvider: React.FC<CategoriesProviderProps> = ({ children
   const abortControllerRef = useRef<AbortController | null>(null);
   const { language } = useLanguage();
 
-  const fetchCategories = async (forceFetch = false) => {
+  const fetchCategories = async (forceFetch = false, retryCount = 0) => {
     const cacheKey = `categories-all`;
-    
+    const MAX_RETRIES = 3;
+    const RETRY_DELAY = 1000; // 1秒
+
     // 检查缓存
     if (!forceFetch) {
       const cached = cache.get(cacheKey);
@@ -46,32 +48,54 @@ export const CategoriesProvider: React.FC<CategoriesProviderProps> = ({ children
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
-    
+
     abortControllerRef.current = new AbortController();
     setLoading(true);
     setError(null);
 
     try {
+      // 添加超时控制 - 8秒超时以适应 Google 爬虫
+      const timeoutId = setTimeout(() => {
+        if (abortControllerRef.current) {
+          abortControllerRef.current.abort();
+        }
+      }, 8000);
+
       const data = await CategoriesService.getCategories();
-      
+      clearTimeout(timeoutId);
+
       // 按热度排序，保存全量数据
       const sortedCategories = data.sort((a, b) => b.hotness - a.hotness);
-      
+
       // 更新分类映射表
       updateCategoryMappings(sortedCategories);
-      
+
       setCategories(sortedCategories);
-      
+
       // 更新缓存
       cache.set(cacheKey, {
         data: sortedCategories,
         timestamp: Date.now()
       });
-      
+
       setError(null);
     } catch (err: any) {
       if (err.name !== 'AbortError') {
-        console.error('Failed to fetch categories:', err);
+        console.error(`Failed to fetch categories (attempt ${retryCount + 1}):`, err);
+
+        // 重试逻辑 - 针对 499 错误特别处理
+        if (retryCount < MAX_RETRIES && (
+          err.message?.includes('499') ||
+          err.message?.includes('Client Closed Request') ||
+          err.message?.includes('fetch')
+        )) {
+          console.log(`Retrying in ${RETRY_DELAY}ms... (${retryCount + 1}/${MAX_RETRIES})`);
+          setTimeout(() => {
+            fetchCategories(forceFetch, retryCount + 1);
+          }, RETRY_DELAY * (retryCount + 1)); // 递增延迟
+          return;
+        }
+
         setError(err.message || 'Failed to fetch categories');
         setCategories([]);
       }

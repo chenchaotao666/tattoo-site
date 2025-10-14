@@ -239,10 +239,6 @@ const CategoriesDetailPage: React.FC = () => {
               count: isImagesLoading ? '...' : categoryImages.length,
               category: getLocalizedText(category?.name, language)
             })}
-            categoriesLoading: {categoriesLoading ? 'true' : 'false'} -- 
-            categoryImages: {categoryImages.length} -- 
-            allCategories: {allCategories.length} --
-            categoryFromState: {categoryFromState && categoryFromState.id}
           </h1>
 
         </div>

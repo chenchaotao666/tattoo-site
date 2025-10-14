@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
-import { Button } from '../components/ui/Button';
 import Breadcrumb from '../components/common/Breadcrumb';
 import { CategoriesService, Category, TagCount } from '../services/categoriesService';
 import { useCategories } from '../contexts/CategoriesContext';
@@ -175,10 +174,6 @@ const CategoriesDetailPage: React.FC = () => {
     loadCategoryData();
   }, [categoryId, language, categoriesLoading, allCategories]); // 包含categories相关依赖
 
-  const handleBackToCategories = () => {
-    navigateWithLanguage(navigate, '/categories');
-  };
-
   // 获取基础面包屑（即使分类还在加载也可以显示）
   const getBreadcrumbPathEarly = () => {
     return [
@@ -188,43 +183,22 @@ const CategoriesDetailPage: React.FC = () => {
     ];
   };
 
-  // 如果分类加载失败且没有找到分类
-  // if (!isCategoryLoading && !category) {
-  //   return (
-  //     <Layout>
-  //       <div className="w-full bg-[#030414] pb-16 md:pb-[120px]">
-  //         {/* Breadcrumb - 即使出错也显示 */}
-  //         <Breadcrumb
-  //           items={[
-  //             { label: t('breadcrumb.home'), path: '/' },
-  //             { label: t('breadcrumb.categories'), path: '/categories' },
-  //             { label: t('detail.notFound.title'), current: true }
-  //           ]}
-  //         />
-
-  //         <div className="flex flex-col items-center justify-center text-xl font-semibold text-[#fff] mb-2">allCategories.length: {allCategories.length}</div>
-  //         <div className="container mx-auto px-4">
-  //           <div className="flex flex-col items-center justify-center py-16">
-  //             <div className="text-center">
-  //               <div className="text-6xl mb-4">❌</div>
-  //               <h3 className="text-xl font-semibold text-[#161616] mb-2">{t('detail.notFound.title')}</h3>
-  //               <p className="text-[#6B7280] text-sm max-w-md mb-6">
-  //                 {t('detail.notFound.description')}
-  //               </p>
-  //               <Button onClick={handleBackToCategories} variant="gradient">
-  //                 {t('detail.notFound.backButton')}
-  //               </Button>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </Layout>
-  //   );
-  // }
+  // Block rendering until categories are loaded for better SEO indexing
+  if (categoriesLoading) {
+    return (
+      <Layout>
+        <div className="w-full bg-[#030414] min-h-screen flex items-center justify-center">
+          <div className="text-white text-center">
+            <div className="animate-pulse">Loading...</div>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
-      {/* <SEOHead
+      <SEOHead
         title={
           category
             ? `${categoryImages.length > 0 ? categoryImages.length : ''} ${getLocalizedText(category.name, 'en')} Tattoo Designs - Free AI Generator`
@@ -251,14 +225,6 @@ const CategoriesDetailPage: React.FC = () => {
             : `Explore ${categoryId ? categoryId.replace(/-/g, ' ') : 'various'} tattoo designs with our AI generator.`
         }
         canonicalUrl={`${window.location.origin}/categories/${categoryId || 'category'}`}
-      /> */}
-      <SEOHead
-        title={'Tattoo Designs - Free AI Generator'}
-        description={'Browse and download free tattoo artwork with our AI generator. High-quality designs for tattoo enthusiasts.'}
-        keywords={'attoo ideas, AI tattoo generator'}
-        ogTitle={'Tattoo Designs'}
-        ogDescription={'Browse and download free tattoo designs. High-quality AI-generated designs.'}
-        canonicalUrl={`${window.location.origin}/categories/category`}
       />
       <div className="w-full bg-[#030414] relative">
         {/* Breadcrumb - 始终显示 */}

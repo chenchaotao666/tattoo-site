@@ -189,38 +189,38 @@ const CategoriesDetailPage: React.FC = () => {
   };
 
   // 如果分类加载失败且没有找到分类
-  if (!isCategoryLoading && !category) {
-    return (
-      <Layout>
-        <div className="w-full bg-[#030414] pb-16 md:pb-[120px]">
-          {/* Breadcrumb - 即使出错也显示 */}
-          <Breadcrumb
-            items={[
-              { label: t('breadcrumb.home'), path: '/' },
-              { label: t('breadcrumb.categories'), path: '/categories' },
-              { label: t('detail.notFound.title'), current: true }
-            ]}
-          />
+  // if (!isCategoryLoading && !category) {
+  //   return (
+  //     <Layout>
+  //       <div className="w-full bg-[#030414] pb-16 md:pb-[120px]">
+  //         {/* Breadcrumb - 即使出错也显示 */}
+  //         <Breadcrumb
+  //           items={[
+  //             { label: t('breadcrumb.home'), path: '/' },
+  //             { label: t('breadcrumb.categories'), path: '/categories' },
+  //             { label: t('detail.notFound.title'), current: true }
+  //           ]}
+  //         />
 
-          <div className="flex flex-col items-center justify-center text-xl font-semibold text-[#fff] mb-2">allCategories.length: {allCategories.length}</div>
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col items-center justify-center py-16">
-              <div className="text-center">
-                <div className="text-6xl mb-4">❌</div>
-                <h3 className="text-xl font-semibold text-[#161616] mb-2">{t('detail.notFound.title')}</h3>
-                <p className="text-[#6B7280] text-sm max-w-md mb-6">
-                  {t('detail.notFound.description')}
-                </p>
-                <Button onClick={handleBackToCategories} variant="gradient">
-                  {t('detail.notFound.backButton')}
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
+  //         <div className="flex flex-col items-center justify-center text-xl font-semibold text-[#fff] mb-2">allCategories.length: {allCategories.length}</div>
+  //         <div className="container mx-auto px-4">
+  //           <div className="flex flex-col items-center justify-center py-16">
+  //             <div className="text-center">
+  //               <div className="text-6xl mb-4">❌</div>
+  //               <h3 className="text-xl font-semibold text-[#161616] mb-2">{t('detail.notFound.title')}</h3>
+  //               <p className="text-[#6B7280] text-sm max-w-md mb-6">
+  //                 {t('detail.notFound.description')}
+  //               </p>
+  //               <Button onClick={handleBackToCategories} variant="gradient">
+  //                 {t('detail.notFound.backButton')}
+  //               </Button>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </Layout>
+  //   );
+  // }
 
   return (
     <Layout>

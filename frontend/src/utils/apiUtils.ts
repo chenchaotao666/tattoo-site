@@ -192,6 +192,9 @@ export class ApiUtils {
         timeoutController.abort();
       }, 15000); // 15秒超时，给更多时间
 
+      // 记录请求开始时间
+      const startTime = performance.now();
+
       try {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, {
           ...options,
@@ -200,6 +203,8 @@ export class ApiUtils {
         });
 
         clearTimeout(timeoutId);
+        const endTime = performance.now();
+        const duration = Math.round(endTime - startTime);
 
         // 处理 HTTP 错误状态码
         if (!response.ok) {
@@ -214,8 +219,18 @@ export class ApiUtils {
           }
           if (response.status === 499) {
             // 499 Client Closed Request - 特别针对爬虫超时问题
-            console.warn(`499 Client Closed Request for ${endpoint} - possible crawler timeout`);
-            throw new ApiError('499', '请求超时，客户端主动关闭连接');
+            const requestInfo = {
+              endpoint,
+              method: options.method || 'GET',
+              headers,
+              duration: `${duration}ms`,
+              userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'Unknown',
+              url: `${API_BASE_URL}${endpoint}`
+            };
+
+            console.warn('499 Client Closed Request - Request Details:', requestInfo);
+            console.warn(`499 Client Closed Request for ${endpoint} - duration: ${duration}ms - possible crawler timeout`);
+            throw new ApiError('499', `请求超时，客户端主动关闭连接 - ${endpoint} (${duration}ms)`);
           }
           // 其他 HTTP 错误
           throw new ApiError(response.status.toString(), `HTTP 错误: ${response.status} ${response.statusText}`);
@@ -257,11 +272,13 @@ export class ApiUtils {
         }
       } catch (error) {
         clearTimeout(timeoutId);
+        const endTime = performance.now();
+        const duration = Math.round(endTime - startTime);
 
         // 如果是 AbortError（超时），转换为更友好的错误
         if (error instanceof Error && error.name === 'AbortError') {
-          console.warn(`Request timeout for ${endpoint} after 15 seconds`);
-          throw new ApiError('TIMEOUT', '请求超时');
+          console.warn(`Request timeout for ${endpoint} after ${duration}ms (limit: 15000ms)`);
+          throw new ApiError('TIMEOUT', `请求超时 - ${endpoint} (${duration}ms)`);
         }
 
         // 如果是 ApiError，直接重新抛出

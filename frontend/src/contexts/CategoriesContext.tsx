@@ -87,12 +87,14 @@ export const CategoriesProvider: React.FC<CategoriesProviderProps> = ({ children
         if (retryCount < MAX_RETRIES && (
           err.message?.includes('499') ||
           err.message?.includes('Client Closed Request') ||
+          err.message?.includes('请求超时') ||
+          err.message?.includes('TIMEOUT') ||
           err.message?.includes('fetch')
         )) {
-          console.log(`Retrying in ${RETRY_DELAY}ms... (${retryCount + 1}/${MAX_RETRIES})`);
+          console.log(`Retrying in ${RETRY_DELAY * (retryCount + 2)}ms... (${retryCount + 1}/${MAX_RETRIES})`);
           setTimeout(() => {
             fetchCategories(forceFetch, retryCount + 1);
-          }, RETRY_DELAY * (retryCount + 1)); // 递增延迟
+          }, RETRY_DELAY * (retryCount + 2)); // 更长的递增延迟：2秒、4秒、6秒
           return;
         }
 

@@ -31,7 +31,7 @@ export interface AuthTokens {
 import { redirectToHomeIfNeeded } from './navigationUtils';
 
 // API 配置 - 连接到外部后端服务
-const API_BASE_URL = import.meta.env.MODE === 'development' 
+const API_BASE_URL = import.meta.env.MODE === 'development'
   ? import.meta.env.VITE_API_BASE_URL // 开发环境使用相对路径，通过 Vite 代理
   : import.meta.env.VITE_API_BASE_URL || ''; // 生产环境使用环境变量指向外部后端
 
@@ -186,68 +186,94 @@ export class ApiUtils {
         }
       }
 
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        ...options,
-        headers,
-        // 添加超时和连接优化，特别针对爬虫
-        signal: options.signal || AbortSignal.timeout(10000), // 10秒超时
-      });
+      // 创建超时控制器，兼容性更好
+      const timeoutController = new AbortController();
+      const timeoutId = setTimeout(() => {
+        timeoutController.abort();
+      }, 15000); // 15秒超时，给更多时间
 
-      // 处理 HTTP 错误状态码
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new ApiError('404', `请求的资源不存在: ${endpoint}`);
-        }
-        if (response.status === 500) {
-          throw new ApiError('500', '服务器内部错误');
-        }
-        if (response.status === 403) {
-          throw new ApiError('403', '访问被拒绝');
-        }
-        if (response.status === 499) {
-          // 499 Client Closed Request - 特别针对爬虫超时问题
-          console.warn(`499 Client Closed Request for ${endpoint} - possible crawler timeout`);
-          throw new ApiError('499', '请求超时，客户端主动关闭连接');
-        }
-        // 其他 HTTP 错误
-        throw new ApiError(response.status.toString(), `HTTP 错误: ${response.status} ${response.statusText}`);
-      }
+      try {
+        const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+          ...options,
+          headers,
+          signal: options.signal || timeoutController.signal,
+        });
 
-      const data: ApiResponse<T> = await response.json();
+        clearTimeout(timeoutId);
 
-      // 处理认证失败的情况
-      if (response.status === 401 && requireAuth) {
-        // 尝试刷新令牌
-        const refreshed = await this.refreshToken();
-        if (refreshed) {
-          // 重新发送请求
-          const newToken = this.getAccessToken();
-          if (newToken) {
-            headers['Authorization'] = `Bearer ${newToken}`;
-            const retryResponse = await fetch(`${API_BASE_URL}${endpoint}`, {
-              ...options,
-              headers,
-            });
-            const retryData: ApiResponse<T> = await retryResponse.json();
-            
-            if (retryData.status === 'success') {
-              return retryData.data as T;
-            } else {
-              throw new ApiError(retryData.errorCode || '9001', retryData.message || 'API request failed');
+        // 处理 HTTP 错误状态码
+        if (!response.ok) {
+          if (response.status === 404) {
+            throw new ApiError('404', `请求的资源不存在: ${endpoint}`);
+          }
+          if (response.status === 500) {
+            throw new ApiError('500', '服务器内部错误');
+          }
+          if (response.status === 403) {
+            throw new ApiError('403', '访问被拒绝');
+          }
+          if (response.status === 499) {
+            // 499 Client Closed Request - 特别针对爬虫超时问题
+            console.warn(`499 Client Closed Request for ${endpoint} - possible crawler timeout`);
+            throw new ApiError('499', '请求超时，客户端主动关闭连接');
+          }
+          // 其他 HTTP 错误
+          throw new ApiError(response.status.toString(), `HTTP 错误: ${response.status} ${response.statusText}`);
+        }
+
+        const data: ApiResponse<T> = await response.json();
+
+        // 处理认证失败的情况
+        if (response.status === 401 && requireAuth) {
+          // 尝试刷新令牌
+          const refreshed = await this.refreshToken();
+          if (refreshed) {
+            // 重新发送请求
+            const newToken = this.getAccessToken();
+            if (newToken) {
+              headers['Authorization'] = `Bearer ${newToken}`;
+              const retryResponse = await fetch(`${API_BASE_URL}${endpoint}`, {
+                ...options,
+                headers,
+              });
+              const retryData: ApiResponse<T> = await retryResponse.json();
+
+              if (retryData.status === 'success') {
+                return retryData.data as T;
+              } else {
+                throw new ApiError(retryData.errorCode || '9001', retryData.message || 'API request failed');
+              }
             }
           }
-        }
-        
-        // 刷新失败，处理认证失败
-        this.handleAuthFailure('登录已过期，请重新登录');
-      }
 
-      if (data.status === 'success') {
-        return data.data as T;
-      } else {
-        throw new ApiError(data.errorCode || '9001', data.message || 'API request failed');
+          // 刷新失败，处理认证失败
+          this.handleAuthFailure('登录已过期，请重新登录');
+        }
+
+        if (data.status === 'success') {
+          return data.data as T;
+        } else {
+          throw new ApiError(data.errorCode || '9001', data.message || 'API request failed');
+        }
+      } catch (error) {
+        clearTimeout(timeoutId);
+
+        // 如果是 AbortError（超时），转换为更友好的错误
+        if (error instanceof Error && error.name === 'AbortError') {
+          console.warn(`Request timeout for ${endpoint} after 15 seconds`);
+          throw new ApiError('TIMEOUT', '请求超时');
+        }
+
+        // 如果是 ApiError，直接重新抛出
+        if (error instanceof ApiError) {
+          throw error;
+        }
+
+        // 重新抛出其他错误
+        throw error;
       }
     } catch (error) {
+      // 处理最外层的错误
       if (error instanceof ApiError) {
         throw error;
       }

@@ -223,7 +223,7 @@ const CategoriesDetailPage: React.FC = () => {
 
   return (
     <Layout>
-      <SEOHead
+      {/* <SEOHead
         title={
           category
             ? `${categoryImages.length > 0 ? categoryImages.length : ''} ${getLocalizedText(category.name, 'en')} Tattoo Designs - Free AI Generator`
@@ -250,6 +250,14 @@ const CategoriesDetailPage: React.FC = () => {
             : `Explore ${categoryId ? categoryId.replace(/-/g, ' ') : 'various'} tattoo designs with our AI generator.`
         }
         canonicalUrl={`${window.location.origin}/categories/${categoryId || 'category'}`}
+      /> */}
+      <SEOHead
+        title={'Tattoo Designs - Free AI Generator'}
+        description={'Browse and download free tattoo artwork with our AI generator. High-quality designs for tattoo enthusiasts.'}
+        keywords={'attoo ideas, AI tattoo generator'}
+        ogTitle={'Tattoo Designs'}
+        ogDescription={'Browse and download free tattoo designs. High-quality AI-generated designs.'}
+        canonicalUrl={`${window.location.origin}/categories/category`}
       />
       <div className="w-full bg-[#030414] relative">
         {/* Breadcrumb - 始终显示 */}

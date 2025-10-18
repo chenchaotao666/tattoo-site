@@ -77,8 +77,8 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
     {
       title: t('footer.sections.tools'),
       links: [
-        { label: 'Create', url: '/create' },
-        { label: 'Inspiration', url: '/categories' },
+        { label: t('menu.create') || 'Create', url: '/create' },
+        { label: t('menu.inspiration') || 'Inspiration', url: '/categories' },
       ],
     },
     // 使用前21个分类，分成3组，每组7个，与Header保持一致

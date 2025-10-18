@@ -4,7 +4,7 @@
   "viewAllCategories": "View All Categories",
   "breadcrumb": {
     "home": "Home",
-    "categories": "Free Coloring Pages"
+    "categories": "Free Tattoo Images"
   },
   "search": {
     "placeholder": "Search categories",
@@ -77,7 +77,10 @@
       "breadcrumb": "Image Not Found",
       "goHome": "Go Home"
     },
+    "prompt": "Prompt",
     "tags": "Tags",
+    "recreate": "Recreate",
+    "download": "Download",
     "downloadPng": "Download PNG",
     "downloadPdf": "Download PDF",
     "png": "PNG",
@@ -215,5 +218,8 @@
     "title": "Create Your AI Tattoo Now",
     "description": "Create your first hyper-realistic tattoo in seconds with no skills needed. Just your idea, our AI Tattoo Generator, and a few clicks.",
     "tryNow": "Start Creating"
+  },
+  "createSection": {
+    "title": "Try creating your own tattoo"
   }
 } 

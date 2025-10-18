@@ -1,0 +1,220 @@
+{
+  "dialog": {
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "close": "Close",
+    "processing": "Processing...",
+    "notice": "Notice"
+  },
+  "googleLogin": {
+    "continueWith": "Continue with Google",
+    "loading": "Loading...",
+    "error": "Google Sign-In not loaded",
+    "configError": "Please configure VITE_GOOGLE_CLIENT_ID environment variable"
+  },
+  "noData": {
+    "message": "No data found",
+    "altText": "No data"
+  },
+  "backToTop": {
+    "title": "Back to top",
+    "altText": "Scroll to top"
+  },
+  "loading": {
+    "general": "Loading...",
+    "pleaseWait": "Please wait..."
+  },
+  "error": {
+    "general": "An error occurred",
+    "tryAgain": "Try again",
+    "somethingWrong": "Something went wrong",
+    "generationFailed": "Generation failed",
+    "networkError": "Network error occurred",
+    "serverError": "Server error"
+  },
+  "toast": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "imageGrid": {
+    "noResults": "No images found",
+    "loadingImages": "Loading images...",
+    "errorLoading": "Error loading images"
+  },
+  "generateCenter": {
+    "title": "AI Tattoo Generator",
+    "description": "Create unique tattoo designs effortlessly with AI. Customize styles, explore endless options, and instantly preview your ideas.",
+    "generationFailed": "Generation failed",
+    "downloadAll": "Download All",
+    "generatedTattoo": "Generated tattoo",
+    "generatedTattooAlt": "Generated tattoo {index}",
+    "generatedAlt": "Generated {index}"
+  },
+  "generateSidebar": {
+    "textToImage": "Text to Image",
+    "imageToImage": "Image to Image",
+    "enterIdea": "Enter your tattoo idea",
+    "placeholder": "Describe your tattoo idea here...",
+    "selectStyle": "Select Style",
+    "allStyles": "All Styles",
+    "colorful": "Colorful",
+    "blackAndWhite": "Black & White",
+    "quantity": "Quantity",
+    "image": "image",
+    "images": "images",
+    "generateButton": "Generate",
+    "regenerateButton": "Regenerate",
+    "uploadImage": "Upload Image",
+    "uploadPlaceholder": "Upload an image to transform",
+    "maxFileSize": "Max file size: 10MB",
+    "supportedFormats": "Supported formats: JPG, PNG, WebP"
+  },
+  "generateExample": {
+    "tryExample": "Try this example",
+    "examplePrompt": "Example prompt",
+    "textIcon": "Text",
+    "starIcon": "Star"
+  },
+  "generateProgress": {
+    "generating": "Generating...",
+    "processing": "Processing..."
+  },
+  "downloadButton": {
+    "download": "Download",
+    "downloading": "Downloading...",
+    "downloadComplete": "Download Complete"
+  },
+  "moreMenu": {
+    "moreOptions": "More Options",
+    "downloadPNG": "Download PNG",
+    "downloadPDF": "Download PDF",
+    "delete": "Delete",
+    "deleteSelected": "Delete Selected",
+    "report": "Report",
+    "share": "Share",
+    "shareToX": "Share to X",
+    "shareToFacebook": "Share to Facebook",
+    "deleteSuccess": "Successfully deleted",
+    "deleteError": "Failed to delete",
+    "partialDeleteSuccess": "Successfully deleted {count} {imageText}"
+  },
+  "imageEnlargement": {
+    "closeImage": "Close image",
+    "downloadImage": "Download image",
+    "previousImage": "Previous image",
+    "nextImage": "Next image",
+    "enlargedImage": "Enlarged tattoo image"
+  },
+  "styleSelector": {
+    "selectStyle": "Select Style",
+    "allStyles": "All Styles",
+    "noStylesFound": "No styles found",
+    "loadingStyles": "Loading styles...",
+    "noStyle": "NO Style"
+  },
+  "pricing": {
+    "mostPopular": "Most Popular",
+    "popular": "Popular",
+    "getStarted": "Get Started",
+    "upgradeNow": "Upgrade Now",
+    "currentPlan": "Current Plan",
+    "freePlan": "Free Plan",
+    "proPlan": "Pro Plan",
+    "unlimitedPlan": "Unlimited Plan",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "save": "Save {discount}",
+    "buyNow": "Buy Now",
+    "features": {
+      "unlimitedGenerations": "Unlimited generations",
+      "highResolution": "High resolution downloads",
+      "commercialUse": "Commercial use license",
+      "prioritySupport": "Priority support",
+      "advancedStyles": "Advanced styles",
+      "batchDownload": "Batch download",
+      "apiAccess": "API access"
+    }
+  },
+  "profile": {
+    "avatar": "Avatar",
+    "username": "Username",
+    "email": "Email",
+    "settings": "Settings",
+    "logout": "Logout",
+    "myAccount": "My Account",
+    "changeAvatar": "Change Avatar",
+    "updateProfile": "Update Profile",
+    "accountSettings": "Account Settings"
+  },
+  "imageCard": {
+    "viewImage": "View image",
+    "downloadImage": "Download image",
+    "deleteImage": "Delete image",
+    "selectImage": "Select image"
+  },
+  "categoryCard": {
+    "viewCategory": "View category",
+    "imagesCount": "{count} images",
+    "exploreCategory": "Explore category",
+    "viewAllTattoos": "View all Tattoos"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "loginSuccess": "Login successful",
+    "logoutSuccess": "Logout successful",
+    "loginRequired": "Login required",
+    "accessDenied": "Access denied"
+  },
+  "navigation": {
+    "home": "Home",
+    "generate": "Generate",
+    "categories": "Categories",
+    "creations": "Creations",
+    "pricing": "Pricing",
+    "blog": "Blog",
+    "account": "Account",
+    "settings": "Settings"
+  },
+  "categoryMenus": {
+    "viewAll": "View all",
+    "inspirationText": "Over {count} Tattoo Inspirations, Unlock Your Unique Imprint!"
+  },
+  "footer": {
+    "allRightsReserved": "All rights reserved",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "contactUs": "Contact Us"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "categories": "Categories",
+    "current": "Current"
+  },
+  "tryNow": {
+    "title": "Try Now",
+    "startCreating": "Start Creating",
+    "getStarted": "Get Started"
+  },
+  "howToCreate": {
+    "title": "How to Create",
+    "step": "Step {number}",
+    "learnMore": "Learn More"
+  },
+  "generateTextarea": {
+    "descriptionPrompt": "Description prompt",
+    "placeholder": "What do you want to create?",
+    "random": "Random",
+    "output": "Output",
+    "outputs": "Outputs",
+    "noStyle": "No Style",
+    "colorful": "Colorful",
+    "blackAndWhite": "Black & White",
+    "create": "Create",
+    "generate": "Generate"
+  }
+}

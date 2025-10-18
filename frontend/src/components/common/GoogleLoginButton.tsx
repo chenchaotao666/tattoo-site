@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 interface GoogleLoginButtonProps {
@@ -92,6 +92,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
 }) => {
   const { googleLogin } = useAuth();
   const { language } = useLanguage();
+  const { t } = useAsyncTranslation('components');
   const navigate = useNavigate();
   const location = useLocation();
   const [isGoogleLoaded, setIsGoogleLoaded] = useState(false);
@@ -107,7 +108,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
       const redirectTo = location.state?.from?.pathname || '/';
       navigate(redirectTo, { replace: true });
     } catch (error) {
-      console.error('Google登录失败:', error);
+      console.error('Google login failed:', error);
       setIsLoading(false);
       if (onError) {
         onError(error as Error);
@@ -151,7 +152,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
 
       const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'YOUR_GOOGLE_CLIENT_ID';
       if (clientId === 'YOUR_GOOGLE_CLIENT_ID') {
-        console.warn('请配置 VITE_GOOGLE_CLIENT_ID 环境变量');
+        console.warn(t('googleLogin.configError'));
         return;
       }
 
@@ -225,7 +226,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
                 />
               </svg>
               <span className="text-white text-sm font-medium">
-                Continue with Google
+                {t('googleLogin.continueWith')}
               </span>
             </div>
           )}

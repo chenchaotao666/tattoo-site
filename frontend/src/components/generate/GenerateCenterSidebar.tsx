@@ -44,6 +44,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
   onImageSelect
 }) => {
   const { t } = useAsyncTranslation('generate');
+  const { t: componentT } = useAsyncTranslation('components');
   const { language } = useLanguage();
   
   // 图片放大弹窗状态
@@ -64,8 +65,8 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
   
   const config = {
     text: {
-      title: 'AI Tattoo Generator',
-      description: 'Create unique tattoo designs effortlessly with AI. Customize styles, explore endless options, and instantly preview your ideas.'
+      title: componentT('generateCenter.title'),
+      description: componentT('generateCenter.description')
     }
   };
 
@@ -104,7 +105,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
             // 生成失败状态 - 独立显示，居中，不在图片框中
             <div className="flex flex-col items-center text-center pt-8 pb-16">
               <div className="w-20 h-20 mb-6">
-                <img src={generateFailIcon} alt="Generation failed" className="w-full h-full" />
+                <img src={generateFailIcon} alt={componentT('error.generationFailed')} className="w-full h-full" />
               </div>
               <div className="text-[#6B7280] text-sm leading-relaxed max-w-md">
                 {t('error.generationFailed')}<br />
@@ -147,7 +148,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                             >
                               <img
                                 src={selectedImage?.tattooUrl}
-                                alt="Generated tattoo"
+                                alt={componentT('generateCenter.generatedTattoo')}
                                 className="w-full h-full object-contain rounded-2xl"
                               />
                             </div>
@@ -166,7 +167,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                               >
                                 <img 
                                   src={image?.tattooUrl || ''}
-                                  alt={`Generated tattoo ${index + 1}`}
+                                  alt={componentT('generateCenter.generatedTattooAlt', undefined, { index: index + 1 })}
                                   style={{ 
                                     width: '360px', 
                                     height: '360px', 
@@ -204,7 +205,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                       <div className="flex items-center gap-3">
                         {/* Download All Button */}
                         <DownloadButton
-                          text="Download All"
+                          text={componentT('generateCenter.downloadAll')}
                           onClick={() => onDownload('png', batchImages.map(img => img?.id).filter((id): id is string => Boolean(id)))}
                         />
                         
@@ -283,7 +284,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                   >
                     <img
                       src={image.tattooUrl}
-                      alt={getLocalizedText(image.description, language) || `Generated ${index + 1}`}
+                      alt={getLocalizedText(image.description, language) || componentT('generateCenter.generatedAlt', undefined, { index: index + 1 })}
                       className="w-full h-full rounded-md object-cover"
                     />
                   </div>

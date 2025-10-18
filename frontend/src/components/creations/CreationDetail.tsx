@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BaseImage } from '../../services/imageService';
 import { getLocalizedText } from '../../utils/textUtils';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 import MoreMenu from '../generate/MoreMenu';
 import BaseButton from '../ui/BaseButton';
@@ -20,6 +20,7 @@ interface CreationDetailProps {
 
 const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onClose, onNext, onPrevious, onImageSelect, onImagesDeleted }) => {
   const { language } = useLanguage();
+  const { t } = useAsyncTranslation('creations');
   const navigate = useNavigate();
   const [isCloseHovered, setIsCloseHovered] = useState(false);
   const [isUpArrowHovered, setIsUpArrowHovered] = useState(false);
@@ -101,7 +102,7 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onCl
       <img 
         className="w-[618px] h-[618px] rounded-l-2xl object-cover"
         src={image.tattooUrl || 'https://placehold.co/618x618'} 
-        alt="Creation"
+        alt={t('detail.creation')}
       />
       
       {/* 右侧内容区域 */}
@@ -142,7 +143,7 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onCl
             <>
               {/* Image Generator 标题 */}
               <div className="text-[#A5A5A5] text-sm font-normal font-inter mb-[17px]">
-                Image Generator
+                {t('detail.imageGenerator')}
               </div>
 
               {/* 图片缩略图行 */}
@@ -152,7 +153,7 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onCl
                   <img 
                     className="w-20 h-20 rounded-lg object-cover cursor-pointer"
                     src={batchImg.tattooUrl || 'https://placehold.co/80x80'} 
-                    alt={`Batch image`}
+                    alt={t('detail.batchImage')}
                     onClick={() => onImageSelect?.(batchImg)}
                   />
                   {/* 选中状态的边框 - 只显示在当前选中的图片上 */}
@@ -169,7 +170,7 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onCl
           <div className="mb-6">
             <div className="flex justify-between items-center mb-2">
               <div className="text-[#A5A5A5] text-sm font-normal font-inter">
-                Prompt
+                {t('detail.prompt')}
               </div>
               <div 
                 className={`flex items-center gap-1 cursor-pointer p-1 rounded transition-colors duration-200 ${
@@ -179,20 +180,23 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onCl
                 onMouseEnter={() => setIsCopyHovered(true)}
                 onMouseLeave={() => setIsCopyHovered(false)}
               >
-                <div
-                  className={`w-5 h-5 transition-colors duration-200`}
-                  style={{
-                    backgroundColor: isCopyHovered ? '#ECECEC' : '#A5A5A5',
-                    maskImage: 'url("/imgs/creations/copy.svg")',
-                    maskRepeat: 'no-repeat',
-                    maskPosition: 'center',
-                    maskSize: 'contain',
-                  }}
-                />
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-5 h-5 transition-colors duration-200"
+                >
+                  <path
+                    d="M7.7085 2.08325H16.4585C16.8453 2.08325 17.2162 2.2369 17.4897 2.51039C17.7632 2.78388 17.9168 3.15481 17.9168 3.54159V12.2916C17.9168 12.6784 17.7632 13.0493 17.4897 13.3228C17.2162 13.5963 16.8453 13.7499 16.4585 13.7499H7.7085C7.32172 13.7499 6.95079 13.5963 6.6773 13.3228C6.40381 13.0493 6.25016 12.6784 6.25016 12.2916V3.54159C6.25016 3.15481 6.40381 2.78388 6.6773 2.51039C6.95079 2.2369 7.32172 2.08325 7.7085 2.08325ZM7.7085 3.33325C7.65324 3.33325 7.60025 3.3552 7.56118 3.39427C7.52211 3.43334 7.50016 3.48633 7.50016 3.54159V12.2916C7.50016 12.3189 7.50555 12.346 7.51602 12.3713C7.52649 12.3966 7.54184 12.4196 7.56118 12.4389C7.58053 12.4582 7.60349 12.4736 7.62877 12.4841C7.65405 12.4945 7.68114 12.4999 7.7085 12.4999H16.4585C16.5137 12.4999 16.5667 12.478 16.6058 12.4389C16.6449 12.3998 16.6668 12.3468 16.6668 12.2916V3.54159C16.6668 3.48633 16.6449 3.43334 16.6058 3.39427C16.5667 3.3552 16.5137 3.33325 16.4585 3.33325H7.7085ZM12.5002 14.9999C12.5002 14.8342 12.566 14.6752 12.6832 14.558C12.8004 14.4408 12.9594 14.3749 13.1252 14.3749C13.2909 14.3749 13.4499 14.4408 13.5671 14.558C13.6843 14.6752 13.7502 14.8342 13.7502 14.9999V16.4583C13.7502 16.845 13.5965 17.216 13.323 17.4894C13.0495 17.7629 12.6786 17.9166 12.2918 17.9166H3.54183C3.15506 17.9166 2.78412 17.7629 2.51063 17.4894C2.23714 17.216 2.0835 16.845 2.0835 16.4583V7.70825C2.0835 7.32148 2.23714 6.95055 2.51063 6.67705C2.78412 6.40356 3.15506 6.24992 3.54183 6.24992H5.00016C5.16592 6.24992 5.32489 6.31577 5.4421 6.43298C5.55931 6.55019 5.62516 6.70916 5.62516 6.87492C5.62516 7.04068 5.55931 7.19965 5.4421 7.31686C5.32489 7.43407 5.16592 7.49992 5.00016 7.49992H3.54183C3.48658 7.49992 3.43359 7.52187 3.39452 7.56094C3.35545 7.60001 3.3335 7.653 3.3335 7.70825V16.4583C3.3335 16.5135 3.35545 16.5665 3.39452 16.6056C3.43359 16.6446 3.48658 16.6666 3.54183 16.6666H12.2918C12.3471 16.6666 12.4001 16.6446 12.4391 16.6056C12.4782 16.5665 12.5002 16.5135 12.5002 16.4583V14.9999Z"
+                    fill={isCopyHovered ? '#ECECEC' : '#A5A5A5'}
+                  />
+                </svg>
                 <div className={`text-sm font-normal font-inter transition-colors duration-200 ${
                   isCopyHovered ? 'text-[#ECECEC]' : 'text-[#A5A5A5]'
                 }`}>
-                  Copy
+                  {t('detail.copy')}
                 </div>
               </div>
             </div>
@@ -206,20 +210,20 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onCl
             {/* Style 行 */}
             <div className="flex justify-between items-center mb-3">
               <div className="text-[#A5A5A5] text-sm font-normal font-inter">
-                Style
+                {t('detail.style')}
               </div>
               <div className="text-[#ECECEC] text-sm font-normal font-inter">
-                {image.styleTitle ? getLocalizedText(image.styleTitle, language) : 'NO Style'}
+                {image.styleTitle ? getLocalizedText(image.styleTitle, language) : t('detail.noStyle')}
               </div>
             </div>
             
             {/* Color 行 */}
             <div className="flex justify-between items-center">
               <div className="text-[#A5A5A5] text-sm font-normal font-inter">
-                Color
+                {t('detail.color')}
               </div>
               <div className="text-[#ECECEC] text-sm font-normal font-inter">
-                {image.isColor ? 'Colorful' : 'Black & White'}
+                {image.isColor ? t('detail.colorful') : t('detail.blackAndWhite')}
               </div>
             </div>
           </div>
@@ -243,7 +247,7 @@ const CreationDetail: React.FC<CreationDetailProps> = ({ image, fullImages, onCl
               fontSize="text-lg"
               onClick={handleRecreateClick}
             >
-              Recreate
+              {t('detail.recreate')}
             </BaseButton>
           </div>
         </div>

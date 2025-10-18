@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { colors } from '../../styles/colors';
+import { useAsyncTranslation } from '../../contexts/LanguageContext';
 
 interface ImageSlide {
   url: string;
@@ -16,12 +17,13 @@ interface GenerateExampleProps {
   images?: ImageSlide[];
 }
 
-const GenerateExample: React.FC<GenerateExampleProps> = ({ 
+const GenerateExample: React.FC<GenerateExampleProps> = ({
   title,
   description,
   type,
   images
 }) => {
+  const { t } = useAsyncTranslation('components');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const currentImage = images?.[currentImageIndex];
@@ -91,9 +93,9 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
                 <>
                   {/* Text mode - Single image */}
                   {currentImage && (
-                    <img 
+                    <img
                       src={currentImage.url}
-                      alt={`Coloring page: ${currentImage.prompt}`}
+                      alt={t('generateExample.examplePrompt')}
                       className="block rounded-2xl"
                       style={{
                         height: '560px',
@@ -105,7 +107,7 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
                   )}
 
                   {/* Left logo - AI icon (一半在图片上，一半在外面) */}
-                  <img 
+                  <img
                     src="/imgs/text-examples/AI.svg"
                     alt="AI"
                     className="absolute z-10"
@@ -120,9 +122,9 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
                   />
 
                   {/* Right logo - Text icon (一半在图片上，一半在外面) */}
-                  <img 
+                  <img
                     src="/imgs/text-examples/T.svg"
-                    alt="Text"
+                    alt={t('generateExample.textIcon')}
                     className="absolute z-10"
                     style={{
                       width: '90px',
@@ -155,9 +157,9 @@ const GenerateExample: React.FC<GenerateExampleProps> = ({
                       padding: '12px 16px'
                     }}
                   >
-                    <img 
+                    <img
                       src="/imgs/text-examples/star-2.png"
-                      alt="Star"
+                      alt={t('generateExample.starIcon')}
                       style={{
                         width: '16px',
                         height: '16px',

@@ -6,6 +6,7 @@ import { ApiError } from '../utils/apiUtils';
 import GoogleLoginButton from '../components/common/GoogleLoginButton';
 import SEOHead from '../components/common/SEOHead';
 import PasswordInput from '../components/ui/PasswordInput';
+import { createLanguageAwarePath } from '../utils/navigationUtils';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -239,7 +240,7 @@ const LoginPage: React.FC = () => {
                     <span className="ml-2 text-sm text-[#E6E6E6]">{tForms('auth.rememberMe', '记住密码')}</span>
                   </label>
                 </div>
-                <Link to="/forgot-password" className="text-sm font-medium text-blue-600 hover:underline">
+                <Link to={createLanguageAwarePath("/forgot-password")} className="text-sm font-medium text-blue-600 hover:underline">
                   {tForms('auth.forgotPassword', '忘记密码？')}
                 </Link>
               </div>
@@ -267,7 +268,7 @@ const LoginPage: React.FC = () => {
               {/* 注册链接 */}
               <p className="text-sm font-light text-center text-gray-400">
                 {tForms('auth.noAccount', '还没有账户？')}{' '}
-                <Link to="/register" className="font-medium text-blue-600 hover:underline">
+                <Link to={createLanguageAwarePath("/register")} className="font-medium text-blue-600 hover:underline">
                   {tForms('auth.registerButton', '注册')}
                 </Link>
               </p>

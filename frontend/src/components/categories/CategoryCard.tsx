@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Category } from '../../services/categoriesService';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import { colors } from '../../styles/colors';
 
@@ -10,14 +10,15 @@ interface CategoryCardProps {
   showNameAndButton?: boolean;
 }
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ 
-  category, 
+const CategoryCard: React.FC<CategoryCardProps> = ({
+  category,
   onCategoryClick,
   showNameAndButton = true
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileShowColor, setMobileShowColor] = useState(false);
+  const { t } = useAsyncTranslation('components');
   const [buttonHovered, setButtonHovered] = useState(false);
   const { language } = useLanguage();
 
@@ -157,7 +158,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
               className="text-sm font-normal leading-4 break-words transition-colors duration-200" 
               style={{ color: buttonHovered ? colors.special.highlight : colors.text.disabled }}
             >
-              View all Tattoos
+              {t('categoryCard.viewAllTattoos')}
             </div>
           </div>
         </div>

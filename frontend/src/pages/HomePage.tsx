@@ -6,7 +6,7 @@ import GenerateFAQ, { FAQData } from '../components/common/GenerateFAQ';
 import TryNow from '../components/common/TryNow';
 import TattooIntroduction, { TattooIntroductionData } from '../components/common/TattooIntroduction';
 import CreateOnGo, { CreateOnGoData } from '../components/home/CreateOnGo';
-import WhatUserSaying, { sampleWhatUserSayingData } from '../components/home/WhatUserSaying';
+import WhatUserSaying, { sampleWhatUserSayingData, WhatUserSayingData } from '../components/home/WhatUserSaying';
 import PricingSection from '../components/price/PricingSection';
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
@@ -16,7 +16,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Category } from '../services/categoriesService';
 import { useCategories } from '../contexts/CategoriesContext';
 import { getCategoryPathById } from '../utils/categoryUtils';
-import { navigateWithLanguage } from '../utils/navigationUtils';
+import { navigateWithLanguage, createLanguageAwarePath } from '../utils/navigationUtils';
 
 const HomePage = () => {
   const { loading, t } = useAsyncTranslation('home');
@@ -34,41 +34,41 @@ const HomePage = () => {
   // FAQ 数据
   const homeFAQData: FAQData[] = [
     {
-      question: "How does the AI Tattoo Generator work?",
-      answer: "Type your tattoo idea or upload an image, choose a style, and the AI creates a realistic design you can preview and download instantly."
+      question: t('faq.questions.howItWorks.question'),
+      answer: t('faq.questions.howItWorks.answer')
     },
     {
-      question: "What tattoo design styles are available?",
-      answer: "Choose from minimal line art, traditional, watercolor, geometric, hyper-realistic, and more—so your tattoo matches your vision."
+      question: t('faq.questions.styles.question'),
+      answer: t('faq.questions.styles.answer')
     },
     {
-      question: "How accurate is the AI Tattoo Generator skin preview?",
-      answer: "Our AR and photo preview tools give a near-real look at placement, size, and color before you commit."
+      question: t('faq.questions.preview.question'),
+      answer: t('faq.questions.preview.answer')
     },
     {
-      question: "Can I use AI Tattoo Generator designs commercially?",
-      answer: "Yes, for personal or commercial purposes. We recommend confirming technical feasibility with your tattoo artist."
+      question: t('faq.questions.commercial.question'),
+      answer: t('faq.questions.commercial.answer')
     },
     {
-      question: "Is there a mobile app version?",
-      answer: "Yes. The AI Tattoo Generator app for iOS and Android lets you design, preview, and save tattoos anytime."
+      question: t('faq.questions.mobileApp.question'),
+      answer: t('faq.questions.mobileApp.answer')
     },
     {
-      question: "Can I edit or refine the AI tattoo design?",
-      answer: "Absolutely—tweak style, details, and placement until it's perfect."
+      question: t('faq.questions.editing.question'),
+      answer: t('faq.questions.editing.answer')
     }
   ];
 
   const createOnGoData: CreateOnGoData = {
-    title: "Create On the Go",
-    description: "Bring your creativity anywhere with our iOS and Android app. Design, explore, and preview tattoos whether you're at home, in the studio, or on the move.",
+    title: t('createOnGo.title'),
+    description: t('createOnGo.description'),
     appStore: {
-      text1: "Download on the",
-      text2: "App Store"
+      text1: t('createOnGo.appStore.text1'),
+      text2: t('createOnGo.appStore.text2')
     },
     googlePlay: {
-      text1: "GET IT ON",
-      text2: "Google Play"
+      text1: t('createOnGo.googlePlay.text1'),
+      text2: t('createOnGo.googlePlay.text2')
     },
     phoneImages: [
       "/imgs/home-create-on-go/ai-create.png",
@@ -77,41 +77,47 @@ const HomePage = () => {
     ],
     features: [
       {
-        title: "Design Instantly",
-        description: "Create stunning tattoos in seconds with AI precision . Just type your idea.",
+        title: t('createOnGo.features.feature1.title'),
+        description: t('createOnGo.features.feature1.description'),
         icon: "/imgs/home-create-on-go/logo.svg"
       },
       {
-        title: "Inspire Creativity",
-        description: "Explore a curated library of AI tattoo ideas to spark fresh designs.",
+        title: t('createOnGo.features.feature2.title'),
+        description: t('createOnGo.features.feature2.description'),
         icon: "/imgs/home-create-on-go/tattoo.svg"
       },
       {
-        title: "Preview with Confidence",
-        description: "Use AR to see your tattoo on skin before committing.",
+        title: t('createOnGo.features.feature3.title'),
+        description: t('createOnGo.features.feature3.description'),
         icon: "/imgs/home-create-on-go/four-leaf.svg"
       }
     ]
   };
 
+  const whatUserSayingData: WhatUserSayingData = {
+    title: t('whatUserSaying.title'),
+    subtitle: t('whatUserSaying.subtitle'),
+    testimonials: sampleWhatUserSayingData.testimonials
+  };
+
   const tattooIntroductionData: TattooIntroductionData = {
     sections: [
       {
-        title: "Hyper-Realistic AI Tattoo Designs",
-        description: "Create tattoos that look hand-crafted by a professional artist. Whether minimalist lines or intricate patterns, our AI Tattoo Generator ensures lifelike details in every design, so it feels ready for inking.",
-        buttonText: "Try Now",
+        title: t('tattooIntroduction.section1.title'),
+        description: t('tattooIntroduction.section1.description'),
+        buttonText: t('tattooIntroduction.section1.buttonText'),
         onButtonClick: () => window.location.href = "/create"
       },
       {
-        title: "Endless AI Tattoo Ideas",
-        description: "Out of inspiration? Type any keyword or theme, and our AI Tattoo Generator instantly gives you fresh, unique tattoo designs. Explore new styles, discover unexpected combinations, and find the perfect concept for your next piece.",
-        buttonText: "Try Now",
+        title: t('tattooIntroduction.section2.title'),
+        description: t('tattooIntroduction.section2.description'),
+        buttonText: t('tattooIntroduction.section2.buttonText'),
         onButtonClick: () => window.location.href = "/create"
       },
       {
-        title: "AI Tattoo Skin Preview Tool",
-        description: "Preview your tattoo on your skin with AR or photo. See placement, size, and color in seconds—making sure you're 100% confident before the real ink touches your skin.",
-        buttonText: "Try Now",
+        title: t('tattooIntroduction.section3.title'),
+        description: t('tattooIntroduction.section3.description'),
+        buttonText: t('tattooIntroduction.section3.buttonText'),
         onButtonClick: () => window.location.href = "/create"
       }
     ],
@@ -122,7 +128,7 @@ const HomePage = () => {
           "/imgs/home-introduction/row-1-2.png",
           "/imgs/home-introduction/row-1-3.png"
         ],
-        prompt: "A terrifying tattoo, with a skull and horns combined"
+        prompt: t('tattooIntroduction.examples.example1')
       },
       {
         images: [
@@ -190,10 +196,10 @@ const HomePage = () => {
             <div className="container mx-auto px-4 sm:px-6">
               <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-[48px] px-4 sm:px-0 max-w-[1200px] mx-auto">
                 <h2 className="text-center text-[#E6E6E6] text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-[46px] font-bold font-inter capitalize break-words">
-                  Draw inspiration from tattoo designs
+                  {t('categoryGrid.title')}
                 </h2>
                 <h3 className="max-w-[1100px] mx-auto mt-8 text-center text-[#A5A5A5] text-sm sm:text-base md:text-lg font-inter font-normal break-words">
-                  Discover what Tattooink.ai can create for you. Each design is uniquely crafted for our users based on their ideas.
+                  {t('categoryGrid.subtitle')}
                 </h3>
               </div>
               
@@ -211,42 +217,42 @@ const HomePage = () => {
             <CreateOnGo data={createOnGoData} />
           </div>
           <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
-            <WhatUserSaying data={sampleWhatUserSayingData} />
+            <WhatUserSaying data={whatUserSayingData} />
           </div>
           <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
-            <HowToCreate 
-              title="Your Tattoo in 3 Steps"
+            <HowToCreate
+              title={t('howToCreate.title')}
               steps={[
                 {
-                  step: "Step 1",
-                  title: "Describe Your Tattoo Idea",
-                  description: "Type your concept (abstract or detailed) and let AI start creating."
+                  step: t('howToCreate.step1.step'),
+                  title: t('howToCreate.step1.title'),
+                  description: t('howToCreate.step1.description')
                 },
                 {
-                  step: "Step 2",
-                  title: "Customize Your AI Tattoo Style",
-                  description: "Pick from multiple styles, tweak details, or upload a photo to preview on skin."
+                  step: t('howToCreate.step2.step'),
+                  title: t('howToCreate.step2.title'),
+                  description: t('howToCreate.step2.description')
                 },
                 {
-                  step: "Step 3",
-                  title: "Save Your AI Tattoo Design",
-                  description: "See it in lifelike detail, make final adjustments, then download your masterpiece."
+                  step: t('howToCreate.step3.step'),
+                  title: t('howToCreate.step3.title'),
+                  description: t('howToCreate.step3.description')
                 }
               ]}
             />
           </div>
           <PricingSection showTitle={true} titleH1={false}/>
           <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
-            <GenerateFAQ 
-              faqData={homeFAQData} 
-              title="Frequently Asked Questions"
+            <GenerateFAQ
+              faqData={homeFAQData}
+              title={t('faq.title')}
             />
           </div>
           <TryNow
             title={t('cta.title')}
             description={t('cta.description')}
             buttonText={t('cta.tryNow')}
-            buttonLink="/create"
+            buttonLink={createLanguageAwarePath("/create")}
           />
         </div>
       </Layout>

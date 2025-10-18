@@ -14,7 +14,6 @@ import { navigateWithLanguage } from '../utils/navigationUtils';
 import SEOHead from '../components/common/SEOHead';
 import ImageGrid from '../components/iamges/ImageGrid';
 import GenerateTextarea from '../components/common/GenerateTextarea';
-import ExpandableContent from '../components/categories/ExpandableContent';
 
 
 const CategoriesDetailPage: React.FC = () => {
@@ -183,19 +182,6 @@ const CategoriesDetailPage: React.FC = () => {
     ];
   };
 
-  // Block rendering until categories are loaded for better SEO indexing
-  if (categoriesLoading) {
-    return (
-      <Layout>
-        <div className="w-full bg-[#030414] min-h-screen flex items-center justify-center">
-          <div className="text-white text-center">
-            <div className="animate-pulse">Loading...</div>
-          </div>
-        </div>
-      </Layout>
-    );
-  }
-
   return (
     <Layout>
       <SEOHead
@@ -232,54 +218,6 @@ const CategoriesDetailPage: React.FC = () => {
           <Breadcrumb items={getBreadcrumbPathEarly()} />
         </div>
 
-        {/* Category Title */}
-        <div className="container mx-auto px-4">
-          <h1 className="text-center text-white text-3xl lg:text-[2.5rem] font-bold capitalize mb-4 md:mb-[24px] leading-relaxed lg:leading-[1]">
-            {t('detail.pageTitle', undefined, {
-              count: isImagesLoading ? '...' : categoryImages.length,
-              category: getLocalizedText(category?.name, language)
-            })}
-          </h1>
-
-        </div>
-
-        {/* Category Intro Section - 立即显示，不等待分类加载 */}
-        <div className="container mx-auto px-4 pb-10">
-          <div className="mx-auto mb-12">
-            <div className="mb-4">
-              <p className="text-white text-lg font-medium text-left">
-                {t('detail.categoryIntro.imageCount', 'We will show {count} {category} tattoo designs!', {
-                    count: isImagesLoading ? '...' : categoryImages.length,
-                    category: category ? getLocalizedText(category?.name, language).toLowerCase() : ''
-                  })}
-              </p>
-            </div>
-
-            <ExpandableContent
-              content={
-                <div className="text-center">
-                  <p className="mb-4">
-                    {
-                      t('detail.categoryIntro.description', 'Tattoo designs are not just art, but an effective way to express personality and creativity. They enhance self-expression while fostering artistic appreciation. During the design process, clients can explore their aesthetic preferences and personal style. It\'s also a great way to commemorate special moments and help people express their identity. Tattoo art also strengthens cultural understanding and improves artistic sense. For artists, tattooing is also a great way to showcase creativity and technical skills.')
-                    }
-                  </p>
-                  <p>
-                    {
-                      t('detail.categoryIntro.downloadInfo', 'All {category} tattoo designs are available for free download in high-quality formats', {
-                        category: category ? getLocalizedText(category?.name, language).toLowerCase() : ''
-                      })
-                    }
-                  </p>
-                </div>
-              }
-              maxLines={1}
-              viewMoreText={t('detail.viewMore')}
-              collapseText={t('detail.collapse')}
-              className="text-gray-300 text-base lg:text-lg leading-relaxed"
-            />
-          </div>
-        </div>
-
         {/* Main Content Container */}
         <div className="container mx-auto px-4">
           {isCategoryLoading ? (
@@ -293,12 +231,12 @@ const CategoriesDetailPage: React.FC = () => {
             <>
               {/* Category Header */}
               <div className="pb-4">
-                <h2 className="font-bold text-white text-center text-[42px] mb-4">
+                <h1 className="font-bold text-white text-center text-[42px] mb-4">
                   {getLocalizedText(category.name, language)}
-                </h2>
-                <h3 className="text-gray-300 text-center mb-8">
+                </h1>
+                <h2 className="text-gray-300 text-center mb-8">
                   {getLocalizedText(category.description || category.name, language)}
-                </h3>
+                </h2>
               </div>
             </>
           ) : null}
@@ -334,7 +272,7 @@ const CategoriesDetailPage: React.FC = () => {
           {/* Title */}
           <div className="w-full text-center mb-12">
             <h2 className="text-[#ECECEC] text-[46px] font-['Inter'] font-bold capitalize leading-none">
-              Try creating your own tattoo
+              {t('createSection.title')}
             </h2>
           </div>
           

@@ -98,6 +98,5 @@ export const navigateWithLanguage = (
   options?: any
 ): void => {
   const fullPath = createLanguageAwarePath(path);
-  console.log('🚀 navigateWithLanguage:', { original: path, fullPath, options });
   navigate(fullPath, options);
 }; 

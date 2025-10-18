@@ -24,9 +24,9 @@
       "cancel": "取消"
     },
     "report": {
-      "title": "举报内容",
-      "placeholder": "请描述举报原因...",
-      "submit": "提交举报",
+      "title": "举报图片",
+      "placeholder": "请描述此图片的问题...",
+      "submit": "举报",
       "cancel": "取消"
     }
   },
@@ -41,5 +41,18 @@
   "loading": {
     "initial": "加载中...",
     "more": "加载更多..."
+  },
+  "detail": {
+    "imageGenerator": "图片生成器",
+    "prompt": "提示词",
+    "copy": "复制",
+    "style": "风格",
+    "color": "颜色",
+    "noStyle": "无风格",
+    "colorful": "彩色",
+    "blackAndWhite": "黑白",
+    "recreate": "重新生成",
+    "creation": "作品",
+    "batchImage": "批次图片"
   }
 } 

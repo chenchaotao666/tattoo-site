@@ -1,0 +1,57 @@
+{
+  "title": "Tattoo Previewer",
+  "toolbar": {
+    "eraser": "Eraser Tool",
+    "reset": "Reset",
+    "export": "Export"
+  },
+  "controlPanel": {
+    "title": "Control Panel",
+    "imageUpload": "Image Upload",
+    "uploadBodyImage": "Upload Body Image",
+    "uploadTattooImage": "Upload Tattoo Image",
+    "opacity": "Opacity",
+    "size": "Size",
+    "rotation": "Rotation",
+    "contrast": "Contrast",
+    "blackWhiteEffect": "Black & White Effect",
+    "blendEffect": "Blend Effect",
+    "positionAdjust": "Position Adjustment"
+  },
+  "compatibility": {
+    "warning": "System Compatibility Warning",
+    "noWebgl": "WebGL not supported",
+    "noMediapipe": "MediaPipe not supported",
+    "noCanvas": "Canvas not supported",
+    "noFile": "File operations not supported",
+    "recommendation": "Some features may not work properly. Please use a modern browser."
+  },
+  "preview": {
+    "title": "Advanced Tattoo Preview System",
+    "features": {
+      "title": "Advanced Features:",
+      "mediapipe": "MediaPipe body segmentation - Precise skin area recognition",
+      "webgl": "Three.js WebGL rendering - High-performance 3D effects",
+      "shaders": "Custom shader effects - Realistic skin texture blending",
+      "realtime": "Real-time preview - Instant visual feedback",
+      "multiLayer": "Multi-layer composition - Professional editing capabilities",
+      "export": "High-quality export - Ready for tattoo artist consultation"
+    },
+    "instructions": {
+      "title": "How to Use:",
+      "step1": "Upload a clear body image showing the area where you want the tattoo",
+      "step2": "Upload your tattoo design image (preferably with transparent background)",
+      "step3": "Adjust position, size, rotation, and opacity to fit perfectly",
+      "step4": "Use advanced controls to fine-tune the appearance",
+      "step5": "Export the final preview to share with your tattoo artist"
+    },
+    "technical": {
+      "title": "Technical Features:",
+      "gpu": "GPU-accelerated rendering for smooth performance",
+      "ml": "Machine learning body recognition",
+      "precision": "Sub-pixel precision positioning",
+      "formats": "Support for multiple image formats (PNG, JPG, WebP)",
+      "responsive": "Responsive design for all device sizes"
+    }
+  }
+}

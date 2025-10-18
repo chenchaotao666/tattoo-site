@@ -17,11 +17,13 @@ import GenerateCenterSidebar from '../components/generate/GenerateCenterSidebar'
 
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation, useLanguage } from '../contexts/LanguageContext';
+import { navigateWithLanguage } from '../utils/navigationUtils';
 
 const GeneratePage: React.FC = () => {
-  // 获取翻译函数
-  const { t } = useAsyncTranslation('generate');
+  // 获取语言和翻译函数
   const { language } = useLanguage();
+  const { t } = useAsyncTranslation('generate');
+
   
   // 获取导航函数
   const navigate = useNavigate();
@@ -159,36 +161,36 @@ const GeneratePage: React.FC = () => {
   // FAQ data for GenerateFAQ component - Text to Image mode
   const textFAQData: FAQData[] = [
     {
-      question: "How do I start designing my tattoo with the AI Tattoo Generator?",
-      answer: "Simply type your tattoo idea or upload an image, select your preferred style, and click \"Generate\" to see your custom tattoo design in seconds."
+      question: t('faq.questions.howToStart.question'),
+      answer: t('faq.questions.howToStart.answer')
     },
     {
-      question: "Can I choose different tattoo styles in the AI tool?",
-      answer: "Yes. The AI tattoo generator offers styles like traditional, realistic, watercolor, geometric, and minimalist, so you can find the perfect fit."
+      question: t('faq.questions.styles.question'),
+      answer: t('faq.questions.styles.answer')
     },
     {
-      question: "How accurate is the AR tattoo preview on my skin?",
-      answer: "Our AR tattoo preview provides a close-to-real look at placement, size, and color. While lighting and skin tone can affect the result, it's a reliable guide for decision-making."
+      question: t('faq.questions.arPreview.question'),
+      answer: t('faq.questions.arPreview.answer')
     },
     {
-      question: "Can I customize my tattoo after generating it?",
-      answer: "Absolutely. You can adjust style, color, size, and details with our tattoo customization tools until you're completely satisfied."
+      question: t('faq.questions.customize.question'),
+      answer: t('faq.questions.customize.answer')
     },
     {
-      question: "Can I use the tattoo design commercially after generating it?",
-      answer: "Yes. All designs you create with the AI tattoo generator are yours to use for personal or commercial purposes."
+      question: t('faq.questions.commercial.question'),
+      answer: t('faq.questions.commercial.answer')
     },
     {
-      question: "Is there a mobile app for the AI Tattoo Generator?",
-      answer: "Yes. The mobile version allows you to design, customize, and preview tattoos on the go, offering the same core features as the web app."
+      question: t('faq.questions.mobileApp.question'),
+      answer: t('faq.questions.mobileApp.answer')
     },
     {
-      question: "Do I need design experience to use the AI tattoo generator?",
-      answer: "Not at all. The tool is beginner-friendly—just enter your idea and let the AI tattoo design system handle the rest."
+      question: t('faq.questions.experience.question'),
+      answer: t('faq.questions.experience.answer')
     },
     {
-      question: "How long does it take to create a tattoo design?",
-      answer: "Most AI tattoo designs are generated in under 30 seconds, so you can explore multiple concepts quickly."
+      question: t('faq.questions.speed.question'),
+      answer: t('faq.questions.speed.answer')
     }
   ];
 
@@ -196,21 +198,21 @@ const GeneratePage: React.FC = () => {
   const tattooIntroductionData: TattooIntroductionData = {
     sections: [
       {
-        title: "Turn Your Creative into Stunning Tattoo Art",
-        description: "Ever wished your tattoo vision could leap from imagination to skin-ready artwork in moments? With the AI Tattoo Generator, simply type your idea or upload an image, and watch it transform into a detailed, professional design in seconds. No long waits, no endless revisions, just instant creativity at your fingertips.",
-        buttonText: "Try Now",
+        title: t('tattooIntroduction.section1.title', 'Turn Your Creative into Stunning Tattoo Art'),
+        description: t('tattooIntroduction.section1.description', 'Ever wished your tattoo vision could leap from imagination to skin-ready artwork in moments? With the AI Tattoo Generator, simply type your idea or upload an image, and watch it transform into a detailed, professional design in seconds.'),
+        buttonText: t('tattooIntroduction.section1.buttonText', 'Try Now'),
         onButtonClick: () => window.scrollTo({ top: 0, behavior: 'smooth' })
       },
       {
-        title: "Endless Tattoo Styles, One Powerful Tool",
-        description: "From fine-line minimalism to bold traditional, from hyper-realistic shading to soft watercolor effects—this AI Tattoo Generator has you covered. Experiment with Japanese dragon sleeves, tiny ankle symbols, or geometric forearm pieces. Explore, mix, and match styles until you find the design that speaks to you.",
-        buttonText: "Try Now",
+        title: t('tattooIntroduction.section2.title', 'Endless Tattoo Styles, One Powerful Tool'),
+        description: t('tattooIntroduction.section2.description', 'From fine-line minimalism to bold traditional, from hyper-realistic shading to soft watercolor effects—this AI Tattoo Generator has you covered.'),
+        buttonText: t('tattooIntroduction.section2.buttonText', 'Try Now'),
         onButtonClick: () => window.scrollTo({ top: 0, behavior: 'smooth' })
       },
       {
-        title: "Made to Share, Ready for the Real World",
-        description: "Your tattoo design shouldn't just look great on screen—it should fit your life. Download high-resolution images, post them to your social channels, or send them directly to your tattoo artist. Built-in smart cropping and preview features let you see exactly how it will look on your body before you commit.",
-        buttonText: "Try Now",
+        title: t('tattooIntroduction.section3.title', 'Made to Share, Ready for the Real World'),
+        description: t('tattooIntroduction.section3.description', 'Your tattoo design shouldn\'t just look great on screen—it should fit your life. Download high-resolution images, post them to your social channels, or send them directly to your tattoo artist.'),
+        buttonText: t('tattooIntroduction.section3.buttonText', 'Try Now'),
         onButtonClick: () => window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     ],
@@ -221,7 +223,7 @@ const GeneratePage: React.FC = () => {
           "/imgs/generate-introduction/row-1-2.png", 
           "/imgs/generate-introduction/row-1-3.png"
         ],
-        prompt: "The patterns of mechanical metal structures"
+        prompt: t('tattooIntroduction.examples.example1')
       },
       {
         images: [
@@ -238,29 +240,29 @@ const GeneratePage: React.FC = () => {
           "/imgs/generate-introduction/row-3-2.png",
           "/imgs/generate-introduction/row-3-3.png"
         ],
-        prompt: "The patterns of mechanical metal structures"
+        prompt: t('tattooIntroduction.examples.example1')
       }
     ]
   };
 
   // HowToCreate data for tattoo generation
   const tattooHowToCreateData = {
-    title: "How To Create Tattoo",
+    title: t('howToCreate.title'),
     steps: [
       {
-        step: "Step 1",
-        title: "Input Idea",
-        description: "Type your concept or upload an image—our AI tattoo design tool starts working instantly."
+        step: t('howToCreate.step1.step'),
+        title: t('howToCreate.step1.title'),
+        description: t('howToCreate.step1.description')
       },
       {
-        step: "Step 2", 
-        title: "Select Style & Color",
-        description: "Pick your favorite tattoo style and color, then fine-tune with tattoo customization tools."
+        step: t('howToCreate.step2.step'),
+        title: t('howToCreate.step2.title'),
+        description: t('howToCreate.step2.description')
       },
       {
-        step: "Step 3",
-        title: "Generate & Save", 
-        description: "Click \"Generate\" to create your design, then save the image or edit it until it's perfect."
+        step: t('howToCreate.step3.step'),
+        title: t('howToCreate.step3.title'),
+        description: t('howToCreate.step3.description')
       }
     ]
   };
@@ -423,7 +425,7 @@ const GeneratePage: React.FC = () => {
   const handleGenerate = async () => {
     // 1. 检查用户是否已登录
     if (!isAuthenticated) {
-      navigate('/login');
+      navigateWithLanguage(navigate, '/login');
       return;
     }
 
@@ -599,9 +601,9 @@ const GeneratePage: React.FC = () => {
 
           {/* TryNow component */}
           <TryNow
-            title={t('tryNow.text.title')}
-            description={t('tryNow.text.description')}
-            buttonText={"Start Creating"}
+            title={t('cta.title')}
+            description={t('cta.description')}
+            buttonText={t('cta.buttonText')}
             onButtonClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           />
         </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import BaseButton from './BaseButton';
+import { useAsyncTranslation } from '../../contexts/LanguageContext';
 
 interface ConfirmDialogProps {
   isOpen: boolean;
@@ -16,10 +17,16 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  message = 'Are you sure you want to delete this item?',
-  confirmText = 'Delete',
-  cancelText = 'Cancel',
+  message,
+  confirmText,
+  cancelText,
 }) => {
+  const { t } = useAsyncTranslation('components');
+
+  // Use default values from translations if not provided
+  const finalMessage = message || t('dialog.confirmDelete');
+  const finalConfirmText = confirmText || t('dialog.delete');
+  const finalCancelText = cancelText || t('dialog.cancel');
   if (!isOpen) return null;
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -48,20 +55,20 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
           onClick={onClose}
           className="absolute top-5 right-5 w-4 h-4 flex items-center justify-center hover:opacity-70 transition-opacity"
         >
-          <img src="/imgs/close-x.svg" alt="Close" className="w-4 h-4 filter brightness-0 invert" />
+          <img src="/imgs/close-x.svg" alt={t('dialog.close')} className="w-4 h-4 filter brightness-0 invert" />
         </button>
 
         {/* 内容区域 */}
         <div className="absolute left-[30px] top-[30px]">
           {/* 警告图标 */}
           <div className="w-6 h-6 flex items-center justify-center overflow-hidden">
-            <img src="/imgs/notice.svg" alt="Notice" className="w-6 h-6" />
+            <img src="/imgs/notice.svg" alt={t('dialog.notice')} className="w-6 h-6" />
           </div>
         </div>
         
         {/* 消息文本 */}
         <div className="absolute left-[62px] top-[32px] text-[#ECECEC] text-base font-medium">
-          {message}
+          {finalMessage}
         </div>
 
         {/* 取消按钮 */}
@@ -73,7 +80,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             height="h-[48px]"
             fontSize="text-lg"
           >
-            {cancelText}
+            {finalCancelText}
           </BaseButton>
         </div>
         
@@ -86,7 +93,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
             height="h-[48px]"
             fontSize="text-lg"
           >
-            {confirmText}
+            {finalConfirmText}
           </BaseButton>
         </div>
       </div>

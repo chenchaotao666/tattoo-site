@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { STYLE_SUGGESTIONS, getRandomSuggestions } from '../../utils/ideaSuggestions';
 import { getLocalizedText } from '../../utils/textUtils';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
+import { UrlUtils } from '../../utils/urlUtils';
 import { Style } from '../../hooks/useGeneratePage';
 import { colors } from '../../styles/colors';
 import BaseButton from '../ui/BaseButton';
@@ -46,6 +47,7 @@ const GenerateTextarea = ({
   const [styles, setStyles] = useState<Style[]>([]);
   const [selectedStyle, setSelectedStyle] = useState<Style | null>(null);
   const { language } = useLanguage();
+  const { t } = useAsyncTranslation('components');
   const navigate = useNavigate();
   
   const quantityDropdownRef = useRef<HTMLDivElement>(null);
@@ -192,7 +194,7 @@ const GenerateTextarea = ({
           {/* Description Label */}
           {showDescriptionLabel && (
             <div className="text-[#C8C8C8] text-sm font-['Inter'] font-normal leading-[18px] mb-2">
-              Description prompt
+              {t('generateTextarea.descriptionPrompt')}
             </div>
           )}
           
@@ -202,7 +204,7 @@ const GenerateTextarea = ({
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className={`w-full ${!showBorderGradient ? 'h-16' : 'h-28'} bg-transparent text-white ${!showBorderGradient ? 'text-sm' : 'text-xl'} font-['Inter'] font-medium ${!showBorderGradient ? 'leading-[20px]' : 'leading-[30px]'} resize-none focus:outline-none placeholder-[#818181]`}
-              placeholder="What do you want to create?"
+              placeholder={t('generateTextarea.placeholder')}
             />
           </div>
 
@@ -220,7 +222,7 @@ const GenerateTextarea = ({
                   <path d="M18.3333 4.58331H15.4167C12.4251 4.58331 10 7.00844 10 9.99998C10 12.9915 12.4251 15.4166 15.4167 15.4166H18.3333" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinecap="round"/>
                   <path d="M1.66675 15.4166H4.58341C7.57496 15.4166 10.0001 12.9915 10.0001 9.99998C10.0001 7.00844 7.57496 4.58331 4.58341 4.58331H1.66675" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinecap="round"/>
                 </svg>
-                <span className="text-[#A5A5A5] text-base font-['Inter'] font-normal">Random</span>
+                <span className="text-[#A5A5A5] text-base font-['Inter'] font-normal">{t('generateTextarea.random')}</span>
               </div>
               
               {/* Quantity Selector Dropdown */}
@@ -235,7 +237,7 @@ const GenerateTextarea = ({
                     <path d="M6.24992 10L8.33325 11.6667L10.8333 8.75L17.9166 14.1667V15.8333C17.9166 16.2936 17.5435 16.6667 17.0833 16.6667H2.91659C2.45635 16.6667 2.08325 16.2936 2.08325 15.8333V14.1667L6.24992 10Z" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinejoin="round"/>
                   </svg>
                   <span className="text-[#A5A5A5] text-base font-['Inter'] font-normal">
-                    {selectedQuantity} Output{selectedQuantity > 1 ? 's' : ''}
+                    {selectedQuantity} {selectedQuantity > 1 ? t('generateTextarea.outputs') : t('generateTextarea.output')}
                   </span>
                   <svg className={`w-4 h-4 transition-transform ${showQuantityDropdown ? 'rotate-180' : ''}`} fill="none" stroke="#A5A5A5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -252,7 +254,7 @@ const GenerateTextarea = ({
                         setShowQuantityDropdown(false);
                       }}
                     >
-                      <span className="text-[#A5A5A5] text-base">1 Output</span>
+                      <span className="text-[#A5A5A5] text-base">1 {t('generateTextarea.output')}</span>
                     </div>
                     <div 
                       className="px-3 py-2 hover:bg-[#393B42] cursor-pointer transition-colors flex items-center gap-2"
@@ -261,7 +263,7 @@ const GenerateTextarea = ({
                         setShowQuantityDropdown(false);
                       }}
                     >
-                      <span className="text-[#A5A5A5] text-base">4 Outputs</span>
+                      <span className="text-[#A5A5A5] text-base">4 {t('generateTextarea.outputs')}</span>
                     </div>
                   </div>
                 )}
@@ -277,7 +279,7 @@ const GenerateTextarea = ({
                   <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0">
                     {selectedStyle ? (
                       <img 
-                        src={selectedStyle.imageUrl || "https://placehold.co/20x20"} 
+                        src={selectedStyle.imageUrl ? UrlUtils.ensureAbsoluteUrl(selectedStyle.imageUrl) : ''} 
                         alt="Style" 
                         className="w-5 h-5 object-cover rounded" 
                       />
@@ -292,7 +294,7 @@ const GenerateTextarea = ({
                   
                   {/* Style Text */}
                   <span className="text-[#A5A5A5] text-base font-['Inter'] font-normal whitespace-nowrap">
-                    {selectedStyle ? getLocalizedText(selectedStyle.name, language) : 'No Style'}
+                    {selectedStyle ? getLocalizedText(selectedStyle.name, language) : t('generateTextarea.noStyle')}
                   </span>
                   
                   {/* Arrow Icon */}
@@ -328,7 +330,7 @@ const GenerateTextarea = ({
                           className="w-4 h-4" 
                         />
                       </div>
-                      <span className="text-[#A5A5A5] text-base">No Style</span>
+                      <span className="text-[#A5A5A5] text-base">{t('generateTextarea.noStyle')}</span>
                     </div>
                     
                     {/* Style Options */}
@@ -347,7 +349,7 @@ const GenerateTextarea = ({
                         <div className="w-5 h-5 bg-[#393B42] rounded flex items-center justify-center flex-shrink-0">
                           {style.imageUrl ? (
                             <img 
-                              src={style.imageUrl} 
+                              src={style.imageUrl ? UrlUtils.ensureAbsoluteUrl(style.imageUrl) : ''} 
                               alt={getLocalizedText(style.name, language)} 
                               className="w-5 h-5 object-cover rounded" 
                             />
@@ -380,7 +382,7 @@ const GenerateTextarea = ({
                     className="w-[18px] h-[18px]" 
                   />
                   <span className="text-[#A5A5A5] text-base font-['Inter'] font-normal whitespace-nowrap">
-                    {selectedColor ? 'Colorful' : 'Black & White'}
+                    {selectedColor ? t('generateTextarea.colorful') : t('generateTextarea.blackAndWhite')}
                   </span>
                   <svg className={`w-4 h-4 transition-transform ${showColorDropdown ? 'rotate-180' : ''}`} fill="none" stroke="#A5A5A5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -397,7 +399,7 @@ const GenerateTextarea = ({
                         setShowColorDropdown(false);
                       }}
                     >
-                      <span className="text-[#A5A5A5] text-base">Colorful</span>
+                      <span className="text-[#A5A5A5] text-base">{t('generateTextarea.colorful')}</span>
                     </div>
                     <div 
                       className="px-3 py-2 hover:bg-[#393B42] cursor-pointer transition-colors flex items-center gap-2"
@@ -406,7 +408,7 @@ const GenerateTextarea = ({
                         setShowColorDropdown(false);
                       }}
                     >
-                      <span className="text-[#A5A5A5] text-base whitespace-nowrap">Black & White</span>
+                      <span className="text-[#A5A5A5] text-base whitespace-nowrap">{t('generateTextarea.blackAndWhite')}</span>
                     </div>
                   </div>
                 )}
@@ -422,7 +424,7 @@ const GenerateTextarea = ({
                 fontSize="text-base"
                 onClick={handleGenerateClick}
               >
-                {!showBorderGradient ? 'Create' : 'Generate'}
+                {!showBorderGradient ? t('generateTextarea.create') : t('generateTextarea.generate')}
               </BaseButton>
             </div>
           </div>

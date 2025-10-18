@@ -67,15 +67,35 @@
   "payment": {
     "title": "PayPal Payment",
     "processing": "Processing, please wait...",
+    "backToPlans": "Back to Plans",
+    "purchaseTitle": "Purchase {planTitle}",
+    "credits": "Credits",
+    "validityPeriod": "Validity Period",
+    "days": "days",
+    "creditsCount": "Credits Count",
+    "totalAmount": "Total Amount",
+    "orPayWithCard": "or pay with bank card",
+    "cardInfo": "Bank Card Information",
+    "cardNumber": "Card Number",
+    "expiryDate": "MM/YY",
+    "cvv": "CVV",
+    "cardholderName": "Cardholder Name",
+    "payNow": "Pay Now",
+    "processing2": "Processing...",
+    "technicalSupport": "Technical Support",
+    "paymentNotReady": "Payment system is not ready, please try again later",
+    "cardPaymentFailed": "Card payment failed, please check your card information and try again",
     "success": {
       "title": "Top-up Successful!",
-      "message": "Congratulations! You have successfully recharged {credits} credits",
+      "message": "Payment successful! {credits} credits have been added to your account, redirecting to create page in 5 seconds",
       "description": "Now you can start creating amazing coloring pages!"
     },
     "errors": {
       "createOrderFailed": "Failed to create order",
       "paymentFailed": "Payment failed",
-      "paypalError": "An error occurred during PayPal payment",
+      "paypalError": "PayPal payment error, please try again",
+      "cardError": "Card payment error, please try again",
+      "processingFailed": "Payment processing failed, please try again",
       "tryAgainLater": "Please try again later"
     }
   },
@@ -86,7 +106,8 @@
   "cta": {
     "title": "Create Your AI Tattoo Now",
     "description": "Create your first hyper-realistic tattoo in seconds with no skills needed. Just your idea, our AI Tattoo Generator, and a few clicks.",
-    "button": "Start Creating"
+    "button": "Start Creating",
+    "tryNow": "Start Creating"
   },
   "faq": {
     "title": "Frequently Asked Questions",
@@ -118,5 +139,63 @@
   "seo": {
     "title": "Pricing Plans - AI Coloring Page Generator",
     "description": "Choose the perfect plan for your AI coloring page generator needs. Free trial available with premium features for unlimited personalized coloring page creation."
+  },
+  "section": {
+    "title": "Plans & Pricing",
+    "successModal": {
+      "title": "Subscribe successfully",
+      "description": "Thank you for your support, now you can start your creative journey!",
+      "startCreating": "Start Creating"
+    },
+    "planNames": {
+      "day7": "7-Day Access",
+      "day14": "14-Day Access",
+      "day30": "30-Day Access"
+    },
+    "planDescriptions": {
+      "day7": "Perfect starter plan",
+      "day14": "Best value for most users",
+      "day30": "Ultimate creative freedom"
+    },
+    "features": {
+      "unlimitedGenerations": "Unlimited text-to-tattoo generations",
+      "fullAccess7": "7 days full access",
+      "fullAccess14": "14 days full access",
+      "fullAccess30": "30 days full access",
+      "proCredits": "Pro Credits",
+      "highResDownloads": "High-resolution downloads",
+      "prioritySupport": "Priority Support"
+    },
+    "paymentMethods": {
+      "securePayment": "Secure Payment",
+      "instantAccess": "Instant Access",
+      "oneTimePayment": "One-time Payment"
+    },
+    "planFAQ": [
+      {
+        "question": "How does the AI Tattoo Generator work?",
+        "answer": "Type your tattoo idea or upload an image, choose a style, and the AI creates a realistic design you can preview and download instantly."
+      },
+      {
+        "question": "What tattoo design styles are available?",
+        "answer": "Choose from minimal line art, traditional, watercolor, geometric, hyper-realistic, and more—so your tattoo matches your vision."
+      },
+      {
+        "question": "How accurate is the AI Tattoo Generator skin preview?",
+        "answer": "Our AR and photo preview tools give a near-real look at placement, size, and color before you commit."
+      },
+      {
+        "question": "Can I use AI Tattoo Generator designs commercially?",
+        "answer": "Yes, for personal or commercial purposes. We recommend confirming technical feasibility with your tattoo artist."
+      },
+      {
+        "question": "Is there a mobile app version?",
+        "answer": "Yes. The AI Tattoo Generator app for iOS and Android lets you design, preview, and save tattoos anytime."
+      },
+      {
+        "question": "Can I edit or refine the AI tattoo design?",
+        "answer": "Absolutely—tweak style, details, and placement until it's perfect."
+      }
+    ]
   }
 } 

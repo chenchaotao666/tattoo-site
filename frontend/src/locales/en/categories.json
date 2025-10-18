@@ -148,5 +148,13 @@
     "title": "Ready to Start Coloring?",
     "description": "Whether you're a parent looking for a fun activity for your kids, a teacher needing classroom resources, or an adult who enjoys the therapeutic benefits of coloring, our collection is here for you. Start exploring today and bring joy, calm, and creativity into your day!",
     "buttonText": "Try Now"
+  },
+  "imageDetail": {
+    "prompt": "Prompt",
+    "tags": "Tags",
+    "recreate": "Recreate",
+    "download": "Download",
+    "pictureDetails": "Tattoo picture details",
+    "relatedImages": "Related Images"
   }
 }

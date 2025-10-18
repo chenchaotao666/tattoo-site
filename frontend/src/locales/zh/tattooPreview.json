@@ -1,0 +1,57 @@
+{
+  "title": "纹身预览器",
+  "toolbar": {
+    "eraser": "擦除工具",
+    "reset": "重置",
+    "export": "导出"
+  },
+  "controlPanel": {
+    "title": "控制面板",
+    "imageUpload": "图片上传",
+    "uploadBodyImage": "上传人体图片",
+    "uploadTattooImage": "上传纹身图片",
+    "opacity": "透明度",
+    "size": "大小",
+    "rotation": "旋转",
+    "contrast": "对比度",
+    "blackWhiteEffect": "黑白效果",
+    "blendEffect": "混合效果",
+    "positionAdjust": "位置调节"
+  },
+  "compatibility": {
+    "warning": "系统兼容性警告",
+    "noWebgl": "不支持 WebGL",
+    "noMediapipe": "不支持 MediaPipe",
+    "noCanvas": "不支持 Canvas",
+    "noFile": "不支持文件操作",
+    "recommendation": "部分功能可能无法正常工作，建议使用现代浏览器。"
+  },
+  "preview": {
+    "title": "高级纹身预览系统",
+    "features": {
+      "title": "高级功能特性：",
+      "mediapipe": "MediaPipe 身体分割 - 精确的皮肤区域识别",
+      "webgl": "Three.js WebGL 渲染 - 高性能 3D 效果",
+      "shaders": "自定义着色器效果 - 逼真的皮肤纹理混合",
+      "realtime": "实时预览 - 即时视觉反馈",
+      "multiLayer": "多层合成 - 专业编辑功能",
+      "export": "高质量导出 - 为纹身师咨询做好准备"
+    },
+    "instructions": {
+      "title": "使用方法：",
+      "step1": "上传清晰的身体图片，显示您想要纹身的区域",
+      "step2": "上传您的纹身设计图片（最好带透明背景）",
+      "step3": "调整位置、大小、旋转和透明度以完美适配",
+      "step4": "使用高级控制来微调外观",
+      "step5": "导出最终预览以与您的纹身师分享"
+    },
+    "technical": {
+      "title": "技术特性：",
+      "gpu": "GPU 加速渲染，提供流畅性能",
+      "ml": "机器学习身体识别",
+      "precision": "亚像素精度定位",
+      "formats": "支持多种图片格式（PNG、JPG、WebP）",
+      "responsive": "响应式设计，适配所有设备尺寸"
+    }
+  }
+}

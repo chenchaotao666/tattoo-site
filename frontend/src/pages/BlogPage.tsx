@@ -269,7 +269,7 @@ const BlogPage = () => {
           title={t('tryNow.title')}
           description={t('tryNow.description')}
           buttonText={t('tryNow.tryNow')}
-          buttonLink="/create"
+          buttonLink={createLanguageAwarePath("/create")}
         />
       </div>
       <BackToTop />

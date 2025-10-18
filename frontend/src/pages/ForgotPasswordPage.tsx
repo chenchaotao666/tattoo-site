@@ -4,6 +4,7 @@ import { UserService } from '../services/userService';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 import { ApiError } from '../utils/apiUtils';
 import SEOHead from '../components/common/SEOHead';
+import { createLanguageAwarePath } from '../utils/navigationUtils';
 
 const ForgotPasswordPage: React.FC = () => {
   const { t: tForms } = useAsyncTranslation('forms');
@@ -221,7 +222,7 @@ const ForgotPasswordPage: React.FC = () => {
               {/* 返回登录链接 */}
               <p className="text-sm font-light text-center text-gray-400">
                 {tForms('auth.rememberPassword', '记住密码？')}{' '}
-                <Link to="/login" className="font-medium text-blue-600 hover:underline">
+                <Link to={createLanguageAwarePath("/login")} className="font-medium text-blue-600 hover:underline">
                   {tForms('auth.backToLogin', '返回登录')}
                 </Link>
               </p>

@@ -3,6 +3,7 @@ import { colors } from '../../styles/colors';
 import { BaseImage } from '../../services/imageService';
 import DeleteImageConfirmDialog from '../ui/DeleteImageConfirmDialog';
 import { useToast } from '../../contexts/ToastContext';
+import { useAsyncTranslation } from '../../contexts/LanguageContext';
 
 interface MoreMenuProps {
   // 图片数据
@@ -28,6 +29,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { showSuccessToast, showErrorToast } = useToast();
+  const { t } = useAsyncTranslation('components');
   
   // 计算当前操作的图片数据
   const targetImages = React.useMemo(() => {
@@ -123,21 +125,22 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
       // 根据删除结果显示不同的提示
       if (successIds.length === totalImages) {
         // 全部删除成功
-        showSuccessToast('Successfully deleted');
+        showSuccessToast(t('moreMenu.deleteSuccess'));
       } else if (successIds.length > 0) {
         // 部分删除成功
-        showSuccessToast(`Successfully deleted ${successIds.length} image${successIds.length > 1 ? 's' : ''}`);
+        const imageText = successIds.length > 1 ? t('generateSidebar.images') : t('generateSidebar.image');
+        showSuccessToast(t('moreMenu.partialDeleteSuccess', undefined, { count: successIds.length, imageText }));
       }
-      
+
       if (failedIds.length === totalImages) {
         // 全部删除失败
-        showErrorToast('Failed to delete');
+        showErrorToast(t('moreMenu.deleteError'));
       }
       
       setShowDeleteConfirm(false);
     } catch (error) {
       console.error('Delete error:', error);
-      showErrorToast('Failed to delete');
+      showErrorToast(t('moreMenu.deleteError'));
       setShowDeleteConfirm(false);
     }
   };
@@ -241,10 +244,10 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
               </clipPath>
             </defs>
           </svg>
-          <span 
+          <span
             className="text-[#ECECEC] text-xs font-normal group-hover:text-[#98FF59]"
           >
-            Report
+            {t('moreMenu.report')}
           </span>
         </button>
         
@@ -264,7 +267,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
                 <path fillRule="evenodd" clipRule="evenodd" d="M10.7588 2C11.624 2 12.3253 2.70135 12.3253 3.5665C12.3253 3.92632 12.2032 4.26856 11.983 4.54402C11.6878 4.91328 11.241 5.13301 10.7588 5.13301C10.4137 5.13301 10.0869 5.0204 9.82085 4.82133L5.77386 8.18177C5.88249 8.39714 5.94111 8.63754 5.94111 8.8867C5.94111 8.98904 5.93124 9.09012 5.91193 9.18881L10.306 11.383C10.5971 11.061 11.0154 10.867 11.4682 10.867C12.1256 10.867 12.7061 11.2757 12.9343 11.8808C13.0004 12.0562 13.0347 12.2428 13.0347 12.4335C13.0347 13.2987 12.3334 14 11.4682 14C10.603 14 9.9017 13.2987 9.9017 12.4335C9.9017 12.3278 9.91224 12.2234 9.93282 12.1217L5.54347 9.92985C5.25221 10.2562 4.83098 10.4532 4.37461 10.4532C3.50945 10.4532 2.80811 9.75186 2.80811 8.8867C2.80811 8.02154 3.50945 7.3202 4.37461 7.3202C4.67954 7.3202 4.97085 7.40804 5.21886 7.56693L9.3121 4.16807C9.23383 3.97994 9.19234 3.77617 9.19234 3.5665C9.19234 2.70135 9.89369 2 10.7588 2ZM10.4933 4.25635C10.4491 4.23935 10.4067 4.21814 10.3667 4.19304L10.4933 4.25635Z" fill="#ECECEC" className="group-hover:fill-[#98FF59]"/>
               </svg>
-              <span className="text-[#ECECEC] text-xs font-normal group-hover:text-[#98FF59]">Share</span>
+              <span className="text-[#ECECEC] text-xs font-normal group-hover:text-[#98FF59]">{t('moreMenu.share')}</span>
             </div>
             <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-auto">
               <path d="M5 3L0.5 5.59808L0.5 0.401924L5 3Z" fill="#ECECEC" className="group-hover:fill-[#98FF59]"/>
@@ -288,7 +291,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
                       <path d="M9.52 6.77L15.48 0H14.06L8.88 5.88L4.76 0H0L6.24 8.96L0 16H1.42L6.88 9.78L11.24 16H16L9.52 6.77ZM7.6 8.97L6.98 8.09L1.92 1.03H4.08L8.16 6.72L8.78 7.6L14.06 15.01H11.9L7.6 8.97Z" fill="#ECECEC" className="group-hover:fill-[#98FF59]"/>
                     </svg>
-                    <span className="text-[#ECECEC] text-xs font-normal whitespace-nowrap group-hover:text-[#98FF59]">Share to X</span>
+                    <span className="text-[#ECECEC] text-xs font-normal whitespace-nowrap group-hover:text-[#98FF59]">{t('moreMenu.shareToX')}</span>
                   </button>
                   
                   {/* Share to Facebook */}
@@ -299,7 +302,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-4 h-4">
                       <path d="M16 8C16 3.58 12.42 0 8 0S0 3.58 0 8C0 11.97 2.84 15.23 6.56 15.91V10.31H4.59V8H6.56V6.23C6.56 4.29 7.73 3.2 9.48 3.2C10.32 3.2 11.2 3.36 11.2 3.36V5.25H10.24C9.3 5.25 8.94 5.81 8.94 6.39V8H11.12L10.72 10.31H8.94V15.91C12.66 15.23 16 11.97 16 8Z" fill="#ECECEC" className="group-hover:fill-[#98FF59]"/>
                     </svg>
-                    <span className="text-[#ECECEC] text-xs font-normal whitespace-nowrap group-hover:text-[#98FF59]">Share to Facebook</span>
+                    <span className="text-[#ECECEC] text-xs font-normal whitespace-nowrap group-hover:text-[#98FF59]">{t('moreMenu.shareToFacebook')}</span>
                   </button>
                 </div>
               </div>
@@ -325,7 +328,7 @@ const MoreMenu: React.FC<MoreMenuProps> = ({
               </clipPath>
             </defs>
           </svg>
-          <span className="text-[#ECECEC] text-xs font-normal group-hover:text-[#98FF59]">Delete</span>
+          <span className="text-[#ECECEC] text-xs font-normal group-hover:text-[#98FF59]">{t('moreMenu.delete')}</span>
         </button>
       </div>
     </div>

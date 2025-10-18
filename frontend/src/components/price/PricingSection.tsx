@@ -7,6 +7,7 @@ import { useAsyncTranslation } from '../../contexts/LanguageContext';
 import PaypalPayment from './PaypalPayment';
 import PricingCard from './PricingCard';
 import TryNow from '../common/TryNow';
+import { createLanguageAwarePath, navigateWithLanguage } from '../../utils/navigationUtils';
 
 interface PlanConfig {
   price: number;
@@ -43,12 +44,14 @@ const SuccessModal = ({
   isOpen,
   onClose,
   credits,
-  onStartCreating
+  onStartCreating,
+  t
 }: {
   isOpen: boolean;
   onClose: () => void;
   credits: number;
   onStartCreating: () => void;
+  t: any;
 }) => {
   if (!isOpen) return null;
 
@@ -74,20 +77,20 @@ const SuccessModal = ({
           </button>
 
           <div className="text-center">
-            <h3 className="text-lg sm:text-xl font-medium text-[#161616] mb-2">Subscribe successfully</h3>
+            <h3 className="text-lg sm:text-xl font-medium text-[#161616] mb-2">{t('section.successModal.title')}</h3>
 
             {/* 积分显示 */}
             <div className="text-4xl sm:text-6xl font-bold text-[#161616] mb-4">+{credits}</div>
 
             <p className="text-sm text-[#6B7280] leading-5 mb-6 sm:mb-8">
-              Thank you for your support, now you can start your creative journey!
+              {t('section.successModal.description')}
             </p>
 
             <Button
               onClick={onStartCreating}
               className="w-full bg-[#FF5C07] hover:bg-[#E54A06] text-white"
             >
-              Start Creating
+              {t('section.successModal.startCreating')}
             </Button>
           </div>
         </div>
@@ -115,7 +118,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
   const { isAuthenticated } = useAuth();
 
   // FAQ 数据
-  const pricingFAQData: FAQData[] = [
+  const pricingFAQData: FAQData[] = translations?.section?.planFAQ || [
     {
       question: "How does the AI Tattoo Generator work?",
       answer: "Type your tattoo idea or upload an image, choose a style, and the AI creates a realistic design you can preview and download instantly."
@@ -151,7 +154,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
   // 处理购买按钮点击
   const handleBuyClick = (planTitle: string) => {
     if (!isAuthenticated) {
-      navigate('/login');
+      navigateWithLanguage(navigate, '/login');
       return;
     }
 
@@ -198,27 +201,27 @@ const PricingSection: React.FC<PricingSectionProps> = ({
     switch (planKey) {
       case 'day7':
         return [
-          'Unlimited text-to-tattoo generations',
-          '7 days full access',
-          '20 Pro Credits',
-          'High-resolution downloads',
-          'Priority Support'
+          t('section.features.unlimitedGenerations') || 'Unlimited text-to-tattoo generations',
+          t('section.features.fullAccess7') || '7 days full access',
+          t('section.features.proCredits') || '20 Pro Credits',
+          t('section.features.highResDownloads') || 'High-resolution downloads',
+          t('section.features.prioritySupport') || 'Priority Support'
         ];
       case 'day14':
         return [
-          'Unlimited text-to-tattoo generations',
-          '14 days full access',
-          '40 Pro Credits',
-          'High-resolution downloads',
-          'Priority Support'
+          t('section.features.unlimitedGenerations') || 'Unlimited text-to-tattoo generations',
+          t('section.features.fullAccess14') || '14 days full access',
+          t('section.features.proCredits') || '40 Pro Credits',
+          t('section.features.highResDownloads') || 'High-resolution downloads',
+          t('section.features.prioritySupport') || 'Priority Support'
         ];
       case 'day30':
         return [
-          'Unlimited text-to-tattoo generations',
-          '30 days full access',
-          '80 Pro Credits',
-          'High-resolution downloads',
-          'Priority Support'
+          t('section.features.unlimitedGenerations') || 'Unlimited text-to-tattoo generations',
+          t('section.features.fullAccess30') || '30 days full access',
+          t('section.features.proCredits') || '80 Pro Credits',
+          t('section.features.highResDownloads') || 'High-resolution downloads',
+          t('section.features.prioritySupport') || 'Priority Support'
         ];
       default:
         return [];
@@ -232,9 +235,9 @@ const PricingSection: React.FC<PricingSectionProps> = ({
         {/* 标题 - 可选 */}
         {showTitle && (
           titleH1 ? (
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E6E6E6] mb-4 sm:mb-12 md:mb-16 text-center capitalize">Plans & Pricing</h1>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E6E6E6] mb-4 sm:mb-12 md:mb-16 text-center capitalize">{t('section.title') || 'Plans & Pricing'}</h1>
           ) : (
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E6E6E6] mb-4 sm:mb-12 md:mb-16 text-center capitalize">Plans & Pricing</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#E6E6E6] mb-4 sm:mb-12 md:mb-16 text-center capitalize">{t('section.title') || 'Plans & Pricing'}</h2>
           )
         )}
 
@@ -261,14 +264,14 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                                          planKey === '30-Day Access' ? '55.96' : undefined;
                     const discount = planKey === '14-Day Access' ? '47%' :
                                     planKey === '30-Day Access' ? '57%' : undefined;
-                    const priceNote = planKey === '7-Day Access' ? 'Perfect starter plan' :
-                                     planKey === '14-Day Access' ? 'Best value for most users' :
-                                     planKey === '30-Day Access' ? 'Ultimate creative freedom' : undefined;
+                    const priceNote = planKey === '7-Day Access' ? (t('section.planDescriptions.day7') || 'Perfect starter plan') :
+                                     planKey === '14-Day Access' ? (t('section.planDescriptions.day14') || 'Best value for most users') :
+                                     planKey === '30-Day Access' ? (t('section.planDescriptions.day30') || 'Ultimate creative freedom') : undefined;
 
                     return (
                       <PricingCard
                         key={planKey}
-                        title={planKey}
+                        title={t(`section.planNames.${plan.code}`) || planKey}
                         type={plan.code as 'day7' | 'day14' | 'day30'}
                         price={plan.price.toString()}
                         originalPrice={originalPrice}
@@ -289,7 +292,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-shield h-4 w-4 text-gray-600" aria-hidden="true">
                       <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
                     </svg>
-                    <span className="text-gray-600">Secure Payment</span>
+                    <span className="text-gray-600">{t('section.paymentMethods.securePayment') || 'Secure Payment'}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div aria-hidden="true" className="h-2 w-2 rounded-full bg-blue-500"></div>
@@ -297,7 +300,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                       <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"></path>
                       <path d="m9 12 2 2 4-4"></path>
                     </svg>
-                    <span className="text-gray-600">Instant Access</span>
+                    <span className="text-gray-600">{t('section.paymentMethods.instantAccess') || 'Instant Access'}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <div aria-hidden="true" className="h-2 w-2 rounded-full bg-purple-500"></div>
@@ -305,7 +308,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                       <rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect>
                       <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                     </svg>
-                    <span className="text-gray-600">One-time Payment</span>
+                    <span className="text-gray-600">{t('section.paymentMethods.oneTimePayment') || 'One-time Payment'}</span>
                   </div>
                 </div>
               </div>
@@ -341,7 +344,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
             title={t('cta.title')}
             description={t('cta.description')}
             buttonText={t('cta.tryNow')}
-            buttonLink="/create"
+            buttonLink={createLanguageAwarePath("/create")}
           />
         )}
       </div>
@@ -353,6 +356,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
         onClose={() => setShowSuccessModal(false)}
         credits={successCredits}
         onStartCreating={handleStartCreating}
+        t={t}
       />
     </div>
   );

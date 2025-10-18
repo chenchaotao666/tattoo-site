@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Category } from '../../services/categoriesService';
-import { useLanguage, Language } from '../../contexts/LanguageContext';
+import { useLanguage, Language, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { generateLanguagePath } from '../common/LanguageRouter';
 import { getLocalizedText } from '../../utils/textUtils';
 import { handleCategoryClick } from '../../utils/categoryUtils';
+import { ImageService } from '../../services/imageService';
 
 interface CategoryMenusProps {
   isVisible: boolean;
@@ -16,14 +17,31 @@ interface CategoryMenusProps {
   onClose: () => void;
 }
 
-const CategoryMenus: React.FC<CategoryMenusProps> = ({ 
-  isVisible, 
+const CategoryMenus: React.FC<CategoryMenusProps> = ({
+  isVisible,
   popularMenus,
   NewMenus,
-  onClose 
+  onClose
 }) => {
   const { language } = useLanguage();
+  const { t } = useAsyncTranslation('components');
   const navigate = useNavigate();
+  const [imageCount, setImageCount] = useState(10000); // 默认值
+
+  // 获取图片总数
+  useEffect(() => {
+    const fetchImageCount = async () => {
+      try {
+        const count = await ImageService.getImageCount();
+        setImageCount(count);
+      } catch (error) {
+        console.error('Failed to fetch image count:', error);
+        // 保持默认值10000
+      }
+    };
+
+    fetchImageCount();
+  }, []);
 
   const createLocalizedLink = (path: string) => {
     return generateLanguagePath(language, path);
@@ -133,7 +151,7 @@ const CategoryMenus: React.FC<CategoryMenusProps> = ({
                 className="flex-1 text-left text-sm font-normal text-[#A5A5A5] hover:text-[#98FF59] transition-colors duration-200 py-1"
                 style={{ fontFamily: 'Inter' }}
               >
-                {getLocalizedText(item.name)}
+                {getLocalizedText(item.name, language)}
               </button>
             </div>
           ))}
@@ -162,7 +180,7 @@ const CategoryMenus: React.FC<CategoryMenusProps> = ({
           fontFamily: 'Inter'
         }}
       >
-        Over 10,000 Tattoo Inspirations, Unlock Your Unique Imprint!
+        {t('categoryMenus.inspirationText', undefined, { count: imageCount.toLocaleString() })}
       </div>
 
       {/* View all 链接 */}
@@ -176,7 +194,7 @@ const CategoryMenus: React.FC<CategoryMenusProps> = ({
         }}
       >
         <div className="text-sm font-normal text-[#98FF59]" style={{ fontFamily: 'Inter' }}>
-          View all
+          {t('categoryMenus.viewAll')}
         </div>
         <svg 
           width="16" 

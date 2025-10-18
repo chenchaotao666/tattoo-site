@@ -39,7 +39,7 @@ const WhatUserSaying: React.FC<WhatUserSayingProps> = ({ data }) => {
   return (
     <div className="relative w-[1440px] h-[1161px]">
       {/* Title */}
-      <h2 className="absolute left-[413px] top-0 text-center text-[#ECECEC] text-[46px] font-inter font-bold capitalize break-words">
+      <h2 className="absolute w-full top-0 text-center text-[#ECECEC] text-[46px] font-inter font-bold capitalize break-words">
         {data.title}
       </h2>
       

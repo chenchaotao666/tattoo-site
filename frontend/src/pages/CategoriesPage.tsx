@@ -86,7 +86,7 @@ const CategoriesPage: React.FC = () => {
           {/* Title */}
           <div className="w-full text-center mb-12">
             <h2 className="text-[#ECECEC] text-[46px] font-['Inter'] font-bold capitalize leading-none">
-              Try creating your own tattoo
+              {t('createSection.title')}
             </h2>
           </div>
           

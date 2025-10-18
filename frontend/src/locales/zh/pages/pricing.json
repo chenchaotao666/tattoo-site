@@ -67,15 +67,35 @@
   "payment": {
     "title": "PayPal支付",
     "processing": "处理中，请稍候...",
+    "backToPlans": "返回套餐",
+    "purchaseTitle": "购买 {planTitle}",
+    "credits": "积分",
+    "validityPeriod": "有效期",
+    "days": "天",
+    "creditsCount": "积分数量",
+    "totalAmount": "总金额",
+    "orPayWithCard": "或使用银行卡支付",
+    "cardInfo": "银行卡信息",
+    "cardNumber": "卡号",
+    "expiryDate": "MM/YY",
+    "cvv": "CVV",
+    "cardholderName": "持卡人姓名",
+    "payNow": "立即支付",
+    "processing2": "处理中...",
+    "technicalSupport": "技术支持",
+    "paymentNotReady": "支付系统未准备就绪，请稍后重试",
+    "cardPaymentFailed": "信用卡支付失败，请检查卡片信息后重试",
     "success": {
       "title": "充值成功！",
-      "message": "恭喜！您已成功充值 {credits} 积分",
+      "message": "支付成功！{credits} 积分已添加到您的账户，5秒后跳转到创建页面",
       "description": "现在您可以开始创作精彩的涂色页了！"
     },
     "errors": {
       "createOrderFailed": "创建订单失败",
       "paymentFailed": "支付失败",
-      "paypalError": "PayPal支付过程中发生错误",
+      "paypalError": "PayPal支付出现错误，请重试",
+      "cardError": "信用卡支付出现错误，请重试",
+      "processingFailed": "支付处理失败，请重试",
       "tryAgainLater": "请稍后重试"
     }
   },
@@ -86,7 +106,8 @@
   "cta": {
     "title": "立即创建您的AI纹身",
     "description": "无需技能，几秒钟即可创建您的第一个超写实纹身。只需您的想法、我们的AI纹身生成器，以及几次点击。",
-    "button": "开始创作"
+    "button": "开始创作",
+    "tryNow": "开始创作"
   },
   "faq": {
     "title": "常见问题",
@@ -118,5 +139,63 @@
   "seo": {
     "title": "价格方案 - AI涂色页生成器",
     "description": "选择适合您的AI涂色页生成器价格方案。提供免费试用和高级功能，无限创作个性化涂色页。"
+  },
+  "section": {
+    "title": "套餐与价格",
+    "successModal": {
+      "title": "订阅成功",
+      "description": "感谢您的支持，现在您可以开始您的创意之旅！",
+      "startCreating": "开始创作"
+    },
+    "planNames": {
+      "day7": "7天访问权限",
+      "day14": "14天访问权限",
+      "day30": "30天访问权限"
+    },
+    "planDescriptions": {
+      "day7": "完美的入门套餐",
+      "day14": "大多数用户的最佳选择",
+      "day30": "终极创意自由"
+    },
+    "features": {
+      "unlimitedGenerations": "无限文本转纹身生成",
+      "fullAccess7": "7天完整访问权限",
+      "fullAccess14": "14天完整访问权限",
+      "fullAccess30": "30天完整访问权限",
+      "proCredits": "专业积分",
+      "highResDownloads": "高分辨率下载",
+      "prioritySupport": "优先支持"
+    },
+    "paymentMethods": {
+      "securePayment": "安全支付",
+      "instantAccess": "即时访问",
+      "oneTimePayment": "一次性付款"
+    },
+    "planFAQ": [
+      {
+        "question": "AI纹身生成器是如何工作的？",
+        "answer": "输入您的纹身创意或上传图像，选择风格，AI会创建一个逼真的设计，您可以即时预览和下载。"
+      },
+      {
+        "question": "有哪些纹身设计风格可供选择？",
+        "answer": "从极简线条艺术、传统、水彩、几何、超现实等多种风格中选择，让您的纹身符合您的愿景。"
+      },
+      {
+        "question": "AI纹身生成器皮肤预览的准确性如何？",
+        "answer": "我们的AR和照片预览工具在您做决定之前提供近乎真实的位置、大小和颜色预览。"
+      },
+      {
+        "question": "我可以将AI纹身生成器的设计用于商业目的吗？",
+        "answer": "是的，可以用于个人或商业目的。我们建议与您的纹身师确认技术可行性。"
+      },
+      {
+        "question": "有移动应用版本吗？",
+        "answer": "是的。iOS和Android的AI纹身生成器应用让您随时设计、预览和保存纹身。"
+      },
+      {
+        "question": "我可以编辑或优化AI纹身设计吗？",
+        "answer": "当然可以——调整风格、细节和位置，直到完美为止。"
+      }
+    ]
   }
 } 

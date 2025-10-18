@@ -14,18 +14,7 @@ interface HowToCreateProps {
 const HowToCreate: React.FC<HowToCreateProps> = ({ title, steps }) => {
   return (
     <div style={{ width: '1170px', minHeight: '367px', position: 'relative', borderRadius: '16px' }}>
-      <h2 style={{
-        left: '289px',
-        top: '0px',
-        position: 'absolute',
-        textAlign: 'center',
-        color: 'var(--_taliwind-White-200, #ECECEC)',
-        fontSize: '56px',
-        fontFamily: 'Inter',
-        fontWeight: '700',
-        textTransform: 'capitalize',
-        wordWrap: 'break-word'
-      }}>
+      <h2 className="absolute w-full top-0 text-center text-[#ECECEC] text-[56px] font-inter font-bold capitalize break-words">
         {title}
       </h2>
       

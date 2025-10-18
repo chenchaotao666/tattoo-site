@@ -57,7 +57,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
       const response = await PricingService.captureOrder(orderID);
       if (response.status === 'COMPLETED') {
         await refreshUser();
-        showSuccessToast(`支付成功！${creditsRef.current} 积分已添加到您的账户，5秒后跳转到创建页面`);
+        showSuccessToast(t('payment.success.message', undefined, { credits: creditsRef.current }));
 
         setIsProcessing(false);
         setCardLoading(false);
@@ -68,12 +68,12 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
           navigate('/text-coloring-page');
         }, 5000);
       } else {
-        showErrorToast('支付处理失败，请重试');
+        showErrorToast(t('payment.errors.processingFailed'));
       }
     } catch (error: any) {
       console.error('支付失败:', error);
       // ApiError 的消息直接在 error.message 中
-      const errorMessage = '支付失败，请重试';
+      const errorMessage = t('payment.errors.paymentFailed');
       showErrorToast(errorMessage);
     } finally {
       setIsProcessing(false);
@@ -147,7 +147,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
               });
               return response.id;
             } catch (error) {
-              console.error('创建订单失败:', error);
+              console.error('Create order failed:', error);
               setIsProcessing(false);
               throw error;
             }
@@ -157,8 +157,8 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
             await handlePaymentResult(orderID);
           },
           onError: (error: any) => {
-            console.error('PayPal错误:', error);
-            showErrorToast('PayPal支付出现错误，请重试');
+            console.error('PayPal error:', error);
+            showErrorToast(t('payment.errors.paypalError'));
             setIsProcessing(false);
           },
           onCancel: () => {
@@ -181,7 +181,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                 });
                 return response.id;
               } catch (error) {
-                console.error('创建订单失败:', error);
+                console.error('Create order failed:', error);
                 setIsProcessing(false);
                 setCardLoading(false);
                 throw error;
@@ -192,8 +192,8 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
               await handlePaymentResult(orderID);
             },
             onError: (error: any) => {
-              console.error('CardFields错误:', error);
-              showErrorToast('信用卡支付出现错误，请重试');
+              console.error('CardFields error:', error);
+              showErrorToast(t('payment.errors.cardError'));
               setIsProcessing(false);
               setCardLoading(false);
             }
@@ -267,7 +267,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
   // 处理信用卡支付
   const handleCardSubmit = async () => {
     if (!cardField) {
-      showErrorToast('支付系统未准备就绪，请稍后重试');
+      showErrorToast(t('payment.paymentNotReady'));
       return;
     }
 
@@ -277,7 +277,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
       // CardFields 的 onApprove 会处理后续流程
     } catch (error) {
       console.error('Card payment failed:', error);
-      showErrorToast('信用卡支付失败，请检查卡片信息后重试');
+      showErrorToast(t('payment.cardPaymentFailed'));
       setCardLoading(false);
     }
   };
@@ -339,7 +339,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                 d="M12 19l-7-7 7-7m7 7H5"
               />
             </svg>
-            返回套餐
+            {t('payment.backToPlans')}
           </button>
         </div>
 
@@ -348,23 +348,23 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
           {/* 左侧 - 订单信息 */}
           <div className="flex flex-col p-10 text-[#ECECEC] bg-[#19191F] rounded-l-2xl">
             <div className="mb-[60px]">
-              <h3 className="mb-2 text-lg text-[#C8C8C8]">购买 {planTitle}</h3>
-              <div className="mb-6 text-4xl font-bold text-[#FFFFFF]">{credits} 积分</div>
-              <div className="text-sm text-[#C8C8C8]">{days} 天有效期</div>
+              <h3 className="mb-2 text-lg text-[#C8C8C8]">{t('payment.purchaseTitle', undefined, { planTitle })}</h3>
+              <div className="mb-6 text-4xl font-bold text-[#FFFFFF]">{credits} {t('payment.credits')}</div>
+              <div className="text-sm text-[#C8C8C8]">{days} {t('payment.days')}{t('payment.validityPeriod')}</div>
             </div>
 
             <div className="space-y-4">
               <div className="flex justify-between">
-                <span>积分数量</span>
-                <span>{credits} 积分</span>
+                <span>{t('payment.creditsCount')}</span>
+                <span>{credits} {t('payment.credits')}</span>
               </div>
               <div className="flex justify-between">
-                <span>有效期</span>
-                <span>{days} 天</span>
+                <span>{t('payment.validityPeriod')}</span>
+                <span>{days} {t('payment.days')}</span>
               </div>
               <hr className="border-[#26262D]" />
               <div className="flex justify-between text-lg font-bold text-[#FFFFFF]">
-                <span>总金额</span>
+                <span>{t('payment.totalAmount')}</span>
                 <span>US${totalPrice}</span>
               </div>
             </div>
@@ -385,14 +385,14 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
               {/* 分割线 */}
               <div className="flex items-center my-4">
                 <hr className="flex-1 border-[#26262D]" />
-                <span className="px-4 text-[#C8C8C8]">或使用银行卡支付</span>
+                <span className="px-4 text-[#C8C8C8]">{t('payment.orPayWithCard')}</span>
                 <hr className="flex-1 border-[#26262D]" />
               </div>
 
               {/* 银行卡信息 */}
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <label className="text-[#FFFFFF] font-medium">银行卡信息</label>
+                  <label className="text-[#FFFFFF] font-medium">{t('payment.cardInfo')}</label>
                   <div className="flex items-center gap-2">
                     <img
                       src="/imgs/paypal/mastercard.svg"
@@ -414,7 +414,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                     className={`w-full h-[46px] ${paypalInitialized ? 'paypal-field-ready' : 'paypal-field-loading'}`}
                   ></div>
                   <div className={`paypal-placeholder h-[46px] bg-[rgb(25,25,31)] border border-[#26262D] rounded-lg flex items-center ${paypalInitialized ? 'hidden' : ''}`}>
-                    <span className="text-[#818181] text-sm">卡号</span>
+                    <span className="text-[#818181] text-sm">{t('payment.cardNumber')}</span>
                   </div>
                 </div>
 
@@ -426,7 +426,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                       className={`w-full h-[46px] ${paypalInitialized ? 'paypal-field-ready' : 'paypal-field-loading'}`}
                     ></div>
                     <div className={`paypal-placeholder h-[46px] bg-[rgb(25,25,31)] border border-[#26262D] rounded-lg flex items-center ${paypalInitialized ? 'hidden' : ''}`}>
-                      <span className="text-[#818181] text-sm">MM/YY</span>
+                      <span className="text-[#818181] text-sm">{t('payment.expiryDate')}</span>
                     </div>
                   </div>
                   <div className="flex-1 relative h-[46px]">
@@ -435,7 +435,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                       className={`w-full h-[46px] ${paypalInitialized ? 'paypal-field-ready' : 'paypal-field-loading'}`}
                     ></div>
                     <div className={`paypal-placeholder h-[46px] bg-[rgb(25,25,31)] border border-[#26262D] rounded-lg flex items-center ${paypalInitialized ? 'hidden' : ''}`}>
-                      <span className="text-[#818181] text-sm">CVV</span>
+                      <span className="text-[#818181] text-sm">{t('payment.cvv')}</span>
                     </div>
                   </div>
                 </div>
@@ -447,7 +447,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                     className={`w-full h-[46px] ${paypalInitialized ? 'paypal-field-ready' : 'paypal-field-loading'}`}
                   ></div>
                   <div className={`paypal-placeholder h-[46px] bg-[rgb(25,25,31)] border border-[#26262D] rounded-lg flex items-center ${paypalInitialized ? 'hidden' : ''}`}>
-                    <span className="text-[#818181] text-sm">持卡人姓名</span>
+                    <span className="text-[#818181] text-sm">{t('payment.cardholderName')}</span>
                   </div>
                 </div>
 
@@ -457,13 +457,13 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
                   onClick={handleCardSubmit}
                   disabled={cardLoading || isProcessing}
                 >
-                  {cardLoading ? '处理中...' : '立即支付'}
+                  {cardLoading ? t('payment.processing2') : t('payment.payNow')}
                 </button>
 
                 {/* 底部说明文字 */}
                 <div className="mt-4 space-y-2 text-center">
                   <div className="flex items-center justify-center text-sm text-[#C8C8C8]">
-                    <span>技术支持</span>
+                    <span>{t('payment.technicalSupport')}</span>
                     <img
                       src="/imgs/paypal/paypal.webp"
                       alt="PayPal"

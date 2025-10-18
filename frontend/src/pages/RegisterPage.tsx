@@ -6,6 +6,7 @@ import { ApiError } from '../utils/apiUtils';
 import GoogleLoginButton from '../components/common/GoogleLoginButton';
 import SEOHead from '../components/common/SEOHead';
 import PasswordInput from '../components/ui/PasswordInput';
+import { createLanguageAwarePath } from '../utils/navigationUtils';
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -326,7 +327,7 @@ const RegisterPage: React.FC = () => {
               {/* 登录链接 */}
               <p className="text-sm font-light text-center text-gray-400">
                 {tForms('auth.hasAccount', '已经有账户？')}{' '}
-                <Link to="/login" className="font-medium text-blue-600 hover:underline">
+                <Link to={createLanguageAwarePath("/login")} className="font-medium text-blue-600 hover:underline">
                   {tForms('auth.loginHere', '点击这里登录')}
                 </Link>
               </p>

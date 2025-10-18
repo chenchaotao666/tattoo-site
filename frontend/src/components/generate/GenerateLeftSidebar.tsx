@@ -184,7 +184,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
 
         {/* Style Selector */}
         <div className="lg:mx-5 mt-6 lg:mt-10 relative style-selector-container">
-          <div className="text-sm font-bold text-[#ECECEC] mb-2">Style</div>
+          <div className="text-sm font-bold text-[#ECECEC] mb-2">{t('leftSidebar.style')}</div>
           <div 
             className="bg-[#26262D] rounded-lg border border-[#393B42] p-3 relative cursor-pointer transition-colors"
             style={{ height: '70px' }}
@@ -218,7 +218,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
               {/* Style Text */}
               <div className="flex-1">
                 <div className="text-[#ECECEC] text-sm font-medium">
-                  {selectedStyle ? getLocalizedText(selectedStyle.name, language) : 'NO Style'}
+                  {selectedStyle ? getLocalizedText(selectedStyle.name, language) : t('leftSidebar.noStyle')}
                 </div>
               </div>
               
@@ -244,7 +244,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
 
         {/* Color Selector */}
         <div className="lg:mx-5 mt-6 lg:mt-10">
-          <div className="text-sm font-bold text-[#ECECEC] mb-2">Color</div>
+          <div className="text-sm font-bold text-[#ECECEC] mb-2">{t('leftSidebar.color')}</div>
           <div className="bg-[#26262D] rounded-lg p-1 relative" style={{height: '48px'}}>
             {/* 滑动指示器 */}
             <div
@@ -262,7 +262,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
                 }`}
                 onClick={() => setSelectedColor(true)}
               >
-                Colorful
+                {t('leftSidebar.colorful')}
               </button>
               <button
                 className={`h-full flex items-center justify-center text-sm transition-all duration-200 ${
@@ -270,7 +270,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
                 }`}
                 onClick={() => setSelectedColor(false)}
               >
-                Black & White
+                {t('leftSidebar.blackAndWhite')}
               </button>
             </div>
           </div>
@@ -278,7 +278,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
 
         {/* Quantity Selector */}
         <div className="lg:mx-5 mt-6 lg:mt-10">
-          <div className="text-sm font-bold text-[#ECECEC] mb-2">Quantity</div>
+          <div className="text-sm font-bold text-[#ECECEC] mb-2">{t('leftSidebar.quantity')}</div>
           <div className="bg-[#26262D] rounded-lg p-1 relative" style={{height: '48px'}}>
             {/* 滑动指示器 */}
             <div
@@ -308,7 +308,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
                   <span>4</span>
                   {/* Premium Crown Icon */}
                   <Tooltip
-                    content="Premium Feature"
+                    content={t('premium.feature')}
                     side="top"
                     align="center"
                   >
@@ -339,7 +339,7 @@ const GenerateLeftSidebar: React.FC<GenerateLeftSidebarProps> = ({
           </div>
           <div className="flex items-center">
             <Tooltip
-              content="Premium Feature"
+              content={t('premium.feature')}
               side="top"
               align="center"
               className="mr-2"

@@ -1,5 +1,6 @@
 import { colors } from '../../styles/colors';
 import BaseButton from '../ui/BaseButton';
+import { useAsyncTranslation } from '../../contexts/LanguageContext';
 
 const protectIcon = '/imgs/protect.svg';
 
@@ -33,17 +34,18 @@ interface PricingCardProps {
   onBuyClick?: () => void;
 }
 
-const PricingCard = ({ 
-  title, 
-  price, 
+const PricingCard = ({
+  title,
+  price,
   type,
-  popular = false, 
-  priceNote, 
+  popular = false,
+  priceNote,
   originalPrice,
   discount,
-  features, 
+  features,
   onBuyClick
 }: PricingCardProps) => {
+  const { t } = useAsyncTranslation('components');
   return (
     <div
       className={`w-full max-w-[376px] h-[545px] p-8 bg-[#131317] rounded-2xl relative transition-all duration-200 border-2 ${
@@ -52,14 +54,14 @@ const PricingCard = ({
     >
       {popular && (
         <div className="absolute -top-[4px] -right-[2px] px-6 py-2 bg-gradient-to-r from-[#871CDF] to-[#F42F74] text-[#ECECEC] font-bold italic text-sm rounded-bl-2xl rounded-tr-2xl">
-          Popular
+          {t('pricing.popular')}
         </div>
       )}
       
       {discount && type === 'day14' && (
         <div className="absolute -right-3 top-12 z-10">
           <div className="px-3 h-8 shadow-lg rounded-lg bg-gradient-to-r from-emerald-500 to-teal-500 flex items-center justify-center">
-            <span className="text-xs font-bold text-white leading-none transform">Save {discount}</span>
+            <span className="text-xs font-bold text-white leading-none transform">{t('pricing.save', undefined, { discount })}</span>
           </div>
         </div>
       )}
@@ -67,7 +69,7 @@ const PricingCard = ({
       {discount && type === 'day30' && (
         <div className="absolute -right-3 top-12 z-10">
           <div className="px-3 h-8 shadow-lg rounded-lg bg-gradient-to-r from-purple-500 to-violet-500 flex items-center justify-center">
-            <span className="text-xs font-bold text-white leading-none transform">Save {discount}</span>
+            <span className="text-xs font-bold text-white leading-none transform">{t('pricing.save', undefined, { discount })}</span>
           </div>
         </div>
       )}
@@ -122,7 +124,7 @@ const PricingCard = ({
                 if (onBuyClick) onBuyClick();
               }}
             >
-              Buy Now
+              {t('pricing.buyNow')}
             </BaseButton>
           ) : (
             <BaseButton
@@ -133,7 +135,7 @@ const PricingCard = ({
                 if (onBuyClick) onBuyClick();
               }}
             >
-              Buy Now
+              {t('pricing.buyNow')}
             </BaseButton>
           )}
         </div>

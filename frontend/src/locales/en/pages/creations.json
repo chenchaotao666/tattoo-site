@@ -24,9 +24,9 @@
       "cancel": "Cancel"
     },
     "report": {
-      "title": "Report Content",
-      "placeholder": "Please describe the reason for reporting...",
-      "submit": "Submit Report",
+      "title": "Report Image",
+      "placeholder": "Please describe the issue with this image...",
+      "submit": "Report",
       "cancel": "Cancel"
     }
   },
@@ -41,5 +41,18 @@
   "loading": {
     "initial": "Loading...",
     "more": "Load more..."
+  },
+  "detail": {
+    "imageGenerator": "Image Generator",
+    "prompt": "Prompt",
+    "copy": "Copy",
+    "style": "Style",
+    "color": "Color",
+    "noStyle": "NO Style",
+    "colorful": "Colorful",
+    "blackAndWhite": "Black & White",
+    "recreate": "Recreate",
+    "creation": "Creation",
+    "batchImage": "Batch image"
   }
 } 

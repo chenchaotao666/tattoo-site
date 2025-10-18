@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAsyncTranslation } from '../../contexts/LanguageContext';
 
 interface GenerateProgressProps {
   progress: number; // 0-100
@@ -7,12 +8,13 @@ interface GenerateProgressProps {
   className?: string;
 }
 
-const GenerateProgress: React.FC<GenerateProgressProps> = ({ 
-  progress, 
-  size = 'large', 
+const GenerateProgress: React.FC<GenerateProgressProps> = ({
+  progress,
+  size = 'large',
   showPercentage = false,
-  className = '' 
+  className = ''
 }) => {
+  const { t } = useAsyncTranslation('common');
   const isSmall = size === 'small';
   const videoSize = isSmall ? 'w-16 h-16' : 'w-96 h-96';
 
@@ -37,7 +39,7 @@ const GenerateProgress: React.FC<GenerateProgressProps> = ({
             {Math.round(progress)}%
           </div>
           <div className="justify-start text-[#A5A5A5] text-[20px] font-normal font-['PingFang_SC'] mt-2">
-            Generating...
+            {t('status.generating')}
           </div>
         </div>
       )}

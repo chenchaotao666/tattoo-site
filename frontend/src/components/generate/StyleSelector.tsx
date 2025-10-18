@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import { Style } from '../../hooks/useGeneratePage';
 import { colors } from '../../styles/colors';
@@ -21,6 +21,7 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({
   onClose
 }) => {
   const { language } = useLanguage();
+  const { t } = useAsyncTranslation('components');
   const [position, setPosition] = React.useState({ left: 0, top: 0 });
 
   // Calculate position based on the style selector trigger
@@ -55,7 +56,7 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({
     >
       {/* Header */}
       <div className="absolute left-[30px] top-[30px] text-[#ECECEC] text-xl font-bold z-10">
-        Tattoo Style
+        {t('styleSelector.selectStyle')}
       </div>
 
       {/* Close Button */}
@@ -63,10 +64,10 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({
         className="absolute w-4 h-4 right-[20px] top-[20px] cursor-pointer hover:opacity-75 transition-opacity z-10"
         onClick={onClose}
       >
-        <img 
-          className="w-4 h-4" 
-          src="/imgs/styles/close-x.png" 
-          alt="Close"
+        <img
+          className="w-4 h-4"
+          src="/imgs/styles/close-x.png"
+          alt={t('dialog.close')}
         />
       </div>
 
@@ -98,14 +99,14 @@ const StyleSelector: React.FC<StyleSelectorProps> = ({
                   borderRadius: '12px 12px 0 0'
                 }}
               >
-                <img 
-                  className="w-auto h-auto max-w-[120px] max-h-[120px] object-contain" 
-                  src="/imgs/styles/no-style.png" 
-                  alt="No Style"
+                <img
+                  className="w-auto h-auto max-w-[120px] max-h-[120px] object-contain"
+                  src="/imgs/styles/no-style.png"
+                  alt={t('styleSelector.noStyle')}
                 />
               </div>
               <div className="absolute left-[70px] top-[212px] text-center text-[#ECECEC] text-sm font-medium whitespace-nowrap">
-                NO Style
+                {t('styleSelector.noStyle')}
               </div>
             </div>
 

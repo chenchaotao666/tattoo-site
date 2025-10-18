@@ -1,6 +1,7 @@
 import React from 'react';
 import GenerateTextarea from '../common/GenerateTextarea';
 import { colors } from '../../styles/colors';
+import { useAsyncTranslation } from '../../contexts/LanguageContext';
 
 interface HomeTopProps {
   className?: string;
@@ -11,6 +12,8 @@ interface HomeTopProps {
 const HomeTop: React.FC<HomeTopProps> = ({
   tattooCount = 1000000,
 }) => {
+  const { t } = useAsyncTranslation('home');
+
   return (
     <div 
       className="w-full flex flex-col items-center gap-8 pt-16 pb-20"
@@ -26,14 +29,14 @@ const HomeTop: React.FC<HomeTopProps> = ({
       {/* Badge */}
       <div className="px-3 py-1.5 rounded-[20px] outline outline-1 outline-[#5D5D5D] -outline-offset-1 flex justify-center items-center gap-2.5">
         <div className="text-[#ECECEC] text-sm font-['Roboto'] font-normal">
-          🔥 Over {tattooCount?.toLocaleString()}+ Tattoos Designed with AI
+          {t('homeTop.badge', '🔥 Over {count}+ Tattoos Designed with AI', { count: tattooCount?.toLocaleString() })}
         </div>
       </div>
 
       {/* Titles Container */}
       <div className="text-center flex flex-col">
         {/* AI Tattoo Generator Title */}
-        <h1 
+        <h1
           className="text-[56px] font-['Roboto'] font-bold capitalize"
           style={{
             background: colors.gradient.primary,
@@ -42,18 +45,18 @@ const HomeTop: React.FC<HomeTopProps> = ({
             backgroundClip: 'text'
           }}
         >
-          AI Tattoo Generator
+          {t('homeTop.title', 'AI Tattoo Generator')}
         </h1>
 
         {/* Title */}
         <h2 className="text-[#ECECEC] text-[56px] font-['Roboto'] font-bold capitalize leading-tight">
-          Create Stunning Tattoos in Seconds
+          {t('homeTop.subtitle', 'Create Stunning Tattoos in Seconds')}
         </h2>
       </div>
 
       {/* Description */}
       <h3 className="text-[#A5A5A5] text-lg font-['Roboto'] font-normal text-center max-w-4xl mb-6">
-        Our AI Tattoo Generator turns your ideas into realistic designs in 10 seconds. Fast, creative, and precise.
+        {t('homeTop.description', 'Our AI Tattoo Generator turns your ideas into realistic designs in 10 seconds. Fast, creative, and precise.')}
       </h3>
 
       {/* Generator Interface */}

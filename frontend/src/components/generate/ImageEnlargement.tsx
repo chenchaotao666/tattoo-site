@@ -1,6 +1,7 @@
 import React from 'react';
 import { BaseImage } from '../../services/imageService';
 import DownloadButton from './DownloadButton';
+import { useAsyncTranslation } from '../../contexts/LanguageContext';
 
 interface ImageEnlargementProps {
   isOpen: boolean;
@@ -17,6 +18,8 @@ const ImageEnlargement: React.FC<ImageEnlargementProps> = ({
   onClose,
   onDownload
 }) => {
+  const { t } = useAsyncTranslation('components');
+
   if (!isOpen) return null;
 
   return (
@@ -29,14 +32,14 @@ const ImageEnlargement: React.FC<ImageEnlargementProps> = ({
         onClick={(e) => e.stopPropagation()}
         style={{ width: '800px', height: '876px' }}
       >
-        <img 
+        <img
           src={imageUrl}
-          alt="Enlarged tattoo"
-          style={{ 
-            width: '800px', 
-            height: '800px', 
-            left: '0px', 
-            top: '0px', 
+          alt={t('imageEnlargement.enlargedImage')}
+          style={{
+            width: '800px',
+            height: '800px',
+            left: '0px',
+            top: '0px',
             position: 'absolute',
             objectFit: 'contain',
             borderRadius: '8px'

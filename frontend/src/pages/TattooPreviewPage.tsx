@@ -16,6 +16,7 @@ import {
   ImageProcessor
 } from '@/utils/tattoo';
 import type { TattooEngineConfig, LoadedAssets } from '@/utils/tattoo';
+import { useAsyncTranslation } from '../contexts/LanguageContext';
 
 // 接口定义
 
@@ -28,6 +29,7 @@ interface UploadedFile {
 
 // 系统兼容性检查
 const SystemCompatibility: React.FC = () => {
+  const { t } = useAsyncTranslation('tattooPreview');
   const [compatibility, setCompatibility] = useState<any>(null);
 
   useEffect(() => {
@@ -40,15 +42,15 @@ const SystemCompatibility: React.FC = () => {
     return (
       <Card className="border-red-200 bg-red-50">
         <CardContent className="p-4">
-          <h3 className="font-semibold text-red-800 mb-2">系统兼容性警告</h3>
+          <h3 className="font-semibold text-red-800 mb-2">{t('compatibility.warning')}</h3>
           <ul className="text-sm text-red-700 space-y-1">
-            {!compatibility.webgl && <li>• 不支持 WebGL</li>}
-            {!compatibility.mediapipe && <li>• 不支持 MediaPipe</li>}
-            {!compatibility.canvas && <li>• 不支持 Canvas</li>}
-            {!compatibility.file && <li>• 不支持文件操作</li>}
+            {!compatibility.webgl && <li>• {t('compatibility.noWebgl')}</li>}
+            {!compatibility.mediapipe && <li>• {t('compatibility.noMediapipe')}</li>}
+            {!compatibility.canvas && <li>• {t('compatibility.noCanvas')}</li>}
+            {!compatibility.file && <li>• {t('compatibility.noFile')}</li>}
           </ul>
           <p className="text-sm text-red-600 mt-2">
-            部分功能可能无法正常工作，建议使用现代浏览器。
+            {t('compatibility.recommendation')}
           </p>
         </CardContent>
       </Card>
@@ -966,6 +968,7 @@ const AdvancedEraserTool: React.FC<{
 
 // 主要组件
 const TattooPreviewPage: React.FC = () => {
+  const { t } = useAsyncTranslation('tattooPreview');
   const [baseImage, setBaseImage] = useState<UploadedFile | null>(null);
   const [tattooImage, setTattooImage] = useState<UploadedFile | null>(null);
   const [originalTattooSize, setOriginalTattooSize] = useState<{ width: number; height: number } | null>(null);
@@ -979,7 +982,7 @@ const TattooPreviewPage: React.FC = () => {
 
   const handleImageUpload = async (file: File, type: 'base' | 'tattoo') => {
     if (!isValidImageType(file)) {
-      alert('请上传有效的图片文件 (JPEG, PNG, WebP)');
+      alert('Invalid image file format (JPEG, PNG, WebP only)');
       return;
     }
 
@@ -1005,13 +1008,13 @@ const TattooPreviewPage: React.FC = () => {
       };
       
       img.onerror = () => {
-        alert('图片加载失败，请重试');
+        alert('Image loading failed, please try again');
       };
       
       img.src = url;
     } catch (error) {
       console.error('图片上传失败:', error);
-      alert('图片上传失败，请重试');
+      alert('Image upload failed, please try again');
     }
   };
 
@@ -1021,7 +1024,7 @@ const TattooPreviewPage: React.FC = () => {
 
   const exportImage = () => {
     if (!engine) {
-      alert('纹身引擎未初始化');
+      alert('Tattoo engine not initialized');
       return;
     }
 
@@ -1030,7 +1033,7 @@ const TattooPreviewPage: React.FC = () => {
       downloadImage(dataURL, `tattoo-preview-${Date.now()}.png`);
     } catch (error) {
       console.error('导出失败:', error);
-      alert('导出失败，请重试');
+      alert('Export failed, please try again');
     }
   };
 
@@ -1071,7 +1074,7 @@ const TattooPreviewPage: React.FC = () => {
       {/* 顶部工具栏 */}
       <div className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-gray-900">纹身预览器</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('title')}</h1>
           <div className="flex items-center gap-2">
             <Button 
               onClick={() => setShowEraser(true)} 
@@ -1079,7 +1082,7 @@ const TattooPreviewPage: React.FC = () => {
               size="sm"
               disabled={!engine}
             >
-              🗡️ 擦除工具
+              🗡️ {t('toolbar.eraser')}
             </Button>
             <Button 
               onClick={resetAllSettings} 
@@ -1087,7 +1090,7 @@ const TattooPreviewPage: React.FC = () => {
               size="sm"
               disabled={!engine}
             >
-              🔄 重置
+              🔄 {t('toolbar.reset')}
             </Button>
             <Button 
               onClick={exportImage} 
@@ -1095,7 +1098,7 @@ const TattooPreviewPage: React.FC = () => {
               size="sm"
               disabled={!engine || !baseImage}
             >
-              📥 导出
+              📥 {t('toolbar.export')}
             </Button>
           </div>
         </div>
@@ -1110,12 +1113,12 @@ const TattooPreviewPage: React.FC = () => {
         {/* 控制面板 */}
         <Card className="lg:col-span-1">
           <CardHeader>
-            <CardTitle>控制面板</CardTitle>
+            <CardTitle>{t('controlPanel.title')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* 图片上传 */}
             <div>
-              <h3 className="font-semibold mb-3">图片上传</h3>
+              <h3 className="font-semibold mb-3">{t('controlPanel.imageUpload')}</h3>
               <div className="space-y-3">
                 <div>
                   <Button
@@ -1123,7 +1126,7 @@ const TattooPreviewPage: React.FC = () => {
                     variant="outline"
                     className="w-full"
                   >
-                    📤 上传人体图片
+                    📤 {t('controlPanel.uploadBodyImage')}
                   </Button>
                   <input
                     ref={baseImageInputRef}
@@ -1143,7 +1146,7 @@ const TattooPreviewPage: React.FC = () => {
                     variant="outline"
                     className="w-full"
                   >
-                    🎨 上传纹身图片
+                    🎨 {t('controlPanel.uploadTattooImage')}
                   </Button>
                   <input
                     ref={tattooImageInputRef}
@@ -1165,7 +1168,7 @@ const TattooPreviewPage: React.FC = () => {
               <>
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    透明度: {Math.round(settings.opacity * 100)}%
+                    {t('controlPanel.opacity')}: {Math.round(settings.opacity * 100)}%
                   </label>
                   <Slider
                     value={[settings.opacity]}
@@ -1178,7 +1181,7 @@ const TattooPreviewPage: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    大小: {settings.scale.toFixed(1)}x
+                    {t('controlPanel.size')}: {settings.scale.toFixed(1)}x
                   </label>
                   <Slider
                     value={[settings.scale]}
@@ -1191,7 +1194,7 @@ const TattooPreviewPage: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    旋转: {settings.rotation}°
+                    {t('controlPanel.rotation')}: {settings.rotation}°
                   </label>
                   <Slider
                     value={[settings.rotation]}
@@ -1204,7 +1207,7 @@ const TattooPreviewPage: React.FC = () => {
 
                 <div>
                   <label className="block text-sm font-medium mb-2">
-                    对比度: {settings.contrast.toFixed(1)}
+                    {t('controlPanel.contrast')}: {settings.contrast.toFixed(1)}
                   </label>
                   <Slider
                     value={[settings.contrast]}
@@ -1216,7 +1219,7 @@ const TattooPreviewPage: React.FC = () => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium">黑白效果</label>
+                  <label className="text-sm font-medium">{t('controlPanel.blackWhiteEffect')}</label>
                   <Switch
                     checked={settings.blackAndWhite}
                     onCheckedChange={(checked) => updateSettings({ blackAndWhite: checked })}
@@ -1224,7 +1227,7 @@ const TattooPreviewPage: React.FC = () => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-medium">混合效果</label>
+                  <label className="text-sm font-medium">{t('controlPanel.blendEffect')}</label>
                   <Switch
                     checked={settings.multiplyEffect}
                     onCheckedChange={(checked) => updateSettings({ multiplyEffect: checked })}
@@ -1233,7 +1236,7 @@ const TattooPreviewPage: React.FC = () => {
 
                 {/* 位置调节按钮 */}
                 <div>
-                  <label className="block text-sm font-medium mb-2">位置调节</label>
+                  <label className="block text-sm font-medium mb-2">{t('controlPanel.positionAdjust')}</label>
                   <div className="grid grid-cols-3 gap-1">
                     <div></div>
                     <Button
@@ -1257,7 +1260,7 @@ const TattooPreviewPage: React.FC = () => {
                       variant="outline"
                       onClick={() => updateSettings({ offsetX: 0, offsetY: 0 })}
                     >
-                      重置
+                      {t('toolbar.reset')}
                     </Button>
                     <Button
                       size="sm"
@@ -1301,15 +1304,15 @@ const TattooPreviewPage: React.FC = () => {
                     <div className="text-center">
                       <div className="text-6xl mb-4">📤</div>
                       <h3 className="text-lg font-medium text-gray-900 mb-2">
-                        高级纹身预览系统
+                        {t('preview.title')}
                       </h3>
                       <p className="text-gray-500">
-                        上传人体图片和纹身图片开始3D预览
+                        Upload body image and tattoo image to start 3D preview
                       </p>
                       <div className="mt-4 text-sm text-gray-400">
-                        <p>• MediaPipe 人体分割技术</p>
-                        <p>• WebGL 3D 渲染引擎</p>
-                        <p>• 真实深度贴合效果</p>
+                        <p>• {t('preview.features.mediapipe')}</p>
+                        <p>• {t('preview.features.webgl')}</p>
+                        <p>• {t('preview.features.realtime')}</p>
                       </div>
                     </div>
                   </div>
@@ -1321,26 +1324,26 @@ const TattooPreviewPage: React.FC = () => {
           {/* 功能说明 */}
           <Card className="mt-4">
             <CardContent className="p-4">
-              <h4 className="font-semibold text-gray-800 mb-2">高级功能特性:</h4>
+              <h4 className="font-semibold text-gray-800 mb-2">{t('preview.features.title')}</h4>
               <ul className="text-sm text-gray-600 space-y-1">
-                <li>• MediaPipe 人体分割 - 精确识别皮肤区域</li>
-                <li>• Three.js WebGL 渲染 - 高性能3D效果</li>
-                <li>• 高级着色器 - 纹理深度和透视效果</li>
-                <li>• 智能深度图生成 - Sobel边缘检测</li>
-                <li>• 多点手势控制 - 支持缩放、旋转、拖拽</li>
-                <li>• 高级擦除工具 - 软笔刷效果和压感</li>
-                <li>• 实时参数调整 - 透明度、对比度、混合模式</li>
-                <li>• 高质量图像导出 - 支持多种格式</li>
+                <li>• {t('preview.features.mediapipe')}</li>
+                <li>• {t('preview.features.webgl')}</li>
+                <li>• {t('preview.features.shaders')}</li>
+                <li>• {t('preview.technical.precision')}</li>
+                <li>• {t('preview.features.multiLayer')}</li>
+                <li>• Advanced eraser tool - Soft brush effects</li>
+                <li>• Real-time parameter adjustment</li>
+                <li>• {t('preview.features.export')}</li>
               </ul>
               
               <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                <h5 className="font-semibold text-blue-800 mb-1">操作说明:</h5>
+                <h5 className="font-semibold text-blue-800 mb-1">{t('preview.instructions.title')}</h5>
                 <ul className="text-xs text-blue-700 space-y-1">
-                  <li>• 拖拽鼠标或手指移动纹身位置</li>
-                  <li>• 双指捉拿缩放，旋转手势调整角度</li>
-                  <li>• 纹身仅显示在皮肤区域，不显示在衣物上</li>
-                  <li>• 支持实时深度映射和3D贴合效果</li>
-                  <li>• 简化模式也支持MediaPipe皮肤检测功能</li>
+                  <li>• {t('preview.instructions.step1')}</li>
+                  <li>• {t('preview.instructions.step2')}</li>
+                  <li>• {t('preview.instructions.step3')}</li>
+                  <li>• {t('preview.instructions.step4')}</li>
+                  <li>• {t('preview.instructions.step5')}</li>
                 </ul>
               </div>
             </CardContent>

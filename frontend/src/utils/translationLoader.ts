@@ -5,7 +5,8 @@ import enCommon from '../locales/en/common.json';
 import enNavigation from '../locales/en/navigation.json';
 import enForms from '../locales/en/forms.json';
 import enErrors from '../locales/en/errors.json';
-import enHome from '../locales/en/pages/home.json';
+import enComponents from '../locales/en/components.json';
+import enHome from '../locales/en/home.json';
 import enGenerate from '../locales/en/pages/generate.json';
 import enPricing from '../locales/en/pages/pricing.json';
 import enCategories from '../locales/en/pages/categories.json';
@@ -16,7 +17,8 @@ import zhCommon from '../locales/zh/common.json';
 import zhNavigation from '../locales/zh/navigation.json';
 import zhForms from '../locales/zh/forms.json';
 import zhErrors from '../locales/zh/errors.json';
-import zhHome from '../locales/zh/pages/home.json';
+import zhComponents from '../locales/zh/components.json';
+import zhHome from '../locales/zh/home.json';
 import zhGenerate from '../locales/zh/pages/generate.json';
 import zhPricing from '../locales/zh/pages/pricing.json';
 import zhCategories from '../locales/zh/pages/categories.json';
@@ -41,6 +43,7 @@ const translationModules: TranslationCache = {
     navigation: enNavigation,
     forms: enForms,
     errors: enErrors,
+    components: enComponents,
     home: enHome,
     generate: enGenerate,
     pricing: enPricing,
@@ -53,6 +56,7 @@ const translationModules: TranslationCache = {
     navigation: zhNavigation,
     forms: zhForms,
     errors: zhErrors,
+    components: zhComponents,
     home: zhHome,
     generate: zhGenerate,
     pricing: zhPricing,
@@ -123,10 +127,11 @@ export const loadTranslationModules = async (
 export const preloadCoreTranslations = async (language: Language): Promise<void> => {
   // 预加载所有常用模块，避免页面加载时的翻译闪烁
   const coreModules = [
-    'common', 
-    'navigation', 
-    'forms', 
+    'common',
+    'navigation',
+    'forms',
     'errors',
+    'components',  // 组件翻译
     'home',        // 首页翻译
     'pricing',     // 价格页翻译
     'categories',  // 分类页翻译
@@ -153,7 +158,7 @@ export const getNestedTranslation = (
 ): string => {
   const keys = path.split('.');
   let current = translations;
-  
+
   for (const key of keys) {
     if (current && typeof current === 'object' && key in current) {
       current = current[key];
@@ -161,7 +166,7 @@ export const getNestedTranslation = (
       return fallback || path;
     }
   }
-  
+
   return typeof current === 'string' ? current : fallback || path;
 };
 

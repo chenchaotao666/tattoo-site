@@ -1,0 +1,220 @@
+{
+  "dialog": {
+    "confirmDelete": "确定要删除此项目吗？",
+    "delete": "删除",
+    "cancel": "取消",
+    "close": "关闭",
+    "processing": "处理中...",
+    "notice": "通知"
+  },
+  "googleLogin": {
+    "continueWith": "使用 Google 继续",
+    "loading": "加载中...",
+    "error": "Google 登录未加载",
+    "configError": "请配置 VITE_GOOGLE_CLIENT_ID 环境变量"
+  },
+  "noData": {
+    "message": "未找到数据",
+    "altText": "无数据"
+  },
+  "backToTop": {
+    "title": "返回顶部",
+    "altText": "滚动到顶部"
+  },
+  "loading": {
+    "general": "加载中...",
+    "pleaseWait": "请稍等..."
+  },
+  "error": {
+    "general": "发生错误",
+    "tryAgain": "重试",
+    "somethingWrong": "出了点问题",
+    "generationFailed": "生成失败",
+    "networkError": "网络错误",
+    "serverError": "服务器错误"
+  },
+  "toast": {
+    "success": "成功",
+    "error": "错误",
+    "warning": "警告",
+    "info": "信息"
+  },
+  "imageGrid": {
+    "noResults": "未找到图片",
+    "loadingImages": "加载图片中...",
+    "errorLoading": "加载图片出错"
+  },
+  "generateCenter": {
+    "title": "AI 纹身生成器",
+    "description": "使用 AI 轻松创建独特的纹身设计。自定义风格，探索无限选项，即时预览您的创意。",
+    "generationFailed": "生成失败",
+    "downloadAll": "下载全部",
+    "generatedTattoo": "生成的纹身",
+    "generatedTattooAlt": "生成的纹身 {index}",
+    "generatedAlt": "生成的 {index}"
+  },
+  "generateSidebar": {
+    "textToImage": "文本生成图片",
+    "imageToImage": "图片生成图片",
+    "enterIdea": "输入您的纹身创意",
+    "placeholder": "在此描述您的纹身创意...",
+    "selectStyle": "选择风格",
+    "allStyles": "所有风格",
+    "colorful": "彩色",
+    "blackAndWhite": "黑白",
+    "quantity": "数量",
+    "image": "张图片",
+    "images": "张图片",
+    "generateButton": "生成",
+    "regenerateButton": "重新生成",
+    "uploadImage": "上传图片",
+    "uploadPlaceholder": "上传图片进行转换",
+    "maxFileSize": "最大文件大小：10MB",
+    "supportedFormats": "支持格式：JPG、PNG、WebP"
+  },
+  "generateExample": {
+    "tryExample": "试试这个例子",
+    "examplePrompt": "示例提示",
+    "textIcon": "文本",
+    "starIcon": "星形"
+  },
+  "generateProgress": {
+    "generating": "生成中...",
+    "processing": "处理中..."
+  },
+  "downloadButton": {
+    "download": "下载",
+    "downloading": "下载中...",
+    "downloadComplete": "下载完成"
+  },
+  "moreMenu": {
+    "moreOptions": "更多选项",
+    "downloadPNG": "下载 PNG",
+    "downloadPDF": "下载 PDF",
+    "delete": "删除",
+    "deleteSelected": "删除选中",
+    "report": "举报",
+    "share": "分享",
+    "shareToX": "分享到 X",
+    "shareToFacebook": "分享到 Facebook",
+    "deleteSuccess": "删除成功",
+    "deleteError": "删除失败",
+    "partialDeleteSuccess": "成功删除 {count} {imageText}"
+  },
+  "imageEnlargement": {
+    "closeImage": "关闭图片",
+    "downloadImage": "下载图片",
+    "previousImage": "上一张图片",
+    "nextImage": "下一张图片",
+    "enlargedImage": "放大的纹身图片"
+  },
+  "styleSelector": {
+    "selectStyle": "选择风格",
+    "allStyles": "所有风格",
+    "noStylesFound": "未找到风格",
+    "loadingStyles": "加载风格中...",
+    "noStyle": "无风格"
+  },
+  "pricing": {
+    "mostPopular": "最受欢迎",
+    "popular": "热门",
+    "getStarted": "开始使用",
+    "upgradeNow": "立即升级",
+    "currentPlan": "当前计划",
+    "freePlan": "免费计划",
+    "proPlan": "专业计划",
+    "unlimitedPlan": "无限计划",
+    "monthly": "按月",
+    "yearly": "按年",
+    "save": "节省 {discount}",
+    "buyNow": "立即购买",
+    "features": {
+      "unlimitedGenerations": "无限生成",
+      "highResolution": "高分辨率下载",
+      "commercialUse": "商业使用许可",
+      "prioritySupport": "优先支持",
+      "advancedStyles": "高级风格",
+      "batchDownload": "批量下载",
+      "apiAccess": "API 访问"
+    }
+  },
+  "profile": {
+    "avatar": "头像",
+    "username": "用户名",
+    "email": "邮箱",
+    "settings": "设置",
+    "logout": "退出登录",
+    "myAccount": "我的账户",
+    "changeAvatar": "更换头像",
+    "updateProfile": "更新资料",
+    "accountSettings": "账户设置"
+  },
+  "imageCard": {
+    "viewImage": "查看图片",
+    "downloadImage": "下载图片",
+    "deleteImage": "删除图片",
+    "selectImage": "选择图片"
+  },
+  "categoryCard": {
+    "viewCategory": "查看分类",
+    "imagesCount": "{count} 张图片",
+    "exploreCategory": "探索分类",
+    "viewAllTattoos": "查看所有纹身"
+  },
+  "auth": {
+    "login": "登录",
+    "register": "注册",
+    "logout": "退出登录",
+    "loginSuccess": "登录成功",
+    "logoutSuccess": "退出登录成功",
+    "loginRequired": "需要登录",
+    "accessDenied": "访问被拒绝"
+  },
+  "navigation": {
+    "home": "首页",
+    "generate": "生成",
+    "categories": "分类",
+    "creations": "作品",
+    "pricing": "定价",
+    "blog": "博客",
+    "account": "账户",
+    "settings": "设置"
+  },
+  "categoryMenus": {
+    "viewAll": "查看全部",
+    "inspirationText": "超过 {count} 个纹身灵感，解锁您的独特印记！"
+  },
+  "footer": {
+    "allRightsReserved": "版权所有",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款",
+    "contactUs": "联系我们"
+  },
+  "breadcrumb": {
+    "home": "首页",
+    "categories": "分类",
+    "current": "当前"
+  },
+  "tryNow": {
+    "title": "立即尝试",
+    "startCreating": "开始创作",
+    "getStarted": "开始使用"
+  },
+  "howToCreate": {
+    "title": "如何创建",
+    "step": "第 {number} 步",
+    "learnMore": "了解更多"
+  },
+  "generateTextarea": {
+    "descriptionPrompt": "描述提示",
+    "placeholder": "您想创建什么？",
+    "random": "随机",
+    "output": "个输出",
+    "outputs": "个输出",
+    "noStyle": "无风格",
+    "colorful": "彩色",
+    "blackAndWhite": "黑白",
+    "create": "创建",
+    "generate": "生成"
+  }
+}

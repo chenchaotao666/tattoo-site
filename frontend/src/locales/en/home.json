@@ -1,0 +1,147 @@
+{
+  "homeTop": {
+    "badge": "🔥 Over {count}+ Tattoos Designed with AI",
+    "title": "AI Tattoo Generator",
+    "subtitle": "Create Stunning Tattoos in Seconds",
+    "description": "Our AI Tattoo Generator turns your ideas into realistic designs in 10 seconds. Fast, creative, and precise."
+  },
+  "createOnGo": {
+    "title": "Create Tattoos on the Go",
+    "subtitle": "Design anywhere, anytime",
+    "description": "Access our AI tattoo generator from any device. Create beautiful designs whether you're at home or on the move.",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More"
+  },
+  "createOnGo": {
+    "title": "Create Tattoos on the Go",
+    "description": "Access our AI tattoo generator from any device. Create beautiful designs whether you're at home or on the move.",
+    "appStore": {
+      "text1": "Download on the",
+      "text2": "App Store"
+    },
+    "googlePlay": {
+      "text1": "Get it on",
+      "text2": "Google Play"
+    },
+    "features": {
+      "feature1": {
+        "title": "Instant Creation",
+        "description": "Generate tattoo designs instantly on your mobile device"
+      },
+      "feature2": {
+        "title": "Offline Access",
+        "description": "Access your saved designs even without internet connection"
+      },
+      "feature3": {
+        "title": "Cloud Sync",
+        "description": "Sync your designs across all your devices seamlessly"
+      }
+    }
+  },
+  "whatUserSaying": {
+    "title": "What Our Users Are Saying",
+    "subtitle": "Real stories from people using our AI Tattoo Generator from first-time ink to pro-level designs."
+  },
+  "hoverColorImage": {
+    "altText": "Coloring Page",
+    "colorPreview": "Color preview",
+    "toggleColorEffect": "Toggle color effect"
+  },
+  "categoryGrid": {
+    "title": "Draw inspiration from tattoo designs",
+    "subtitle": "Discover what Tattooink.ai can create for you. Each design is uniquely crafted for our users based on their ideas.",
+    "seeMore": "See more Tattoos"
+  },
+  "howToCreate": {
+    "title": "Your Tattoo in 3 Steps",
+    "step1": {
+      "step": "Step 1",
+      "title": "Describe Your Tattoo Idea",
+      "description": "Type your concept (abstract or detailed) and let AI start creating."
+    },
+    "step2": {
+      "step": "Step 2",
+      "title": "Customize Your AI Tattoo Style",
+      "description": "Pick from multiple styles, tweak details, or upload a photo to preview on skin."
+    },
+    "step3": {
+      "step": "Step 3",
+      "title": "Save Your AI Tattoo Design",
+      "description": "See it in lifelike detail, make final adjustments, then download your masterpiece."
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "questions": {
+      "howItWorks": {
+        "question": "How does the AI Tattoo Generator work?",
+        "answer": "Type your tattoo idea or upload an image, choose a style, and the AI creates a realistic design you can preview and download instantly."
+      },
+      "styles": {
+        "question": "What tattoo design styles are available?",
+        "answer": "Choose from minimal line art, traditional, watercolor, geometric, hyper-realistic, and more—so your tattoo matches your vision."
+      },
+      "preview": {
+        "question": "How accurate is the AI Tattoo Generator skin preview?",
+        "answer": "Our AR and photo preview tools give a near-real look at placement, size, and color before you commit."
+      },
+      "commercial": {
+        "question": "Can I use AI Tattoo Generator designs commercially?",
+        "answer": "Yes, for personal or commercial purposes. We recommend confirming technical feasibility with your tattoo artist."
+      },
+      "mobileApp": {
+        "question": "Is there a mobile app version?",
+        "answer": "Yes. The AI Tattoo Generator app for iOS and Android lets you design, preview, and save tattoos anytime."
+      },
+      "editing": {
+        "question": "Can I edit or refine the AI tattoo design?",
+        "answer": "Absolutely—tweak style, details, and placement until it's perfect."
+      }
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "Hyper-Realistic AI Tattoo Designs",
+      "description": "Create tattoos that look hand-crafted by a professional artist. Whether minimalist lines or intricate patterns, our AI Tattoo Generator ensures lifelike details in every design, so it feels ready for inking.",
+      "buttonText": "Try Now"
+    },
+    "section2": {
+      "title": "Endless AI Tattoo Ideas",
+      "description": "Out of inspiration? Type any keyword or theme, and our AI Tattoo Generator instantly gives you fresh, unique tattoo designs. Explore new styles, discover unexpected combinations, and find the perfect concept for your next piece.",
+      "buttonText": "Try Now"
+    },
+    "section3": {
+      "title": "AI Tattoo Skin Preview Tool",
+      "description": "Preview your tattoo on your skin with AR or photo. See placement, size, and color in seconds—making sure you're 100% confident before the real ink touches your skin.",
+      "buttonText": "Try Now"
+    },
+    "examples": {
+      "example1": "A terrifying tattoo, with a skull and horns combined"
+    }
+  },
+  "cta": {
+    "title": "Create Your AI Tattoo Now",
+    "description": "Create your first hyper-realistic tattoo in seconds with no skills needed. Just your idea, our AI Tattoo Generator, and a few clicks.",
+    "tryNow": "Start Creating"
+  },
+  "features": {
+    "title": "Why Choose Our AI Tattoo Generator",
+    "subtitle": "The most advanced AI technology for tattoo design",
+    "feature1": {
+      "title": "Lightning Fast",
+      "description": "Generate unique tattoo designs in just 10 seconds"
+    },
+    "feature2": {
+      "title": "High Quality",
+      "description": "AI-powered designs with stunning detail and realism"
+    },
+    "feature3": {
+      "title": "Unlimited Creativity",
+      "description": "Explore endless design possibilities with our AI"
+    },
+    "feature4": {
+      "title": "Easy to Use",
+      "description": "Simple interface that anyone can master quickly"
+    }
+  }
+}

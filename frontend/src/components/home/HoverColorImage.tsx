@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { BaseImage } from '../../services/imageService';
 
 interface HoverColorImageProps {
@@ -9,16 +10,19 @@ interface HoverColorImageProps {
   onLoad?: () => void;
 }
 
-const HoverColorImage: React.FC<HoverColorImageProps> = ({ 
+const HoverColorImage: React.FC<HoverColorImageProps> = ({
   homeImage,
-  className = '', 
+  className = '',
   style = {},
-  alt = 'Coloring Page',
+  alt,
   onLoad
 }) => {
+  const { t } = useTranslation('home');
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [mobileShowColor, setMobileShowColor] = useState(false);
+
+  const defaultAlt = alt || t('hoverColorImage.altText');
 
   // 检测是否为移动端
   useEffect(() => {
@@ -34,7 +38,7 @@ const HoverColorImage: React.FC<HoverColorImageProps> = ({
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.target as HTMLImageElement;
-    target.src = `https://placehold.co/276x276/F2F3F5/6B7280?text=${encodeURIComponent(alt)}`;
+    target.src = `https://placehold.co/276x276/F2F3F5/6B7280?text=${encodeURIComponent(defaultAlt)}`;
   };
 
   // 移动端点击切换
@@ -62,19 +66,19 @@ const HoverColorImage: React.FC<HoverColorImageProps> = ({
       {/* 黑白图片 - 默认显示 */}
       <img
         src={homeImage?.defaultUrl}
-        alt={alt}
+        alt={defaultAlt}
         className={`w-full h-auto object-cover transition-opacity duration-500 ease-in-out ${
           shouldShowColor ? 'opacity-0' : 'opacity-100'
         }`}
         onLoad={onLoad}
         onError={handleImageError}
       />
-      
+
       {/* 彩色图片 - 悬停或点击时显示，只有在有coloringUrl时才渲染 */}
       {hasColoringUrl && (
         <img
           src={homeImage?.coloringUrl}
-          alt={alt}
+          alt={defaultAlt}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out ${
             shouldShowColor ? 'opacity-100' : 'opacity-0'
           }`}
@@ -91,12 +95,12 @@ const HoverColorImage: React.FC<HoverColorImageProps> = ({
              WebkitTapHighlightColor: 'transparent',
              touchAction: 'manipulation'
            }}
-           aria-label="切换彩色效果"
+           aria-label={t('hoverColorImage.toggleColorEffect')}
          >
           {/* 小的colorUrl图片 */}
           <img
             src={homeImage?.coloringUrl}
-            alt="Color preview"
+            alt={t('hoverColorImage.colorPreview')}
             className="block max-w-16 max-h-16 w-auto h-auto object-contain"
             onError={handleImageError}
           />

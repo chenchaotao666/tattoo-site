@@ -148,5 +148,13 @@
     "title": "准备开始涂色了吗？",
     "description": "无论您是为孩子寻找有趣活动的父母、需要课堂资源的教师，还是享受涂色治疗益处的成人，我们的收藏都为您而来。今天就开始探索，为您的一天带来快乐、平静和创造力！",
     "buttonText": "立即尝试"
+  },
+  "imageDetail": {
+    "prompt": "提示词",
+    "tags": "标签",
+    "recreate": "重新创建",
+    "download": "下载",
+    "pictureDetails": "纹身图片详情",
+    "relatedImages": "相关图片"
   }
 }

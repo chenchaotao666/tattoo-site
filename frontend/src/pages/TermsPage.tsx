@@ -3,7 +3,7 @@ import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 
 const TermsPage = () => {
-  const { loading } = useAsyncTranslation('terms');
+  const { t, loading } = useAsyncTranslation('terms');
   
   if (loading) {
     return (
@@ -20,56 +20,56 @@ const TermsPage = () => {
   return (
     <div style={{ backgroundColor: '#030414', color: 'white' }} className="min-w-0 overflow-hidden">
       <SEOHead
-        title="Terms of Use | tattooinkai"
-        description="Review the official Terms of Use for tattooinkai. Understand your rights, rules for using our AI tattoo generator, commercial use of your designs, and intellectual property ownership."
+        title={t('seo.title')}
+        description={t('seo.description')}
         canonicalUrl="/terms"
       />
       <Layout>
         <div className="md:max-w-screen-sm lg:max-w-[992px] px-4 sm:px-6 lg:px-8 pb-12 md:pt-6 sm:pb-20 mx-auto">
           <div className="grid gap-4 md:gap-8">
             <div>
-              <h1 className="text-3xl font-bold mb-6" style={{ color: 'white' }}>Terms of Use</h1>
+              <h1 className="text-3xl font-bold mb-6" style={{ color: 'white' }}>{t('title')}</h1>
               <p className="mb-8 text-xl" style={{ color: 'white' }}>
-                <strong>Effective Date: 2025.9</strong>
+                <strong>{t('effectiveDate')}</strong>
               </p>
               <p className="mb-8 text-xl" style={{ color: 'white' }}>
-                Welcome to tattooinkai! These Terms of Use (<strong>"Terms"</strong>) govern your access to and use of the website, applications, and AI-powered tattoo design generation services (collectively, the <strong>"Services"</strong>) provided by tattooinkai (<strong>"we,"</strong> <strong>"our,"</strong> or <strong>"us"</strong>).
+                {t('intro.welcome')}
               </p>
               <p className="mb-8 text-xl" style={{ color: 'white' }}>
-                Please read these Terms carefully. By creating an account, accessing, or using our Services, you agree to be bound by these Terms and our Privacy Policy. If you do not agree, you may not use our services.
+                {t('intro.agreement')}
               </p>
               
               <ol>
                 <li>
-                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>1. Description of Services</h2>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>{t('sections.1.title')}</h2>
                   <p className="mb-5" style={{ color: 'white' }}>
-                    tattooinkai provides a platform that allows users to generate unique tattoo designs using artificial intelligence. Users can provide text prompts and/or upload images (collectively, <strong>"Inputs"</strong>) to create AI-generated tattoo designs (<strong>"Outputs"</strong>). Services may be offered for free or on a subscription basis.
+                    {t('sections.1.content')}
                   </p>
                   <p className="mb-5" style={{ color: 'white' }}>
-                    <strong>Important Notice:</strong> Outputs may be similar or identical to those generated for other users. We do not guarantee that any Output will be unique, original, or free from third-party intellectual property claims. You are solely responsible for your use of any Output.
-                  </p>
-                </li>
-                
-                <li>
-                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>2. User Accounts</h2>
-                  <p className="mb-5" style={{ color: 'white' }}>
-                    <strong>•Eligibility:</strong> You must be at least 13 years old (or 16 in the EEA/UK) to use our services. If you are under 18, you must have your parent or legal guardian's permission.
-                  </p>
-                  <p className="mb-5" style={{ color: 'white' }}>
-                    <strong>•Account Creation:</strong> To access certain features, you may need to create an account. You agree to provide accurate, current, and complete information.
-                  </p>
-                  <p className="mb-5" style={{ color: 'white' }}>
-                    <strong>•Account Responsibility:</strong> You are responsible for safeguarding your account credentials and for all activities under your account. You may not share your account with others. You must notify us immediately of unauthorized use.
-                  </p>
-                  <p className="mb-5" style={{ color: 'white' }}>
-                    <strong>•Effect of Termination:</strong> If your account is terminated, your right to access the Services ceases immediately, but provisions such as intellectual property caveats, indemnification, and payment obligations survive termination.
+                    {t('sections.1.notice')}
                   </p>
                 </li>
                 
                 <li>
-                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>3. Intellectual Property Rights</h2>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>{t('sections.2.title')}</h2>
                   <p className="mb-5" style={{ color: 'white' }}>
-                    <strong>•Our Ownership:</strong> We and our licensors own all rights, title, and interest in and to the Services, including software, AI models, and trademarks.
+                    {t('sections.2.eligibility')}
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    {t('sections.2.creation')}
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    {t('sections.2.responsibility')}
+                  </p>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    {t('sections.2.termination')}
+                  </p>
+                </li>
+                
+                <li>
+                  <h2 className="text-lg font-semibold mb-2" style={{ color: 'white' }}>{t('sections.3.title')}</h2>
+                  <p className="mb-5" style={{ color: 'white' }}>
+                    {t('sections.3.ownership')}
                   </p>
                   <p className="mb-5" style={{ color: 'white' }}>
                     <strong>•Your Inputs:</strong> You retain ownership of your Inputs. You grant us a limited, worldwide, royalty-free license to use, reproduce, and process your Inputs solely to provide and improve the Services.

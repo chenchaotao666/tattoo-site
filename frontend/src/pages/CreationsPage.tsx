@@ -11,6 +11,7 @@ import BackToTop from '../components/common/BackToTop';
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 import TryNow from '../components/common/TryNow';
+import { createLanguageAwarePath, navigateWithLanguage } from '../utils/navigationUtils';
 
 
 interface CreationsPageProps {}
@@ -46,7 +47,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
     
     // 如果认证完成但用户未登录，跳转到登录页面
     if (!isAuthenticated) {
-      navigate('/login');
+      navigateWithLanguage(navigate, '/login');
       return;
     }
     
@@ -82,7 +83,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
       setImages(filteredImages);
     } catch (err) {
       console.error('Failed to load user images:', err);
-      setError('加载图片失败，请稍后重试');
+      setError(t('messages.loadFailed'));
     } finally {
       setLoading(false);
     }
@@ -100,18 +101,18 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
         
         setShowDeleteConfirm(null);
       } else {
-        setError('删除失败，请稍后重试');
+        setError(t('messages.deleteFailed'));
       }
     } catch (error) {
       console.error('Delete failed:', error);
-      setError('删除失败，请稍后重试');
+      setError(t('messages.deleteFailed'));
     }
   };
 
   // 举报图片
   const handleReport = async (imageId: string) => {
     if (!reportContent.trim()) {
-      setError('请输入举报内容');
+      setError(t('messages.reportContentRequired'));
       return;
     }
 
@@ -128,11 +129,11 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
         setError(null);
         // 可以显示成功提示
       } else {
-        setError('举报失败，请稍后重试');
+        setError(t('messages.reportFailed'));
       }
     } catch (error) {
       console.error('Report failed:', error);
-      setError('举报失败，请稍后重试');
+      setError(t('messages.reportFailed'));
     } finally {
       setSubmittingReport(false);
     }
@@ -209,7 +210,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
           <div className="mb-8">
             <div className="mx-auto" style={{ width: '1184px' }}>
               <h1 style={{ color: '#ECECEC', fontSize: '20px', fontFamily: 'Inter', fontWeight: 700, wordWrap: 'break-word', textAlign: 'left' }}>
-                My creations
+                {t('title')}
               </h1>
             </div>
           </div>
@@ -227,7 +228,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
               <ImageGrid
                 images={images}
                 isLoading={false}
-                noDataTitle="No creations yet"
+                noDataTitle={t('emptyState.title')}
                 showPrompt={false}
                 onImageClick={handleImageClick}
               />
@@ -242,7 +243,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
           title={tCommon('tryNow.title')}
           description={tCommon('tryNow.description')}
           buttonText={tCommon('tryNow.tryNow')}
-          buttonLink="/create"
+          buttonLink={createLanguageAwarePath("/create")}
         />
       </div>
 
@@ -257,11 +258,11 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
       {showReportDialog && (
         <div className="fixed inset-0 bg-[#030414] bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-md w-full p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Report Image</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-4">{t('dialogs.report.title')}</h3>
             <textarea
               value={reportContent}
               onChange={(e) => setReportContent(e.target.value)}
-              placeholder="Please describe the issue with this image..."
+              placeholder={t('dialogs.report.placeholder')}
               className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               maxLength={500}
             />
@@ -276,14 +277,14 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
                 }}
                 className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors"
               >
-                Cancel
+                {t('dialogs.report.cancel')}
               </button>
               <button
                 onClick={() => showReportDialog && handleReport(showReportDialog)}
                 disabled={!reportContent.trim() || submittingReport}
                 className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Report
+                {t('dialogs.report.submit')}
               </button>
             </div>
           </div>

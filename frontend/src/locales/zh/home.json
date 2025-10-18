@@ -1,0 +1,155 @@
+{
+  "homeTop": {
+    "badge": "🔥 已有超过 {count}+ 个AI纹身设计",
+    "title": "AI 纹身生成器",
+    "subtitle": "秒速创造惊艳纹身",
+    "description": "我们的AI纹身生成器能在10秒内将您的想法转化为逼真的设计。快速、创意且精准。"
+  },
+  "createOnGo": {
+    "title": "随时随地创作纹身",
+    "subtitle": "无论何时何地都能设计",
+    "description": "从任何设备访问我们的AI纹身生成器。无论您在家中还是外出，都能创造美丽的设计。",
+    "getStarted": "开始使用",
+    "learnMore": "了解更多"
+  },
+  "whatUserSaying": {
+    "title": "用户评价",
+    "subtitle": "受到全世界纹身爱好者的信赖",
+    "loadMore": "加载更多评价",
+    "rating": "评分",
+    "review": "评价",
+    "verified": "认证用户"
+  },
+  "createOnGo": {
+    "title": "随时随地创作纹身",
+    "description": "从任何设备访问我们的AI纹身生成器。无论您在家中还是外出，都能创造美丽的设计。",
+    "appStore": {
+      "text1": "前往",
+      "text2": "App Store"
+    },
+    "googlePlay": {
+      "text1": "前往",
+      "text2": "Google Play"
+    },
+    "features": {
+      "feature1": {
+        "title": "即时创作",
+        "description": "在移动设备上即时生成纹身设计"
+      },
+      "feature2": {
+        "title": "离线访问",
+        "description": "即使没有网络连接也能访问您保存的设计"
+      },
+      "feature3": {
+        "title": "云端同步",
+        "description": "在所有设备上无缝同步您的设计"
+      }
+    }
+  },
+  "whatUserSaying": {
+    "title": "用户评价",
+    "subtitle": "来自使用我们AI纹身生成器用户的真实故事，从纹身新手到专业级设计。"
+  },
+  "hoverColorImage": {
+    "altText": "着色页面",
+    "colorPreview": "彩色预览",
+    "toggleColorEffect": "切换彩色效果"
+  },
+  "categoryGrid": {
+    "title": "从纹身设计中汲取灵感",
+    "subtitle": "探索 Tattooink.ai 能为您创造什么。每一个设计都是基于用户想法独特制作的。",
+    "seeMore": "查看更多纹身"
+  },
+  "howToCreate": {
+    "title": "三步完成您的纹身",
+    "step1": {
+      "step": "第一步",
+      "title": "描述您的纹身想法",
+      "description": "输入您的概念（抽象或详细），让AI开始创作。"
+    },
+    "step2": {
+      "step": "第二步",
+      "title": "定制您的AI纹身风格",
+      "description": "从多种风格中选择，调整细节，或上传照片在皮肤上预览。"
+    },
+    "step3": {
+      "step": "第三步",
+      "title": "保存您的AI纹身设计",
+      "description": "查看逼真细节，进行最终调整，然后下载您的杰作。"
+    }
+  },
+  "faq": {
+    "title": "常见问题",
+    "questions": {
+      "howItWorks": {
+        "question": "AI纹身生成器是如何工作的？",
+        "answer": "输入您的纹身想法或上传图片，选择风格，AI会创建一个您可以预览和即时下载的逼真设计。"
+      },
+      "styles": {
+        "question": "有哪些纹身设计风格可选？",
+        "answer": "选择极简线条艺术、传统、水彩、几何、超写实等风格，让您的纹身符合您的愿景。"
+      },
+      "preview": {
+        "question": "AI纹身生成器的皮肤预览有多准确？",
+        "answer": "我们的AR和照片预览工具在您做决定之前为您提供近乎真实的位置、大小和颜色效果。"
+      },
+      "commercial": {
+        "question": "我可以将AI纹身生成器的设计用于商业用途吗？",
+        "answer": "是的，可以用于个人或商业目的。我们建议与您的纹身师确认技术可行性。"
+      },
+      "mobileApp": {
+        "question": "有移动应用版本吗？",
+        "answer": "是的。AI纹身生成器的iOS和Android应用程序让您随时设计、预览和保存纹身。"
+      },
+      "editing": {
+        "question": "我可以编辑或精炼AI纹身设计吗？",
+        "answer": "当然可以——调整风格、细节和位置，直到完美为止。"
+      }
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "超写实AI纹身设计",
+      "description": "创造看起来像专业艺术家手工制作的纹身。无论是简约线条还是复杂图案，我们的AI纹身生成器确保每个设计都有栩栩如生的细节，感觉已经准备好了纹身。",
+      "buttonText": "立即尝试"
+    },
+    "section2": {
+      "title": "无穷无尽的AI纹身创意",
+      "description": "缺乏灵感？输入任何关键词或主题，我们的AI纹身生成器会即时为您提供新鲜、独特的纹身设计。探索新风格，发现意想不到的组合，为您的下一件作品找到完美的概念。",
+      "buttonText": "立即尝试"
+    },
+    "section3": {
+      "title": "AI纹身皮肤预览工具",
+      "description": "通过AR或照片在您的皮肤上预览纹身。几秒钟内查看位置、大小和颜色——确保在真正的墨水接触您的皮肤之前100%确信。",
+      "buttonText": "立即尝试"
+    },
+    "examples": {
+      "example1": "一个恐怖的纹身，骷髅和角的组合"
+    }
+  },
+  "cta": {
+    "title": "立即创建您的AI纹身",
+    "description": "无需技能，几秒钟即可创建您的第一个超写实纹身。只需您的想法、我们的AI纹身生成器，以及几次点击。",
+    "tryNow": "开始创作"
+  },
+  "features": {
+    "title": "为什么选择我们的AI纹身生成器",
+    "subtitle": "纹身设计领域最先进的AI技术",
+    "feature1": {
+      "title": "闪电般快速",
+      "description": "仅需10秒即可生成独特的纹身设计"
+    },
+    "feature2": {
+      "title": "高品质",
+      "description": "AI驱动的设计，拥有惊人的细节和真实感"
+    },
+    "feature3": {
+      "title": "无限创意",
+      "description": "通过我们的AI探索无穷的设计可能性"
+    },
+    "feature4": {
+      "title": "易于使用",
+      "description": "简单的界面，任何人都能快速掌握"
+    }
+  }
+}

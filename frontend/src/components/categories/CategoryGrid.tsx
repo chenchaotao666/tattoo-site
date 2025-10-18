@@ -4,6 +4,7 @@ import { Category } from '../../services/categoriesService';
 import CategoryCard from '../categories/CategoryCard';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 import BaseButton from '../ui/BaseButton';
+import { useAsyncTranslation } from '../../contexts/LanguageContext';
 
 interface CategoryGridProps {
   categories: Category[];
@@ -33,6 +34,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
   showMore = false
 }) => {
   const navigate = useNavigate();
+  const { t } = useAsyncTranslation('home');
 
   const handleShowMoreClick = () => {
     navigateWithLanguage(navigate, '/categories');
@@ -137,7 +139,7 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
                     fontWeight: 500
                   }}
                 >
-                  See more Tattoos
+                  {t('categoryGrid.seeMore')}
                 </BaseButton>
               </div>
 

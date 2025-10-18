@@ -14,7 +14,7 @@ import { useAsyncTranslation } from '../contexts/LanguageContext';
 import { useCategories } from '../contexts/CategoriesContext';
 import { getImageIdByName, isImageName, updateImageMappings, getImageNameById, getEnglishTitleFromImage } from '../utils/imageUtils';
 import { getCategoryIdByName, getCategoryPathById, isCategoryName, getEnglishNameFromCategory, updateCategoryMappings } from '../utils/categoryUtils';
-import { navigateWithLanguage } from '../utils/navigationUtils';
+import { navigateWithLanguage, createLanguageAwarePath } from '../utils/navigationUtils';
 import SEOHead from '../components/common/SEOHead';
 import TryNow from '../components/common/TryNow';
 
@@ -329,7 +329,7 @@ const ImageDetailPage: React.FC = () => {
                 {/* Prompt Section */}
                 <div className="flex flex-col gap-4">
                   <div className="text-[#ECECEC] text-base font-bold capitalize">
-                    Prompt
+                    {t('imageDetail.prompt')}
                   </div>
                   <div className="text-[#ECECEC] text-sm font-normal leading-5 break-words max-w-[740px]">
                     {getLocalizedText(image.prompt, language) || getLocalizedText(image.description, language)}
@@ -365,13 +365,13 @@ const ImageDetailPage: React.FC = () => {
                       console.log('Recreate clicked');
                     }}
                   >
-                    Recreate
+                    {t('imageDetail.recreate')}
                   </BaseButton>
                   <BaseButton
                     variant="secondary"
                     onClick={() => handleDownload('png')}
                   >
-                    Download
+                    {t('imageDetail.download')}
                   </BaseButton>
                 </div>
               </div>
@@ -440,7 +440,7 @@ const ImageDetailPage: React.FC = () => {
           title={t('tryNow.title')}
           description={t('tryNow.description')}
           buttonText={t('tryNow.tryNow')}
-          buttonLink="/create"
+          buttonLink={createLanguageAwarePath("/create")}
         />
       </div>
     </Layout>

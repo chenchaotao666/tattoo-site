@@ -168,7 +168,7 @@ const BlogDetailPage = () => {
               title={t('tryNow.title')}
               description={t('tryNow.description')}
               buttonText={t('tryNow.tryNow')}
-              buttonLink="/create"
+              buttonLink={createLanguageAwarePath("/create")}
             />
           </div>
 

@@ -4,7 +4,7 @@
   "viewAllCategories": "查看所有分类",
   "breadcrumb": {
     "home": "首页",
-    "categories": "免费涂色页"
+    "categories": "免费纹身图片"
   },
   "search": {
     "placeholder": "输入要搜索的分类",
@@ -203,7 +203,10 @@
       "breadcrumb": "图片未找到",
       "goHome": "返回首页"
     },
+    "prompt": "提示词",
     "tags": "标签",
+    "recreate": "重新生成",
+    "download": "下载",
     "downloadPng": "下载PNG",
     "downloadPdf": "下载PDF",
     "png": "PNG",
@@ -215,5 +218,8 @@
     "title": "立即创建您的AI纹身",
     "description": "无需技能，几秒钟即可创建您的第一个超写实纹身。只需您的想法、我们的AI纹身生成器，以及几次点击。",
     "tryNow": "开始创作"
+  },
+  "createSection": {
+    "title": "尝试创建您自己的纹身"
   }
 }

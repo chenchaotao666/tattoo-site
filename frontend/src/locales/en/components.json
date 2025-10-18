@@ -33,12 +33,6 @@
     "networkError": "Network error occurred",
     "serverError": "Server error"
   },
-  "toast": {
-    "success": "Success",
-    "error": "Error",
-    "warning": "Warning",
-    "info": "Information"
-  },
   "imageGrid": {
     "noResults": "No images found",
     "loadingImages": "Loading images...",
@@ -48,173 +42,59 @@
     "title": "AI Tattoo Generator",
     "description": "Create unique tattoo designs effortlessly with AI. Customize styles, explore endless options, and instantly preview your ideas.",
     "generationFailed": "Generation failed",
-    "downloadAll": "Download All",
-    "generatedTattoo": "Generated tattoo",
-    "generatedTattooAlt": "Generated tattoo {index}",
-    "generatedAlt": "Generated {index}"
+    "generatedTattooAlt": "Generated tattoo design",
+    "generatedAlt": "Generated image",
+    "generatedTattoo": "Generated tattoo design",
+    "downloadAll": "Download All"
   },
   "generateSidebar": {
-    "textToImage": "Text to Image",
-    "imageToImage": "Image to Image",
-    "enterIdea": "Enter your tattoo idea",
-    "placeholder": "Describe your tattoo idea here...",
-    "selectStyle": "Select Style",
-    "allStyles": "All Styles",
-    "colorful": "Colorful",
-    "blackAndWhite": "Black & White",
+    "style": "Style",
+    "color": "Color",
     "quantity": "Quantity",
-    "image": "image",
-    "images": "images",
-    "generateButton": "Generate",
-    "regenerateButton": "Regenerate",
+    "image": "Image",
+    "images": "Images",
+    "prompt": "Prompt",
     "uploadImage": "Upload Image",
-    "uploadPlaceholder": "Upload an image to transform",
-    "maxFileSize": "Max file size: 10MB",
-    "supportedFormats": "Supported formats: JPG, PNG, WebP"
-  },
-  "generateExample": {
-    "tryExample": "Try this example",
-    "examplePrompt": "Example prompt",
-    "textIcon": "Text",
-    "starIcon": "Star"
-  },
-  "generateProgress": {
-    "generating": "Generating...",
-    "processing": "Processing..."
-  },
-  "downloadButton": {
-    "download": "Download",
-    "downloading": "Downloading...",
-    "downloadComplete": "Download Complete"
-  },
-  "moreMenu": {
-    "moreOptions": "More Options",
-    "downloadPNG": "Download PNG",
-    "downloadPDF": "Download PDF",
-    "delete": "Delete",
-    "deleteSelected": "Delete Selected",
-    "report": "Report",
-    "share": "Share",
-    "shareToX": "Share to X",
-    "shareToFacebook": "Share to Facebook",
-    "deleteSuccess": "Successfully deleted",
-    "deleteError": "Failed to delete",
-    "partialDeleteSuccess": "Successfully deleted {count} {imageText}"
-  },
-  "imageEnlargement": {
-    "closeImage": "Close image",
-    "downloadImage": "Download image",
-    "previousImage": "Previous image",
-    "nextImage": "Next image",
-    "enlargedImage": "Enlarged tattoo image"
-  },
-  "styleSelector": {
-    "selectStyle": "Select Style",
-    "allStyles": "All Styles",
-    "noStylesFound": "No styles found",
-    "loadingStyles": "Loading styles...",
-    "noStyle": "NO Style"
+    "generate": "Generate",
+    "clear": "Clear",
+    "premiumFeature": "Premium Feature"
   },
   "pricing": {
-    "mostPopular": "Most Popular",
-    "popular": "Popular",
-    "getStarted": "Get Started",
-    "upgradeNow": "Upgrade Now",
-    "currentPlan": "Current Plan",
-    "freePlan": "Free Plan",
-    "proPlan": "Pro Plan",
-    "unlimitedPlan": "Unlimited Plan",
-    "monthly": "Monthly",
-    "yearly": "Yearly",
-    "save": "Save {discount}",
     "buyNow": "Buy Now",
-    "features": {
-      "unlimitedGenerations": "Unlimited generations",
-      "highResolution": "High resolution downloads",
-      "commercialUse": "Commercial use license",
-      "prioritySupport": "Priority support",
-      "advancedStyles": "Advanced styles",
-      "batchDownload": "Batch download",
-      "apiAccess": "API access"
-    }
-  },
-  "profile": {
-    "avatar": "Avatar",
-    "username": "Username",
-    "email": "Email",
-    "settings": "Settings",
-    "logout": "Logout",
-    "myAccount": "My Account",
-    "changeAvatar": "Change Avatar",
-    "updateProfile": "Update Profile",
-    "accountSettings": "Account Settings"
-  },
-  "imageCard": {
-    "viewImage": "View image",
-    "downloadImage": "Download image",
-    "deleteImage": "Delete image",
-    "selectImage": "Select image"
-  },
-  "categoryCard": {
-    "viewCategory": "View category",
-    "imagesCount": "{count} images",
-    "exploreCategory": "Explore category",
-    "viewAllTattoos": "View all Tattoos"
-  },
-  "auth": {
-    "login": "Login",
-    "register": "Register",
-    "logout": "Logout",
-    "loginSuccess": "Login successful",
-    "logoutSuccess": "Logout successful",
-    "loginRequired": "Login required",
-    "accessDenied": "Access denied"
-  },
-  "navigation": {
-    "home": "Home",
-    "generate": "Generate",
-    "categories": "Categories",
-    "creations": "Creations",
-    "pricing": "Pricing",
-    "blog": "Blog",
-    "account": "Account",
-    "settings": "Settings"
-  },
-  "categoryMenus": {
-    "viewAll": "View all",
-    "inspirationText": "Over {count} Tattoo Inspirations, Unlock Your Unique Imprint!"
-  },
-  "footer": {
-    "allRightsReserved": "All rights reserved",
-    "privacyPolicy": "Privacy Policy",
-    "termsOfService": "Terms of Service",
-    "contactUs": "Contact Us"
-  },
-  "breadcrumb": {
-    "home": "Home",
-    "categories": "Categories",
-    "current": "Current"
-  },
-  "tryNow": {
-    "title": "Try Now",
-    "startCreating": "Start Creating",
-    "getStarted": "Get Started"
-  },
-  "howToCreate": {
-    "title": "How to Create",
-    "step": "Step {number}",
-    "learnMore": "Learn More"
+    "popular": "Popular",
+    "save": "Save {discount}"
   },
   "generateTextarea": {
-    "descriptionPrompt": "Description prompt",
-    "placeholder": "What do you want to create?",
+    "descriptionPrompt": "Describe your tattoo idea",
+    "placeholder": "Enter your tattoo design description...",
     "random": "Random",
-    "output": "Output",
-    "outputs": "Outputs",
+    "output": "output",
+    "outputs": "outputs",
     "noStyle": "No Style",
     "colorful": "Colorful",
     "blackAndWhite": "Black & White",
     "create": "Create",
     "generate": "Generate"
+  },
+  "styleSelector": {
+    "selectStyle": "Select Style",
+    "noStyle": "No Style"
+  },
+  "moreMenu": {
+    "report": "Report",
+    "share": "Share",
+    "shareToX": "Share to X",
+    "shareToFacebook": "Share to Facebook",
+    "delete": "Delete",
+    "deleteSuccess": "Successfully deleted",
+    "partialDeleteSuccess": "Successfully deleted {count} {imageText}",
+    "deleteError": "Failed to delete, please try again"
+  },
+  "categoryCard": {
+    "viewAllTattoos": "View all Tattoos"
+  },
+  "categoryMenus": {
+    "inspirationText": "{count} designs for endless tattoo inspiration",
+    "viewAll": "View All"
   }
 }

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { UserService, User } from '../services/userService';
 import { tokenRefreshService } from '../services/tokenRefreshService';
-import { redirectToHomeIfNeeded } from '../utils/navigationUtils';
+import { redirectToHomeIfNeeded, createLanguageAwarePath } from '../utils/navigationUtils';
 
 interface AuthContextType {
   user: User | null;
@@ -153,13 +153,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await UserService.logout();
     setUser(null);
     setIsAuthenticated(false);
-    
+
     // 登出时停止token自动刷新服务
     tokenRefreshService.stop();
-    
+
     // 退出登录时总是跳转到首页
     if (typeof window !== 'undefined') {
-      window.location.href = '/';
+      window.location.href = createLanguageAwarePath('/');
     }
   };
 
@@ -167,13 +167,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     await UserService.googleLogout();
     setUser(null);
     setIsAuthenticated(false);
-    
+
     // 登出时停止token自动刷新服务
     tokenRefreshService.stop();
-    
+
     // 退出登录时总是跳转到首页
     if (typeof window !== 'undefined') {
-      window.location.href = '/';
+      window.location.href = createLanguageAwarePath('/');
     }
   };
 

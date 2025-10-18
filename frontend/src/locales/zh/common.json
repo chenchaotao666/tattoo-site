@@ -120,13 +120,6 @@
       "keywords": "纹身创意博客、纹身灵感、人工智能纹身设计、纹身风格指南、专家纹身技巧"
     }
   },
-  "imageDetail": {
-    "download": "下载",
-    "prompt": "提示词",
-    "recreate": "重新生成",
-    "relatedImages": "相关图片",
-    "noRelatedImages": "暂无相关图片"
-  },
   "tryNow": {
     "title": "立即创建您的AI纹身",
     "description": "无需技能，几秒钟即可创建您的第一个超写实纹身。只需您的想法、我们的AI纹身生成器，以及几次点击。",

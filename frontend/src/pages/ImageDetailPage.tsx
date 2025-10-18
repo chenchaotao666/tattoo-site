@@ -19,7 +19,9 @@ import SEOHead from '../components/common/SEOHead';
 import TryNow from '../components/common/TryNow';
 
 const ImageDetailPage: React.FC = () => {
-  const { t } = useAsyncTranslation('categories');
+  const { t: tCategories } = useAsyncTranslation('categories');
+  const { t: tImage } = useAsyncTranslation('image');
+  const { t: tCommon } = useAsyncTranslation('common');
   const { imageId, categoryId } = useParams<{ imageId: string; categoryId?: string }>();
   const navigate = useNavigate();
   const { language } = useLanguage();
@@ -249,16 +251,16 @@ const ImageDetailPage: React.FC = () => {
       const categoryPath = getCategoryPathById(category.id);
 
       return [
-        { label: t('breadcrumb.home'), path: '/' },
-        { label: t('breadcrumb.categories'), path: '/categories' },
+        { label: tCategories('breadcrumb.home'), path: '/' },
+        { label: tCategories('breadcrumb.categories'), path: '/categories' },
         { label: categoryName, path: `/categories/${categoryPath}` },
         { label: image ? getLocalizedText(image.name, language) || image.slug || '' : '', current: true }
       ];
     } else {
       // 默认2层面包屑：Home > 图片名字
       return [
-        { label: t('breadcrumb.home'), path: '/' },
-        { label: t('breadcrumb.categories'), path: '/categories' }
+        { label: tCategories('breadcrumb.home'), path: '/' },
+        { label: tCategories('breadcrumb.categories'), path: '/categories' }
       ];
     }
   };
@@ -272,16 +274,16 @@ const ImageDetailPage: React.FC = () => {
         <div className="w-full bg-[#030414] pb-16 md:pb-[120px]">
           {/* Breadcrumb - 即使出错也显示 */}
           <Breadcrumb items={[
-            { label: t('breadcrumb.home'), path: '/' },
-            { label: t('imageDetail.notFound.breadcrumb'), current: true }
+            { label: tCategories('breadcrumb.home'), path: '/' },
+            { label: tImage('notFound.breadcrumb'), current: true }
           ]} />
 
           <div className="container mx-auto px-4">
             <div className="flex flex-col items-center justify-center py-16">
               <div className="text-center">
-                <div className="text-lg lg:text-xl text-[#161616] mb-4">{t('imageDetail.notFound.title')}</div>
+                <div className="text-lg lg:text-xl text-[#161616] mb-4">{tImage('notFound.title')}</div>
                 <Button onClick={() => navigate('/')} variant="gradient">
-                  {t('imageDetail.notFound.goHome')}
+                  {tImage('notFound.goHome')}
                 </Button>
               </div>
             </div>
@@ -329,7 +331,7 @@ const ImageDetailPage: React.FC = () => {
                 {/* Prompt Section */}
                 <div className="flex flex-col gap-4">
                   <div className="text-[#ECECEC] text-base font-bold capitalize">
-                    {t('imageDetail.prompt')}
+                    {tImage('prompt')}
                   </div>
                   <div className="text-[#ECECEC] text-sm font-normal leading-5 break-words max-w-[740px]">
                     {getLocalizedText(image.prompt, language) || getLocalizedText(image.description, language)}
@@ -340,7 +342,7 @@ const ImageDetailPage: React.FC = () => {
                 {image.tags && image.tags.length > 0 && (
                   <div className="flex flex-col gap-4">
                     <div className="text-[#ECECEC] text-base font-bold">
-                      Tags
+                      {tImage('tags')}
                     </div>
                     <div className="flex flex-wrap gap-2 max-w-[740px]">
                       {image.tags.map((tag: Tag) => (
@@ -365,13 +367,13 @@ const ImageDetailPage: React.FC = () => {
                       console.log('Recreate clicked');
                     }}
                   >
-                    {t('imageDetail.recreate')}
+                    {tImage('recreate')}
                   </BaseButton>
                   <BaseButton
                     variant="secondary"
                     onClick={() => handleDownload('png')}
                   >
-                    {t('imageDetail.download')}
+                    {tImage('download')}
                   </BaseButton>
                 </div>
               </div>
@@ -388,7 +390,7 @@ const ImageDetailPage: React.FC = () => {
 
             return (
               <article className="mb-4 max-w-[1170px] mx-auto">
-                <h1 className="text-[#ECECEC] text-2xl font-bold mb-6">Tattoo picture details</h1>
+                <h1 className="text-[#ECECEC] text-2xl font-bold mb-6">{tImage('details')}</h1>
                 <div
                   className='prose prose-dark'
                   dangerouslySetInnerHTML={{ __html: additionalInfo }}
@@ -400,7 +402,7 @@ const ImageDetailPage: React.FC = () => {
           {/* You Might Also Like - 独立显示相关图片加载状态 */}
           <div className='py-20'>
             <h2 className="text-center text-[#ECECEC] text-2xl lg:text-3xl xl:text-[46px] font-bold capitalize mb-8 lg:mb-12 leading-relaxed lg:leading-[1.6] px-4">
-              {t('imageDetail.relatedImages')}
+              {tImage('relatedImages')}
             </h2>
 
             {/* Related Images Grid */}
@@ -428,7 +430,7 @@ const ImageDetailPage: React.FC = () => {
                 />
               ) : (
                 <div className="flex justify-center items-center py-12">
-                  <div className="text-sm text-[#6B7280]">{t('imageDetail.noRelatedImages')}</div>
+                  <div className="text-sm text-[#6B7280]">{tImage('noRelatedImages')}</div>
                 </div>
               )}
             </div>
@@ -437,9 +439,9 @@ const ImageDetailPage: React.FC = () => {
 
         {/* TryNow component */}
         <TryNow
-          title={t('tryNow.title')}
-          description={t('tryNow.description')}
-          buttonText={t('tryNow.tryNow')}
+          title={tCommon('tryNow.title')}
+          description={tCommon('tryNow.description')}
+          buttonText={tCommon('tryNow.tryNow')}
           buttonLink={createLanguageAwarePath("/create")}
         />
       </div>

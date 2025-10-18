@@ -1,0 +1,14 @@
+{
+  "prompt": "Prompt",
+  "download": "Download",
+  "recreate": "Recreate",
+  "relatedImages": "Related Images",
+  "noRelatedImages": "No related images",
+  "notFound": {
+    "breadcrumb": "Not Found",
+    "title": "Image Not Found",
+    "goHome": "Go Home"
+  },
+  "tags": "Tags",
+  "details": "Tattoo picture details"
+}

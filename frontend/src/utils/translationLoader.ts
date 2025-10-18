@@ -3,9 +3,8 @@ import { Language } from '../contexts/LanguageContext';
 // 同步导入所有翻译文件
 import enCommon from '../locales/en/common.json';
 import enNavigation from '../locales/en/navigation.json';
-import enForms from '../locales/en/forms.json';
-import enErrors from '../locales/en/errors.json';
 import enComponents from '../locales/en/components.json';
+import enImage from '../locales/en/image.json';
 import enHome from '../locales/en/home.json';
 import enGenerate from '../locales/en/pages/generate.json';
 import enPricing from '../locales/en/pages/pricing.json';
@@ -15,9 +14,8 @@ import enProfile from '../locales/en/pages/profile.json';
 
 import zhCommon from '../locales/zh/common.json';
 import zhNavigation from '../locales/zh/navigation.json';
-import zhForms from '../locales/zh/forms.json';
-import zhErrors from '../locales/zh/errors.json';
 import zhComponents from '../locales/zh/components.json';
+import zhImage from '../locales/zh/image.json';
 import zhHome from '../locales/zh/home.json';
 import zhGenerate from '../locales/zh/pages/generate.json';
 import zhPricing from '../locales/zh/pages/pricing.json';
@@ -41,9 +39,8 @@ const translationModules: TranslationCache = {
   en: {
     common: enCommon,
     navigation: enNavigation,
-    forms: enForms,
-    errors: enErrors,
     components: enComponents,
+    image: enImage,
     home: enHome,
     generate: enGenerate,
     pricing: enPricing,
@@ -54,9 +51,8 @@ const translationModules: TranslationCache = {
   zh: {
     common: zhCommon,
     navigation: zhNavigation,
-    forms: zhForms,
-    errors: zhErrors,
     components: zhComponents,
+    image: zhImage,
     home: zhHome,
     generate: zhGenerate,
     pricing: zhPricing,

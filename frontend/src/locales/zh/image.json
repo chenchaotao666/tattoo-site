@@ -1,0 +1,14 @@
+{
+  "prompt": "提示词",
+  "download": "下载",
+  "recreate": "重新生成",
+  "relatedImages": "相关图片",
+  "noRelatedImages": "暂无相关图片",
+  "notFound": {
+    "breadcrumb": "未找到",
+    "title": "图片未找到",
+    "goHome": "返回首页"
+  },
+  "tags": "标签",
+  "details": "纹身图片详情"
+}

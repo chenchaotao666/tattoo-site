@@ -47,7 +47,12 @@
     "change": "Change",
     "loading": "Loading...",
     "noExamples": "No example images",
-    "recreate": "Recreate"
+    "recreate": "Recreate",
+    "textExamples": {
+      "crossAndRose": "Tattoos of a cross and a rose on the arm",
+      "roseAndSkull": "A tattoo of a rose and a skull on the back",
+      "englishWrist": "There is an English tattoo on the wrist"
+    }
   },
   "prompt": {
     "title": "Prompt",

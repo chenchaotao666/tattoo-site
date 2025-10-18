@@ -47,7 +47,12 @@
     "change": "换一批",
     "loading": "加载中...",
     "noExamples": "暂无示例图片",
-    "recreate": "重新生成"
+    "recreate": "重新生成",
+    "textExamples": {
+      "crossAndRose": "手臂上的十字架和玫瑰纹身",
+      "roseAndSkull": "背部玫瑰和骷髅纹身",
+      "englishWrist": "手腕上的英文纹身"
+    }
   },
   "prompt": {
     "title": "提示词",

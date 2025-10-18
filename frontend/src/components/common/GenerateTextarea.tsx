@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage, useAsyncTranslation } from '../../contexts/LanguageContext';
-import { STYLE_SUGGESTIONS, getRandomSuggestions } from '../../utils/ideaSuggestions';
 import { getLocalizedText } from '../../utils/textUtils';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 import { UrlUtils } from '../../utils/urlUtils';
 import { Style } from '../../hooks/useGeneratePage';
 import { colors } from '../../styles/colors';
 import BaseButton from '../ui/BaseButton';
-import React from 'react';
 
 // Fallback colors in case import fails
 const fallbackColors = {
@@ -91,11 +89,31 @@ const GenerateTextarea = ({
     }
   };
 
-  const handleRandomClick = () => {
-    // 使用共享的随机选择函数，支持多语言
-    const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 1, language as 'zh' | 'en');
-    if (randomSuggestions.length > 0) {
-      setInputValue(randomSuggestions[0].content);
+  const handleRandomClick = async () => {
+    try {
+      // 从后端 ideas 表读取创意建议
+      const { default: ideasService } = await import('../../services/ideasService');
+      const response = await ideasService.getAll({ pageSize: 100, currentPage: 1 });
+
+      if (response.data && response.data.length > 0) {
+        // 随机选择一个创意
+        const randomIndex = Math.floor(Math.random() * response.data.length);
+        const randomIdea = response.data[randomIndex];
+        const promptText = randomIdea.prompt?.[language as 'en' | 'zh'] || randomIdea.prompt?.en || randomIdea.title?.[language as 'en' | 'zh'] || randomIdea.title?.en;
+
+        if (promptText) {
+          setInputValue(promptText);
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load random suggestion:', error);
+      // 如果失败，可以设置一些默认的创意
+      const defaultSuggestions = language === 'zh'
+        ? ['一只可爱的小猫', '简约的玫瑰花', '复古的指南针']
+        : ['A cute little cat', 'A minimalist rose', 'A vintage compass'];
+
+      const randomIndex = Math.floor(Math.random() * defaultSuggestions.length);
+      setInputValue(defaultSuggestions[randomIndex]);
     }
   };
 

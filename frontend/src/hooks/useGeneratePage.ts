@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import GenerateServiceInstance, { IdeaSuggestion } from '../services/generateService';
-import { STYLE_SUGGESTIONS, getRandomSuggestions } from '../utils/ideaSuggestions';
 
 import { BaseImage } from '../services/imageService';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -493,11 +492,13 @@ export const useGeneratePage = (
         ideaSuggestions: randomSuggestions
       });
     } catch (error) {
-      console.error('Failed to load idea suggestions from backend, falling back to local data:', error);
+      console.error('Failed to load idea suggestions from backend:', error);
 
-      // 如果后端请求失败，回退到本地数据
-      const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 6, language);
-      updateState({ ideaSuggestions: randomSuggestions });
+      // 如果后端请求失败，使用空数组或基础默认建议
+      updateState({
+        allIdeas: [],
+        ideaSuggestions: []
+      });
     } finally {
       updateState({ isLoadingStyles: false });
     }
@@ -654,10 +655,9 @@ export const useGeneratePage = (
 
   // 刷新创意建议
   const refreshIdeaSuggestions = useCallback(() => {
-    // 如果没有全量数据，回退到本地数据
+    // 如果没有全量数据，尝试重新加载
     if (state.allIdeas.length === 0) {
-      const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 6, language);
-      updateState({ ideaSuggestions: randomSuggestions });
+      loadIdeaSuggestions();
       return;
     }
 
@@ -668,13 +668,12 @@ export const useGeneratePage = (
 
       updateState({ ideaSuggestions: randomSuggestions });
     } catch (error) {
-      console.error('Failed to refresh idea suggestions, falling back to local data:', error);
+      console.error('Failed to refresh idea suggestions:', error);
 
-      // 如果出错，回退到本地数据
-      const randomSuggestions = getRandomSuggestions(STYLE_SUGGESTIONS, 6, language);
-      updateState({ ideaSuggestions: randomSuggestions });
+      // 如果出错，保持当前状态或清空建议
+      updateState({ ideaSuggestions: [] });
     }
-  }, [state.allIdeas, updateState, language]);
+  }, [state.allIdeas, updateState, loadIdeaSuggestions]);
 
   // 初始化加载（只执行一次）
   useEffect(() => {

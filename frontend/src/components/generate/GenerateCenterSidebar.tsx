@@ -74,24 +74,15 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
   const currentExampleImages = [
     {
       url: "/imgs/text-examples/cross-and-rose-on-arm.png",
-      prompt: {
-        zh: "手臂上的十字架和玫瑰纹身",
-        en: "Tattoos of a cross and a rose on the arm"
-      }
+      prompt: t('examples.textExamples.crossAndRose')
     },
     {
-      url: "/imgs/text-examples/rose-on-back.png", 
-      prompt: {
-        zh: "背部玫瑰和骷髅纹身",
-        en: "A tattoo of a rose and a skull on the back"
-      }
+      url: "/imgs/text-examples/rose-on-back.png",
+      prompt: t('examples.textExamples.roseAndSkull')
     },
     {
       url: "/imgs/text-examples/english-on-wrist.png",
-      prompt: {
-        zh: "手腕上的英文纹身",
-        en: "There is an English tattoo on the wrist"
-      }
+      prompt: t('examples.textExamples.englishWrist')
     }
   ];
 
@@ -247,7 +238,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                 description={config[mode].description}
                 images={currentExampleImages.map(example => ({
                   url: example.url,
-                  prompt: getLocalizedText(example.prompt, language)
+                  prompt: example.prompt
                 }))}
               />
             )

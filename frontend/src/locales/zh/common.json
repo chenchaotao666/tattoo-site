@@ -144,7 +144,7 @@
     "readMore": "阅读更多",
     "backToBlog": "返回博客",
     "totalArticles": "共 {count} 篇文章",
-    "noPosts": "未找到博客文章。",
+    "noPosts": "暂无博客文章",
     "notFound": "文章未找到",
     "notFoundMessage": "您要查找的文章不存在。",
     "errorLoading": "加载文章出错",

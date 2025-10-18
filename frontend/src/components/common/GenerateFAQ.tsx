@@ -26,7 +26,7 @@ interface GenerateFAQProps {
 
 const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen = false, onClick, isLast = false }) => {
   return (
-    <div className={`w-full max-w-[970px] px-5 py-7 ${!isLast ? 'mb-5' : ''} rounded-2xl border border-[#26262D] ${isOpen ? 'bg-[#19191F]' : 'bg-transparent'}`}>
+    <div className={`w-full w-[970px] px-5 py-7 ${!isLast ? 'mb-5' : ''} rounded-2xl border border-[#26262D] ${isOpen ? 'bg-[#19191F]' : 'bg-transparent'}`}>
       <div 
         className="flex justify-between items-center gap-4 cursor-pointer hover:bg-[#2A2A30] transition-colors duration-200 -mx-5 -my-7 px-5 py-7 rounded-2xl"
         onClick={onClick}

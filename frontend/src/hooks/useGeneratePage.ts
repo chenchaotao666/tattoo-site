@@ -603,8 +603,9 @@ export const useGeneratePage = (
       }
       
       // 生成文件名
-      const imageTitle = getLocalizedText(imageData.title, language) || 'untitled';
-      const fileName = `tattoo-${imageTitle.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 20)}-${imageId.slice(-8)}.${format}`;
+      const imageTitle = getLocalizedText(imageData.title, language) || '';
+      const titlePart = imageTitle.trim() ? `-${imageTitle.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 20)}` : '';
+      const fileName = `tattoo${titlePart}-${imageId.slice(-8)}.${format}`;
       
       // 根据格式选择不同的下载方式
       if (format === 'png') {

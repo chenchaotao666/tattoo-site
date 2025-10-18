@@ -173,28 +173,28 @@
     },
     "planFAQ": [
       {
-        "question": "How does the AI Tattoo Generator work?",
-        "answer": "Type your tattoo idea or upload an image, choose a style, and the AI creates a realistic design you can preview and download instantly."
+        "question": "What payment methods do you accept?",
+        "answer": "We accept all major credit cards, debit cards, PayPal, Apple Pay, and Google Pay for a secure and convenient checkout experience."
       },
       {
-        "question": "What tattoo design styles are available?",
-        "answer": "Choose from minimal line art, traditional, watercolor, geometric, hyper-realistic, and more—so your tattoo matches your vision."
+        "question": "Is my payment information secure?",
+        "answer": "Yes. All transactions are encrypted with industry-standard SSL technology, and we never store your full payment details on our servers."
       },
       {
-        "question": "How accurate is the AI Tattoo Generator skin preview?",
-        "answer": "Our AR and photo preview tools give a near-real look at placement, size, and color before you commit."
+        "question": "Are there any hidden fees?",
+        "answer": "No hidden fees. You pay once for your chosen plan, and all pricing is fully transparent."
       },
       {
-        "question": "Can I use AI Tattoo Generator designs commercially?",
-        "answer": "Yes, for personal or commercial purposes. We recommend confirming technical feasibility with your tattoo artist."
+        "question": "What's included in each pricing plan?",
+        "answer": "Plans vary by design credits, style options, and preview features. Check our pricing page for detailed comparisons and choose what fits your needs."
       },
       {
-        "question": "Is there a mobile app version?",
-        "answer": "Yes. The AI Tattoo Generator app for iOS and Android lets you design, preview, and save tattoos anytime."
+        "question": "How soon can I use the service after payment?",
+        "answer": "Immediately. Once payment is confirmed, your design credits are added to your account and you can start creating tattoo designs right away."
       },
       {
-        "question": "Can I edit or refine the AI tattoo design?",
-        "answer": "Absolutely—tweak style, details, and placement until it's perfect."
+        "question": "Can I get an invoice for my purchase?",
+        "answer": "Yes. After completing your payment, you can request an electronic invoice from your account settings, and we'll provide it promptly."
       }
     ]
   }

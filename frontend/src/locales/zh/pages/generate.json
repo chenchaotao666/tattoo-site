@@ -1,11 +1,11 @@
 {
   "textToImage": {
-    "title": "文字转涂色页",
-    "description": "使用免费涂色页生成器创建高质量涂色页。用AI设计的涂色页激发孩子们的创造力。"
+    "title": "文字生成纹身",
+    "description": "免费使用我们的AI纹身生成器创建高质量的纹身设计。使用AI设计的纹身作品将您的想法变为现实。"
   },
   "imageToImage": {
-    "title": "图片转涂色页", 
-    "description": "上传您的图片，几秒钟内将您的照片转换为令人惊叹的涂色页，释放您的想象力。"
+    "title": "图片生成纹身",
+    "description": "上传您的图片，几秒钟内将您的照片转换为令人惊叹的纹身设计，释放您的创造力。"
   },
   "tabs": {
     "textToImage": "文字转图片",
@@ -14,7 +14,7 @@
   "generating": {
     "title": "生成中...",
     "description": "正在生成...",
-    "pleaseWait": "请稍等，AI正在为您生成涂色页"
+    "pleaseWait": "请稍等，AI正在为您生成纹身设计"
   },
   "error": {
     "generationFailed": "生成失败，请重试",
@@ -75,16 +75,6 @@
     "public": "所有人可见",
     "visibilityTip": "启用后，您生成的图片将可能在公共画廊中对其他用户可见。禁用后，只有您能看到您的图片。"
   },
-  "difficulty": {
-    "toddler": "幼儿",
-    "toddlerAge": "2-5岁",
-    "children": "儿童", 
-    "childrenAge": "5-10岁",
-    "teen": "青少年",
-    "teenAge": "10-18岁",
-    "adult": "成人",
-    "adultAge": "18+岁"
-  },
   "history": {
     "title": "生成历史",
     "noHistory": "暂无生成记录",
@@ -107,9 +97,6 @@
   "states": {
     "noTextToImageYet": "还没有文字转图片记录",
     "noImageToImageYet": "还没有图片转图片记录"
-  },
-  "faq": {
-    "title": "常见问题"
   },
   "testimonials": {
     "title": "用户这样说"
@@ -169,6 +156,7 @@
     }
   },
   "faq": {
+    "title": "常见问题",
     "questions": {
       "howToStart": {
         "question": "如何开始使用AI纹身生成器设计我的纹身？",

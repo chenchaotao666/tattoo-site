@@ -30,7 +30,7 @@
     "subject": "Please enter subject",
     "description": "Please enter description",
     "title": "Please enter title",
-    "prompt": "Describe the coloring page content you want to generate",
+    "prompt": "Describe the tattoo design you want to create",
     "tags": "Enter tags, separated by commas"
   },
   "validation": {

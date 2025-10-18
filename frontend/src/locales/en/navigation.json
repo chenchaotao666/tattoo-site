@@ -14,11 +14,7 @@
     "myCreations": "My Creations",
     "categories": "Categories",
     "gallery": "Gallery",
-    "home": "Home",
-    "featuredColoringPages": "Featured Coloring Pages",
-    "kidsColoringPages": "Kids Coloring Pages",
-    "teenColoringPages": "Teen Coloring Pages",
-    "adultColoringPages": "Adult Coloring Pages"
+    "home": "Home"
   },
   "categories": {
     "popularColoringPages": "Popular Tattoos"
@@ -39,36 +35,9 @@
   "footer": {
     "sections": {
       "tools": "Tools",
-      "disney": "Disney",
-      "star": "Star",
-      "animal": "Animal",
       "company": "Company"
     },
     "links": {
-      "textToColoringPage": "Create",
-      "imageToColoringPage": "Image to coloring page",
-      "inspiration": "Inspiration",
-      "mickeyMouse": "Mickey Mouse",
-      "minnieMouse": "Minnie Mouse",
-      "donaldDuck": "Donald Duck",
-      "daisyDuck": "Daisy Duck",
-      "goofy": "Goofy",
-      "snowWhite": "Snow White",
-      "cinderella": "Cinderella",
-      "taylorSwift": "Taylor Swift",
-      "billieEilish": "Billie Eilish",
-      "scarlettJohansson": "Scarlett Johansson",
-      "galGadot": "Gal Gadot",
-      "bradPitt": "Brad Pitt",
-      "zendaya": "Zendaya",
-      "timotheeChalamet": "Timothée Chalamet",
-      "dog": "Dog",
-      "cat": "Cat",
-      "tiger": "Tiger",
-      "butterfly": "Butterfly",
-      "bird": "Bird",
-      "giraffe": "Giraffe",
-      "horse": "Horse",
       "privacyPolicy": "Privacy Policy",
       "termsOfService": "Terms of Service",
       "refundPolicy": "Refund Policy"

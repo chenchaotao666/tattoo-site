@@ -30,7 +30,7 @@
     "subject": "请输入主题",
     "description": "请输入描述",
     "title": "请输入标题",
-    "prompt": "描述您想要生成的涂色页内容",
+    "prompt": "描述您想要创建的纹身设计",
     "tags": "输入标签，用逗号分隔"
   },
   "validation": {

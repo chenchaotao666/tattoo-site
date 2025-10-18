@@ -1,11 +1,11 @@
 {
   "textToImage": {
-    "title": "Text to coloring page",
-    "description": "Create high-quality coloring sheets for free with coloring page generator. Spark your kids' creativity with AI-designed coloring pages."
+    "title": "Text to Tattoo",
+    "description": "Create high-quality tattoo designs for free with our AI tattoo generator. Bring your ideas to life with AI-designed tattoo artwork."
   },
   "imageToImage": {
-    "title": "Image to coloring page",
-    "description": "Upload your image and transform your photo into an amazing coloring page in just seconds, unleashing your imagination."
+    "title": "Image to Tattoo",
+    "description": "Upload your image and transform your photo into an amazing tattoo design in just seconds, unleashing your creativity."
   },
   "tabs": {
     "textToImage": "Text to Image",
@@ -14,7 +14,7 @@
   "generating": {
     "title": "Generating...",
     "description": "Generating...",
-    "pleaseWait": "Please wait, AI is generating coloring pages for you"
+    "pleaseWait": "Please wait, AI is generating tattoo designs for you"
   },
   "error": {
     "generationFailed": "Generation failed, please try again",
@@ -75,16 +75,6 @@
     "public": "Public",
     "visibilityTip": "When enabled, your generated images may be visible to other users in the public gallery. When disabled, only you can see your generated images."
   },
-  "difficulty": {
-    "toddler": "Toddler",
-    "toddlerAge": "2-5 years",
-    "children": "Children", 
-    "childrenAge": "5-10 years",
-    "teen": "Teen",
-    "teenAge": "10-18 years",
-    "adult": "Adult",
-    "adultAge": "18+ years"
-  },
   "history": {
     "title": "Generation History",
     "noHistory": "No generation history",
@@ -115,7 +105,7 @@
   },
   "textFAQ": {
     "0": {
-      "question": "Is this Text to Coloring Page tool really free?",
+      "question": "Is this Text to Tattoo tool really free?",
       "answer": "Absolutely! Our tool is 100% free to use. There are no hidden fees, subscription costs, or limits on how many pages you can generate. Create to your heart's content."
     },
     "1": {

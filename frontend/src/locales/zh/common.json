@@ -101,41 +101,6 @@
     "loadUserFailed": "加载用户信息失败，请刷新页面重试",
     "loginRequired": "请先登录以访问个人资料"
   },
-  "time": {
-    "now": "刚刚",
-    "minute": "分钟前",
-    "minutes": "分钟前",
-    "hour": "小时前",
-    "hours": "小时前",
-    "day": "天前",
-    "days": "天前",
-    "week": "周前",
-    "weeks": "周前",
-    "month": "月前",
-    "months": "月前",
-    "year": "年前",
-    "years": "年前",
-    "today": "今天",
-    "yesterday": "昨天",
-    "tomorrow": "明天"
-  },
-  "units": {
-    "credits": "积分",
-    "images": "张图片",
-    "users": "用户",
-    "days": "天",
-    "hours": "小时",
-    "minutes": "分钟",
-    "seconds": "秒",
-    "mb": "MB",
-    "kb": "KB",
-    "gb": "GB"
-  },
-  "difficulty": {
-    "easy": "容易",
-    "medium": "中等难度",
-    "advanced": "进阶"
-  },
   "blog": {
     "title": "博客",
     "by": "作者",
@@ -155,8 +120,12 @@
       "keywords": "纹身创意博客、纹身灵感、人工智能纹身设计、纹身风格指南、专家纹身技巧"
     }
   },
-  "coloringPageTool": {
-    "createdBy": "由 Colorpages 创建"
+  "imageDetail": {
+    "download": "下载",
+    "prompt": "提示词",
+    "recreate": "重新生成",
+    "relatedImages": "相关图片",
+    "noRelatedImages": "暂无相关图片"
   },
   "tryNow": {
     "title": "立即创建您的AI纹身",

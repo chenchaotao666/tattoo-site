@@ -101,41 +101,6 @@
     "loadUserFailed": "Failed to load user information, please refresh the page and try again",
     "loginRequired": "Please login to access your profile"
   },
-  "time": {
-    "now": "Just now",
-    "minute": "1 minute ago",
-    "minutes": "{count} minutes ago",
-    "hour": "1 hour ago",
-    "hours": "{count} hours ago",
-    "day": "1 day ago",
-    "days": "{count} days ago",
-    "week": "1 week ago",
-    "weeks": "{count} weeks ago",
-    "month": "1 month ago",
-    "months": "{count} months ago",
-    "year": "1 year ago",
-    "years": "{count} years ago",
-    "today": "Today",
-    "yesterday": "Yesterday",
-    "tomorrow": "Tomorrow"
-  },
-  "units": {
-    "credits": "credits",
-    "images": "images",
-    "users": "users",
-    "days": "days",
-    "hours": "hours",
-    "minutes": "minutes",
-    "seconds": "seconds",
-    "mb": "MB",
-    "kb": "KB",
-    "gb": "GB"
-  },
-  "difficulty": {
-    "easy": "Easy",
-    "medium": "Medium",
-    "advanced": "Advanced"
-  },
   "blog": {
     "title": "Blog",
     "by": "By",
@@ -155,8 +120,12 @@
       "keywords": "tattoo ideas blog, tattoo inspiration, AI tattoo designs, tattoo style guides, expert tattoo tips"
     }
   },
-  "coloringPageTool": {
-    "createdBy": "Created By Colorpages"
+  "imageDetail": {
+    "download": "Download",
+    "prompt": "Prompt",
+    "recreate": "Recreate",
+    "relatedImages": "Related Images",
+    "noRelatedImages": "No related images"
   },
   "tryNow": {
     "title": "Create Your AI Tattoo Now",

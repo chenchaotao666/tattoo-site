@@ -1,0 +1,51 @@
+{
+  "title": "{count} Categorias para Explorar",
+  "loading": "Carregando...",
+  "viewAllCategories": "Ver Todas as Categorias",
+  "breadcrumb": {
+    "home": "Início",
+    "categories": "Imagens de Tatuagem Gratuitas"
+  },
+  "search": {
+    "placeholder": "Buscar categorias",
+    "button": "Buscar"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "Nenhum Resultado Encontrado",
+      "description": "Nenhuma categoria encontrada que corresponda à sua busca."
+    },
+    "noCategories": {
+      "title": "Nenhuma Categoria Encontrada",
+      "description": "As categorias estão carregando, por favor aguarde um momento."
+    }
+  },
+  "detail": {
+    "pageTitle": "{count} Designs de Tatuagem {category}",
+    "loading": "Carregando detalhes da categoria...",
+    "notFound": {
+      "title": "Categoria Não Encontrada",
+      "description": "A categoria que você está procurando não existe ou foi removida.",
+      "backButton": "Voltar às Categorias"
+    },
+    "generatePrompt": {
+      "placeholder": "Digite o design de tatuagem que você quer criar"
+    },
+    "generateSection": {
+      "title": "Crie seu design de tatuagem IA {category} personalizado"
+    },
+    "categoryIntro": {
+      "imageCount": "Temos {count} designs de tatuagem {category} disponíveis!",
+      "description": "Explore nossa coleção de designs de tatuagem {category} criados por IA. Cada design é único e pode ser personalizado às suas preferências.",
+      "downloadInfo": "Todos os designs de tatuagem {category} estão disponíveis para download e uso."
+    }
+  },
+  "createSection": {
+    "title": "Experimente criar sua própria tatuagem"
+  },
+  "tryNow": {
+    "title": "Crie Sua Tatuagem IA Agora",
+    "description": "Crie sua primeira tatuagem hiper-realista em segundos sem nenhuma habilidade necessária. Apenas sua ideia, nosso Gerador de Tatuagem IA e alguns cliques.",
+    "button": "Começar a Criar"
+  }
+}

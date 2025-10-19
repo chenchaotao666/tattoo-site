@@ -1,0 +1,253 @@
+{
+  "textToImage": {
+    "title": "Texto para Tatuagem",
+    "description": "Crie designs de tatuagem de alta qualidade gratuitamente com nosso gerador de tatuagem IA. Dê vida às suas ideias com arte de tatuagem criada por IA."
+  },
+  "imageToImage": {
+    "title": "Imagem para Tatuagem",
+    "description": "Envie sua imagem e transforme sua foto em um design de tatuagem incrível em segundos, liberando sua criatividade."
+  },
+  "tabs": {
+    "textToImage": "Texto para Imagem",
+    "imageToImage": "Imagem para Imagem"
+  },
+  "generating": {
+    "title": "Gerando...",
+    "description": "Gerando...",
+    "pleaseWait": "Por favor aguarde, a IA está gerando designs de tatuagem para você"
+  },
+  "error": {
+    "generationFailed": "Geração falhou, por favor tente novamente",
+    "tryAgain": "Por favor tente novamente"
+  },
+  "actions": {
+    "generate": "Gerar",
+    "regenerate": "Regerar",
+    "download": "Download",
+    "delete": "Excluir",
+    "report": "Reportar",
+    "clear": "Limpar",
+    "upload": "Enviar Imagem",
+    "moreOptions": "Mais Opções"
+  },
+  "leftSidebar": {
+    "style": "Estilo",
+    "color": "Cor",
+    "quantity": "Quantidade",
+    "noStyle": "SEM Estilo",
+    "colorful": "Colorido",
+    "blackAndWhite": "Preto e Branco"
+  },
+  "formats": {
+    "png": "PNG",
+    "pdf": "PDF"
+  },
+  "examples": {
+    "title": "Exemplo",
+    "change": "Alterar",
+    "loading": "Carregando...",
+    "noExamples": "Nenhuma imagem de exemplo",
+    "recreate": "Recriar",
+    "textExamples": {
+      "crossAndRose": "Tatuagens de uma cruz e uma rosa no braço",
+      "roseAndSkull": "Uma tatuagem de uma rosa e uma caveira nas costas",
+      "englishWrist": "Há uma tatuagem em inglês no pulso"
+    }
+  },
+  "prompt": {
+    "title": "Prompt",
+    "placeholder": "O que você quer criar?",
+    "suggestions": "Sugestões de Estilo",
+    "refreshSuggestions": "Atualizar Sugestões",
+    "clear": "Limpar prompt",
+    "generateWithAI": "Melhorar com IA",
+    "ideas": "Ideias",
+    "required": "Por favor digite um prompt para gerar páginas para colorir"
+  },
+  "upload": {
+    "title": "Imagem",
+    "dragDrop": "Arraste e solte a imagem aqui, ou clique para enviar",
+    "selectFile": "Selecionar Arquivo",
+    "supportedFormats": "Suporta formatos JPG, PNG, WEBP",
+    "clickToUpload": "Clique para enviar",
+    "required": "Por favor envie uma imagem para gerar páginas para colorir"
+  },
+  "settings": {
+    "difficulty": "Nível de Dificuldade",
+    "ratio": "Proporção",
+    "visibility": "Visibilidade Pública",
+    "private": "Privado",
+    "public": "Público",
+    "visibilityTip": "Quando habilitado, suas imagens geradas podem ser visíveis para outros usuários na galeria pública. Quando desabilitado, apenas você pode ver suas imagens geradas."
+  },
+  "history": {
+    "title": "Histórico de Geração",
+    "noHistory": "Nenhum histórico de geração",
+    "loadMore": "Carregar Mais"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "Confirmar Exclusão",
+      "message": "Tem certeza de que deseja excluir esta imagem? Esta ação não pode ser desfeita.",
+      "confirm": "Confirmar Exclusão",
+      "cancel": "Cancelar"
+    }
+  },
+  "credits": {
+    "remaining": "Créditos Restantes",
+    "required": "Créditos Necessários",
+    "insufficient": "Créditos Insuficientes",
+    "recharge": "Recarregar Créditos"
+  },
+  "states": {
+    "noTextToImageYet": "Nenhum texto para imagem ainda",
+    "noImageToImageYet": "Nenhuma imagem para imagem ainda"
+  },
+  "faq": {
+    "title": "Perguntas Frequentes"
+  },
+  "testimonials": {
+    "title": "O Que os Usuários Estão Dizendo"
+  },
+  "textFAQ": {
+    "0": {
+      "question": "Esta ferramenta Texto para Tatuagem é realmente gratuita?",
+      "answer": "Absolutamente! Nossa ferramenta é 100% gratuita para usar. Não há taxas ocultas, custos de assinatura ou limites em quantas páginas você pode gerar. Crie à vontade."
+    },
+    "1": {
+      "question": "Que tipo de prompts posso digitar no gerador?",
+      "answer": "Você pode digitar praticamente qualquer coisa! Tente descrições simples como 'um gato feliz', cenas detalhadas como 'um dragão voando sobre um castelo medieval', ou combinações criativas como 'um robô cozinhando panquecas'. A IA funciona melhor com prompts claros e descritivos que especificam o que você quer ver na sua página para colorir."
+    },
+    "2": {
+      "question": "Posso usar as imagens que crio para fins comerciais?",
+      "answer": "Sim! Todas as páginas para colorir que você gerar são suas para usar como quiser, incluindo para fins comerciais. Você pode imprimi-las, compartilhá-las, vendê-las ou usá-las em seu negócio sem restrições ou taxas de royalty."
+    },
+    "3": {
+      "question": "Posso baixar e imprimir as páginas para colorir?",
+      "answer": "Absolutamente! Cada página para colorir pode ser baixada em formato PNG ou PDF de alta qualidade. Elas são otimizadas para papel padrão 8.5x11 polegadas e imprimem lindamente em qualquer impressora doméstica. A arte de linha limpa e preta usa tinta mínima enquanto fornece detalhes nítidos."
+    },
+    "4": {
+      "question": "Qual é a qualidade das imagens geradas?",
+      "answer": "Nossa IA gera páginas para colorir de alta resolução com arte de linha limpa e profissional. Cada imagem é otimizada para impressão com contornos claros, níveis de detalhes apropriados e curvas suaves que são perfeitas para colorir com giz de cera, marcadores ou lápis de cor."
+    },
+    "5": {
+      "question": "Esta ferramenta é segura para minhas crianças usarem?",
+      "answer": "Sim! Nossa ferramenta é completamente segura para crianças. Temos filtros de conteúdo integrados que impedem a geração de conteúdo inadequado. A interface é simples e intuitiva, facilitando o uso independente pelas crianças enquanto os pais podem se sentir confiantes sobre a segurança do conteúdo."
+    },
+    "6": {
+      "question": "O que acontece se alguém digitar um prompt inadequado?",
+      "answer": "Nosso sistema avançado de filtragem de conteúdo detecta e bloqueia automaticamente prompts inadequados. Se um prompt inadequado for inserido, o sistema educadamente pedirá ao usuário para tentar uma descrição diferente e adequada para a família. Isso mantém a plataforma segura para usuários de todas as idades."
+    },
+    "7": {
+      "question": "Posso usar o gerador no meu celular ou tablet?",
+      "answer": "Sim! Nosso gerador é totalmente responsivo e funciona perfeitamente em smartphones, tablets e computadores desktop. A interface se adapta ao tamanho da sua tela, facilitando a criação e download de páginas para colorir de qualquer dispositivo com conexão à internet."
+    },
+    "8": {
+      "question": "Vocês salvam meus prompts ou as imagens que crio?",
+      "answer": "Sua privacidade é importante para nós. Embora possamos armazenar temporariamente imagens para fins técnicos, não salvamos permanentemente suas criações pessoais ou prompts, a menos que você especificamente escolha compartilhá-los publicamente. Você tem controle total sobre seu conteúdo e configurações de privacidade."
+    },
+    "9": {
+      "question": "Quais idiomas o gerador suporta?",
+      "answer": "Atualmente, nosso gerador funciona melhor com prompts em inglês, mas pode entender e processar descrições em múltiplos idiomas incluindo espanhol, francês, alemão e outros. Para os melhores resultados, recomendamos usar linguagem clara e simples independentemente do idioma que você escolher."
+    }
+  },
+  "tryNow": {
+    "text": {
+      "title": "Crie Sua Tatuagem IA Agora",
+      "description": "Crie sua primeira tatuagem hiper-realista em segundos sem nenhuma habilidade necessária. Apenas sua ideia, nosso Gerador de Tatuagem IA e alguns cliques.",
+      "buttonText": "Começar a Criar"
+    },
+    "image": {
+      "title": "Pronto para Transformar Sua Imagem em uma Página para Colorir?",
+      "description": "Seja você um pai transformando uma foto da família em uma atividade divertida, um artista explorando uma nova composição, ou simplesmente procurando criar um presente único, nossa ferramenta está aqui para você. Comece a transformar suas imagens favoritas agora e libere seu artista interior!",
+      "buttonText": "Começar a Criar"
+    }
+  },
+  "questions": {
+    "howToStart": {
+      "question": "Como começar a projetar minha tatuagem com o Gerador de Tatuagem IA?",
+      "answer": "Simplesmente digite sua ideia de tatuagem ou envie uma imagem, selecione seu estilo preferido e clique em \"Gerar\" para ver seu design de tatuagem personalizado em segundos."
+    },
+    "styles": {
+      "question": "Posso escolher diferentes estilos de tatuagem na ferramenta IA?",
+      "answer": "Sim. O gerador de tatuagem IA oferece estilos como tradicional, realista, aquarela, geométrico e minimalista, para que você possa encontrar o ajuste perfeito."
+    },
+    "arPreview": {
+      "question": "Quão precisa é a prévia de tatuagem AR na minha pele?",
+      "answer": "Nossa prévia de tatuagem AR fornece uma aparência próxima ao real de posicionamento, tamanho e cor. Embora iluminação e tom de pele possam afetar o resultado, é um guia confiável para tomada de decisão."
+    },
+    "customize": {
+      "question": "Posso personalizar minha tatuagem após gerá-la?",
+      "answer": "Absolutamente. Você pode ajustar estilo, cor, tamanho e detalhes com nossas ferramentas de personalização de tatuagem até ficar completamente satisfeito."
+    },
+    "commercial": {
+      "question": "Posso usar o design de tatuagem comercialmente após gerá-lo?",
+      "answer": "Sim. Todos os designs que você criar com o gerador de tatuagem IA são seus para usar para fins pessoais ou comerciais."
+    },
+    "mobileApp": {
+      "question": "Existe um aplicativo móvel para o Gerador de Tatuagem IA?",
+      "answer": "Sim. A versão móvel permite projetar, personalizar e visualizar tatuagens em movimento, oferecendo os mesmos recursos principais do aplicativo web."
+    },
+    "experience": {
+      "question": "Preciso de experiência em design para usar o gerador de tatuagem IA?",
+      "answer": "De forma alguma. A ferramenta é amigável para iniciantes—apenas digite sua ideia e deixe o sistema de design de tatuagem IA cuidar do resto."
+    },
+    "speed": {
+      "question": "Quanto tempo leva para criar um design de tatuagem?",
+      "answer": "A maioria dos designs de tatuagem IA são gerados em menos de 30 segundos, para que você possa explorar múltiplos conceitos rapidamente."
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "Transforme Sua Criatividade em Arte de Tatuagem Impressionante",
+      "description": "Já desejou que sua visão de tatuagem pudesse saltar da imaginação para arte pronta para a pele em momentos? Com o Gerador de Tatuagem IA, simplesmente digite sua ideia ou envie uma imagem, e veja-a se transformar em um design detalhado e profissional em segundos. Sem longas esperas, sem revisões infinitas, apenas criatividade instantânea na ponta dos seus dedos.",
+      "buttonText": "Experimente Agora"
+    },
+    "section2": {
+      "title": "Estilos Infinitos de Tatuagem, Uma Ferramenta Poderosa",
+      "description": "Do minimalismo de linha fina ao tradicional ousado, do sombreado hiper-realista aos efeitos suaves de aquarela—este Gerador de Tatuagem IA tem tudo coberto. Experimente com mangas de dragão japonês, símbolos pequenos no tornozelo ou peças geométricas no antebraço. Explore, misture e combine estilos até encontrar o design que fala com você.",
+      "buttonText": "Experimente Agora"
+    },
+    "section3": {
+      "title": "Feito para Compartilhar, Pronto para o Mundo Real",
+      "description": "Seu design de tatuagem não deve apenas parecer ótimo na tela—deve se encaixar na sua vida. Baixe imagens de alta resolução, poste-as em seus canais sociais ou envie-as diretamente para seu tatuador. Recursos integrados de corte inteligente e prévia permitem que você veja exatamente como ficará no seu corpo antes de se comprometer.",
+      "buttonText": "Experimente Agora"
+    },
+    "examples": {
+      "example1": "Os padrões de estruturas metálicas mecânicas"
+    }
+  },
+  "howToCreate": {
+    "title": "Como Criar Tatuagem",
+    "step1": {
+      "step": "Passo 1",
+      "title": "Inserir Ideia",
+      "description": "Digite seu conceito ou envie uma imagem—nossa ferramenta de design de tatuagem IA começa a trabalhar instantaneamente."
+    },
+    "step2": {
+      "step": "Passo 2",
+      "title": "Selecionar Estilo e Cor",
+      "description": "Escolha seu estilo e cor de tatuagem favoritos, depois ajuste finamente com ferramentas de personalização de tatuagem."
+    },
+    "step3": {
+      "step": "Passo 3",
+      "title": "Gerar e Salvar",
+      "description": "Clique em \"Gerar\" para criar seu design, depois salve a imagem ou edite-a até ficar perfeita."
+    }
+  },
+  "cta": {
+    "title": "Crie Sua Tatuagem IA Agora",
+    "description": "Crie sua primeira tatuagem hiper-realista em segundos sem nenhuma habilidade necessária. Apenas sua ideia, nosso Gerador de Tatuagem IA e alguns cliques.",
+    "buttonText": "Começar a Criar"
+  },
+  "seo": {
+    "generate": {
+      "title": "Gerador de Tatuagem IA Gratuito: Designs Personalizados, Estilos e Prévia AR",
+      "description": "Veja como criar sua tatuagem perfeita em 3 passos simples. Nossa ferramenta IA permite gerar designs ilimitados, personalizar estilos infinitos e visualizar na sua pele antes de se comprometer. Obtenha seu design de tatuagem em alta resolução pronto para seu artista.",
+      "keywords": "gerador de tatuagem IA gratuito, designs de tatuagem personalizados, prévia de tatuagem AR, designs ilimitados, alta resolução"
+    }
+  },
+  "premium": {
+    "feature": "Recurso Premium"
+  }
+}

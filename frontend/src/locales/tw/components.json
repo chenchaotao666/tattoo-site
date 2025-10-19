@@ -1,0 +1,100 @@
+{
+  "dialog": {
+    "confirmDelete": "您確定要刪除此項目嗎？",
+    "delete": "刪除",
+    "cancel": "取消",
+    "close": "關閉",
+    "processing": "處理中...",
+    "notice": "通知"
+  },
+  "googleLogin": {
+    "continueWith": "使用Google繼續",
+    "loading": "載入中...",
+    "error": "Google登錄未載入",
+    "configError": "請配置VITE_GOOGLE_CLIENT_ID環境變數"
+  },
+  "noData": {
+    "message": "暫無數據",
+    "altText": "暫無數據"
+  },
+  "backToTop": {
+    "title": "回到頂部",
+    "altText": "滾動到頂部"
+  },
+  "loading": {
+    "general": "載入中...",
+    "pleaseWait": "請稍候..."
+  },
+  "error": {
+    "general": "發生錯誤",
+    "tryAgain": "重試",
+    "somethingWrong": "出了點問題",
+    "generationFailed": "生成失敗",
+    "networkError": "網絡錯誤",
+    "serverError": "服務器錯誤"
+  },
+  "imageGrid": {
+    "noResults": "未找到圖片",
+    "loadingImages": "載入圖片中...",
+    "errorLoading": "載入圖片錯誤"
+  },
+  "generateCenter": {
+    "title": "AI紋身生成器",
+    "description": "使用AI輕鬆創建獨特的紋身設計。定制風格，探索無盡選項，即時預覽您的創意。",
+    "generationFailed": "生成失敗",
+    "generatedTattooAlt": "生成的紋身設計",
+    "generatedAlt": "生成的圖片",
+    "generatedTattoo": "生成的紋身設計",
+    "downloadAll": "下載全部"
+  },
+  "generateSidebar": {
+    "style": "風格",
+    "color": "顏色",
+    "quantity": "數量",
+    "image": "圖片",
+    "images": "圖片",
+    "prompt": "提示",
+    "uploadImage": "上傳圖片",
+    "generate": "生成",
+    "clear": "清除",
+    "premiumFeature": "高級功能"
+  },
+  "pricing": {
+    "buyNow": "立即購買",
+    "popular": "熱門",
+    "save": "節省{discount}"
+  },
+  "generateTextarea": {
+    "descriptionPrompt": "描述您的紋身創意",
+    "placeholder": "輸入您的紋身設計描述...",
+    "random": "隨機",
+    "output": "輸出",
+    "outputs": "輸出",
+    "noStyle": "無風格",
+    "colorful": "彩色",
+    "blackAndWhite": "黑白",
+    "create": "創建",
+    "generate": "生成"
+  },
+  "styleSelector": {
+    "selectStyle": "選擇風格",
+    "noStyle": "無風格"
+  },
+  "moreMenu": {
+    "report": "檢舉",
+    "share": "分享",
+    "shareToX": "分享到X",
+    "shareToFacebook": "分享到Facebook",
+    "delete": "刪除",
+    "deleteSuccess": "刪除成功",
+    "partialDeleteSuccess": "成功刪除{count}個{imageText}",
+    "deleteError": "刪除失敗，請重試"
+  },
+  "categoryCard": {
+    "viewAllTattoos": "查看所有紋身"
+  },
+  "categoryMenus": {
+    "inspirationText": "{count}個設計，提供無盡的紋身靈感",
+    "viewAll": "查看全部"
+  }
+}

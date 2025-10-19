@@ -1,0 +1,253 @@
+{
+  "textToImage": {
+    "title": "Testo a Tatuaggio",
+    "description": "Crea design di tatuaggi di alta qualità gratuitamente con il nostro generatore di tatuaggi AI. Dai vita alle tue idee con opere d'arte di tatuaggi progettate dall'AI."
+  },
+  "imageToImage": {
+    "title": "Immagine a Tatuaggio",
+    "description": "Carica la tua immagine e trasforma la tua foto in un fantastico design di tatuaggio in pochi secondi, scatenando la tua creatività."
+  },
+  "tabs": {
+    "textToImage": "Testo a Immagine",
+    "imageToImage": "Immagine a Immagine"
+  },
+  "generating": {
+    "title": "Generazione in corso...",
+    "description": "Generazione in corso...",
+    "pleaseWait": "Attendi per favore, l'AI sta generando design di tatuaggi per te"
+  },
+  "error": {
+    "generationFailed": "Generazione fallita, riprova per favore",
+    "tryAgain": "Riprova per favore"
+  },
+  "actions": {
+    "generate": "Genera",
+    "regenerate": "Rigenera",
+    "download": "Scarica",
+    "delete": "Elimina",
+    "report": "Segnala",
+    "clear": "Cancella",
+    "upload": "Carica Immagine",
+    "moreOptions": "Più Opzioni"
+  },
+  "leftSidebar": {
+    "style": "Stile",
+    "color": "Colore",
+    "quantity": "Quantità",
+    "noStyle": "NESSUNO Stile",
+    "colorful": "Colorato",
+    "blackAndWhite": "Bianco e Nero"
+  },
+  "formats": {
+    "png": "PNG",
+    "pdf": "PDF"
+  },
+  "examples": {
+    "title": "Esempio",
+    "change": "Cambia",
+    "loading": "Caricamento...",
+    "noExamples": "Nessuna immagine di esempio",
+    "recreate": "Ricrea",
+    "textExamples": {
+      "crossAndRose": "Tatuaggi di una croce e una rosa sul braccio",
+      "roseAndSkull": "Un tatuaggio di una rosa e un teschio sulla schiena",
+      "englishWrist": "C'è un tatuaggio inglese sul polso"
+    }
+  },
+  "prompt": {
+    "title": "Prompt",
+    "placeholder": "Cosa vuoi creare?",
+    "suggestions": "Suggerimenti di Stile",
+    "refreshSuggestions": "Aggiorna Suggerimenti",
+    "clear": "Cancella prompt",
+    "generateWithAI": "Migliora con AI",
+    "ideas": "Idee",
+    "required": "Inserisci un prompt per generare pagine da colorare"
+  },
+  "upload": {
+    "title": "Immagine",
+    "dragDrop": "Trascina e rilascia l'immagine qui, o clicca per caricare",
+    "selectFile": "Seleziona File",
+    "supportedFormats": "Supporta formati JPG, PNG, WEBP",
+    "clickToUpload": "Clicca per caricare",
+    "required": "Carica un'immagine per generare pagine da colorare"
+  },
+  "settings": {
+    "difficulty": "Livello di Difficoltà",
+    "ratio": "Rapporto d'Aspetto",
+    "visibility": "Visibilità Pubblica",
+    "private": "Privato",
+    "public": "Pubblico",
+    "visibilityTip": "Quando abilitato, le tue immagini generate potrebbero essere visibili ad altri utenti nella galleria pubblica. Quando disabilitato, solo tu puoi vedere le tue immagini generate."
+  },
+  "history": {
+    "title": "Cronologia Generazioni",
+    "noHistory": "Nessuna cronologia di generazioni",
+    "loadMore": "Carica Altro"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "Conferma Eliminazione",
+      "message": "Sei sicuro di voler eliminare questa immagine? Questa azione non può essere annullata.",
+      "confirm": "Conferma Eliminazione",
+      "cancel": "Annulla"
+    }
+  },
+  "credits": {
+    "remaining": "Crediti Rimanenti",
+    "required": "Crediti Richiesti",
+    "insufficient": "Crediti Insufficienti",
+    "recharge": "Ricarica Crediti"
+  },
+  "states": {
+    "noTextToImageYet": "Nessun testo a immagine ancora",
+    "noImageToImageYet": "Nessuna immagine a immagine ancora"
+  },
+  "faq": {
+    "title": "Domande Frequenti",
+    "testimonials": {
+      "title": "Cosa Dicono gli Utenti"
+    },
+    "textFAQ": {
+      "0": {
+        "question": "Questo strumento Testo a Tatuaggio è davvero gratuito?",
+        "answer": "Assolutamente! Il nostro strumento è 100% gratuito da usare. Non ci sono costi nascosti, costi di abbonamento o limiti su quante pagine puoi generare. Crea a tuo piacimento."
+      },
+      "1": {
+        "question": "Che tipo di prompt posso digitare nel generatore?",
+        "answer": "Puoi digitare praticamente qualsiasi cosa! Prova descrizioni semplici come 'un gatto felice', scene dettagliate come 'un drago che vola sopra un castello medievale', o combinazioni creative come 'un robot che cucina pancake'. L'AI funziona meglio con prompt chiari e descrittivi che specificano cosa vuoi vedere nella tua pagina da colorare."
+      },
+      "2": {
+        "question": "Posso usare le immagini che creo per scopi commerciali?",
+        "answer": "Sì! Tutte le pagine da colorare che generi sono tue da usare come preferisci, incluso per scopi commerciali. Puoi stamparle, condividerle, venderle o usarle nel tuo business senza restrizioni o commissioni."
+      },
+      "3": {
+        "question": "Posso scaricare e stampare le pagine da colorare?",
+        "answer": "Assolutamente! Ogni pagina da colorare può essere scaricata in formato PNG o PDF di alta qualità. Sono ottimizzate per carta standard 8.5x11 pollici e si stampano magnificamente su qualsiasi stampante domestica. L'arte lineare pulita e nera usa inchiostro minimo fornendo dettagli nitidi."
+      },
+      "4": {
+        "question": "Qual è la qualità delle immagini generate?",
+        "answer": "La nostra AI genera pagine da colorare ad alta risoluzione con arte lineare pulita e professionale. Ogni immagine è ottimizzata per la stampa con contorni chiari, livelli di dettaglio appropriati e curve lisce perfette per colorare con pastelli, pennarelli o matite colorate."
+      },
+      "5": {
+        "question": "Questo strumento è sicuro per i miei bambini?",
+        "answer": "Sì! Il nostro strumento è completamente sicuro per i bambini. Abbiamo filtri di contenuto integrati che prevengono la generazione di contenuti inappropriati. L'interfaccia è semplice e intuitiva, rendendo facile per i bambini usarla indipendentemente mentre i genitori possono sentirsi sicuri sulla sicurezza del contenuto."
+      },
+      "6": {
+        "question": "Cosa succede se qualcuno digita un prompt inappropriato?",
+        "answer": "Il nostro sistema avanzato di filtri di contenuto rileva e blocca automaticamente prompt inappropriati. Se viene inserito un prompt inadatto, il sistema chiederà educatamente all'utente di provare una descrizione diversa e adatta alle famiglie. Questo mantiene la piattaforma sicura per utenti di tutte le età."
+      },
+      "7": {
+        "question": "Posso usare il generatore sul mio telefono cellulare o tablet?",
+        "answer": "Sì! Il nostro generatore è completamente responsive e funziona perfettamente su smartphone, tablet e computer desktop. L'interfaccia si adatta alla dimensione del tuo schermo, rendendo facile creare e scaricare pagine da colorare da qualsiasi dispositivo con connessione internet."
+      },
+      "8": {
+        "question": "Salvate i miei prompt o le immagini che creo?",
+        "answer": "La tua privacy è importante per noi. Mentre potremmo temporaneamente conservare immagini per scopi tecnici, non salviamo permanentemente le tue creazioni personali o prompt a meno che tu non scelga specificamente di condividerli pubblicamente. Hai pieno controllo sui tuoi contenuti e impostazioni di privacy."
+      },
+      "9": {
+        "question": "Che lingue supporta il generatore?",
+        "answer": "Attualmente, il nostro generatore funziona meglio con prompt in inglese, ma può comprendere ed elaborare descrizioni in più lingue incluso spagnolo, francese, tedesco e altre. Per i migliori risultati, raccomandiamo di usare un linguaggio chiaro e semplice indipendentemente dalla lingua che scegli."
+      }
+    },
+    "tryNow": {
+      "text": {
+        "title": "Crea il Tuo Tatuaggio AI Ora",
+        "description": "Crea il tuo primo tatuaggio iper-realistico in secondi senza competenze necessarie. Solo la tua idea, il nostro Generatore di Tatuaggi AI e qualche clic.",
+        "buttonText": "Inizia a Creare"
+      },
+      "image": {
+        "title": "Pronto a Trasformare la Tua Immagine in una Pagina da Colorare?",
+        "description": "Che tu sia un genitore che trasforma una foto di famiglia in un'attività divertente, un artista che esplora una nuova composizione, o semplicemente cerchi di creare un regalo unico, il nostro strumento è qui per te. Inizia a trasformare le tue immagini preferite ora e scatena l'artista che è in te!",
+        "buttonText": "Inizia a Creare"
+      }
+    },
+    "questions": {
+      "howToStart": {
+        "question": "Come inizio a progettare il mio tatuaggio con il Generatore di Tatuaggi AI?",
+        "answer": "Semplicemente digita la tua idea di tatuaggio o carica un'immagine, seleziona il tuo stile preferito e clicca \"Genera\" per vedere il tuo design di tatuaggio personalizzato in secondi."
+      },
+      "styles": {
+        "question": "Posso scegliere diversi stili di tatuaggio nello strumento AI?",
+        "answer": "Sì. Il generatore di tatuaggi AI offre stili come tradizionale, realistico, acquerello, geometrico e minimalista, così puoi trovare l'adattamento perfetto."
+      },
+      "arPreview": {
+        "question": "Quanto è accurata l'anteprima AR del tatuaggio sulla mia pelle?",
+        "answer": "La nostra anteprima AR del tatuaggio fornisce un aspetto vicino al reale di posizionamento, dimensione e colore. Mentre illuminazione e tono della pelle possono influenzare il risultato, è una guida affidabile per il processo decisionale."
+      },
+      "customize": {
+        "question": "Posso personalizzare il mio tatuaggio dopo averlo generato?",
+        "answer": "Assolutamente. Puoi regolare stile, colore, dimensione e dettagli con i nostri strumenti di personalizzazione del tatuaggio finché non sei completamente soddisfatto."
+      },
+      "commercial": {
+        "question": "Posso usare il design del tatuaggio commercialmente dopo averlo generato?",
+        "answer": "Sì. Tutti i design che crei con il generatore di tatuaggi AI sono tuoi da usare per scopi personali o commerciali."
+      },
+      "mobileApp": {
+        "question": "C'è un'app mobile per il Generatore di Tatuaggi AI?",
+        "answer": "Sì. La versione mobile ti permette di progettare, personalizzare e visualizzare tatuaggi in movimento, offrendo le stesse funzionalità principali dell'app web."
+      },
+      "experience": {
+        "question": "Ho bisogno di esperienza di design per usare il generatore di tatuaggi AI?",
+        "answer": "Per niente. Lo strumento è adatto ai principianti—inserisci la tua idea e lascia che il sistema di design di tatuaggi AI gestisca il resto."
+      },
+      "speed": {
+        "question": "Quanto tempo ci vuole per creare un design di tatuaggio?",
+        "answer": "La maggior parte dei design di tatuaggi AI sono generati in meno di 30 secondi, così puoi esplorare più concetti rapidamente."
+      }
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "Trasforma la Tua Creatività in Arte di Tatuaggio Stupefacente",
+      "description": "Hai mai desiderato che la tua visione di tatuaggio potesse saltare dall'immaginazione all'opera d'arte pronta per la pelle in momenti? Con il Generatore di Tatuaggi AI, semplicemente digita la tua idea o carica un'immagine, e guardala trasformarsi in un design dettagliato e professionale in secondi. Nessuna lunga attesa, nessuna revisione infinita, solo creatività istantanea a portata di mano.",
+      "buttonText": "Prova Ora"
+    },
+    "section2": {
+      "title": "Stili di Tatuaggio Infiniti, Uno Strumento Potente",
+      "description": "Dal minimalismo fine-line al tradizionale audace, dall'ombreggiatura iper-realistica agli effetti acquerello morbidi—questo Generatore di Tatuaggi AI ti copre. Sperimenta con maniche di draghi giapponesi, piccoli simboli alla caviglia o pezzi geometrici per l'avambraccio. Esplora, mescola e abbina stili finché non trovi il design che ti parla.",
+      "buttonText": "Prova Ora"
+    },
+    "section3": {
+      "title": "Fatto per Condividere, Pronto per il Mondo Reale",
+      "description": "Il tuo design di tatuaggio non dovrebbe solo apparire grande sullo schermo—dovrebbe adattarsi alla tua vita. Scarica immagini ad alta risoluzione, pubblicale sui tuoi canali social o inviale direttamente al tuo tatuatore. Funzionalità integrate di ritaglio intelligente e anteprima ti permettono di vedere esattamente come apparirà sul tuo corpo prima di impegnarti.",
+      "buttonText": "Prova Ora"
+    },
+    "examples": {
+      "example1": "I pattern delle strutture metalliche meccaniche"
+    }
+  },
+  "howToCreate": {
+    "title": "Come Creare un Tatuaggio",
+    "step1": {
+      "step": "Passaggio 1",
+      "title": "Inserisci Idea",
+      "description": "Digita il tuo concetto o carica un'immagine—il nostro strumento di design di tatuaggi AI inizia a lavorare istantaneamente."
+    },
+    "step2": {
+      "step": "Passaggio 2",
+      "title": "Seleziona Stile e Colore",
+      "description": "Scegli il tuo stile e colore di tatuaggio preferito, poi perfeziona con gli strumenti di personalizzazione del tatuaggio."
+    },
+    "step3": {
+      "step": "Passaggio 3",
+      "title": "Genera e Salva",
+      "description": "Clicca \"Genera\" per creare il tuo design, poi salva l'immagine o modificala finché non è perfetta."
+    }
+  },
+  "cta": {
+    "title": "Crea il Tuo Tatuaggio AI Ora",
+    "description": "Crea il tuo primo tatuaggio iper-realistico in secondi senza competenze necessarie. Solo la tua idea, il nostro Generatore di Tatuaggi AI e qualche clic.",
+    "buttonText": "Inizia a Creare"
+  },
+  "seo": {
+    "generate": {
+      "title": "Generatore Gratuito di Tatuaggi AI: Design Personalizzati, Stili e Anteprima AR",
+      "description": "Scopri come creare il tuo tatuaggio perfetto in 3 semplici passaggi. Il nostro strumento AI ti permette di generare design illimitati, personalizzare stili infiniti e visualizzarlo sulla tua pelle prima di decidere. Ottieni il tuo design di tatuaggio ad alta risoluzione pronto per il tuo artista.",
+      "keywords": "generatore gratuito tatuaggi AI, design tatuaggi personalizzati, anteprima tatuaggi AR, design illimitati, alta risoluzione"
+    }
+  },
+  "premium": {
+    "feature": "Funzionalità Premium"
+  }
+}

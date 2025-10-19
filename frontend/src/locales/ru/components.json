@@ -1,0 +1,100 @@
+{
+  "dialog": {
+    "confirmDelete": "Вы уверены, что хотите удалить этот элемент?",
+    "delete": "Удалить",
+    "cancel": "Отмена",
+    "close": "Закрыть",
+    "processing": "Обработка...",
+    "notice": "Уведомление"
+  },
+  "googleLogin": {
+    "continueWith": "Продолжить с Google",
+    "loading": "Загрузка...",
+    "error": "Google Sign-In не загружен",
+    "configError": "Пожалуйста, настройте переменную окружения VITE_GOOGLE_CLIENT_ID"
+  },
+  "noData": {
+    "message": "Данные не найдены",
+    "altText": "Нет данных"
+  },
+  "backToTop": {
+    "title": "Наверх",
+    "altText": "Прокрутить наверх"
+  },
+  "loading": {
+    "general": "Загрузка...",
+    "pleaseWait": "Пожалуйста, подождите..."
+  },
+  "error": {
+    "general": "Произошла ошибка",
+    "tryAgain": "Попробуйте снова",
+    "somethingWrong": "Что-то пошло не так",
+    "generationFailed": "Генерация не удалась",
+    "networkError": "Произошла ошибка сети",
+    "serverError": "Ошибка сервера"
+  },
+  "imageGrid": {
+    "noResults": "Изображения не найдены",
+    "loadingImages": "Загрузка изображений...",
+    "errorLoading": "Ошибка загрузки изображений"
+  },
+  "generateCenter": {
+    "title": "ИИ Генератор Тату",
+    "description": "Создавайте уникальные дизайны тату без усилий с ИИ. Настраивайте стили, исследуйте бесконечные варианты и мгновенно предварительно просматривайте ваши идеи.",
+    "generationFailed": "Генерация не удалась",
+    "generatedTattooAlt": "Сгенерированный дизайн тату",
+    "generatedAlt": "Сгенерированное изображение",
+    "generatedTattoo": "Сгенерированный дизайн тату",
+    "downloadAll": "Скачать все"
+  },
+  "generateSidebar": {
+    "style": "Стиль",
+    "color": "Цвет",
+    "quantity": "Количество",
+    "image": "Изображение",
+    "images": "Изображения",
+    "prompt": "Подсказка",
+    "uploadImage": "Загрузить изображение",
+    "generate": "Генерировать",
+    "clear": "Очистить",
+    "premiumFeature": "Премиум функция"
+  },
+  "pricing": {
+    "buyNow": "Купить сейчас",
+    "popular": "Популярный",
+    "save": "Сэкономьте {discount}"
+  },
+  "generateTextarea": {
+    "descriptionPrompt": "Опишите вашу идею тату",
+    "placeholder": "Введите описание дизайна вашей тату...",
+    "random": "Случайный",
+    "output": "выход",
+    "outputs": "выходы",
+    "noStyle": "Без стиля",
+    "colorful": "Цветной",
+    "blackAndWhite": "Чёрно-белый",
+    "create": "Создать",
+    "generate": "Генерировать"
+  },
+  "styleSelector": {
+    "selectStyle": "Выбрать стиль",
+    "noStyle": "Без стиля"
+  },
+  "moreMenu": {
+    "report": "Пожаловаться",
+    "share": "Поделиться",
+    "shareToX": "Поделиться в X",
+    "shareToFacebook": "Поделиться в Facebook",
+    "delete": "Удалить",
+    "deleteSuccess": "Успешно удалено",
+    "partialDeleteSuccess": "Успешно удалено {count} {imageText}",
+    "deleteError": "Не удалось удалить, пожалуйста попробуйте снова"
+  },
+  "categoryCard": {
+    "viewAllTattoos": "Посмотреть все тату"
+  },
+  "categoryMenus": {
+    "inspirationText": "{count} дизайнов для бесконечного вдохновения тату",
+    "viewAll": "Посмотреть все"
+  }
+}

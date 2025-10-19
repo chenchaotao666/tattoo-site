@@ -1,0 +1,14 @@
+{
+  "prompt": "提示",
+  "download": "下載",
+  "recreate": "重新創建",
+  "relatedImages": "相關圖片",
+  "noRelatedImages": "沒有相關圖片",
+  "notFound": {
+    "breadcrumb": "未找到",
+    "title": "圖片未找到",
+    "goHome": "回到首頁"
+  },
+  "tags": "標籤",
+  "details": "紋身圖片詳情"
+}

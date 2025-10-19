@@ -1,0 +1,56 @@
+{
+  "menu": {
+    "coloringPagesFree": "무료 컬러링 페이지",
+    "textColoringPage": "텍스트 컬러링 페이지",
+    "imageColoringPage": "이미지 컬러링 페이지",
+    "create": "생성",
+    "inspiration": "영감",
+    "pricing": "가격",
+    "blog": "블로그",
+    "login": "로그인",
+    "register": "회원가입",
+    "profile": "프로필",
+    "logout": "로그아웃",
+    "myCreations": "내 창작물",
+    "categories": "카테고리",
+    "gallery": "갤러리",
+    "home": "홈"
+  },
+  "categories": {
+    "popularColoringPages": "인기 타투"
+  },
+  "breadcrumb": {
+    "home": "홈",
+    "categories": "카테고리",
+    "pricing": "가격 플랜",
+    "profile": "프로필",
+    "login": "로그인",
+    "register": "회원가입",
+    "creations": "내 창작물",
+    "generate": "생성",
+    "textToImage": "텍스트에서 이미지로",
+    "imageToImage": "이미지에서 이미지로",
+    "blog": "블로그"
+  },
+  "footer": {
+    "sections": {
+      "tools": "도구",
+      "company": "회사"
+    },
+    "links": {
+      "privacyPolicy": "개인정보 처리방침",
+      "termsOfService": "서비스 약관",
+      "refundPolicy": "환불 정책"
+    },
+    "contact": {
+      "title": "사용 관련 문의사항은 다음으로 연락해 주세요：",
+      "email": "congcong@mail.xinsulv.com"
+    },
+    "copyright": "© 2025 - 현재 Flowrift. 모든 권리 보유."
+  },
+  "language": {
+    "chinese": "简体中文",
+    "english": "English",
+    "selectLanguage": "언어 선택"
+  }
+}

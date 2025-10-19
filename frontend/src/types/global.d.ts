@@ -2,12 +2,28 @@
 export interface MultilingualText {
   en: string;
   zh: string;
+  ja: string;
+  ko: string;
+  es: string;
+  fr: string;
+  de: string;
+  it: string;
+  pt: string;
+  tw: string;
   toLowerCase?: () => string;
 }
 
 export interface LocalizedText {
   en: string;
   zh: string;
+  ja: string;
+  ko: string;
+  es: string;
+  fr: string;
+  de: string;
+  it: string;
+  pt: string;
+  tw: string;
 }
 
 export interface Tag {

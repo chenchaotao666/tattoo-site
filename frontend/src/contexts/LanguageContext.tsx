@@ -13,7 +13,7 @@ import {
   detectBrowserLanguage 
 } from '../components/common/LanguageRouter';
 
-export type Language = 'zh' | 'en' | 'ja';
+export type Language = 'zh' | 'en' | 'ja' | 'ko' | 'es' | 'fr' | 'de' | 'it' | 'pt' | 'ru' | 'tw';
 
 interface LanguageContextType {
   language: Language;
@@ -39,6 +39,22 @@ const getInitialLanguage = (): Language => {
     return 'zh';
   } else if (currentPath.startsWith('/ja')) {
     return 'ja';
+  } else if (currentPath.startsWith('/ko')) {
+    return 'ko';
+  } else if (currentPath.startsWith('/tw')) {
+    return 'tw';
+  } else if (currentPath.startsWith('/es')) {
+    return 'es';
+  } else if (currentPath.startsWith('/fr')) {
+    return 'fr';
+  } else if (currentPath.startsWith('/de')) {
+    return 'de';
+  } else if (currentPath.startsWith('/it')) {
+    return 'it';
+  } else if (currentPath.startsWith('/pt')) {
+    return 'pt';
+  } else if (currentPath.startsWith('/ru')) {
+    return 'ru';
   }
   
   // 2. 其次使用保存的语言偏好
@@ -92,6 +108,22 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       pathWithoutLanguage = currentPath.substring(3) || '/';
     } else if (currentPath.startsWith('/ja')) {
       pathWithoutLanguage = currentPath.substring(3) || '/';
+    } else if (currentPath.startsWith('/ko')) {
+      pathWithoutLanguage = currentPath.substring(3) || '/';
+    } else if (currentPath.startsWith('/tw')) {
+      pathWithoutLanguage = currentPath.substring(3) || '/';
+    } else if (currentPath.startsWith('/es')) {
+      pathWithoutLanguage = currentPath.substring(3) || '/';
+    } else if (currentPath.startsWith('/fr')) {
+      pathWithoutLanguage = currentPath.substring(3) || '/';
+    } else if (currentPath.startsWith('/de')) {
+      pathWithoutLanguage = currentPath.substring(3) || '/';
+    } else if (currentPath.startsWith('/it')) {
+      pathWithoutLanguage = currentPath.substring(3) || '/';
+    } else if (currentPath.startsWith('/pt')) {
+      pathWithoutLanguage = currentPath.substring(3) || '/';
+    } else if (currentPath.startsWith('/ru')) {
+      pathWithoutLanguage = currentPath.substring(3) || '/';
     }
     
     // 生成新的语言路径
@@ -100,6 +132,22 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
       newPath = '/zh' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
     } else if (lang === 'ja') {
       newPath = '/ja' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
+    } else if (lang === 'ko') {
+      newPath = '/ko' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
+    } else if (lang === 'tw') {
+      newPath = '/tw' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
+    } else if (lang === 'es') {
+      newPath = '/es' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
+    } else if (lang === 'fr') {
+      newPath = '/fr' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
+    } else if (lang === 'de') {
+      newPath = '/de' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
+    } else if (lang === 'it') {
+      newPath = '/it' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
+    } else if (lang === 'pt') {
+      newPath = '/pt' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
+    } else if (lang === 'ru') {
+      newPath = '/ru' + (pathWithoutLanguage === '/' ? '' : pathWithoutLanguage);
     } else {
       newPath = pathWithoutLanguage;
     }

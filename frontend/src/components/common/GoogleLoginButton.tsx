@@ -18,12 +18,14 @@ const getGoogleLocale = (language: string): string => {
     'en': 'en',        // 英文
     'ja': 'ja',        // 日文
     'ko': 'ko',        // 韩文
+    'tw': 'zh_TW',     // 繁体中文
     'fr': 'fr',        // 法文
     'de': 'de',        // 德文
     'es': 'es',        // 西班牙文
     'pt': 'pt',        // 葡萄牙文
     'ru': 'ru',        // 俄文
     'ar': 'ar',        // 阿拉伯文
+    'it': 'it',        // 意大利
   };
   
   // 提取语言代码（去掉地区后缀）

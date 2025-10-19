@@ -1,0 +1,201 @@
+{
+  "title": "Piani Tariffari",
+  "subtitle": "Scegli il piano giusto per te",
+  "billing": {
+    "monthly": "Mese",
+    "yearly": "Anno",
+    "discount": "(Risparmia 30%)"
+  },
+  "plans": {
+    "free": {
+      "title": "Gratuito",
+      "features": [
+        "50 crediti al mese",
+        "Generazione di alta qualità",
+        "Supporto standard",
+        "Accesso alla community"
+      ]
+    },
+    "lite": {
+      "title": "Lite",
+      "features": [
+        "2000 crediti al mese",
+        "Generazione di alta qualità",
+        "Funzionalità avanzate",
+        "Supporto email",
+        "Licenza commerciale"
+      ],
+      "popular": "Più Popolare"
+    },
+    "pro": {
+      "title": "Pro",
+      "features": [
+        "6000 crediti al mese",
+        "Generazione di alta qualità",
+        "Funzionalità avanzate",
+        "Supporto email",
+        "Licenza commerciale"
+      ]
+    },
+    "max": {
+      "title": "Max",
+      "features": [
+        "20000 crediti al mese",
+        "Generazione di alta qualità",
+        "Funzionalità avanzate",
+        "Supporto email",
+        "Licenza commerciale"
+      ]
+    }
+  },
+  "buttons": {
+    "choosePlan": "Scegli Piano",
+    "buyNow": "Acquista Ora",
+    "tryNow": "Inizia a Creare",
+    "cancel": "Annulla",
+    "startCreating": "Inizia a Creare"
+  },
+  "cancelAnytime": "Annulla in qualsiasi momento",
+  "features": {
+    "unlimitedUse": "Uso Illimitato",
+    "highQuality": "Output di Alta Qualità",
+    "fastProcessing": "Elaborazione Veloce",
+    "customerSupport": "Supporto Clienti",
+    "commercialUse": "Uso Commerciale",
+    "batchDownload": "Download in Batch"
+  },
+  "payment": {
+    "title": "Pagamento PayPal",
+    "processing": "Elaborazione in corso, attendere...",
+    "backToPlans": "Torna ai Piani",
+    "purchaseTitle": "Acquista {planTitle}",
+    "credits": "Crediti",
+    "validityPeriod": "Periodo di Validità",
+    "days": "giorni",
+    "creditsCount": "Numero di Crediti",
+    "totalAmount": "Importo Totale",
+    "orPayWithCard": "o paga con carta bancaria",
+    "cardInfo": "Informazioni Carta Bancaria",
+    "cardNumber": "Numero Carta",
+    "expiryDate": "MM/AA",
+    "cvv": "CVV",
+    "cardholderName": "Nome Titolare Carta",
+    "payNow": "Paga Ora",
+    "processing2": "Elaborazione in corso...",
+    "technicalSupport": "Supporto Tecnico",
+    "paymentNotReady": "Il sistema di pagamento non è pronto, riprova più tardi",
+    "cardPaymentFailed": "Pagamento con carta fallito, controlla le informazioni della tua carta e riprova",
+    "success": {
+      "title": "Ricarica Riuscita!",
+      "message": "Pagamento riuscito! {credits} crediti sono stati aggiunti al tuo account, reindirizzamento alla pagina di creazione in 5 secondi",
+      "description": "Ora puoi iniziare a creare fantastiche pagine da colorare!"
+    },
+    "errors": {
+      "createOrderFailed": "Impossibile creare l'ordine",
+      "paymentFailed": "Pagamento fallito",
+      "paypalError": "Errore pagamento PayPal, riprova per favore",
+      "cardError": "Errore pagamento carta, riprova per favore",
+      "processingFailed": "Elaborazione pagamento fallita, riprova per favore",
+      "tryAgainLater": "Riprova più tardi per favore"
+    }
+  },
+  "security": {
+    "title": "Pagamento Sicuro tramite PayPal",
+    "description": "Crittografia SSL"
+  },
+  "cta": {
+    "title": "Crea il Tuo Tatuaggio AI Ora",
+    "description": "Crea il tuo primo tatuaggio iper-realistico in secondi senza competenze necessarie. Solo la tua idea, il nostro Generatore di Tatuaggi AI e qualche clic.",
+    "button": "Inizia a Creare",
+    "tryNow": "Inizia a Creare"
+  },
+  "faq": {
+    "title": "Domande Frequenti",
+    "question1": {
+      "q": "Quanto tempo ci vuole per generare una pagina da colorare?",
+      "a": "Il nostro strumento potenziato dall'AI può generare le tue pagine da colorare in pochi secondi. Non devi preoccuparti di lunghi tempi di attesa, così puoi contare con fiducia su di esso per creare bellissime pagine da colorare istantaneamente senza ritardi."
+    },
+    "question2": {
+      "q": "Questo generatore di pagine da colorare è gratuito?",
+      "a": "Sì, offriamo un livello gratuito con funzionalità di base. Tuttavia, per funzionalità avanzate e limiti di utilizzo più alti, abbiamo piani premium disponibili con più crediti e capacità migliorate."
+    },
+    "question3": {
+      "q": "L'uso dell'AI comprometterà la qualità delle pagine da colorare?",
+      "a": "No, la nostra AI è progettata per mantenere alta qualità creando pagine da colorare uniche e coinvolgenti. Ogni pagina generata è ottimizzata per la stampa e la colorazione."
+    },
+    "question4": {
+      "q": "Posso davvero creare pagine da colorare illimitate con il piano premium?",
+      "a": "I nostri piani premium forniscono generose quote di crediti che ti permettono di creare molte pagine da colorare. I crediti si rinnovano mensilmente, dandoti accesso costante ai nostri strumenti di generazione."
+    },
+    "question5": {
+      "q": "Le pagine da colorare generate saranno adatte per la stampa?",
+      "a": "Sì, tutte le nostre pagine da colorare sono ottimizzate per la stampa ad alta risoluzione. Funzionano perfettamente con stampanti domestiche standard su carta normale."
+    },
+    "question6": {
+      "q": "Quanti stili e temi diversi sono supportati?",
+      "a": "Supportiamo un'ampia varietà di temi inclusi animali, natura, personaggi, pattern e altro. Gli utenti premium ottengono accesso a opzioni di stile aggiuntive e funzionalità di personalizzazione."
+    }
+  },
+  "seo": {
+    "title": "Piani Tariffari - Generatore di Pagine da Colorare AI",
+    "description": "Scegli il piano perfetto per le tue esigenze del generatore di pagine da colorare AI. Prova gratuita disponibile con funzionalità premium per la creazione illimitata di pagine da colorare personalizzate."
+  },
+  "section": {
+    "title": "Piani e Prezzi",
+    "successModal": {
+      "title": "Abbonamento riuscito",
+      "description": "Grazie per il tuo supporto, ora puoi iniziare il tuo viaggio creativo!",
+      "startCreating": "Inizia a Creare"
+    },
+    "planNames": {
+      "day7": "Accesso 7 Giorni",
+      "day14": "Accesso 14 Giorni",
+      "day30": "Accesso 30 Giorni"
+    },
+    "planDescriptions": {
+      "day7": "Piano starter perfetto",
+      "day14": "Miglior valore per la maggior parte degli utenti",
+      "day30": "Libertà creativa definitiva"
+    },
+    "features": {
+      "unlimitedGenerations": "Generazioni testo-a-tatuaggio illimitate",
+      "fullAccess7": "7 giorni accesso completo",
+      "fullAccess14": "14 giorni accesso completo",
+      "fullAccess30": "30 giorni accesso completo",
+      "proCredits": "Crediti Pro",
+      "highResDownloads": "Download ad alta risoluzione",
+      "prioritySupport": "Supporto Prioritario"
+    },
+    "paymentMethods": {
+      "securePayment": "Pagamento Sicuro",
+      "instantAccess": "Accesso Istantaneo",
+      "oneTimePayment": "Pagamento Una Tantum"
+    },
+    "planFAQ": [
+      {
+        "question": "Quali metodi di pagamento accettate?",
+        "answer": "Accettiamo tutte le principali carte di credito, carte di debito, PayPal, Apple Pay e Google Pay per un'esperienza di checkout sicura e conveniente."
+      },
+      {
+        "question": "Le mie informazioni di pagamento sono sicure?",
+        "answer": "Sì. Tutte le transazioni sono crittografate con tecnologia SSL standard del settore, e non memorizziamo mai i tuoi dettagli di pagamento completi sui nostri server."
+      },
+      {
+        "question": "Ci sono costi nascosti?",
+        "answer": "Nessun costo nascosto. Paghi una volta per il piano scelto, e tutti i prezzi sono completamente trasparenti."
+      },
+      {
+        "question": "Cosa è incluso in ogni piano tariffario?",
+        "answer": "I piani variano per crediti di design, opzioni di stile e funzionalità di anteprima. Controlla la nostra pagina prezzi per confronti dettagliati e scegli quello che si adatta alle tue esigenze."
+      },
+      {
+        "question": "Quanto presto posso usare il servizio dopo il pagamento?",
+        "answer": "Immediatamente. Una volta confermato il pagamento, i tuoi crediti di design vengono aggiunti al tuo account e puoi iniziare a creare design di tatuaggi subito."
+      },
+      {
+        "question": "Posso ottenere una fattura per il mio acquisto?",
+        "answer": "Sì. Dopo aver completato il pagamento, puoi richiedere una fattura elettronica dalle impostazioni del tuo account, e la forniremo prontamente."
+      }
+    ]
+  }
+}

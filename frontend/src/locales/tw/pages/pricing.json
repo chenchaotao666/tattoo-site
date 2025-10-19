@@ -1,0 +1,201 @@
+{
+  "title": "定價方案",
+  "subtitle": "選擇適合您的方案",
+  "billing": {
+    "monthly": "月",
+    "yearly": "年",
+    "discount": "（節省30%）"
+  },
+  "plans": {
+    "free": {
+      "title": "免費",
+      "features": [
+        "每月50點數",
+        "高品質生成",
+        "標準客服",
+        "社群存取"
+      ]
+    },
+    "lite": {
+      "title": "輕量版",
+      "features": [
+        "每月2000點數",
+        "高品質生成",
+        "進階功能",
+        "電子郵件客服",
+        "商業授權"
+      ],
+      "popular": "最受歡迎"
+    },
+    "pro": {
+      "title": "專業版",
+      "features": [
+        "每月6000點數",
+        "高品質生成",
+        "進階功能",
+        "電子郵件客服",
+        "商業授權"
+      ]
+    },
+    "max": {
+      "title": "最大版",
+      "features": [
+        "每月20000點數",
+        "高品質生成",
+        "進階功能",
+        "電子郵件客服",
+        "商業授權"
+      ]
+    }
+  },
+  "buttons": {
+    "choosePlan": "選擇方案",
+    "buyNow": "立即購買",
+    "tryNow": "開始創建",
+    "cancel": "取消",
+    "startCreating": "開始創建"
+  },
+  "cancelAnytime": "隨時取消",
+  "features": {
+    "unlimitedUse": "無限使用",
+    "highQuality": "高品質輸出",
+    "fastProcessing": "快速處理",
+    "customerSupport": "客戶支援",
+    "commercialUse": "商業使用",
+    "batchDownload": "批次下載"
+  },
+  "payment": {
+    "title": "PayPal付款",
+    "processing": "處理中，請稍候...",
+    "backToPlans": "返回方案",
+    "purchaseTitle": "購買{planTitle}",
+    "credits": "點數",
+    "validityPeriod": "有效期",
+    "days": "天",
+    "creditsCount": "點數數量",
+    "totalAmount": "總金額",
+    "orPayWithCard": "或使用銀行卡付款",
+    "cardInfo": "銀行卡資訊",
+    "cardNumber": "卡號",
+    "expiryDate": "MM/YY",
+    "cvv": "CVV",
+    "cardholderName": "持卡人姓名",
+    "payNow": "立即付款",
+    "processing2": "處理中...",
+    "technicalSupport": "技術支援",
+    "paymentNotReady": "付款系統尚未準備就緒，請稍後重試",
+    "cardPaymentFailed": "銀行卡付款失敗，請檢查您的卡片資訊並重試",
+    "success": {
+      "title": "充值成功！",
+      "message": "付款成功！{credits}點數已加入您的帳戶，5秒後將跳轉到創建頁面",
+      "description": "現在您可以開始創建令人驚豔的著色頁！"
+    },
+    "errors": {
+      "createOrderFailed": "建立訂單失敗",
+      "paymentFailed": "付款失敗",
+      "paypalError": "PayPal付款錯誤，請重試",
+      "cardError": "銀行卡付款錯誤，請重試",
+      "processingFailed": "付款處理失敗，請重試",
+      "tryAgainLater": "請稍後重試"
+    }
+  },
+  "security": {
+    "title": "透過PayPal安全付款",
+    "description": "SSL加密"
+  },
+  "cta": {
+    "title": "立即創建您的AI刺青",
+    "description": "在幾秒鐘內創建您的第一個超逼真刺青，無需技能。只需您的想法、我們的AI刺青生成器，以及幾次點擊。",
+    "button": "開始創建",
+    "tryNow": "開始創建"
+  },
+  "faq": {
+    "title": "常見問題",
+    "question1": {
+      "q": "生成著色頁需要多長時間？",
+      "a": "我們的AI驅動工具可以在幾秒鐘內生成您的著色頁。您不必擔心長時間等待，因此可以放心依賴它立即創建美麗的著色頁，沒有任何延遲。"
+    },
+    "question2": {
+      "q": "這個著色頁生成器免費使用嗎？",
+      "a": "是的，我們提供具有基本功能的免費版本。但是，對於進階功能和更高的使用限制，我們有付費方案，提供更多點數和增強功能。"
+    },
+    "question3": {
+      "q": "使用AI會影響著色頁的品質嗎？",
+      "a": "不會，我們的AI設計用來在創建獨特且引人入勝的著色頁時保持高品質。每個生成的頁面都針對列印和著色進行了優化。"
+    },
+    "question4": {
+      "q": "我真的可以使用付費方案創建無限的著色頁嗎？",
+      "a": "我們的付費方案提供充足的點數額度，讓您可以創建許多著色頁。點數每月刷新，為您提供對我們生成工具的持續存取。"
+    },
+    "question5": {
+      "q": "生成的著色頁適合列印嗎？",
+      "a": "是的，我們所有的著色頁都針對高解析度列印進行了優化。它們在標準家用印表機上使用普通紙張都能完美列印。"
+    },
+    "question6": {
+      "q": "支援多少種不同的風格和主題？",
+      "a": "我們支援各種主題，包括動物、自然、角色、圖案等。付費用戶可以存取額外的風格選項和客製化功能。"
+    }
+  },
+  "seo": {
+    "title": "定價方案 - AI著色頁生成器",
+    "description": "為您的AI著色頁生成器需求選擇完美方案。提供免費試用，付費功能可無限制創建個人化著色頁。"
+  },
+  "section": {
+    "title": "方案與定價",
+    "successModal": {
+      "title": "訂閱成功",
+      "description": "感謝您的支持，現在您可以開始您的創意之旅！",
+      "startCreating": "開始創建"
+    },
+    "planNames": {
+      "day7": "7天存取",
+      "day14": "14天存取",
+      "day30": "30天存取"
+    },
+    "planDescriptions": {
+      "day7": "完美入門方案",
+      "day14": "大多數用戶的最佳選擇",
+      "day30": "終極創意自由"
+    },
+    "features": {
+      "unlimitedGenerations": "無限文字轉刺青生成",
+      "fullAccess7": "7天完整存取",
+      "fullAccess14": "14天完整存取",
+      "fullAccess30": "30天完整存取",
+      "proCredits": "專業點數",
+      "highResDownloads": "高解析度下載",
+      "prioritySupport": "優先客服"
+    },
+    "paymentMethods": {
+      "securePayment": "安全付款",
+      "instantAccess": "即時存取",
+      "oneTimePayment": "一次性付款"
+    },
+    "planFAQ": [
+      {
+        "question": "你們接受哪些付款方式？",
+        "answer": "我們接受所有主要信用卡、簽帳卡、PayPal、Apple Pay和Google Pay，提供安全便利的結帳體驗。"
+      },
+      {
+        "question": "我的付款資訊安全嗎？",
+        "answer": "是的。所有交易都使用業界標準SSL技術加密，我們從不在我們的伺服器上儲存您的完整付款詳情。"
+      },
+      {
+        "question": "有隱藏費用嗎？",
+        "answer": "沒有隱藏費用。您只需為選擇的方案付費一次，所有定價都完全透明。"
+      },
+      {
+        "question": "每個定價方案包含什麼？",
+        "answer": "方案因設計點數、風格選項和預覽功能而異。查看我們的定價頁面以獲得詳細比較，選擇符合您需求的方案。"
+      },
+      {
+        "question": "付款後多快可以使用服務？",
+        "answer": "立即。一旦付款確認，您的設計點數就會加入您的帳戶，您可以立即開始創建刺青設計。"
+      },
+      {
+        "question": "我可以為我的購買獲得發票嗎？",
+        "answer": "可以。完成付款後，您可以從帳戶設定中請求電子發票，我們會立即提供。"
+      }
+    ]
+  }
+}

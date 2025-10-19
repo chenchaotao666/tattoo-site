@@ -3,11 +3,27 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 // 从URL路径检测语言
-const getCurrentLanguageFromPath = (pathname: string): 'zh' | 'en' | 'ja' => {
+const getCurrentLanguageFromPath = (pathname: string): 'zh' | 'en' | 'ja' | 'ko' | 'es' | 'fr' | 'de' | 'it' | 'pt' | 'ru' | 'tw' => {
   if (pathname.startsWith('/zh')) {
     return 'zh';
   } else if (pathname.startsWith('/ja')) {
     return 'ja';
+  } else if (pathname.startsWith('/ko')) {
+    return 'ko';
+  } else if (pathname.startsWith('/tw')) {
+    return 'tw';
+  } else if (pathname.startsWith('/es')) {
+    return 'es';
+  } else if (pathname.startsWith('/fr')) {
+    return 'fr';
+  } else if (pathname.startsWith('/de')) {
+    return 'de';
+  } else if (pathname.startsWith('/it')) {
+    return 'it';
+  } else if (pathname.startsWith('/pt')) {
+    return 'pt';
+  } else if (pathname.startsWith('/ru')) {
+    return 'ru';
   }
   return 'en';
 };

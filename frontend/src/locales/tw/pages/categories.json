@@ -1,0 +1,51 @@
+{
+  "title": "{count}個分類供您探索",
+  "loading": "載入中...",
+  "viewAllCategories": "查看所有分類",
+  "breadcrumb": {
+    "home": "首頁",
+    "categories": "免費刺青圖片"
+  },
+  "search": {
+    "placeholder": "搜尋分類",
+    "button": "搜尋"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "找不到結果",
+      "description": "找不到符合您搜尋的分類。"
+    },
+    "noCategories": {
+      "title": "找不到分類",
+      "description": "分類正在載入中，請稍候片刻。"
+    }
+  },
+  "detail": {
+    "pageTitle": "{count}個{category}刺青設計",
+    "loading": "載入分類詳情...",
+    "notFound": {
+      "title": "找不到分類",
+      "description": "您尋找的分類不存在或已被移除。",
+      "backButton": "返回分類"
+    },
+    "generatePrompt": {
+      "placeholder": "輸入您想要創建的刺青設計"
+    },
+    "generateSection": {
+      "title": "創建您的個人化AI {category}刺青設計"
+    },
+    "categoryIntro": {
+      "imageCount": "我們有{count}個{category}刺青設計可供使用！",
+      "description": "探索我們由AI創建的{category}刺青設計系列。每個設計都是獨特的，可以根據您的偏好進行客製化。",
+      "downloadInfo": "所有{category}刺青設計都可供下載和使用。"
+    }
+  },
+  "createSection": {
+    "title": "嘗試創建您自己的刺青"
+  },
+  "tryNow": {
+    "title": "立即創建您的AI刺青",
+    "description": "在幾秒鐘內創建您的第一個超逼真刺青，無需技能。只需您的想法、我們的AI刺青生成器，以及幾次點擊。",
+    "button": "開始創建"
+  }
+}

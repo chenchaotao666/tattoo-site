@@ -1,0 +1,58 @@
+{
+  "title": "Mes Créations",
+  "description": "Visualisez et gérez toutes vos pages de coloriage générées",
+  "filters": {
+    "all": "Toutes",
+    "textToImage": "Texte vers Image",
+    "imageToImage": "Image vers Image"
+  },
+  "emptyState": {
+    "title": "Aucune création pour le moment",
+    "description": "Vous n'avez pas encore créé de pages de coloriage",
+    "createButton": "Créez votre première création"
+  },
+  "actions": {
+    "delete": "Supprimer",
+    "report": "Signaler",
+    "download": "Télécharger"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "Confirmer la Suppression",
+      "message": "Êtes-vous sûr de vouloir supprimer cette création ? Cette action ne peut pas être annulée.",
+      "confirm": "Confirmer la Suppression",
+      "cancel": "Annuler"
+    },
+    "report": {
+      "title": "Signaler l'Image",
+      "placeholder": "Veuillez décrire le problème avec cette image...",
+      "submit": "Signaler",
+      "cancel": "Annuler"
+    }
+  },
+  "messages": {
+    "deleteSuccess": "Suppression réussie",
+    "deleteFailed": "Suppression échouée, veuillez réessayer plus tard",
+    "reportSuccess": "Signalement soumis",
+    "reportFailed": "Signalement échoué, veuillez réessayer plus tard",
+    "reportContentRequired": "Veuillez entrer le contenu du signalement",
+    "loadFailed": "Échec du chargement des images, veuillez réessayer plus tard"
+  },
+  "loading": {
+    "initial": "Chargement...",
+    "more": "Charger plus..."
+  },
+  "detail": {
+    "imageGenerator": "Générateur d'Images",
+    "prompt": "Prompt",
+    "copy": "Copier",
+    "style": "Style",
+    "color": "Couleur",
+    "noStyle": "AUCUN Style",
+    "colorful": "Coloré",
+    "blackAndWhite": "Noir et Blanc",
+    "recreate": "Recréer",
+    "creation": "Création",
+    "batchImage": "Image par lot"
+  }
+}

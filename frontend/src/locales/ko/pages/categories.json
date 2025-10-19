@@ -1,0 +1,51 @@
+{
+  "title": "탐색할 {count}개의 카테고리",
+  "loading": "로딩 중...",
+  "viewAllCategories": "모든 카테고리 보기",
+  "breadcrumb": {
+    "home": "홈",
+    "categories": "무료 타투 이미지"
+  },
+  "search": {
+    "placeholder": "카테고리 검색",
+    "button": "검색"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "검색 결과가 없습니다",
+      "description": "검색어와 일치하는 카테고리를 찾을 수 없습니다."
+    },
+    "noCategories": {
+      "title": "카테고리를 찾을 수 없습니다",
+      "description": "카테고리를 로딩하고 있습니다. 잠시만 기다려 주세요."
+    }
+  },
+  "detail": {
+    "pageTitle": "{count}개의 {category} 타투 디자인",
+    "loading": "카테고리 세부정보 로딩 중...",
+    "notFound": {
+      "title": "카테고리를 찾을 수 없습니다",
+      "description": "찾고 있는 카테고리가 존재하지 않거나 제거되었습니다.",
+      "backButton": "카테고리로 돌아가기"
+    },
+    "generatePrompt": {
+      "placeholder": "만들고 싶은 타투 디자인을 입력하세요"
+    },
+    "generateSection": {
+      "title": "개인 맞춤형 AI {category} 타투 디자인 만들기"
+    },
+    "categoryIntro": {
+      "imageCount": "{count}개의 {category} 타투 디자인을 준비했습니다!",
+      "description": "AI가 만든 {category} 타투 디자인 컬렉션을 탐색하세요. 각 디자인은 독특하며 당신의 취향에 맞게 맞춤 설정할 수 있습니다.",
+      "downloadInfo": "모든 {category} 타투 디자인을 다운로드하고 사용할 수 있습니다."
+    }
+  },
+  "createSection": {
+    "title": "나만의 타투 만들어보기"
+  },
+  "tryNow": {
+    "title": "지금 AI 타투 만들기",
+    "description": "특별한 기술 없이도 몇 초 만에 첫 번째 초현실적인 타투를 만드세요. 당신의 아이디어, 저희 AI 타투 생성기, 그리고 몇 번의 클릭만 있으면 됩니다.",
+    "button": "생성 시작"
+  }
+}

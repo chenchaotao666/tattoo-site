@@ -1,0 +1,57 @@
+{
+  "title": "Prévisualiseur de Tatouages",
+  "toolbar": {
+    "eraser": "Outil Gomme",
+    "reset": "Réinitialiser",
+    "export": "Exporter"
+  },
+  "controlPanel": {
+    "title": "Panneau de Contrôle",
+    "imageUpload": "Téléchargement d'Image",
+    "uploadBodyImage": "Télécharger l'Image du Corps",
+    "uploadTattooImage": "Télécharger l'Image du Tatouage",
+    "opacity": "Opacité",
+    "size": "Taille",
+    "rotation": "Rotation",
+    "contrast": "Contraste",
+    "blackWhiteEffect": "Effet Noir et Blanc",
+    "blendEffect": "Effet de Mélange",
+    "positionAdjust": "Ajustement de Position"
+  },
+  "compatibility": {
+    "warning": "Avertissement de Compatibilité Système",
+    "noWebgl": "WebGL non pris en charge",
+    "noMediapipe": "MediaPipe non pris en charge",
+    "noCanvas": "Canvas non pris en charge",
+    "noFile": "Opérations de fichier non prises en charge",
+    "recommendation": "Certaines fonctionnalités peuvent ne pas fonctionner correctement. Veuillez utiliser un navigateur moderne."
+  },
+  "preview": {
+    "title": "Système Avancé de Prévisualisation de Tatouages",
+    "features": {
+      "title": "Fonctionnalités Avancées :",
+      "mediapipe": "Segmentation corporelle MediaPipe - Reconnaissance précise de la zone de peau",
+      "webgl": "Rendu WebGL Three.js - Effets 3D haute performance",
+      "shaders": "Effets de shader personnalisés - Mélange réaliste de texture de peau",
+      "realtime": "Prévisualisation en temps réel - Retour visuel instantané",
+      "multiLayer": "Composition multicouche - Capacités d'édition professionnelle",
+      "export": "Exportation haute qualité - Prêt pour consultation avec l'artiste tatoueur"
+    },
+    "instructions": {
+      "title": "Comment Utiliser :",
+      "step1": "Téléchargez une image claire du corps montrant la zone où vous voulez le tatouage",
+      "step2": "Téléchargez votre image de design de tatouage (de préférence avec un arrière-plan transparent)",
+      "step3": "Ajustez la position, la taille, la rotation et l'opacité pour un ajustement parfait",
+      "step4": "Utilisez les contrôles avancés pour affiner l'apparence",
+      "step5": "Exportez la prévisualisation finale pour partager avec votre artiste tatoueur"
+    },
+    "technical": {
+      "title": "Fonctionnalités Techniques :",
+      "gpu": "Rendu accéléré par GPU pour des performances fluides",
+      "ml": "Reconnaissance corporelle par apprentissage automatique",
+      "precision": "Positionnement de précision sous-pixel",
+      "formats": "Support pour plusieurs formats d'image (PNG, JPG, WebP)",
+      "responsive": "Design réactif pour toutes les tailles d'appareil"
+    }
+  }
+}

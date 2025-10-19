@@ -1,0 +1,253 @@
+{
+  "textToImage": {
+    "title": "Texto a Tatuaje",
+    "description": "Crea diseños de tatuajes de alta calidad gratis con nuestro generador de tatuajes IA. Da vida a tus ideas con arte de tatuajes diseñado por IA."
+  },
+  "imageToImage": {
+    "title": "Imagen a Tatuaje",
+    "description": "Sube tu imagen y transforma tu foto en un increíble diseño de tatuaje en solo segundos, liberando tu creatividad."
+  },
+  "tabs": {
+    "textToImage": "Texto a Imagen",
+    "imageToImage": "Imagen a Imagen"
+  },
+  "generating": {
+    "title": "Generando...",
+    "description": "Generando...",
+    "pleaseWait": "Por favor espere, la IA está generando diseños de tatuajes para usted"
+  },
+  "error": {
+    "generationFailed": "La generación falló, por favor inténtelo de nuevo",
+    "tryAgain": "Por favor, inténtelo de nuevo"
+  },
+  "actions": {
+    "generate": "Generar",
+    "regenerate": "Regenerar",
+    "download": "Descargar",
+    "delete": "Eliminar",
+    "report": "Reportar",
+    "clear": "Limpiar",
+    "upload": "Subir Imagen",
+    "moreOptions": "Más Opciones"
+  },
+  "leftSidebar": {
+    "style": "Estilo",
+    "color": "Color",
+    "quantity": "Cantidad",
+    "noStyle": "SIN Estilo",
+    "colorful": "Colorido",
+    "blackAndWhite": "Blanco y Negro"
+  },
+  "formats": {
+    "png": "PNG",
+    "pdf": "PDF"
+  },
+  "examples": {
+    "title": "Ejemplo",
+    "change": "Cambiar",
+    "loading": "Cargando...",
+    "noExamples": "No hay imágenes de ejemplo",
+    "recreate": "Recrear",
+    "textExamples": {
+      "crossAndRose": "Tatuajes de una cruz y una rosa en el brazo",
+      "roseAndSkull": "Un tatuaje de una rosa y una calavera en la espalda",
+      "englishWrist": "Hay un tatuaje en inglés en la muñeca"
+    }
+  },
+  "prompt": {
+    "title": "Prompt",
+    "placeholder": "¿Qué quieres crear?",
+    "suggestions": "Sugerencias de Estilo",
+    "refreshSuggestions": "Actualizar Sugerencias",
+    "clear": "Limpiar prompt",
+    "generateWithAI": "Mejorar con IA",
+    "ideas": "Ideas",
+    "required": "Por favor, ingrese un prompt para generar páginas para colorear"
+  },
+  "upload": {
+    "title": "Imagen",
+    "dragDrop": "Arrastra y suelta la imagen aquí, o haz clic para subir",
+    "selectFile": "Seleccionar Archivo",
+    "supportedFormats": "Soporta formatos JPG, PNG, WEBP",
+    "clickToUpload": "Haz clic para subir",
+    "required": "Por favor, suba una imagen para generar páginas para colorear"
+  },
+  "settings": {
+    "difficulty": "Nivel de Dificultad",
+    "ratio": "Relación de Aspecto",
+    "visibility": "Visibilidad Pública",
+    "private": "Privado",
+    "public": "Público",
+    "visibilityTip": "Cuando está habilitado, sus imágenes generadas pueden ser visibles para otros usuarios en la galería pública. Cuando está deshabilitado, solo usted puede ver sus imágenes generadas."
+  },
+  "history": {
+    "title": "Historial de Generación",
+    "noHistory": "No hay historial de generación",
+    "loadMore": "Cargar Más"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "Confirmar Eliminación",
+      "message": "¿Está seguro de que desea eliminar esta imagen? Esta acción no se puede deshacer.",
+      "confirm": "Confirmar Eliminación",
+      "cancel": "Cancelar"
+    }
+  },
+  "credits": {
+    "remaining": "Créditos Restantes",
+    "required": "Créditos Requeridos",
+    "insufficient": "Créditos Insuficientes",
+    "recharge": "Recargar Créditos"
+  },
+  "states": {
+    "noTextToImageYet": "Aún no hay texto a imagen",
+    "noImageToImageYet": "Aún no hay imagen a imagen"
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "testimonials": {
+      "title": "Lo Que Dicen los Usuarios"
+    },
+    "textFAQ": {
+      "0": {
+        "question": "¿Esta herramienta de Texto a Tatuaje es realmente gratis?",
+        "answer": "¡Absolutamente! Nuestra herramienta es 100% gratuita de usar. No hay tarifas ocultas, costos de suscripción o límites en cuántas páginas puedes generar. Crea a tu gusto."
+      },
+      "1": {
+        "question": "¿Qué tipo de prompts puedo escribir en el generador?",
+        "answer": "¡Puedes escribir prácticamente cualquier cosa! Prueba descripciones simples como 'un gato feliz', escenas detalladas como 'un dragón volando sobre un castillo medieval', o combinaciones creativas como 'un robot cocinando panqueques'. La IA funciona mejor con prompts claros y descriptivos que especifiquen lo que quieres ver en tu página para colorear."
+      },
+      "2": {
+        "question": "¿Puedo usar las imágenes que creo para propósitos comerciales?",
+        "answer": "¡Sí! Todas las páginas para colorear que generes son tuyas para usar como quieras, incluyendo para propósitos comerciales. Puedes imprimirlas, compartirlas, venderlas o usarlas en tu negocio sin restricciones ni tarifas de regalías."
+      },
+      "3": {
+        "question": "¿Puedo descargar e imprimir las páginas para colorear?",
+        "answer": "¡Absolutamente! Cada página para colorear puede descargarse en formato PNG o PDF de alta calidad. Están optimizadas para papel estándar de 8.5x11 pulgadas e imprimen hermosamente en cualquier impresora casera. El arte lineal limpio y negro usa tinta mínima mientras proporciona detalles nítidos."
+      },
+      "4": {
+        "question": "¿Cuál es la calidad de las imágenes generadas?",
+        "answer": "Nuestra IA genera páginas para colorear de alta resolución con arte lineal limpio y profesional. Cada imagen está optimizada para imprimir con contornos claros, niveles de detalle apropiados y curvas suaves que son perfectas para colorear con crayones, marcadores o lápices de colores."
+      },
+      "5": {
+        "question": "¿Es segura esta herramienta para que la usen mis hijos?",
+        "answer": "¡Sí! Nuestra herramienta es completamente segura para niños. Tenemos filtros de contenido incorporados que previenen que se genere contenido inapropiado. La interfaz es simple e intuitiva, facilitando que los niños la usen independientemente mientras los padres pueden sentirse seguros sobre la seguridad del contenido."
+      },
+      "6": {
+        "question": "¿Qué pasa si alguien escribe un prompt inapropiado?",
+        "answer": "Nuestro sistema avanzado de filtrado de contenido detecta y bloquea automáticamente prompts inapropiados. Si se ingresa un prompt inadecuado, el sistema pedirá cortésmente al usuario que pruebe una descripción diferente y familiar en su lugar. Esto mantiene la plataforma segura para usuarios de todas las edades."
+      },
+      "7": {
+        "question": "¿Puedo usar el generador en mi teléfono móvil o tableta?",
+        "answer": "¡Sí! Nuestro generador es completamente responsivo y funciona perfectamente en teléfonos inteligentes, tabletas y computadoras de escritorio. La interfaz se adapta al tamaño de tu pantalla, facilitando crear y descargar páginas para colorear desde cualquier dispositivo con conexión a internet."
+      },
+      "8": {
+        "question": "¿Guardan mis prompts o las imágenes que creo?",
+        "answer": "Tu privacidad es importante para nosotros. Aunque podemos almacenar temporalmente imágenes para propósitos técnicos, no guardamos permanentemente tus creaciones personales o prompts a menos que específicamente elijas compartirlos públicamente. Tienes control total sobre tu contenido y configuración de privacidad."
+      },
+      "9": {
+        "question": "¿Qué idiomas soporta el generador?",
+        "answer": "Actualmente, nuestro generador funciona mejor con prompts en inglés, pero puede entender y procesar descripciones en múltiples idiomas incluyendo español, francés, alemán y otros. Para mejores resultados, recomendamos usar un lenguaje claro y simple sin importar qué idioma elijas."
+      }
+    },
+    "tryNow": {
+      "text": {
+        "title": "Crea Tu Tatuaje IA Ahora",
+        "description": "Crea tu primer tatuaje hiperrealista en segundos sin necesidad de habilidades. Solo tu idea, nuestro Generador de Tatuajes IA y unos pocos clics.",
+        "buttonText": "Comenzar a Crear"
+      },
+      "image": {
+        "title": "¿Listo para Convertir Tu Imagen en una Página para Colorear?",
+        "description": "Ya seas un padre convirtiendo una foto familiar en una actividad divertida, un artista explorando una nueva composición, o simplemente buscando crear un regalo único, nuestra herramienta está aquí para ti. ¡Comienza a transformar tus imágenes favoritas ahora y libera tu artista interior!",
+        "buttonText": "Comenzar a Crear"
+      }
+    },
+    "questions": {
+      "howToStart": {
+        "question": "¿Cómo empiezo a diseñar mi tatuaje con el Generador de Tatuajes IA?",
+        "answer": "Simplemente escribe tu idea de tatuaje o sube una imagen, selecciona tu estilo preferido y haz clic en \"Generar\" para ver tu diseño de tatuaje personalizado en segundos."
+      },
+      "styles": {
+        "question": "¿Puedo elegir diferentes estilos de tatuaje en la herramienta IA?",
+        "answer": "Sí. El generador de tatuajes IA ofrece estilos como tradicional, realista, acuarela, geométrico y minimalista, para que puedas encontrar el ajuste perfecto."
+      },
+      "arPreview": {
+        "question": "¿Qué tan precisa es la vista previa AR del tatuaje en mi piel?",
+        "answer": "Nuestra vista previa AR de tatuajes proporciona una apariencia cercana a la realidad de ubicación, tamaño y color. Aunque la iluminación y el tono de piel pueden afectar el resultado, es una guía confiable para la toma de decisiones."
+      },
+      "customize": {
+        "question": "¿Puedo personalizar mi tatuaje después de generarlo?",
+        "answer": "Absolutamente. Puedes ajustar estilo, color, tamaño y detalles con nuestras herramientas de personalización de tatuajes hasta que estés completamente satisfecho."
+      },
+      "commercial": {
+        "question": "¿Puedo usar el diseño de tatuaje comercialmente después de generarlo?",
+        "answer": "Sí. Todos los diseños que crees con el generador de tatuajes IA son tuyos para usar para propósitos personales o comerciales."
+      },
+      "mobileApp": {
+        "question": "¿Hay una aplicación móvil para el Generador de Tatuajes IA?",
+        "answer": "Sí. La versión móvil te permite diseñar, personalizar y previsualizar tatuajes sobre la marcha, ofreciendo las mismas funciones principales que la aplicación web."
+      },
+      "experience": {
+        "question": "¿Necesito experiencia en diseño para usar el generador de tatuajes IA?",
+        "answer": "Para nada. La herramienta es amigable para principiantes: solo ingresa tu idea y deja que el sistema de diseño de tatuajes IA maneje el resto."
+      },
+      "speed": {
+        "question": "¿Cuánto tiempo toma crear un diseño de tatuaje?",
+        "answer": "La mayoría de los diseños de tatuajes IA se generan en menos de 30 segundos, para que puedas explorar múltiples conceptos rápidamente."
+      }
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "Convierte Tu Creatividad en Arte de Tatuaje Impresionante",
+      "description": "¿Alguna vez deseaste que tu visión de tatuaje pudiera saltar de la imaginación a una obra de arte lista para la piel en momentos? Con el Generador de Tatuajes IA, simplemente escribe tu idea o sube una imagen, y mírala transformarse en un diseño detallado y profesional en segundos. Sin largas esperas, sin revisiones infinitas, solo creatividad instantánea al alcance de tus dedos.",
+      "buttonText": "Probar Ahora"
+    },
+    "section2": {
+      "title": "Estilos Infinitos de Tatuajes, Una Herramienta Poderosa",
+      "description": "Desde minimalismo de líneas finas hasta tradicional audaz, desde sombreado hiperrealista hasta efectos suaves de acuarela: este Generador de Tatuajes IA te tiene cubierto. Experimenta con mangas de dragones japoneses, símbolos pequeños en el tobillo o piezas geométricas en el antebrazo. Explora, mezcla y combina estilos hasta encontrar el diseño que te hable.",
+      "buttonText": "Probar Ahora"
+    },
+    "section3": {
+      "title": "Hecho para Compartir, Listo para el Mundo Real",
+      "description": "Tu diseño de tatuaje no debería solo verse genial en pantalla: debería encajar en tu vida. Descarga imágenes de alta resolución, publícalas en tus canales sociales o envíalas directamente a tu artista tatuador. Las funciones integradas de recorte inteligente y vista previa te permiten ver exactamente cómo se verá en tu cuerpo antes de decidirte.",
+      "buttonText": "Probar Ahora"
+    },
+    "examples": {
+      "example1": "Los patrones de estructuras metálicas mecánicas"
+    }
+  },
+  "howToCreate": {
+    "title": "Cómo Crear Tatuaje",
+    "step1": {
+      "step": "Paso 1",
+      "title": "Ingresa Idea",
+      "description": "Escribe tu concepto o sube una imagen: nuestra herramienta de diseño de tatuajes IA comienza a funcionar instantáneamente."
+    },
+    "step2": {
+      "step": "Paso 2",
+      "title": "Selecciona Estilo y Color",
+      "description": "Elige tu estilo de tatuaje y color favorito, luego afina con herramientas de personalización de tatuajes."
+    },
+    "step3": {
+      "step": "Paso 3",
+      "title": "Genera y Guarda",
+      "description": "Haz clic en \"Generar\" para crear tu diseño, luego guarda la imagen o edítala hasta que sea perfecta."
+    }
+  },
+  "cta": {
+    "title": "Crea Tu Tatuaje IA Ahora",
+    "description": "Crea tu primer tatuaje hiperrealista en segundos sin necesidad de habilidades. Solo tu idea, nuestro Generador de Tatuajes IA y unos pocos clics.",
+    "buttonText": "Comenzar a Crear"
+  },
+  "seo": {
+    "generate": {
+      "title": "Generador de Tatuajes IA Gratis: Diseños Personalizados, Estilos y Vista Previa AR",
+      "description": "Descubre cómo crear tu tatuaje perfecto en 3 simples pasos. Nuestra herramienta de IA te permite generar diseños ilimitados, personalizar estilos infinitos y previsualizarlo en tu piel antes de decidirte. Obtén tu diseño de tatuaje en alta resolución listo para tu artista.",
+      "keywords": "generador de tatuajes IA gratis, diseños de tatuajes personalizados, vista previa tatuajes AR, diseños ilimitados, alta resolución"
+    }
+  },
+  "premium": {
+    "feature": "Función Premium"
+  }
+}

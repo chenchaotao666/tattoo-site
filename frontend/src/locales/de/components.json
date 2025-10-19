@@ -1,0 +1,100 @@
+{
+  "dialog": {
+    "confirmDelete": "Sind Sie sicher, dass Sie dieses Element löschen möchten?",
+    "delete": "Löschen",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "processing": "Verarbeitung...",
+    "notice": "Hinweis"
+  },
+  "googleLogin": {
+    "continueWith": "Mit Google fortfahren",
+    "loading": "Wird geladen...",
+    "error": "Google-Anmeldung nicht geladen",
+    "configError": "Bitte konfigurieren Sie die Umgebungsvariable VITE_GOOGLE_CLIENT_ID"
+  },
+  "noData": {
+    "message": "Keine Daten gefunden",
+    "altText": "Keine Daten"
+  },
+  "backToTop": {
+    "title": "Nach oben",
+    "altText": "Nach oben scrollen"
+  },
+  "loading": {
+    "general": "Wird geladen...",
+    "pleaseWait": "Bitte warten..."
+  },
+  "error": {
+    "general": "Ein Fehler ist aufgetreten",
+    "tryAgain": "Erneut versuchen",
+    "somethingWrong": "Etwas ist schief gelaufen",
+    "generationFailed": "Generierung fehlgeschlagen",
+    "networkError": "Netzwerkfehler aufgetreten",
+    "serverError": "Serverfehler"
+  },
+  "imageGrid": {
+    "noResults": "Keine Bilder gefunden",
+    "loadingImages": "Bilder werden geladen...",
+    "errorLoading": "Fehler beim Laden der Bilder"
+  },
+  "generateCenter": {
+    "title": "KI-Tattoo-Generator",
+    "description": "Erstellen Sie mühelos einzigartige Tattoo-Designs mit KI. Passen Sie Stile an, erkunden Sie endlose Optionen und betrachten Sie Ihre Ideen sofort.",
+    "generationFailed": "Generierung fehlgeschlagen",
+    "generatedTattooAlt": "Generiertes Tattoo-Design",
+    "generatedAlt": "Generiertes Bild",
+    "generatedTattoo": "Generiertes Tattoo-Design",
+    "downloadAll": "Alle herunterladen"
+  },
+  "generateSidebar": {
+    "style": "Stil",
+    "color": "Farbe",
+    "quantity": "Anzahl",
+    "image": "Bild",
+    "images": "Bilder",
+    "prompt": "Eingabe",
+    "uploadImage": "Bild hochladen",
+    "generate": "Generieren",
+    "clear": "Löschen",
+    "premiumFeature": "Premium-Funktion"
+  },
+  "pricing": {
+    "buyNow": "Jetzt kaufen",
+    "popular": "Beliebt",
+    "save": "{discount} sparen"
+  },
+  "generateTextarea": {
+    "descriptionPrompt": "Beschreiben Sie Ihre Tattoo-Idee",
+    "placeholder": "Geben Sie Ihre Tattoo-Design-Beschreibung ein...",
+    "random": "Zufällig",
+    "output": "Ergebnis",
+    "outputs": "Ergebnisse",
+    "noStyle": "Kein Stil",
+    "colorful": "Farbenfroh",
+    "blackAndWhite": "Schwarz & Weiß",
+    "create": "Erstellen",
+    "generate": "Generieren"
+  },
+  "styleSelector": {
+    "selectStyle": "Stil auswählen",
+    "noStyle": "Kein Stil"
+  },
+  "moreMenu": {
+    "report": "Melden",
+    "share": "Teilen",
+    "shareToX": "Auf X teilen",
+    "shareToFacebook": "Auf Facebook teilen",
+    "delete": "Löschen",
+    "deleteSuccess": "Erfolgreich gelöscht",
+    "partialDeleteSuccess": "Erfolgreich {count} {imageText} gelöscht",
+    "deleteError": "Löschen fehlgeschlagen, bitte versuchen Sie es erneut"
+  },
+  "categoryCard": {
+    "viewAllTattoos": "Alle Tattoos anzeigen"
+  },
+  "categoryMenus": {
+    "inspirationText": "{count} Designs für endlose Tattoo-Inspiration",
+    "viewAll": "Alle anzeigen"
+  }
+}

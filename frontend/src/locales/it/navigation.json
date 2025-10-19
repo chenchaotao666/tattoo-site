@@ -1,0 +1,62 @@
+{
+  "menu": {
+    "coloringPagesFree": "Pagine da Colorare Gratis",
+    "textColoringPage": "Pagina Colorazione Testo",
+    "imageColoringPage": "Pagina Colorazione Immagine",
+    "create": "Crea",
+    "inspiration": "Ispirazione",
+    "pricing": "Prezzi",
+    "blog": "Blog",
+    "login": "Accedi",
+    "register": "Registrati",
+    "profile": "Profilo",
+    "logout": "Esci",
+    "myCreations": "Le Mie Creazioni",
+    "categories": "Categorie",
+    "gallery": "Galleria",
+    "home": "Home"
+  },
+  "categories": {
+    "popularColoringPages": "Tatuaggi Popolari"
+  },
+  "breadcrumb": {
+    "home": "Home",
+    "categories": "Categorie",
+    "pricing": "Piani Tariffari",
+    "profile": "Profilo",
+    "login": "Accedi",
+    "register": "Registrati",
+    "creations": "Le Mie Creazioni",
+    "generate": "Crea",
+    "textToImage": "Testo a Immagine",
+    "imageToImage": "Immagine a Immagine",
+    "blog": "Blog"
+  },
+  "footer": {
+    "sections": {
+      "tools": "Strumenti",
+      "company": "Azienda"
+    },
+    "links": {
+      "privacyPolicy": "Politica sulla Privacy",
+      "termsOfService": "Termini di Servizio",
+      "refundPolicy": "Politica di Rimborso"
+    },
+    "contact": {
+      "title": "Contattaci per domande sull'utilizzo：",
+      "email": "congcong@mail.xinsulv.com"
+    },
+    "copyright": "© 2025 - Presente Flowrift. Tutti i diritti riservati."
+  },
+  "language": {
+    "chinese": "简体中文",
+    "english": "English",
+    "japanese": "日本語",
+    "korean": "한국어",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch",
+    "italian": "Italiano",
+    "selectLanguage": "Seleziona Lingua"
+  }
+}

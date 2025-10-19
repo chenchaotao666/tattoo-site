@@ -1,0 +1,128 @@
+{
+  "buttons": {
+    "confirm": "Conferma",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "download": "Scarica",
+    "upload": "Carica",
+    "search": "Cerca",
+    "retry": "Riprova",
+    "close": "Chiudi",
+    "back": "Indietro",
+    "next": "Avanti",
+    "previous": "Precedente",
+    "submit": "Invia",
+    "reset": "Reimposta",
+    "generate": "Genera",
+    "create": "Crea",
+    "update": "Aggiorna",
+    "refresh": "Aggiorna",
+    "clear": "Cancella",
+    "copy": "Copia",
+    "share": "Condividi",
+    "print": "Stampa",
+    "viewMore": "Visualizza altro",
+    "loadMore": "Carica altro",
+    "showAll": "Mostra tutto",
+    "hideAll": "Nascondi tutto"
+  },
+  "seo": {
+    "home": {
+      "title": "Generatore di Tatuaggi AI | Crea Tatuaggi Realistici con Anteprima AR",
+      "description": "Trasforma la tua idea di tatuaggio in un design iper-realistico in pochi secondi. Il nostro strumento AI offre stili infiniti e ti permette di vederlo sulla tua pelle con AR, così puoi decidere con il 100% di fiducia. Provalo gratis ora!",
+      "keywords": "generatore tatuaggi AI, creatore tatuaggi realistici, anteprima tatuaggi AR, design tatuaggi personalizzati, tatuaggio gratis"
+    },
+    "generate": {
+      "title": "Generatore Gratuito di Tatuaggi AI: Design Personalizzati, Stili e Anteprima AR",
+      "description": "Scopri come creare il tuo tatuaggio perfetto in 3 semplici passaggi. Il nostro strumento AI ti permette di generare design illimitati, personalizzare stili infiniti e vederlo sulla tua pelle prima di decidere. Ottieni il tuo design ad alta risoluzione pronto per il tuo tatuatore.",
+      "keywords": "generatore gratuito tatuaggi AI, design tatuaggi personalizzati, design tatuaggi illimitati, alta risoluzione"
+    },
+    "categories": {
+      "title": "Idee e Stili per Tatuaggi AI | Esplora Centinaia di Design Unici",
+      "description": "Trova la tua prossima ispirazione per tatuaggi nella nostra galleria generata dall'AI. Sfoglia centinaia di design in stili come Giapponese, Minimalista, Acquerello e Tribale. Vedi un'idea che ti piace? Personalizzala istantaneamente con il nostro Generatore di Tatuaggi AI. Scopri il tuo stile perfetto oggi!",
+      "keywords": "idee tatuaggi, stili tatuaggi, tatuaggi giapponesi, tatuaggi minimalisti, tatuaggi acquerello"
+    },
+    "creations": {
+      "title": "Galleria Tatuaggi AI - Creazioni degli Utenti e Ispirazione",
+      "description": "Esplora fantastici tatuaggi generati dall'AI creati dalla nostra community. Lasciati ispirare e scopri nuove idee per il tuo prossimo progetto di tatuaggio.",
+      "keywords": "galleria tatuaggi AI, creazioni tatuaggi utenti, ispirazione tatuaggi, design tatuaggi community"
+    },
+    "pricing": {
+      "title": "Prezzi Generatore Tatuaggi AI | Piani Flessibili e Accesso Completo",
+      "description": "Trova il piano perfetto per il nostro Generatore di Tatuaggi AI. Ottieni design illimitati, download ad alta risoluzione e accesso completo a partire da soli €12,99. Scegli il tuo piano e inizia a creare oggi!",
+      "keywords": "prezzi generatore tatuaggi, abbonamento tatuaggi AI, funzionalità premium tatuaggi, illimitato"
+    },
+    "profile": {
+      "title": "Profilo - Gestione Account",
+      "description": "Gestisci le informazioni e le impostazioni del tuo account. Aggiorna nome utente, password, avatar e altre informazioni personali.",
+      "keywords": "gestione profilo, impostazioni account, profilo utente, cambio password, caricamento avatar"
+    }
+  },
+  "status": {
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "success": "Successo",
+    "failed": "Fallito",
+    "completed": "Completato",
+    "pending": "In attesa",
+    "processing": "Elaborazione in corso",
+    "cancelled": "Annullato",
+    "timeout": "Timeout",
+    "connecting": "Connessione in corso...",
+    "uploading": "Caricamento in corso...",
+    "downloading": "Download in corso...",
+    "generating": "Generazione in corso...",
+    "saving": "Salvataggio in corso..."
+  },
+  "messages": {
+    "noData": "Nessun dato disponibile",
+    "noResults": "Nessun risultato trovato",
+    "networkError": "Connessione di rete fallita",
+    "serverError": "Errore del server",
+    "unknownError": "Errore sconosciuto",
+    "operationSuccess": "Operazione riuscita",
+    "operationFailed": "Operazione fallita",
+    "saveSuccess": "Salvato con successo",
+    "deleteSuccess": "Eliminato con successo",
+    "updateSuccess": "Aggiornato con successo",
+    "uploadSuccess": "Caricato con successo",
+    "downloadSuccess": "Scaricato con successo",
+    "copySuccess": "Copiato con successo",
+    "shareSuccess": "Condiviso con successo",
+    "pleaseWait": "Attendi per favore...",
+    "processing": "Elaborazione in corso, attendi per favore...",
+    "confirmDelete": "Sei sicuro di voler eliminare?",
+    "confirmAction": "Sei sicuro di voler eseguire questa azione?",
+    "unsavedChanges": "Hai modifiche non salvate. Sei sicuro di voler uscire?",
+    "orderHistoryNotAvailable": "La funzionalità cronologia ordini non è ancora disponibile",
+    "loadOrdersFailed": "Impossibile caricare la cronologia ordini",
+    "loadUserFailed": "Impossibile caricare le informazioni utente, aggiorna la pagina e riprova",
+    "loginRequired": "Effettua il login per accedere al tuo profilo"
+  },
+  "blog": {
+    "title": "Blog",
+    "by": "Di",
+    "author": "Di",
+    "publishedOn": "Pubblicato il",
+    "readMore": "Leggi di più",
+    "backToBlog": "Torna al Blog",
+    "totalArticles": "Totale {count} articoli",
+    "noPosts": "Nessun post del blog disponibile",
+    "notFound": "Articolo non trovato",
+    "notFoundMessage": "L'articolo che stai cercando non esiste.",
+    "errorLoading": "Errore nel caricamento dell'articolo",
+    "errorMessage": "Impossibile caricare l'articolo. Riprova per favore.",
+    "seo": {
+      "title": "Blog Idee e Ispirazione Tatuaggi AI | Tattooinkai",
+      "description": "La tua fonte definitiva per l'ispirazione sui tatuaggi. Esplora centinaia di design generati dall'AI, leggi guide su ogni stile e ottieni consigli da esperti per il tuo prossimo pezzo d'arte. Trova la tua idea perfetta con Tattooinkai!",
+      "keywords": "blog idee tatuaggi, ispirazione tatuaggi, design tatuaggi AI, guide stili tatuaggi, consigli esperti tatuaggi"
+    }
+  },
+  "tryNow": {
+    "title": "Crea il Tuo Tatuaggio AI Ora",
+    "description": "Crea il tuo primo tatuaggio iper-realistico in pochi secondi senza competenze necessarie. Solo la tua idea, il nostro Generatore di Tatuaggi AI e qualche clic.",
+    "tryNow": "Inizia a Creare"
+  }
+}

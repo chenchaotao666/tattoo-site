@@ -1,0 +1,100 @@
+{
+  "dialog": {
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet élément ?",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "close": "Fermer",
+    "processing": "Traitement...",
+    "notice": "Avis"
+  },
+  "googleLogin": {
+    "continueWith": "Continuer avec Google",
+    "loading": "Chargement...",
+    "error": "Connexion Google non chargée",
+    "configError": "Veuillez configurer la variable d'environnement VITE_GOOGLE_CLIENT_ID"
+  },
+  "noData": {
+    "message": "Aucune donnée trouvée",
+    "altText": "Aucune donnée"
+  },
+  "backToTop": {
+    "title": "Retour en haut",
+    "altText": "Faire défiler vers le haut"
+  },
+  "loading": {
+    "general": "Chargement...",
+    "pleaseWait": "Veuillez patienter..."
+  },
+  "error": {
+    "general": "Une erreur s'est produite",
+    "tryAgain": "Réessayer",
+    "somethingWrong": "Quelque chose s'est mal passé",
+    "generationFailed": "La génération a échoué",
+    "networkError": "Erreur réseau s'est produite",
+    "serverError": "Erreur du serveur"
+  },
+  "imageGrid": {
+    "noResults": "Aucune image trouvée",
+    "loadingImages": "Chargement des images...",
+    "errorLoading": "Erreur lors du chargement des images"
+  },
+  "generateCenter": {
+    "title": "Générateur de Tatouages IA",
+    "description": "Créez des designs de tatouages uniques sans effort avec l'IA. Personnalisez les styles, explorez des options infinies, et prévisualisez vos idées instantanément.",
+    "generationFailed": "La génération a échoué",
+    "generatedTattooAlt": "Design de tatouage généré",
+    "generatedAlt": "Image générée",
+    "generatedTattoo": "Design de tatouage généré",
+    "downloadAll": "Tout Télécharger"
+  },
+  "generateSidebar": {
+    "style": "Style",
+    "color": "Couleur",
+    "quantity": "Quantité",
+    "image": "Image",
+    "images": "Images",
+    "prompt": "Prompt",
+    "uploadImage": "Téléverser une Image",
+    "generate": "Générer",
+    "clear": "Effacer",
+    "premiumFeature": "Fonctionnalité Premium"
+  },
+  "pricing": {
+    "buyNow": "Acheter Maintenant",
+    "popular": "Populaire",
+    "save": "Économiser {discount}"
+  },
+  "generateTextarea": {
+    "descriptionPrompt": "Décrivez votre idée de tatouage",
+    "placeholder": "Entrez la description de votre design de tatouage...",
+    "random": "Aléatoire",
+    "output": "résultat",
+    "outputs": "résultats",
+    "noStyle": "Aucun Style",
+    "colorful": "Coloré",
+    "blackAndWhite": "Noir et Blanc",
+    "create": "Créer",
+    "generate": "Générer"
+  },
+  "styleSelector": {
+    "selectStyle": "Sélectionner le Style",
+    "noStyle": "Aucun Style"
+  },
+  "moreMenu": {
+    "report": "Signaler",
+    "share": "Partager",
+    "shareToX": "Partager sur X",
+    "shareToFacebook": "Partager sur Facebook",
+    "delete": "Supprimer",
+    "deleteSuccess": "Supprimé avec succès",
+    "partialDeleteSuccess": "Supprimé avec succès {count} {imageText}",
+    "deleteError": "Échec de la suppression, veuillez réessayer"
+  },
+  "categoryCard": {
+    "viewAllTattoos": "Voir tous les Tatouages"
+  },
+  "categoryMenus": {
+    "inspirationText": "{count} designs pour une inspiration infinie de tatouages",
+    "viewAll": "Tout Voir"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "buttons": {
+    "confirm": "確認",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "刪除",
+    "edit": "編輯",
+    "download": "下載",
+    "upload": "上傳",
+    "search": "搜索",
+    "retry": "重試",
+    "close": "關閉",
+    "back": "返回",
+    "next": "下一步",
+    "previous": "上一步",
+    "submit": "提交",
+    "reset": "重置",
+    "generate": "生成",
+    "create": "創建",
+    "update": "更新",
+    "refresh": "重新整理",
+    "clear": "清除",
+    "copy": "複製",
+    "share": "分享",
+    "print": "列印",
+    "viewMore": "查看更多",
+    "loadMore": "載入更多",
+    "showAll": "顯示全部",
+    "hideAll": "隱藏全部"
+  },
+  "seo": {
+    "home": {
+      "title": "AI紋身生成器 | 創建逼真紋身與AR預覽",
+      "description": "在幾秒鐘內將您的紋身創意轉化為超逼真的設計。我們的AI工具提供無盡的風格選擇，讓您通過AR在皮膚上預覽，讓您100%自信地做出決定。立即免費試用！",
+      "keywords": "AI紋身生成器，逼真紋身製作器，AR紋身預覽，定制紋身設計，免費紋身"
+    },
+    "generate": {
+      "title": "免費AI紋身生成器：定制設計、風格與AR預覽",
+      "description": "了解如何通過3個簡單步驟創建完美紋身。我們的AI工具讓您生成無限設計，定制無盡風格，並在做決定前在皮膚上預覽。獲得為您的紋身師準備的高分辨率紋身設計。",
+      "keywords": "免費AI紋身生成器，定制紋身設計，無限紋身設計，高分辨率"
+    },
+    "categories": {
+      "title": "AI紋身創意與風格 | 探索數百種獨特設計",
+      "description": "在我們AI生成的畫廊中尋找您下一個紋身靈感。瀏覽數百種設計，涵蓋日式、極簡主義、水彩和部落等風格。看到喜歡的創意？使用我們的AI紋身生成器即時定制。立即發現您的完美風格！",
+      "keywords": "紋身創意，紋身風格，日式紋身，極簡主義紋身，水彩紋身"
+    },
+    "creations": {
+      "title": "AI紋身畫廊 - 用戶創作與靈感",
+      "description": "探索我們社區創作的令人驚嘆的AI生成紋身。獲得靈感，為您的下一個紋身項目發現新創意。",
+      "keywords": "AI紋身畫廊，用戶紋身創作，紋身靈感，社區紋身設計"
+    },
+    "pricing": {
+      "title": "AI紋身生成器定價 | 靈活計劃與完整訪問",
+      "description": "為我們的AI紋身生成器找到完美計劃。獲得無限設計、高分辨率下載和完整訪問，起價僅$12.99。選擇您的計劃，立即開始創作！",
+      "keywords": "紋身生成器定價，AI紋身訂閱，高級紋身功能，無限"
+    },
+    "profile": {
+      "title": "個人資料 - 帳戶管理",
+      "description": "管理您的帳戶信息和設置。更新用戶名、密碼、頭像和其他個人信息。",
+      "keywords": "個人資料管理，帳戶設置，用戶個人資料，密碼更改，頭像上傳"
+    }
+  },
+  "status": {
+    "loading": "載入中...",
+    "error": "錯誤",
+    "success": "成功",
+    "failed": "失敗",
+    "completed": "已完成",
+    "pending": "等待中",
+    "processing": "處理中",
+    "cancelled": "已取消",
+    "timeout": "超時",
+    "connecting": "連接中...",
+    "uploading": "上傳中...",
+    "downloading": "下載中...",
+    "generating": "生成中...",
+    "saving": "保存中..."
+  },
+  "messages": {
+    "noData": "暫無數據",
+    "noResults": "未找到結果",
+    "networkError": "網絡連接失敗",
+    "serverError": "服務器錯誤",
+    "unknownError": "未知錯誤",
+    "operationSuccess": "操作成功",
+    "operationFailed": "操作失敗",
+    "saveSuccess": "保存成功",
+    "deleteSuccess": "刪除成功",
+    "updateSuccess": "更新成功",
+    "uploadSuccess": "上傳成功",
+    "downloadSuccess": "下載成功",
+    "copySuccess": "複製成功",
+    "shareSuccess": "分享成功",
+    "pleaseWait": "請稍候...",
+    "processing": "處理中，請稍候...",
+    "confirmDelete": "您確定要刪除嗎？",
+    "confirmAction": "您確定要執行此操作嗎？",
+    "unsavedChanges": "您有未保存的更改。確定要離開嗎？",
+    "orderHistoryNotAvailable": "訂單歷史功能暫不可用",
+    "loadOrdersFailed": "載入訂單歷史失敗",
+    "loadUserFailed": "載入用戶信息失敗，請重新整理頁面再試",
+    "loginRequired": "請登錄以訪問您的個人資料"
+  },
+  "blog": {
+    "title": "部落格",
+    "by": "作者",
+    "author": "作者",
+    "publishedOn": "發布於",
+    "readMore": "閱讀更多",
+    "backToBlog": "返回部落格",
+    "totalArticles": "共{count}篇文章",
+    "noPosts": "暫無部落格文章",
+    "notFound": "文章未找到",
+    "notFoundMessage": "您查找的文章不存在。",
+    "errorLoading": "載入文章錯誤",
+    "errorMessage": "載入文章失敗。請再試一次。",
+    "seo": {
+      "title": "AI紋身創意與靈感部落格 | Tattooinkai",
+      "description": "您的紋身靈感終極來源。探索數百種AI生成的設計，閱讀每種風格的指南，為您的下一件藝術品獲得專家建議。在Tattooinkai找到您的完美創意！",
+      "keywords": "紋身創意部落格，紋身靈感，AI紋身設計，紋身風格指南，專家紋身建議"
+    }
+  },
+  "tryNow": {
+    "title": "立即創建您的AI紋身",
+    "description": "無需技能，幾秒鐘內創建您的第一個超逼真紋身。只需您的創意、我們的AI紋身生成器和幾次點擊。",
+    "tryNow": "開始創作"
+  }
+}

@@ -12,6 +12,22 @@ export const isPublicPath = (path: string): boolean => {
     pathWithoutLanguage = path.substring(3) || '/';
   } else if (path.startsWith('/ja')) {
     pathWithoutLanguage = path.substring(3) || '/';
+  } else if (path.startsWith('/ko')) {
+    pathWithoutLanguage = path.substring(3) || '/';
+  } else if (path.startsWith('/tw')) {
+    pathWithoutLanguage = path.substring(3) || '/';
+  } else if (path.startsWith('/es')) {
+    pathWithoutLanguage = path.substring(3) || '/';
+  } else if (path.startsWith('/fr')) {
+    pathWithoutLanguage = path.substring(3) || '/';
+  } else if (path.startsWith('/de')) {
+    pathWithoutLanguage = path.substring(3) || '/';
+  } else if (path.startsWith('/it')) {
+    pathWithoutLanguage = path.substring(3) || '/';
+  } else if (path.startsWith('/pt')) {
+    pathWithoutLanguage = path.substring(3) || '/';
+  } else if (path.startsWith('/ru')) {
+    pathWithoutLanguage = path.substring(3) || '/';
   }
   
   const publicPaths = [
@@ -66,6 +82,22 @@ export const getCurrentLanguagePrefix = (): string => {
       return '/zh';
     } else if (currentPath.startsWith('/ja')) {
       return '/ja';
+    } else if (currentPath.startsWith('/ko')) {
+      return '/ko';
+    } else if (currentPath.startsWith('/tw')) {
+      return '/tw';
+    } else if (currentPath.startsWith('/es')) {
+      return '/es';
+    } else if (currentPath.startsWith('/fr')) {
+      return '/fr';
+    } else if (currentPath.startsWith('/de')) {
+      return '/de';
+    } else if (currentPath.startsWith('/it')) {
+      return '/it';
+    } else if (currentPath.startsWith('/pt')) {
+      return '/pt';
+    } else if (currentPath.startsWith('/ru')) {
+      return '/ru';
     }
   }
   return '';

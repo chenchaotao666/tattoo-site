@@ -1,0 +1,57 @@
+{
+  "title": "タトゥープレビューアー",
+  "toolbar": {
+    "eraser": "消しゴムツール",
+    "reset": "リセット",
+    "export": "エクスポート"
+  },
+  "controlPanel": {
+    "title": "コントロールパネル",
+    "imageUpload": "画像アップロード",
+    "uploadBodyImage": "身体画像をアップロード",
+    "uploadTattooImage": "タトゥー画像をアップロード",
+    "opacity": "透明度",
+    "size": "サイズ",
+    "rotation": "回転",
+    "contrast": "コントラスト",
+    "blackWhiteEffect": "白黒効果",
+    "blendEffect": "ブレンド効果",
+    "positionAdjust": "位置調整"
+  },
+  "compatibility": {
+    "warning": "システム互換性警告",
+    "noWebgl": "WebGL サポートなし",
+    "noMediapipe": "MediaPipe サポートなし",
+    "noCanvas": "Canvas サポートなし",
+    "noFile": "ファイル操作サポートなし",
+    "recommendation": "一部の機能が正常に動作しない可能性があります。モダンブラウザの使用をお勧めします。"
+  },
+  "preview": {
+    "title": "高度なタトゥープレビューシステム",
+    "features": {
+      "title": "高度な機能特性：",
+      "mediapipe": "MediaPipe 身体セグメンテーション - 正確な肌エリア認識",
+      "webgl": "Three.js WebGL レンダリング - 高性能 3D 効果",
+      "shaders": "カスタムシェーダー効果 - リアルな肌テクスチャブレンド",
+      "realtime": "リアルタイムプレビュー - 即座の視覚フィードバック",
+      "multiLayer": "マルチレイヤー合成 - プロ編集機能",
+      "export": "高品質エクスポート - タトゥーアーティスト相談準備完了"
+    },
+    "instructions": {
+      "title": "使用方法：",
+      "step1": "タトゥーをしたいエリアが見える鮮明な身体画像をアップロード",
+      "step2": "タトゥーデザイン画像をアップロード（透明背景推奨）",
+      "step3": "完璧にフィットするよう位置、サイズ、回転、透明度を調整",
+      "step4": "高度なコントロールで外観を微調整",
+      "step5": "タトゥーアーティストと共有するため最終プレビューをエクスポート"
+    },
+    "technical": {
+      "title": "技術特性：",
+      "gpu": "GPU アクセラレーションレンダリングによる滑らかなパフォーマンス",
+      "ml": "機械学習身体認識",
+      "precision": "サブピクセル精度位置決め",
+      "formats": "複数画像フォーマットサポート（PNG、JPG、WebP）",
+      "responsive": "レスポンシブデザイン、全デバイスサイズ対応"
+    }
+  }
+}

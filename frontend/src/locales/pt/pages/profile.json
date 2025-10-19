@@ -1,0 +1,96 @@
+{
+  "title": "Perfil",
+  "subtitle": "Gerencie suas informações de conta e configurações",
+  "loading": "Carregando...",
+  "avatar": "Avatar",
+  "credits": "Créditos",
+  "userType": {
+    "free": "Usuário Gratuito",
+    "lite": "Usuário Lite",
+    "pro": "Usuário Pro"
+  },
+  "sections": {
+    "basicInfo": "Informações Básicas",
+    "changePassword": "Alterar Senha",
+    "passwordHint": "Deixe os seguintes campos vazios se não quiser alterar sua senha",
+    "orderHistory": "Histórico de Pedidos"
+  },
+  "fields": {
+    "username": "Nome de Usuário",
+    "email": "Endereço de Email",
+    "currentPassword": "Senha Atual",
+    "newPassword": "Nova Senha",
+    "confirmPassword": "Confirmar Nova Senha"
+  },
+  "placeholders": {
+    "username": "Digite seu nome de usuário",
+    "currentPassword": "Digite sua senha atual",
+    "newPassword": "Digite nova senha (pelo menos 6 caracteres)",
+    "confirmPassword": "Digite a nova senha novamente"
+  },
+  "hints": {
+    "emailReadonly": "O endereço de email não pode ser alterado"
+  },
+  "buttons": {
+    "logout": "Sair",
+    "cancel": "Cancelar",
+    "save": "Salvar Alterações",
+    "changePlan": "Alterar Plano",
+    "cancelSubscription": "Cancelar Assinatura"
+  },
+  "messages": {
+    "success": "Perfil atualizado com sucesso!",
+    "loginRequired": "Por favor faça login para acessar seu perfil",
+    "loadUserFailed": "Falha ao carregar informações do usuário, por favor atualize a página e tente novamente",
+    "networkError": "Erro de rede, por favor verifique sua conexão e tente novamente",
+    "loadOrdersFailed": "Falha ao carregar histórico de pedidos",
+    "confirmCancelSubscription": "Tem certeza de que deseja cancelar sua assinatura?",
+    "subscriptionCancelled": "Assinatura cancelada",
+    "cancelSubscriptionFailed": "Falha ao cancelar assinatura, por favor tente novamente mais tarde"
+  },
+  "errors": {
+    "username": {
+      "required": "Por favor digite um nome de usuário",
+      "minLength": "Nome de usuário deve ter pelo menos 2 caracteres",
+      "maxLength": "Nome de usuário não pode exceder 20 caracteres",
+      "exists": "Este nome de usuário já está em uso"
+    },
+    "password": {
+      "currentRequired": "Por favor digite sua senha atual",
+      "newRequired": "Por favor digite uma nova senha",
+      "minLength": "Nova senha deve ter pelo menos 6 caracteres",
+      "maxLength": "Nova senha não pode exceder 50 caracteres",
+      "confirmRequired": "Por favor confirme sua nova senha",
+      "confirmMismatch": "As duas novas senhas não coincidem",
+      "samePassword": "Nova senha não pode ser igual à senha atual",
+      "currentIncorrect": "Senha atual está incorreta"
+    },
+    "avatar": {
+      "fileType": "Por favor selecione um arquivo de imagem",
+      "fileSize": "Tamanho da imagem não pode exceder 5MB",
+      "uploadFailed": "Upload do avatar falhou, por favor tente novamente"
+    },
+    "format": "Formato de entrada está incorreto, por favor verifique e tente novamente",
+    "updateFailed": "Atualização falhou, por favor tente novamente mais tarde"
+  },
+  "subscription": {
+    "free": "Gratuito",
+    "lite": "Lite",
+    "pro": "Pro"
+  },
+  "orderTable": {
+    "orderId": "ID do Pedido",
+    "planInfo": "Informações do Plano",
+    "amount": "Valor",
+    "createdAt": "Criado em",
+    "paymentStatus": "Status do Pagamento",
+    "unpaid": "Não Pago",
+    "paid": "Pago",
+    "success": "Sucesso",
+    "failed": "Falhou",
+    "pending": "Pendente",
+    "cancelled": "Cancelado",
+    "refunded": "Reembolsado",
+    "noOrders": "Nenhum pedido encontrado"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "breadcrumb": {
+    "home": "홈",
+    "categories": "무료 타투 이미지"
+  },
+  "title": "탐색할 {count}개의 카테고리",
+  "search": {
+    "placeholder": "검색할 카테고리를 입력하세요",
+    "button": "검색"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "검색 결과가 없습니다",
+      "description": "검색어와 일치하는 카테고리를 찾을 수 없습니다."
+    },
+    "noCategories": {
+      "title": "카테고리를 찾을 수 없습니다",
+      "description": "카테고리를 로드하고 있습니다. 잠시만 기다려 주세요."
+    }
+  }
+}

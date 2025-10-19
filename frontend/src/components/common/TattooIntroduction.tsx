@@ -102,9 +102,9 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
               <div style={{ position: 'relative' }}>
                 <BaseButton
                   variant="primary"
-                  width="w-[170px]"
                   height="h-[60px]"
                   fontSize="text-xl"
+                  className="min-w-[200px]"
                   onClick={data.sections[0]?.onButtonClick}
                 >
                   {data.sections[0]?.buttonText}
@@ -113,13 +113,36 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
             </div>
 
             {/* Section 1 Image */}
-            <div style={{ width: '670px', height: '376px', position: 'relative' }}>
-              <div style={{ width: '670px', height: '376px', left: '0px', top: '0px', position: 'absolute' }}></div>
-              <div style={{ width: '670px', height: '70px', left: '0px', top: '33px', position: 'absolute', borderRadius: '16px', border: '1px solid #ECECEC' }}></div>
-              <img style={{ width: '24px', height: '24px', left: '20px', top: '54px', position: 'absolute' }} src="/imgs/generate-introduction/star-2.png" alt="Star icon" />
-              <div style={{ left: '53px', top: '52px', position: 'absolute', color: '#ECECEC', fontSize: '20px', fontFamily: 'Inter', fontWeight: '400', wordWrap: 'break-word' }}>
-                {data.images[0]?.prompt || "The patterns of mechanical metal structures"}
+            <div style={{ minWidth: '670px', width: 'fit-content', height: '376px', position: 'relative', display: 'inline-block' }}>
+              <div style={{ minWidth: '670px', width: '100%', height: '376px', left: '0px', top: '0px', position: 'absolute' }}></div>
+
+              {/* 文字内容区域 - 用于计算实际宽度 */}
+              <div style={{
+                minWidth: '670px',
+                width: 'fit-content',
+                height: '70px',
+                left: '0px',
+                top: '33px',
+                position: 'absolute',
+                borderRadius: '16px',
+                border: '1px solid #ECECEC',
+                paddingLeft: '53px',
+                paddingRight: '20px',
+                boxSizing: 'border-box'
+              }}>
+                <img style={{ width: '24px', height: '24px', left: '20px', top: '21px', position: 'absolute' }} src="/imgs/generate-introduction/star-2.png" alt="Star icon" />
+                <div style={{
+                  paddingTop: '19px',
+                  color: '#ECECEC',
+                  fontSize: '20px',
+                  fontFamily: 'Inter',
+                  fontWeight: '400',
+                  whiteSpace: 'nowrap'
+                }}>
+                  {data.images[0]?.prompt || "The patterns of mechanical metal structures"}
+                </div>
               </div>
+
               <img style={{ width: '210px', height: '210px', left: '0px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[0]?.images?.[0] || data.images[0]?.mainImage || "https://placehold.co/210x210"} alt="Tattoo design 1" />
               <img style={{ width: '210px', height: '210px', left: '460px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[0]?.images?.[2] || data.images[0]?.mainImage || "https://placehold.co/210x210"} alt="Tattoo design 3" />
               <img style={{ width: '210px', height: '210px', left: '230px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[0]?.images?.[1] || data.images[0]?.mainImage || "https://placehold.co/210x210"} alt="Tattoo design 2" />
@@ -151,9 +174,9 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
               <div style={{ position: 'relative' }}>
                 <BaseButton
                   variant="primary"
-                  width="w-[170px]"
                   height="h-[60px]"
                   fontSize="text-xl"
+                  className="min-w-[200px]"
                   onClick={data.sections[1]?.onButtonClick}
                 >
                   {data.sections[1]?.buttonText}
@@ -177,9 +200,9 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
               <div style={{ position: 'relative' }}>
                 <BaseButton
                   variant="primary"
-                  width="w-[170px]"
                   height="h-[60px]"
                   fontSize="text-xl"
+                  className="min-w-[200px]"
                   onClick={data.sections[2]?.onButtonClick}
                 >
                   {data.sections[2]?.buttonText}

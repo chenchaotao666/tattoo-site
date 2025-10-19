@@ -189,11 +189,11 @@ const CategoryMenus: React.FC<CategoryMenusProps> = ({
         onClick={onClose}
         className="absolute flex items-center gap-2 hover:opacity-80 transition-opacity"
         style={{
-          left: '771px', // 始终保持右侧位置
+          right: '24px', // 从右侧开始定位，保持24px边距
           top: '287px'
         }}
       >
-        <div className="text-sm font-normal text-[#98FF59]" style={{ fontFamily: 'Inter' }}>
+        <div className="text-sm font-normal text-[#98FF59]" style={{ fontFamily: 'Inter', whiteSpace: 'nowrap' }}>
           {t('categoryMenus.viewAll')}
         </div>
         <svg 

@@ -1,0 +1,65 @@
+{
+  "menu": {
+    "coloringPagesFree": "免費著色頁",
+    "textColoringPage": "文字著色頁",
+    "imageColoringPage": "圖片著色頁",
+    "create": "創建",
+    "inspiration": "靈感",
+    "pricing": "定價",
+    "blog": "部落格",
+    "login": "登錄",
+    "register": "註冊",
+    "profile": "個人資料",
+    "logout": "登出",
+    "myCreations": "我的創作",
+    "categories": "類別",
+    "gallery": "畫廊",
+    "home": "首頁"
+  },
+  "categories": {
+    "popularColoringPages": "熱門紋身"
+  },
+  "breadcrumb": {
+    "home": "首頁",
+    "categories": "類別",
+    "pricing": "定價計劃",
+    "profile": "個人資料",
+    "login": "登錄",
+    "register": "註冊",
+    "creations": "我的創作",
+    "generate": "創建",
+    "textToImage": "文字轉圖片",
+    "imageToImage": "圖片轉圖片",
+    "blog": "部落格"
+  },
+  "footer": {
+    "sections": {
+      "tools": "工具",
+      "company": "公司"
+    },
+    "links": {
+      "privacyPolicy": "隱私政策",
+      "termsOfService": "服務條款",
+      "refundPolicy": "退款政策"
+    },
+    "contact": {
+      "title": "如有使用問題請聯繫我們：",
+      "email": "congcong@mail.xinsulv.com"
+    },
+    "copyright": "© 2025 - 至今 Flowrift. 版權所有。"
+  },
+  "language": {
+    "chinese": "简体中文",
+    "english": "English",
+    "japanese": "日本語",
+    "korean": "한국어",
+    "spanish": "Español",
+    "french": "Français",
+    "german": "Deutsch",
+    "italian": "Italiano",
+    "portuguese": "Português",
+    "russian": "Русский",
+    "traditionalChinese": "繁體中文",
+    "selectLanguage": "選擇語言"
+  }
+}

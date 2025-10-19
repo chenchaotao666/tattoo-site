@@ -1,0 +1,96 @@
+{
+  "title": "Profil",
+  "subtitle": "Gérez les informations et paramètres de votre compte",
+  "loading": "Chargement...",
+  "avatar": "Avatar",
+  "credits": "Crédits",
+  "userType": {
+    "free": "Utilisateur Gratuit",
+    "lite": "Utilisateur Lite",
+    "pro": "Utilisateur Pro"
+  },
+  "sections": {
+    "basicInfo": "Informations de Base",
+    "changePassword": "Changer le Mot de Passe",
+    "passwordHint": "Laissez les champs suivants vides si vous ne voulez pas changer votre mot de passe",
+    "orderHistory": "Historique des Commandes"
+  },
+  "fields": {
+    "username": "Nom d'Utilisateur",
+    "email": "Adresse Email",
+    "currentPassword": "Mot de Passe Actuel",
+    "newPassword": "Nouveau Mot de Passe",
+    "confirmPassword": "Confirmer le Nouveau Mot de Passe"
+  },
+  "placeholders": {
+    "username": "Entrez votre nom d'utilisateur",
+    "currentPassword": "Entrez votre mot de passe actuel",
+    "newPassword": "Entrez le nouveau mot de passe (au moins 6 caractères)",
+    "confirmPassword": "Entrez à nouveau le nouveau mot de passe"
+  },
+  "hints": {
+    "emailReadonly": "L'adresse email ne peut pas être modifiée"
+  },
+  "buttons": {
+    "logout": "Se Déconnecter",
+    "cancel": "Annuler",
+    "save": "Enregistrer les Modifications",
+    "changePlan": "Changer de Plan",
+    "cancelSubscription": "Annuler l'Abonnement"
+  },
+  "messages": {
+    "success": "Profil mis à jour avec succès !",
+    "loginRequired": "Veuillez vous connecter pour accéder à votre profil",
+    "loadUserFailed": "Échec du chargement des informations utilisateur, veuillez actualiser la page et réessayer",
+    "networkError": "Erreur réseau, veuillez vérifier votre connexion et réessayer",
+    "loadOrdersFailed": "Échec du chargement de l'historique des commandes",
+    "confirmCancelSubscription": "Êtes-vous sûr de vouloir annuler votre abonnement ?",
+    "subscriptionCancelled": "Abonnement annulé",
+    "cancelSubscriptionFailed": "Échec de l'annulation de l'abonnement, veuillez réessayer plus tard"
+  },
+  "errors": {
+    "username": {
+      "required": "Veuillez entrer un nom d'utilisateur",
+      "minLength": "Le nom d'utilisateur doit contenir au moins 2 caractères",
+      "maxLength": "Le nom d'utilisateur ne peut pas dépasser 20 caractères",
+      "exists": "Ce nom d'utilisateur est déjà pris"
+    },
+    "password": {
+      "currentRequired": "Veuillez entrer votre mot de passe actuel",
+      "newRequired": "Veuillez entrer un nouveau mot de passe",
+      "minLength": "Le nouveau mot de passe doit contenir au moins 6 caractères",
+      "maxLength": "Le nouveau mot de passe ne peut pas dépasser 50 caractères",
+      "confirmRequired": "Veuillez confirmer votre nouveau mot de passe",
+      "confirmMismatch": "Les deux nouveaux mots de passe ne correspondent pas",
+      "samePassword": "Le nouveau mot de passe ne peut pas être identique au mot de passe actuel",
+      "currentIncorrect": "Le mot de passe actuel est incorrect"
+    },
+    "avatar": {
+      "fileType": "Veuillez sélectionner un fichier image",
+      "fileSize": "La taille de l'image ne peut pas dépasser 5MB",
+      "uploadFailed": "Échec du téléversement de l'avatar, veuillez réessayer"
+    },
+    "format": "Le format de saisie est incorrect, veuillez vérifier et réessayer",
+    "updateFailed": "Échec de la mise à jour, veuillez réessayer plus tard"
+  },
+  "subscription": {
+    "free": "Gratuit",
+    "lite": "Lite",
+    "pro": "Pro"
+  },
+  "orderTable": {
+    "orderId": "ID de Commande",
+    "planInfo": "Informations du Plan",
+    "amount": "Montant",
+    "createdAt": "Créé le",
+    "paymentStatus": "Statut du Paiement",
+    "unpaid": "Non Payé",
+    "paid": "Payé",
+    "success": "Succès",
+    "failed": "Échec",
+    "pending": "En Attente",
+    "cancelled": "Annulé",
+    "refunded": "Remboursé",
+    "noOrders": "Aucune commande trouvée"
+  }
+}

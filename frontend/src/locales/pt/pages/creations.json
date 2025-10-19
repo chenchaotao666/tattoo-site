@@ -1,0 +1,58 @@
+{
+  "title": "Minhas Criações",
+  "description": "Visualize e gerencie todas as suas páginas para colorir geradas",
+  "filters": {
+    "all": "Todas",
+    "textToImage": "Texto para Imagem",
+    "imageToImage": "Imagem para Imagem"
+  },
+  "emptyState": {
+    "title": "Nenhuma criação ainda",
+    "description": "Você ainda não criou nenhuma página para colorir",
+    "createButton": "Crie sua primeira criação"
+  },
+  "actions": {
+    "delete": "Excluir",
+    "report": "Reportar",
+    "download": "Download"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "Confirmar Exclusão",
+      "message": "Tem certeza de que deseja excluir esta criação? Esta ação não pode ser desfeita.",
+      "confirm": "Confirmar Exclusão",
+      "cancel": "Cancelar"
+    },
+    "report": {
+      "title": "Reportar Imagem",
+      "placeholder": "Por favor descreva o problema com esta imagem...",
+      "submit": "Reportar",
+      "cancel": "Cancelar"
+    }
+  },
+  "messages": {
+    "deleteSuccess": "Exclusão bem-sucedida",
+    "deleteFailed": "Exclusão falhou, por favor tente novamente mais tarde",
+    "reportSuccess": "Relatório enviado",
+    "reportFailed": "Relatório falhou, por favor tente novamente mais tarde",
+    "reportContentRequired": "Por favor digite o conteúdo do relatório",
+    "loadFailed": "Falha ao carregar imagens, por favor tente novamente mais tarde"
+  },
+  "loading": {
+    "initial": "Carregando...",
+    "more": "Carregar mais..."
+  },
+  "detail": {
+    "imageGenerator": "Gerador de Imagem",
+    "prompt": "Prompt",
+    "copy": "Copiar",
+    "style": "Estilo",
+    "color": "Cor",
+    "noStyle": "SEM Estilo",
+    "colorful": "Colorido",
+    "blackAndWhite": "Preto e Branco",
+    "recreate": "Recriar",
+    "creation": "Criação",
+    "batchImage": "Imagem em lote"
+  }
+}

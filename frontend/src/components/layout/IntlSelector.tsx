@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage, Language, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { colors } from '../../styles/colors';
-import DropDownMenus, { DropDownMenuItem } from './DropDownMenus';
+import DropDownMenus from './DropDownMenus';
 
 interface IntlSelectorProps {
   className?: string;
@@ -111,8 +111,16 @@ const IntlSelector: React.FC<IntlSelectorProps> = ({ className = '' }) => {
           />
         </svg>
         <span className="text-white group-hover:text-[var(--hover-color)] text-base font-medium leading-6 whitespace-nowrap flex-shrink-0 transition-colors duration-200">
-          {language === 'zh' ? navT('language.chinese', '简体中文') : 
-           language === 'ja' ? navT('language.japanese', '日本語') : 
+          {language === 'zh' ? navT('language.chinese', '简体中文') :
+          language === 'tw' ? navT('language.traditionalChinese', '繁體中文') :
+           language === 'ja' ? navT('language.japanese', '日本語') :
+           language === 'ko' ? navT('language.korean', '한국어') :
+           language === 'es' ? navT('language.spanish', 'Español') :
+           language === 'fr' ? navT('language.french', 'Français') :
+           language === 'de' ? navT('language.german', 'Deutsch') :
+           language === 'it' ? navT('language.italian', 'Italiano') :
+           language === 'pt' ? navT('language.portuguese', 'Português') :
+           language === 'ru' ? navT('language.russian', 'Русский') :
            navT('language.english', 'English')}
         </span>
         <svg 
@@ -136,9 +144,54 @@ const IntlSelector: React.FC<IntlSelectorProps> = ({ className = '' }) => {
             onClick: () => handleLanguageSelect('en')
           },
           {
-            type: 'button', 
+            type: 'button',
             label: navT('language.chinese', '简体中文'),
             onClick: () => handleLanguageSelect('zh')
+          },
+          {
+            type: 'button',
+            label: navT('language.traditionalChinese', '繁體中文'),
+            onClick: () => handleLanguageSelect('tw')
+          },
+          {
+            type: 'button',
+            label: navT('language.japanese', '日本語'),
+            onClick: () => handleLanguageSelect('ja')
+          },
+          {
+            type: 'button',
+            label: navT('language.korean', '한국어'),
+            onClick: () => handleLanguageSelect('ko')
+          },
+          {
+            type: 'button',
+            label: navT('language.spanish', 'Español'),
+            onClick: () => handleLanguageSelect('es')
+          },
+          {
+            type: 'button',
+            label: navT('language.french', 'Français'),
+            onClick: () => handleLanguageSelect('fr')
+          },
+          {
+            type: 'button',
+            label: navT('language.german', 'Deutsch'),
+            onClick: () => handleLanguageSelect('de')
+          },
+          {
+            type: 'button',
+            label: navT('language.italian', 'Italiano'),
+            onClick: () => handleLanguageSelect('it')
+          },
+          {
+            type: 'button',
+            label: navT('language.portuguese', 'Português'),
+            onClick: () => handleLanguageSelect('pt')
+          },
+          {
+            type: 'button',
+            label: navT('language.russian', 'Русский'),
+            onClick: () => handleLanguageSelect('ru')
           }
         ]}
         minWidth="120px"

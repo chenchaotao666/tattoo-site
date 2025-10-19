@@ -1,0 +1,14 @@
+{
+  "prompt": "プロンプト",
+  "download": "ダウンロード",
+  "recreate": "再生成",
+  "relatedImages": "関連画像",
+  "noRelatedImages": "関連画像がありません",
+  "notFound": {
+    "breadcrumb": "見つかりません",
+    "title": "画像が見つかりません",
+    "goHome": "ホームに戻る"
+  },
+  "tags": "タグ",
+  "details": "タトゥー画像の詳細"
+}

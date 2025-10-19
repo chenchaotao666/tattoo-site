@@ -1,0 +1,96 @@
+{
+  "title": "プロフィール",
+  "subtitle": "アカウント情報と設定を管理",
+  "loading": "読み込み中...",
+  "avatar": "アバター",
+  "credits": "クレジット",
+  "userType": {
+    "free": "無料ユーザー",
+    "lite": "Liteユーザー",
+    "pro": "Proユーザー"
+  },
+  "sections": {
+    "basicInfo": "基本情報",
+    "changePassword": "パスワード変更",
+    "passwordHint": "パスワードを変更する必要がない場合は、以下のフィールドを空のままにしてください",
+    "orderHistory": "注文履歴"
+  },
+  "fields": {
+    "username": "ユーザー名",
+    "email": "メールアドレス",
+    "currentPassword": "現在のパスワード",
+    "newPassword": "新しいパスワード",
+    "confirmPassword": "新しいパスワードを確認"
+  },
+  "placeholders": {
+    "username": "ユーザー名を入力してください",
+    "currentPassword": "現在のパスワードを入力してください",
+    "newPassword": "新しいパスワードを入力してください（6文字以上）",
+    "confirmPassword": "新しいパスワードを再入力してください"
+  },
+  "hints": {
+    "emailReadonly": "メールアドレスは変更できません"
+  },
+  "buttons": {
+    "logout": "ログアウト",
+    "cancel": "キャンセル",
+    "save": "変更を保存",
+    "changePlan": "プラン変更",
+    "cancelSubscription": "購読をキャンセル"
+  },
+  "messages": {
+    "success": "プロフィール情報が正常に更新されました！",
+    "loginRequired": "プロフィールにアクセスするにはログインしてください",
+    "loadUserFailed": "ユーザー情報の読み込みに失敗しました。ページを更新して再試行してください",
+    "networkError": "ネットワークエラーです。ネットワーク接続を確認して再試行してください",
+    "loadOrdersFailed": "注文履歴の読み込みに失敗しました",
+    "confirmCancelSubscription": "購読をキャンセルしてもよろしいですか？",
+    "subscriptionCancelled": "購読がキャンセルされました",
+    "cancelSubscriptionFailed": "購読のキャンセルに失敗しました。後でもう一度お試しください"
+  },
+  "errors": {
+    "username": {
+      "required": "ユーザー名を入力してください",
+      "minLength": "ユーザー名は2文字以上である必要があります",
+      "maxLength": "ユーザー名は20文字を超えることはできません",
+      "exists": "このユーザー名は既に使用されています"
+    },
+    "password": {
+      "currentRequired": "現在のパスワードを入力してください",
+      "newRequired": "新しいパスワードを入力してください",
+      "minLength": "新しいパスワードは6文字以上である必要があります",
+      "maxLength": "新しいパスワードは50文字を超えることはできません",
+      "confirmRequired": "新しいパスワードを確認してください",
+      "confirmMismatch": "入力された新しいパスワードが一致しません",
+      "samePassword": "新しいパスワードは現在のパスワードと同じにすることはできません",
+      "currentIncorrect": "現在のパスワードが間違っています"
+    },
+    "avatar": {
+      "fileType": "画像ファイルを選択してください",
+      "fileSize": "画像サイズは5MBを超えることはできません",
+      "uploadFailed": "アバターのアップロードに失敗しました。再試行してください"
+    },
+    "format": "入力情報の形式が正しくありません。確認後再試行してください",
+    "updateFailed": "更新に失敗しました。後でもう一度お試しください"
+  },
+  "subscription": {
+    "free": "無料",
+    "lite": "Lite",
+    "pro": "Pro"
+  },
+  "orderTable": {
+    "orderId": "注文ID",
+    "planInfo": "プラン情報",
+    "amount": "金額",
+    "createdAt": "作成時間",
+    "paymentStatus": "支払い状況",
+    "unpaid": "未払い",
+    "paid": "支払い済み",
+    "success": "成功",
+    "failed": "支払い失敗",
+    "pending": "支払い待ち",
+    "cancelled": "キャンセル済み",
+    "refunded": "返金済み",
+    "noOrders": "注文履歴がありません"
+  }
+}

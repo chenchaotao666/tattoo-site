@@ -1,0 +1,140 @@
+{
+  "homeTop": {
+    "badge": "🔥 Plus de {count}+ Tatouages Conçus avec l'IA",
+    "title": "Générateur de Tatouages IA",
+    "subtitle": "Créez des Tatouages Époustouflants en Secondes",
+    "description": "Notre Générateur de Tatouages IA transforme vos idées en designs réalistes en 10 secondes. Rapide, créatif et précis."
+  },
+  "createOnGo": {
+    "title": "Créez des Tatouages en Déplacement",
+    "description": "Accédez à notre générateur de tatouages IA depuis n'importe quel appareil. Créez de beaux designs que vous soyez à la maison ou en mouvement.",
+    "appStore": {
+      "text1": "Télécharger sur l'",
+      "text2": "App Store"
+    },
+    "googlePlay": {
+      "text1": "Obtenez-le sur",
+      "text2": "Google Play"
+    },
+    "features": {
+      "feature1": {
+        "title": "Création Instantanée",
+        "description": "Générez des designs de tatouages instantanément sur votre appareil mobile"
+      },
+      "feature2": {
+        "title": "Accès Hors Ligne",
+        "description": "Accédez à vos designs sauvegardés même sans connexion internet"
+      },
+      "feature3": {
+        "title": "Synchronisation Cloud",
+        "description": "Synchronisez vos designs sur tous vos appareils de manière transparente"
+      }
+    }
+  },
+  "whatUserSaying": {
+    "title": "Ce Que Disent Nos Utilisateurs",
+    "subtitle": "Des histoires réelles de personnes utilisant notre Générateur de Tatouages IA, du premier tatouage aux designs de niveau professionnel."
+  },
+  "hoverColorImage": {
+    "altText": "Page de Coloriage",
+    "colorPreview": "Aperçu couleur",
+    "toggleColorEffect": "Basculer l'effet couleur"
+  },
+  "categoryGrid": {
+    "title": "Inspirez-vous des designs de tatouages",
+    "subtitle": "Découvrez ce que Tattooink.ai peut créer pour vous. Chaque design est uniquement conçu pour nos utilisateurs basé sur leurs idées.",
+    "seeMore": "Voir plus de Tatouages"
+  },
+  "howToCreate": {
+    "title": "Votre Tatouage en 3 Étapes",
+    "step1": {
+      "step": "Étape 1",
+      "title": "Décrivez Votre Idée de Tatouage",
+      "description": "Tapez votre concept (abstrait ou détaillé) et laissez l'IA commencer à créer."
+    },
+    "step2": {
+      "step": "Étape 2",
+      "title": "Personnalisez Votre Style de Tatouage IA",
+      "description": "Choisissez parmi plusieurs styles, ajustez les détails, ou téléchargez une photo pour prévisualiser sur la peau."
+    },
+    "step3": {
+      "step": "Étape 3",
+      "title": "Sauvegardez Votre Design de Tatouage IA",
+      "description": "Voyez-le en détail réaliste, faites les ajustements finaux, puis téléchargez votre chef-d'œuvre."
+    }
+  },
+  "faq": {
+    "title": "Questions Fréquemment Posées",
+    "questions": {
+      "howItWorks": {
+        "question": "Comment fonctionne le Générateur de Tatouages IA ?",
+        "answer": "Tapez votre idée de tatouage ou téléchargez une image, choisissez un style, et l'IA crée un design réaliste que vous pouvez prévisualiser et télécharger instantanément."
+      },
+      "styles": {
+        "question": "Quels styles de design de tatouage sont disponibles ?",
+        "answer": "Choisissez parmi l'art linéaire minimal, traditionnel, aquarelle, géométrique, hyperréaliste, et plus encore—pour que votre tatouage corresponde à votre vision."
+      },
+      "preview": {
+        "question": "À quel point la prévisualisation sur peau du Générateur de Tatouages IA est-elle précise ?",
+        "answer": "Nos outils de prévisualisation AR et photo donnent un aspect quasi-réel de placement, taille et couleur avant que vous ne vous engagiez."
+      },
+      "commercial": {
+        "question": "Puis-je utiliser les designs du Générateur de Tatouages IA commercialement ?",
+        "answer": "Oui, à des fins personnelles ou commerciales. Nous recommandons de confirmer la faisabilité technique avec votre artiste tatoueur."
+      },
+      "mobileApp": {
+        "question": "Y a-t-il une version d'application mobile ?",
+        "answer": "Oui. L'application du Générateur de Tatouages IA pour iOS et Android vous permet de concevoir, prévisualiser et sauvegarder des tatouages à tout moment."
+      },
+      "editing": {
+        "question": "Puis-je éditer ou raffiner le design de tatouage IA ?",
+        "answer": "Absolument—ajustez le style, les détails et le placement jusqu'à ce que ce soit parfait."
+      }
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "Designs de Tatouages IA Hyperréalistes",
+      "description": "Créez des tatouages qui semblent faits à la main par un artiste professionnel. Qu'il s'agisse de lignes minimalistes ou de motifs complexes, notre Générateur de Tatouages IA assure des détails réalistes dans chaque design, pour qu'il soit prêt à être encré.",
+      "buttonText": "Essayer Maintenant"
+    },
+    "section2": {
+      "title": "Idées de Tatouages IA Infinies",
+      "description": "Manque d'inspiration ? Tapez n'importe quel mot-clé ou thème, et notre Générateur de Tatouages IA vous donne instantanément des designs de tatouages frais et uniques. Explorez de nouveaux styles, découvrez des combinaisons inattendues, et trouvez le concept parfait pour votre prochaine pièce.",
+      "buttonText": "Essayer Maintenant"
+    },
+    "section3": {
+      "title": "Outil de Prévisualisation de Tatouage IA sur Peau",
+      "description": "Prévisualisez votre tatouage sur votre peau avec AR ou photo. Voyez le placement, la taille et la couleur en secondes—en vous assurant d'être 100% confiant avant que l'encre réelle ne touche votre peau.",
+      "buttonText": "Essayer Maintenant"
+    },
+    "examples": {
+      "example1": "Un tatouage terrifiant, avec un crâne et des cornes combinés"
+    }
+  },
+  "cta": {
+    "title": "Créez Votre Tatouage IA Maintenant",
+    "description": "Créez votre premier tatouage hyperréaliste en secondes sans compétences nécessaires. Juste votre idée, notre Générateur de Tatouages IA, et quelques clics.",
+    "tryNow": "Commencer à Créer"
+  },
+  "features": {
+    "title": "Pourquoi Choisir Notre Générateur de Tatouages IA",
+    "subtitle": "La technologie IA la plus avancée pour le design de tatouages",
+    "feature1": {
+      "title": "Rapidité Fulgurante",
+      "description": "Générez des designs de tatouages uniques en seulement 10 secondes"
+    },
+    "feature2": {
+      "title": "Haute Qualité",
+      "description": "Designs alimentés par l'IA avec des détails époustouflants et du réalisme"
+    },
+    "feature3": {
+      "title": "Créativité Illimitée",
+      "description": "Explorez des possibilités de design infinies avec notre IA"
+    },
+    "feature4": {
+      "title": "Facile à Utiliser",
+      "description": "Interface simple que tout le monde peut maîtriser rapidement"
+    }
+  }
+}

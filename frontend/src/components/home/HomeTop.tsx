@@ -55,7 +55,7 @@ const HomeTop: React.FC<HomeTopProps> = ({
       </div>
 
       {/* Description */}
-      <h3 className="text-[#A5A5A5] text-lg font-['Roboto'] font-normal text-center max-w-4xl mb-6">
+      <h3 className="text-[#A5A5A5] text-lg font-['Roboto'] font-normal text-center mb-6">
         {t('homeTop.description', 'Our AI Tattoo Generator turns your ideas into realistic designs in 10 seconds. Fast, creative, and precise.')}
       </h3>
 

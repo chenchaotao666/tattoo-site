@@ -1,0 +1,140 @@
+{
+  "homeTop": {
+    "badge": "🔥 Über {count}+ Tattoos mit KI entworfen",
+    "title": "KI-Tattoo-Generator",
+    "subtitle": "Erstelle atemberaubende Tattoos in Sekunden",
+    "description": "Unser KI-Tattoo-Generator verwandelt Ihre Ideen in 10 Sekunden in realistische Designs. Schnell, kreativ und präzise."
+  },
+  "createOnGo": {
+    "title": "Erstelle Tattoos unterwegs",
+    "description": "Greifen Sie von jedem Gerät auf unseren KI-Tattoo-Generator zu. Erstellen Sie schöne Designs, egal ob Sie zu Hause oder unterwegs sind.",
+    "appStore": {
+      "text1": "Laden im",
+      "text2": "App Store"
+    },
+    "googlePlay": {
+      "text1": "Erhältlich bei",
+      "text2": "Google Play"
+    },
+    "features": {
+      "feature1": {
+        "title": "Sofortige Erstellung",
+        "description": "Generiere Tattoo-Designs sofort auf deinem Mobilgerät"
+      },
+      "feature2": {
+        "title": "Offline-Zugriff",
+        "description": "Greifen Sie auf Ihre gespeicherten Designs auch ohne Internetverbindung zu"
+      },
+      "feature3": {
+        "title": "Cloud-Synchronisation",
+        "description": "Synchronisieren Sie Ihre Designs nahtlos über alle Ihre Geräte"
+      }
+    }
+  },
+  "whatUserSaying": {
+    "title": "Was unsere Nutzer sagen",
+    "subtitle": "Echte Geschichten von Menschen, die unseren KI-Tattoo-Generator verwenden, vom ersten Tattoo bis hin zu professionellen Designs."
+  },
+  "hoverColorImage": {
+    "altText": "Malseite",
+    "colorPreview": "Farbvorschau",
+    "toggleColorEffect": "Farbeffekt umschalten"
+  },
+  "categoryGrid": {
+    "title": "Lassen Sie sich von Tattoo-Designs inspirieren",
+    "subtitle": "Entdecken Sie, was Tattooink.ai für Sie erstellen kann. Jedes Design ist einzigartig für unsere Benutzer basierend auf ihren Ideen erstellt.",
+    "seeMore": "Mehr Tattoos anzeigen"
+  },
+  "howToCreate": {
+    "title": "Ihr Tattoo in 3 Schritten",
+    "step1": {
+      "step": "Schritt 1",
+      "title": "Beschreiben Sie Ihre Tattoo-Idee",
+      "description": "Geben Sie Ihr Konzept ein (abstrakt oder detailliert) und lassen Sie die KI mit der Erstellung beginnen."
+    },
+    "step2": {
+      "step": "Schritt 2",
+      "title": "Passen Sie Ihren KI-Tattoo-Stil an",
+      "description": "Wählen Sie aus mehreren Stilen, passen Sie Details an oder laden Sie ein Foto hoch, um es auf der Haut zu betrachten."
+    },
+    "step3": {
+      "step": "Schritt 3",
+      "title": "Speichern Sie Ihr KI-Tattoo-Design",
+      "description": "Sehen Sie es in lebensechten Details, nehmen Sie finale Anpassungen vor und laden Sie dann Ihr Meisterwerk herunter."
+    }
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "questions": {
+      "howItWorks": {
+        "question": "Wie funktioniert der KI-Tattoo-Generator?",
+        "answer": "Geben Sie Ihre Tattoo-Idee ein oder laden Sie ein Bild hoch, wählen Sie einen Stil und die KI erstellt ein realistisches Design, das Sie sofort in der Vorschau anzeigen und herunterladen können."
+      },
+      "styles": {
+        "question": "Welche Tattoo-Design-Stile sind verfügbar?",
+        "answer": "Wählen Sie aus minimaler Linienkunst, traditionell, Aquarell, geometrisch, hyperrealistisch und mehr—damit Ihr Tattoo Ihrer Vision entspricht."
+      },
+      "preview": {
+        "question": "Wie genau ist die Hautvorschau des KI-Tattoo-Generators?",
+        "answer": "Unsere AR- und Foto-Vorschau-Tools geben einen nahezu realen Eindruck von Platzierung, Größe und Farbe, bevor Sie sich entscheiden."
+      },
+      "commercial": {
+        "question": "Kann ich KI-Tattoo-Generator-Designs kommerziell nutzen?",
+        "answer": "Ja, für persönliche oder kommerzielle Zwecke. Wir empfehlen, die technische Machbarkeit mit Ihrem Tattoo-Künstler zu bestätigen."
+      },
+      "mobileApp": {
+        "question": "Gibt es eine mobile App-Version?",
+        "answer": "Ja. Die KI-Tattoo-Generator-App für iOS und Android ermöglicht es Ihnen, jederzeit Tattoos zu entwerfen, in der Vorschau anzuzeigen und zu speichern."
+      },
+      "editing": {
+        "question": "Kann ich das KI-Tattoo-Design bearbeiten oder verfeinern?",
+        "answer": "Absolut—passen Sie Stil, Details und Platzierung an, bis es perfekt ist."
+      }
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "Hyperrealistische KI-Tattoo-Designs",
+      "description": "Erstellen Sie Tattoos, die aussehen, als wären sie von einem professionellen Künstler handgefertigt. Ob minimalistische Linien oder komplizierte Muster, unser KI-Tattoo-Generator sorgt für lebensechte Details in jedem Design, damit es bereit zum Tätowieren ist.",
+      "buttonText": "Jetzt ausprobieren"
+    },
+    "section2": {
+      "title": "Endlose KI-Tattoo-Ideen",
+      "description": "Keine Inspiration? Geben Sie ein beliebiges Stichwort oder Thema ein, und unser KI-Tattoo-Generator gibt Ihnen sofort frische, einzigartige Tattoo-Designs. Erkunden Sie neue Stile, entdecken Sie unerwartete Kombinationen und finden Sie das perfekte Konzept für Ihr nächstes Stück.",
+      "buttonText": "Jetzt ausprobieren"
+    },
+    "section3": {
+      "title": "KI-Tattoo-Hautvorschau-Tool",
+      "description": "Betrachten Sie Ihr Tattoo auf Ihrer Haut mit AR oder Foto. Sehen Sie Platzierung, Größe und Farbe in Sekunden—und stellen Sie sicher, dass Sie 100% zuversichtlich sind, bevor echte Tinte Ihre Haut berührt.",
+      "buttonText": "Jetzt ausprobieren"
+    },
+    "examples": {
+      "example1": "Ein schreckliches Tattoo mit einem Schädel und Hörnern kombiniert"
+    }
+  },
+  "cta": {
+    "title": "Erstellen Sie jetzt Ihr KI-Tattoo",
+    "description": "Erstellen Sie Ihr erstes hyperrealistisches Tattoo in Sekunden ohne benötigte Fähigkeiten. Nur Ihre Idee, unser KI-Tattoo-Generator und ein paar Klicks.",
+    "tryNow": "Beginnen Sie zu erstellen"
+  },
+  "features": {
+    "title": "Warum unseren KI-Tattoo-Generator wählen",
+    "subtitle": "Die fortschrittlichste KI-Technologie für Tattoo-Design",
+    "feature1": {
+      "title": "Blitzschnell",
+      "description": "Generiere einzigartige Tattoo-Designs in nur 10 Sekunden"
+    },
+    "feature2": {
+      "title": "Hohe Qualität",
+      "description": "KI-gestützte Designs mit atemberaubenden Details und Realismus"
+    },
+    "feature3": {
+      "title": "Unbegrenzte Kreativität",
+      "description": "Erkunden Sie endlose Design-Möglichkeiten mit unserer KI"
+    },
+    "feature4": {
+      "title": "Einfach zu verwenden",
+      "description": "Einfache Benutzeroberfläche, die jeder schnell meistern kann"
+    }
+  }
+}

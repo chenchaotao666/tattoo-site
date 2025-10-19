@@ -1,0 +1,57 @@
+{
+  "title": "Visualizador de Tatuagem",
+  "toolbar": {
+    "eraser": "Ferramenta Borracha",
+    "reset": "Resetar",
+    "export": "Exportar"
+  },
+  "controlPanel": {
+    "title": "Painel de Controle",
+    "imageUpload": "Upload de Imagem",
+    "uploadBodyImage": "Enviar Imagem do Corpo",
+    "uploadTattooImage": "Enviar Imagem da Tatuagem",
+    "opacity": "Opacidade",
+    "size": "Tamanho",
+    "rotation": "Rotação",
+    "contrast": "Contraste",
+    "blackWhiteEffect": "Efeito Preto e Branco",
+    "blendEffect": "Efeito de Mistura",
+    "positionAdjust": "Ajuste de Posição"
+  },
+  "compatibility": {
+    "warning": "Aviso de Compatibilidade do Sistema",
+    "noWebgl": "WebGL não suportado",
+    "noMediapipe": "MediaPipe não suportado",
+    "noCanvas": "Canvas não suportado",
+    "noFile": "Operações de arquivo não suportadas",
+    "recommendation": "Alguns recursos podem não funcionar adequadamente. Use um navegador moderno."
+  },
+  "preview": {
+    "title": "Sistema Avançado de Prévia de Tatuagem",
+    "features": {
+      "title": "Recursos Avançados:",
+      "mediapipe": "Segmentação corporal MediaPipe - Reconhecimento preciso da área da pele",
+      "webgl": "Renderização Three.js WebGL - Efeitos 3D de alta performance",
+      "shaders": "Efeitos de shader personalizados - Mistura realista de textura de pele",
+      "realtime": "Prévia em tempo real - Feedback visual instantâneo",
+      "multiLayer": "Composição multicamadas - Recursos de edição profissional",
+      "export": "Exportação de alta qualidade - Pronto para consulta com tatuador"
+    },
+    "instructions": {
+      "title": "Como Usar:",
+      "step1": "Envie uma imagem clara do corpo mostrando a área onde você quer a tatuagem",
+      "step2": "Envie sua imagem de design de tatuagem (preferencialmente com fundo transparente)",
+      "step3": "Ajuste posição, tamanho, rotação e opacidade para encaixar perfeitamente",
+      "step4": "Use controles avançados para ajustar finamente a aparência",
+      "step5": "Exporte a prévia final para compartilhar com seu tatuador"
+    },
+    "technical": {
+      "title": "Recursos Técnicos:",
+      "gpu": "Renderização acelerada por GPU para performance suave",
+      "ml": "Reconhecimento corporal por aprendizado de máquina",
+      "precision": "Posicionamento de precisão sub-pixel",
+      "formats": "Suporte para múltiplos formatos de imagem (PNG, JPG, WebP)",
+      "responsive": "Design responsivo para todos os tamanhos de dispositivo"
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "title": "Preispläne",
+  "subtitle": "Wählen Sie den Plan, der zu Ihnen passt",
+  "billing": {
+    "monthly": "Monat",
+    "yearly": "Jahr",
+    "discount": "(30% sparen)"
+  },
+  "plans": {
+    "free": {
+      "title": "Kostenlos",
+      "features": [
+        "50 Credits pro Monat",
+        "Hochqualitative Generierung",
+        "Standard-Support",
+        "Community-Zugang"
+      ]
+    },
+    "lite": {
+      "title": "Lite",
+      "features": [
+        "2000 Credits pro Monat",
+        "Hochqualitative Generierung",
+        "Erweiterte Funktionen",
+        "E-Mail-Support",
+        "Kommerzielle Lizenz"
+      ],
+      "popular": "Am beliebtesten"
+    },
+    "pro": {
+      "title": "Pro",
+      "features": [
+        "6000 Credits pro Monat",
+        "Hochqualitative Generierung",
+        "Erweiterte Funktionen",
+        "E-Mail-Support",
+        "Kommerzielle Lizenz"
+      ]
+    },
+    "max": {
+      "title": "Max",
+      "features": [
+        "20000 Credits pro Monat",
+        "Hochqualitative Generierung",
+        "Erweiterte Funktionen",
+        "E-Mail-Support",
+        "Kommerzielle Lizenz"
+      ]
+    }
+  },
+  "buttons": {
+    "choosePlan": "Plan wählen",
+    "buyNow": "Jetzt kaufen",
+    "tryNow": "Beginnen Sie zu erstellen",
+    "cancel": "Abbrechen",
+    "startCreating": "Beginnen Sie zu erstellen"
+  },
+  "cancelAnytime": "Jederzeit kündbar",
+  "features": {
+    "unlimitedUse": "Unbegrenzte Nutzung",
+    "highQuality": "Hochqualitative Ausgabe",
+    "fastProcessing": "Schnelle Verarbeitung",
+    "customerSupport": "Kundensupport",
+    "commercialUse": "Kommerzielle Nutzung",
+    "batchDownload": "Batch-Download"
+  },
+  "payment": {
+    "title": "PayPal-Zahlung",
+    "processing": "Verarbeitung läuft, bitte warten...",
+    "backToPlans": "Zurück zu den Plänen",
+    "purchaseTitle": "{planTitle} kaufen",
+    "credits": "Credits",
+    "validityPeriod": "Gültigkeitsdauer",
+    "days": "Tage",
+    "creditsCount": "Anzahl Credits",
+    "totalAmount": "Gesamtbetrag",
+    "orPayWithCard": "oder mit Bankkarte bezahlen",
+    "cardInfo": "Bankkarten-Informationen",
+    "cardNumber": "Kartennummer",
+    "expiryDate": "MM/JJ",
+    "cvv": "CVV",
+    "cardholderName": "Name des Karteninhabers",
+    "payNow": "Jetzt bezahlen",
+    "processing2": "Verarbeitung...",
+    "technicalSupport": "Technischer Support",
+    "paymentNotReady": "Zahlungssystem ist nicht bereit, bitte versuchen Sie es später erneut",
+    "cardPaymentFailed": "Kartenzahlung fehlgeschlagen, bitte überprüfen Sie Ihre Karteninformationen und versuchen Sie es erneut",
+    "success": {
+      "title": "Aufladung erfolgreich!",
+      "message": "Zahlung erfolgreich! {credits} Credits wurden Ihrem Konto hinzugefügt, Umleitung zur Erstellungsseite in 5 Sekunden",
+      "description": "Jetzt können Sie mit der Erstellung erstaunlicher Malseiten beginnen!"
+    },
+    "errors": {
+      "createOrderFailed": "Bestellung konnte nicht erstellt werden",
+      "paymentFailed": "Zahlung fehlgeschlagen",
+      "paypalError": "PayPal-Zahlungsfehler, bitte versuchen Sie es erneut",
+      "cardError": "Kartenzahlungsfehler, bitte versuchen Sie es erneut",
+      "processingFailed": "Zahlungsverarbeitung fehlgeschlagen, bitte versuchen Sie es erneut",
+      "tryAgainLater": "Bitte versuchen Sie es später erneut"
+    }
+  },
+  "security": {
+    "title": "Sichere Zahlung über PayPal",
+    "description": "SSL-verschlüsselt"
+  },
+  "cta": {
+    "title": "Erstellen Sie jetzt Ihr KI-Tattoo",
+    "description": "Erstellen Sie Ihr erstes hyperrealistisches Tattoo in Sekunden ohne benötigte Fähigkeiten. Nur Ihre Idee, unser KI-Tattoo-Generator und ein paar Klicks.",
+    "button": "Beginnen Sie zu erstellen",
+    "tryNow": "Beginnen Sie zu erstellen"
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "question1": {
+      "q": "Wie lange dauert es, eine Malseite zu generieren?",
+      "a": "Unser KI-gestütztes Tool kann Ihre Malseiten in wenigen Sekunden generieren. Sie müssen sich keine Sorgen über lange Wartezeiten machen, sodass Sie sich darauf verlassen können, sofort schöne Malseiten ohne Verzögerungen zu erstellen."
+    },
+    "question2": {
+      "q": "Ist dieser Malseiten-Generator kostenlos zu verwenden?",
+      "a": "Ja, wir bieten eine kostenlose Stufe mit grundlegenden Funktionen an. Für erweiterte Funktionen und höhere Nutzungslimits haben wir jedoch Premium-Pläne mit mehr Credits und erweiterten Fähigkeiten verfügbar."
+    },
+    "question3": {
+      "q": "Wird die Verwendung von KI die Qualität der Malseiten beeinträchtigen?",
+      "a": "Nein, unsere KI ist darauf ausgelegt, hohe Qualität zu bewahren und dabei einzigartige und ansprechende Malseiten zu erstellen. Jede generierte Seite ist für den Druck und das Ausmalen optimiert."
+    },
+    "question4": {
+      "q": "Kann ich wirklich unbegrenzte Malseiten mit dem Premium-Plan erstellen?",
+      "a": "Unsere Premium-Pläne bieten großzügige Credit-Zulagen, die es Ihnen ermöglichen, viele Malseiten zu erstellen. Die Credits werden monatlich erneuert und geben Ihnen konstanten Zugang zu unseren Generierungstools."
+    },
+    "question5": {
+      "q": "Sind die generierten Malseiten für den Druck geeignet?",
+      "a": "Ja, alle unsere Malseiten sind für den Druck in hoher Auflösung optimiert. Sie funktionieren perfekt mit Standard-Heimdruckern auf normalem Papier."
+    },
+    "question6": {
+      "q": "Wie viele verschiedene Stile und Themen werden unterstützt?",
+      "a": "Wir unterstützen eine große Vielfalt von Themen einschließlich Tiere, Natur, Charaktere, Muster und mehr. Premium-Benutzer erhalten Zugang zu zusätzlichen Stiloptionen und Anpassungsfunktionen."
+    }
+  },
+  "seo": {
+    "title": "Preispläne - KI-Malseiten-Generator",
+    "description": "Wählen Sie den perfekten Plan für Ihre KI-Malseiten-Generator-Bedürfnisse. Kostenlose Testversion verfügbar mit Premium-Funktionen für unbegrenzte personalisierte Malseiten-Erstellung."
+  },
+  "section": {
+    "title": "Pläne & Preise",
+    "successModal": {
+      "title": "Erfolgreich abonniert",
+      "description": "Vielen Dank für Ihre Unterstützung, jetzt können Sie Ihre kreative Reise beginnen!",
+      "startCreating": "Beginnen Sie zu erstellen"
+    },
+    "planNames": {
+      "day7": "7-Tage-Zugang",
+      "day14": "14-Tage-Zugang",
+      "day30": "30-Tage-Zugang"
+    },
+    "planDescriptions": {
+      "day7": "Perfekter Starter-Plan",
+      "day14": "Bestes Preis-Leistungs-Verhältnis für die meisten Benutzer",
+      "day30": "Ultimative kreative Freiheit"
+    },
+    "features": {
+      "unlimitedGenerations": "Unbegrenzte Text-zu-Tattoo-Generierungen",
+      "fullAccess7": "7 Tage Vollzugriff",
+      "fullAccess14": "14 Tage Vollzugriff",
+      "fullAccess30": "30 Tage Vollzugriff",
+      "proCredits": "Pro-Credits",
+      "highResDownloads": "Hochauflösende Downloads",
+      "prioritySupport": "Prioritätssupport"
+    },
+    "paymentMethods": {
+      "securePayment": "Sichere Zahlung",
+      "instantAccess": "Sofortiger Zugang",
+      "oneTimePayment": "Einmalzahlung"
+    },
+    "planFAQ": [
+      {
+        "question": "Welche Zahlungsmethoden akzeptieren Sie?",
+        "answer": "Wir akzeptieren alle gängigen Kreditkarten, Debitkarten, PayPal, Apple Pay und Google Pay für eine sichere und bequeme Checkout-Erfahrung."
+      },
+      {
+        "question": "Sind meine Zahlungsinformationen sicher?",
+        "answer": "Ja. Alle Transaktionen sind mit branchenüblicher SSL-Technologie verschlüsselt, und wir speichern niemals Ihre vollständigen Zahlungsdetails auf unseren Servern."
+      },
+      {
+        "question": "Gibt es versteckte Gebühren?",
+        "answer": "Keine versteckten Gebühren. Sie zahlen einmal für Ihren gewählten Plan, und alle Preise sind vollständig transparent."
+      },
+      {
+        "question": "Was ist in jedem Preisplan enthalten?",
+        "answer": "Die Pläne variieren je nach Design-Credits, Stiloptionen und Vorschaufunktionen. Schauen Sie sich unsere Preisseite für detaillierte Vergleiche an und wählen Sie, was zu Ihren Bedürfnissen passt."
+      },
+      {
+        "question": "Wie schnell kann ich den Service nach der Zahlung nutzen?",
+        "answer": "Sofort. Sobald die Zahlung bestätigt ist, werden Ihre Design-Credits Ihrem Konto hinzugefügt und Sie können sofort mit der Erstellung von Tattoo-Designs beginnen."
+      },
+      {
+        "question": "Kann ich eine Rechnung für meinen Kauf erhalten?",
+        "answer": "Ja. Nach Abschluss Ihrer Zahlung können Sie eine elektronische Rechnung über Ihre Kontoeinstellungen anfordern, und wir stellen sie umgehend zur Verfügung."
+      }
+    ]
+  }
+}

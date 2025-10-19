@@ -1,0 +1,58 @@
+{
+  "title": "私の作品",
+  "description": "生成したすべてのぬりえページを表示・管理",
+  "filters": {
+    "all": "すべて",
+    "textToImage": "テキストから画像",
+    "imageToImage": "画像から画像"
+  },
+  "emptyState": {
+    "title": "作品がありません",
+    "description": "まだぬりえページを作成していません",
+    "createButton": "最初の作品を作成"
+  },
+  "actions": {
+    "delete": "削除",
+    "report": "報告",
+    "download": "ダウンロード"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "削除の確認",
+      "message": "この作品を削除してもよろしいですか？削除後は復元できません。",
+      "confirm": "削除を確認",
+      "cancel": "キャンセル"
+    },
+    "report": {
+      "title": "画像を報告",
+      "placeholder": "この画像の問題を説明してください...",
+      "submit": "報告",
+      "cancel": "キャンセル"
+    }
+  },
+  "messages": {
+    "deleteSuccess": "削除成功",
+    "deleteFailed": "削除に失敗しました。後でもう一度お試しください",
+    "reportSuccess": "報告が送信されました",
+    "reportFailed": "報告に失敗しました。後でもう一度お試しください",
+    "reportContentRequired": "報告内容を入力してください",
+    "loadFailed": "画像の読み込みに失敗しました。後でもう一度お試しください"
+  },
+  "loading": {
+    "initial": "読み込み中...",
+    "more": "さらに読み込み中..."
+  },
+  "detail": {
+    "imageGenerator": "画像生成器",
+    "prompt": "プロンプト",
+    "copy": "コピー",
+    "style": "スタイル",
+    "color": "カラー",
+    "noStyle": "スタイルなし",
+    "colorful": "カラフル",
+    "blackAndWhite": "白黒",
+    "recreate": "再生成",
+    "creation": "作品",
+    "batchImage": "バッチ画像"
+  }
+}

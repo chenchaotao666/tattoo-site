@@ -1,0 +1,14 @@
+{
+  "prompt": "Eingabe",
+  "download": "Herunterladen",
+  "recreate": "Neu erstellen",
+  "relatedImages": "Verwandte Bilder",
+  "noRelatedImages": "Keine verwandten Bilder",
+  "notFound": {
+    "breadcrumb": "Nicht gefunden",
+    "title": "Bild nicht gefunden",
+    "goHome": "Zur Startseite"
+  },
+  "tags": "Tags",
+  "details": "Tattoo-Bild Details"
+}

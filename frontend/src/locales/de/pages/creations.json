@@ -1,0 +1,58 @@
+{
+  "title": "Meine Kreationen",
+  "description": "Alle Ihre generierten Malseiten anzeigen und verwalten",
+  "filters": {
+    "all": "Alle",
+    "textToImage": "Text zu Bild",
+    "imageToImage": "Bild zu Bild"
+  },
+  "emptyState": {
+    "title": "Noch keine Kreationen",
+    "description": "Sie haben noch keine Malseiten erstellt",
+    "createButton": "Erstellen Sie Ihre erste Kreation"
+  },
+  "actions": {
+    "delete": "Löschen",
+    "report": "Melden",
+    "download": "Herunterladen"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "Löschen bestätigen",
+      "message": "Sind Sie sicher, dass Sie diese Kreation löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "confirm": "Löschen bestätigen",
+      "cancel": "Abbrechen"
+    },
+    "report": {
+      "title": "Bild melden",
+      "placeholder": "Bitte beschreiben Sie das Problem mit diesem Bild...",
+      "submit": "Melden",
+      "cancel": "Abbrechen"
+    }
+  },
+  "messages": {
+    "deleteSuccess": "Löschen erfolgreich",
+    "deleteFailed": "Löschen fehlgeschlagen, bitte versuchen Sie es später erneut",
+    "reportSuccess": "Meldung übermittelt",
+    "reportFailed": "Meldung fehlgeschlagen, bitte versuchen Sie es später erneut",
+    "reportContentRequired": "Bitte geben Sie Meldungsinhalt ein",
+    "loadFailed": "Laden der Bilder fehlgeschlagen, bitte versuchen Sie es später erneut"
+  },
+  "loading": {
+    "initial": "Wird geladen...",
+    "more": "Mehr laden..."
+  },
+  "detail": {
+    "imageGenerator": "Bildgenerator",
+    "prompt": "Eingabe",
+    "copy": "Kopieren",
+    "style": "Stil",
+    "color": "Farbe",
+    "noStyle": "KEIN Stil",
+    "colorful": "Farbenfroh",
+    "blackAndWhite": "Schwarz & Weiß",
+    "recreate": "Neu erstellen",
+    "creation": "Kreation",
+    "batchImage": "Stapelbild"
+  }
+}

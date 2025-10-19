@@ -1,0 +1,57 @@
+{
+  "title": "紋身預覽器",
+  "toolbar": {
+    "eraser": "橡皮擦工具",
+    "reset": "重置",
+    "export": "導出"
+  },
+  "controlPanel": {
+    "title": "控制面板",
+    "imageUpload": "圖片上傳",
+    "uploadBodyImage": "上傳身體圖片",
+    "uploadTattooImage": "上傳紋身圖片",
+    "opacity": "透明度",
+    "size": "大小",
+    "rotation": "旋轉",
+    "contrast": "對比度",
+    "blackWhiteEffect": "黑白效果",
+    "blendEffect": "混合效果",
+    "positionAdjust": "位置調整"
+  },
+  "compatibility": {
+    "warning": "系統兼容性警告",
+    "noWebgl": "不支持WebGL",
+    "noMediapipe": "不支持MediaPipe",
+    "noCanvas": "不支持Canvas",
+    "noFile": "不支持文件操作",
+    "recommendation": "某些功能可能無法正常工作。請使用現代瀏覽器。"
+  },
+  "preview": {
+    "title": "高級紋身預覽系統",
+    "features": {
+      "title": "高級功能：",
+      "mediapipe": "MediaPipe身體分割 - 精確的皮膚區域識別",
+      "webgl": "Three.js WebGL渲染 - 高性能3D效果",
+      "shaders": "自定義著色器效果 - 逼真的皮膚紋理混合",
+      "realtime": "實時預覽 - 即時視覺反饋",
+      "multiLayer": "多層合成 - 專業編輯功能",
+      "export": "高品質導出 - 準備好與紋身師諮詢"
+    },
+    "instructions": {
+      "title": "使用方法：",
+      "step1": "上傳清晰的身體圖片，顯示您想要紋身的區域",
+      "step2": "上傳您的紋身設計圖片（最好是透明背景）",
+      "step3": "調整位置、大小、旋轉和透明度以完美匹配",
+      "step4": "使用高級控件微調外觀",
+      "step5": "導出最終預覽以與您的紋身師分享"
+    },
+    "technical": {
+      "title": "技術特性：",
+      "gpu": "GPU加速渲染，實現流暢性能",
+      "ml": "機器學習身體識別",
+      "precision": "亞像素精度定位",
+      "formats": "支持多種圖片格式（PNG、JPG、WebP）",
+      "responsive": "適應所有設備尺寸的響應式設計"
+    }
+  }
+}

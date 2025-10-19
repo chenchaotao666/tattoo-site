@@ -1,0 +1,58 @@
+{
+  "title": "Le Mie Creazioni",
+  "description": "Visualizza e gestisci tutte le tue pagine da colorare generate",
+  "filters": {
+    "all": "Tutto",
+    "textToImage": "Testo a Immagine",
+    "imageToImage": "Immagine a Immagine"
+  },
+  "emptyState": {
+    "title": "Nessuna creazione ancora",
+    "description": "Non hai ancora creato nessuna pagina da colorare",
+    "createButton": "Crea la tua prima creazione"
+  },
+  "actions": {
+    "delete": "Elimina",
+    "report": "Segnala",
+    "download": "Scarica"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "Conferma Eliminazione",
+      "message": "Sei sicuro di voler eliminare questa creazione? Questa azione non può essere annullata.",
+      "confirm": "Conferma Eliminazione",
+      "cancel": "Annulla"
+    },
+    "report": {
+      "title": "Segnala Immagine",
+      "placeholder": "Descrivi il problema con questa immagine...",
+      "submit": "Segnala",
+      "cancel": "Annulla"
+    }
+  },
+  "messages": {
+    "deleteSuccess": "Eliminazione riuscita",
+    "deleteFailed": "Eliminazione fallita, riprova più tardi",
+    "reportSuccess": "Segnalazione inviata",
+    "reportFailed": "Segnalazione fallita, riprova più tardi",
+    "reportContentRequired": "Inserisci il contenuto della segnalazione",
+    "loadFailed": "Caricamento immagini fallito, riprova più tardi"
+  },
+  "loading": {
+    "initial": "Caricamento...",
+    "more": "Carica altro..."
+  },
+  "detail": {
+    "imageGenerator": "Generatore di Immagini",
+    "prompt": "Prompt",
+    "copy": "Copia",
+    "style": "Stile",
+    "color": "Colore",
+    "noStyle": "NESSUNO Stile",
+    "colorful": "Colorato",
+    "blackAndWhite": "Bianco e Nero",
+    "recreate": "Ricrea",
+    "creation": "Creazione",
+    "batchImage": "Immagine batch"
+  }
+}

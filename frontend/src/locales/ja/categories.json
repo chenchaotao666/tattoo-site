@@ -1,0 +1,21 @@
+{
+  "breadcrumb": {
+    "home": "ホーム",
+    "categories": "無料タトゥー画像"
+  },
+  "title": "{count} 個のカテゴリーを探索",
+  "search": {
+    "placeholder": "検索するカテゴリーを入力",
+    "button": "検索"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "結果が見つかりません",
+      "description": "検索に一致するカテゴリーが見つかりませんでした。"
+    },
+    "noCategories": {
+      "title": "カテゴリーが見つかりません",
+      "description": "カテゴリーを読み込み中です。しばらくお待ちください。"
+    }
+  }
+}

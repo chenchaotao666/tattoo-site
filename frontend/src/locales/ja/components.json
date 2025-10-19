@@ -1,0 +1,100 @@
+{
+  "dialog": {
+    "confirmDelete": "この項目を削除してもよろしいですか？",
+    "delete": "削除",
+    "cancel": "キャンセル",
+    "close": "閉じる",
+    "processing": "処理中...",
+    "notice": "お知らせ"
+  },
+  "googleLogin": {
+    "continueWith": "Google で続行",
+    "loading": "読み込み中...",
+    "error": "Google サインインが読み込まれていません",
+    "configError": "VITE_GOOGLE_CLIENT_ID 環境変数を設定してください"
+  },
+  "noData": {
+    "message": "データが見つかりません",
+    "altText": "データなし"
+  },
+  "backToTop": {
+    "title": "トップに戻る",
+    "altText": "トップにスクロール"
+  },
+  "loading": {
+    "general": "読み込み中...",
+    "pleaseWait": "お待ちください..."
+  },
+  "error": {
+    "general": "エラーが発生しました",
+    "tryAgain": "再試行",
+    "somethingWrong": "問題が発生しました",
+    "generationFailed": "生成に失敗しました",
+    "networkError": "ネットワークエラーが発生しました",
+    "serverError": "サーバーエラー"
+  },
+  "imageGrid": {
+    "noResults": "画像が見つかりません",
+    "loadingImages": "画像を読み込み中...",
+    "errorLoading": "画像の読み込みエラー"
+  },
+  "generateCenter": {
+    "title": "AI タトゥージェネレーター",
+    "description": "AI で簡単にユニークなタトゥーデザインを作成。スタイルをカスタマイズし、無限のオプションを探索し、アイデアを即座にプレビューできます。",
+    "generationFailed": "生成に失敗しました",
+    "generatedTattooAlt": "生成されたタトゥーデザイン",
+    "generatedAlt": "生成された画像",
+    "generatedTattoo": "生成されたタトゥーデザイン",
+    "downloadAll": "すべてダウンロード"
+  },
+  "generateSidebar": {
+    "style": "スタイル",
+    "color": "色",
+    "quantity": "数量",
+    "image": "画像",
+    "images": "画像",
+    "prompt": "プロンプト",
+    "uploadImage": "画像をアップロード",
+    "generate": "生成",
+    "clear": "クリア",
+    "premiumFeature": "プレミアム機能"
+  },
+  "pricing": {
+    "buyNow": "今すぐ購入",
+    "popular": "人気",
+    "save": "{discount} 節約"
+  },
+  "generateTextarea": {
+    "descriptionPrompt": "タトゥーのアイデアを説明してください",
+    "placeholder": "タトゥーデザインの説明を入力...",
+    "random": "ランダム",
+    "output": "枚",
+    "outputs": "枚",
+    "noStyle": "スタイルなし",
+    "colorful": "カラフル",
+    "blackAndWhite": "白黒",
+    "create": "作成",
+    "generate": "生成"
+  },
+  "styleSelector": {
+    "selectStyle": "スタイルを選択",
+    "noStyle": "スタイルなし"
+  },
+  "moreMenu": {
+    "report": "報告",
+    "share": "共有",
+    "shareToX": "X で共有",
+    "shareToFacebook": "Facebook で共有",
+    "delete": "削除",
+    "deleteSuccess": "削除に成功しました",
+    "partialDeleteSuccess": "{count} {imageText} の削除に成功しました",
+    "deleteError": "削除に失敗しました。再試行してください"
+  },
+  "categoryCard": {
+    "viewAllTattoos": "すべてのタトゥーを見る"
+  },
+  "categoryMenus": {
+    "inspirationText": "{count} 個のデザインで無限のタトゥーインスピレーション",
+    "viewAll": "すべて見る"
+  }
+}

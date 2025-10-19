@@ -1,0 +1,128 @@
+{
+  "buttons": {
+    "confirm": "Bestätigen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "download": "Herunterladen",
+    "upload": "Hochladen",
+    "search": "Suchen",
+    "retry": "Wiederholen",
+    "close": "Schließen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "previous": "Vorherige",
+    "submit": "Absenden",
+    "reset": "Zurücksetzen",
+    "generate": "Generieren",
+    "create": "Erstellen",
+    "update": "Aktualisieren",
+    "refresh": "Aktualisieren",
+    "clear": "Löschen",
+    "copy": "Kopieren",
+    "share": "Teilen",
+    "print": "Drucken",
+    "viewMore": "Mehr anzeigen",
+    "loadMore": "Mehr laden",
+    "showAll": "Alle anzeigen",
+    "hideAll": "Alle ausblenden"
+  },
+  "seo": {
+    "home": {
+      "title": "KI-Tattoo-Generator | Realistische Tattoos mit AR-Vorschau erstellen",
+      "description": "Verwandeln Sie Ihre Tattoo-Idee in Sekunden in ein hyperrealistisches Design. Unser KI-Tool bietet endlose Stile und ermöglicht es Ihnen, es mit AR auf Ihrer Haut zu betrachten, damit Sie sich mit 100%iger Zuversicht entscheiden können. Probieren Sie es jetzt kostenlos aus!",
+      "keywords": "KI-Tattoo-Generator, realistischer Tattoo-Ersteller, AR-Tattoo-Vorschau, benutzerdefinierte Tattoo-Designs, kostenloses Tattoo"
+    },
+    "generate": {
+      "title": "Kostenloser KI-Tattoo-Generator: Benutzerdefinierte Designs, Stile & AR-Vorschau",
+      "description": "Erfahren Sie, wie Sie Ihr perfektes Tattoo in 3 einfachen Schritten erstellen. Unser KI-Tool ermöglicht es Ihnen, unbegrenzte Designs zu generieren, endlose Stile anzupassen und es auf Ihrer Haut zu betrachten, bevor Sie sich festlegen. Holen Sie sich Ihr hochauflösendes Tattoo-Design bereit für Ihren Künstler.",
+      "keywords": "kostenloser KI-Tattoo-Generator, benutzerdefinierte Tattoo-Designs, unbegrenzte Tattoo-Designs, hohe Auflösung"
+    },
+    "categories": {
+      "title": "KI-Tattoo-Ideen & Stile | Erkunden Sie Hunderte einzigartiger Designs",
+      "description": "Finden Sie Ihre nächste Tattoo-Inspiration in unserer KI-generierten Galerie. Durchsuchen Sie Hunderte von Designs in Stilen wie Japanisch, Minimalistisch, Aquarell und Tribal. Sehen Sie eine Idee, die Sie mögen? Passen Sie sie sofort mit unserem KI-Tattoo-Generator an. Entdecken Sie heute Ihren perfekten Stil!",
+      "keywords": "Tattoo-Ideen, Tattoo-Stile, japanische Tattoos, minimalistische Tattoos, Aquarell-Tattoos"
+    },
+    "creations": {
+      "title": "KI-Tattoo-Galerie - Benutzerkreationen & Inspiration",
+      "description": "Erkunden Sie erstaunliche KI-generierte Tattoos, die von unserer Community erstellt wurden. Lassen Sie sich inspirieren und entdecken Sie neue Ideen für Ihr nächstes Tattoo-Projekt.",
+      "keywords": "KI-Tattoo-Galerie, Benutzer-Tattoo-Kreationen, Tattoo-Inspiration, Community-Tattoo-Designs"
+    },
+    "pricing": {
+      "title": "KI-Tattoo-Generator Preise | Flexible Pläne & Vollzugriff",
+      "description": "Finden Sie den perfekten Plan für unseren KI-Tattoo-Generator. Erhalten Sie unbegrenzte Designs, hochauflösende Downloads und Vollzugriff ab nur 12,99 €. Wählen Sie Ihren Plan und beginnen Sie noch heute zu erstellen!",
+      "keywords": "Tattoo-Generator-Preise, KI-Tattoo-Abonnement, Premium-Tattoo-Funktionen, unbegrenzt"
+    },
+    "profile": {
+      "title": "Profil - Kontoverwaltung",
+      "description": "Verwalten Sie Ihre Kontoinformationen und Einstellungen. Aktualisieren Sie Benutzernamen, Passwort, Avatar und andere persönliche Informationen.",
+      "keywords": "Profilverwaltung, Kontoeinstellungen, Benutzerprofil, Passwort ändern, Avatar hochladen"
+    }
+  },
+  "status": {
+    "loading": "Wird geladen...",
+    "error": "Fehler",
+    "success": "Erfolgreich",
+    "failed": "Fehlgeschlagen",
+    "completed": "Abgeschlossen",
+    "pending": "Ausstehend",
+    "processing": "Verarbeitung",
+    "cancelled": "Abgebrochen",
+    "timeout": "Zeitüberschreitung",
+    "connecting": "Verbindung wird hergestellt...",
+    "uploading": "Wird hochgeladen...",
+    "downloading": "Wird heruntergeladen...",
+    "generating": "Wird generiert...",
+    "saving": "Wird gespeichert..."
+  },
+  "messages": {
+    "noData": "Keine Daten verfügbar",
+    "noResults": "Keine Ergebnisse gefunden",
+    "networkError": "Netzwerkverbindung fehlgeschlagen",
+    "serverError": "Serverfehler",
+    "unknownError": "Unbekannter Fehler",
+    "operationSuccess": "Vorgang erfolgreich",
+    "operationFailed": "Vorgang fehlgeschlagen",
+    "saveSuccess": "Erfolgreich gespeichert",
+    "deleteSuccess": "Erfolgreich gelöscht",
+    "updateSuccess": "Erfolgreich aktualisiert",
+    "uploadSuccess": "Erfolgreich hochgeladen",
+    "downloadSuccess": "Erfolgreich heruntergeladen",
+    "copySuccess": "Erfolgreich kopiert",
+    "shareSuccess": "Erfolgreich geteilt",
+    "pleaseWait": "Bitte warten...",
+    "processing": "Verarbeitung läuft, bitte warten...",
+    "confirmDelete": "Sind Sie sicher, dass Sie löschen möchten?",
+    "confirmAction": "Sind Sie sicher, dass Sie diese Aktion ausführen möchten?",
+    "unsavedChanges": "Sie haben ungespeicherte Änderungen. Sind Sie sicher, dass Sie verlassen möchten?",
+    "orderHistoryNotAvailable": "Bestellverlauf-Funktion ist noch nicht verfügbar",
+    "loadOrdersFailed": "Laden des Bestellverlaufs fehlgeschlagen",
+    "loadUserFailed": "Laden der Benutzerinformationen fehlgeschlagen, bitte aktualisieren Sie die Seite und versuchen Sie es erneut",
+    "loginRequired": "Bitte melden Sie sich an, um auf Ihr Profil zuzugreifen"
+  },
+  "blog": {
+    "title": "Blog",
+    "by": "Von",
+    "author": "Von",
+    "publishedOn": "Veröffentlicht am",
+    "readMore": "Mehr lesen",
+    "backToBlog": "Zurück zum Blog",
+    "totalArticles": "Insgesamt {count} Artikel",
+    "noPosts": "Keine Blog-Beiträge verfügbar",
+    "notFound": "Artikel nicht gefunden",
+    "notFoundMessage": "Der Artikel, den Sie suchen, existiert nicht.",
+    "errorLoading": "Fehler beim Laden des Artikels",
+    "errorMessage": "Laden des Artikels fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    "seo": {
+      "title": "KI-Tattoo-Ideen & Inspiration Blog | Tattooinkai",
+      "description": "Ihre ultimative Quelle für Tattoo-Inspiration. Erkunden Sie Hunderte von KI-generierten Designs, lesen Sie Anleitungen zu jedem Stil und erhalten Sie Expertentipps für Ihr nächstes Kunstwerk. Finden Sie Ihre perfekte Idee mit Tattooinkai!",
+      "keywords": "Tattoo-Ideen-Blog, Tattoo-Inspiration, KI-Tattoo-Designs, Tattoo-Stil-Anleitungen, Experten-Tattoo-Tipps"
+    }
+  },
+  "tryNow": {
+    "title": "Erstellen Sie jetzt Ihr KI-Tattoo",
+    "description": "Erstellen Sie Ihr erstes hyperrealistisches Tattoo in Sekunden ohne benötigte Fähigkeiten. Nur Ihre Idee, unser KI-Tattoo-Generator und ein paar Klicks.",
+    "tryNow": "Beginnen Sie zu erstellen"
+  }
+}

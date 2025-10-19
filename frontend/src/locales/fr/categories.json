@@ -1,0 +1,21 @@
+{
+  "breadcrumb": {
+    "home": "Accueil",
+    "categories": "Images de Tatouages Gratuites"
+  },
+  "title": "{count} catégories à explorer",
+  "search": {
+    "placeholder": "Entrez la catégorie à rechercher",
+    "button": "Rechercher"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "Aucun résultat trouvé",
+      "description": "Aucune catégorie trouvée correspondant à votre recherche."
+    },
+    "noCategories": {
+      "title": "Aucune catégorie trouvée",
+      "description": "Les catégories sont en cours de chargement. Veuillez patienter un moment."
+    }
+  }
+}

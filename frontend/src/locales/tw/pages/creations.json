@@ -1,0 +1,58 @@
+{
+  "title": "我的創作",
+  "description": "查看和管理您生成的所有著色頁",
+  "filters": {
+    "all": "全部",
+    "textToImage": "文字轉圖片",
+    "imageToImage": "圖片轉圖片"
+  },
+  "emptyState": {
+    "title": "尚無創作",
+    "description": "您還沒有創建任何著色頁",
+    "createButton": "創建您的第一個作品"
+  },
+  "actions": {
+    "delete": "刪除",
+    "report": "舉報",
+    "download": "下載"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "確認刪除",
+      "message": "您確定要刪除此創作嗎？此操作無法撤銷。",
+      "confirm": "確認刪除",
+      "cancel": "取消"
+    },
+    "report": {
+      "title": "舉報圖片",
+      "placeholder": "請描述此圖片的問題...",
+      "submit": "舉報",
+      "cancel": "取消"
+    }
+  },
+  "messages": {
+    "deleteSuccess": "刪除成功",
+    "deleteFailed": "刪除失敗，請稍後重試",
+    "reportSuccess": "舉報已提交",
+    "reportFailed": "舉報失敗，請稍後重試",
+    "reportContentRequired": "請輸入舉報內容",
+    "loadFailed": "載入圖片失敗，請稍後重試"
+  },
+  "loading": {
+    "initial": "載入中...",
+    "more": "載入更多..."
+  },
+  "detail": {
+    "imageGenerator": "圖片生成器",
+    "prompt": "提示",
+    "copy": "複製",
+    "style": "風格",
+    "color": "顏色",
+    "noStyle": "無風格",
+    "colorful": "彩色",
+    "blackAndWhite": "黑白",
+    "recreate": "重新創建",
+    "creation": "創作",
+    "batchImage": "批次圖片"
+  }
+}

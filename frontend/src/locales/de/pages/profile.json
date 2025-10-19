@@ -1,0 +1,96 @@
+{
+  "title": "Profil",
+  "subtitle": "Verwalten Sie Ihre Kontoinformationen und Einstellungen",
+  "loading": "Wird geladen...",
+  "avatar": "Avatar",
+  "credits": "Credits",
+  "userType": {
+    "free": "Kostenloser Benutzer",
+    "lite": "Lite-Benutzer",
+    "pro": "Pro-Benutzer"
+  },
+  "sections": {
+    "basicInfo": "Grundinformationen",
+    "changePassword": "Passwort ändern",
+    "passwordHint": "Lassen Sie die folgenden Felder leer, wenn Sie Ihr Passwort nicht ändern möchten",
+    "orderHistory": "Bestellverlauf"
+  },
+  "fields": {
+    "username": "Benutzername",
+    "email": "E-Mail-Adresse",
+    "currentPassword": "Aktuelles Passwort",
+    "newPassword": "Neues Passwort",
+    "confirmPassword": "Neues Passwort bestätigen"
+  },
+  "placeholders": {
+    "username": "Geben Sie Ihren Benutzernamen ein",
+    "currentPassword": "Geben Sie Ihr aktuelles Passwort ein",
+    "newPassword": "Geben Sie ein neues Passwort ein (mindestens 6 Zeichen)",
+    "confirmPassword": "Geben Sie das neue Passwort erneut ein"
+  },
+  "hints": {
+    "emailReadonly": "E-Mail-Adresse kann nicht geändert werden"
+  },
+  "buttons": {
+    "logout": "Abmelden",
+    "cancel": "Abbrechen",
+    "save": "Änderungen speichern",
+    "changePlan": "Plan ändern",
+    "cancelSubscription": "Abonnement kündigen"
+  },
+  "messages": {
+    "success": "Profil erfolgreich aktualisiert!",
+    "loginRequired": "Bitte melden Sie sich an, um auf Ihr Profil zuzugreifen",
+    "loadUserFailed": "Laden der Benutzerinformationen fehlgeschlagen, bitte aktualisieren Sie die Seite und versuchen Sie es erneut",
+    "networkError": "Netzwerkfehler, bitte überprüfen Sie Ihre Verbindung und versuchen Sie es erneut",
+    "loadOrdersFailed": "Laden des Bestellverlaufs fehlgeschlagen",
+    "confirmCancelSubscription": "Sind Sie sicher, dass Sie Ihr Abonnement kündigen möchten?",
+    "subscriptionCancelled": "Abonnement gekündigt",
+    "cancelSubscriptionFailed": "Kündigung des Abonnements fehlgeschlagen, bitte versuchen Sie es später erneut"
+  },
+  "errors": {
+    "username": {
+      "required": "Bitte geben Sie einen Benutzernamen ein",
+      "minLength": "Benutzername muss mindestens 2 Zeichen lang sein",
+      "maxLength": "Benutzername darf nicht länger als 20 Zeichen sein",
+      "exists": "Dieser Benutzername ist bereits vergeben"
+    },
+    "password": {
+      "currentRequired": "Bitte geben Sie Ihr aktuelles Passwort ein",
+      "newRequired": "Bitte geben Sie ein neues Passwort ein",
+      "minLength": "Neues Passwort muss mindestens 6 Zeichen lang sein",
+      "maxLength": "Neues Passwort darf nicht länger als 50 Zeichen sein",
+      "confirmRequired": "Bitte bestätigen Sie Ihr neues Passwort",
+      "confirmMismatch": "Die beiden neuen Passwörter stimmen nicht überein",
+      "samePassword": "Neues Passwort kann nicht das gleiche wie das aktuelle Passwort sein",
+      "currentIncorrect": "Aktuelles Passwort ist falsch"
+    },
+    "avatar": {
+      "fileType": "Bitte wählen Sie eine Bilddatei aus",
+      "fileSize": "Bildgröße darf 5MB nicht überschreiten",
+      "uploadFailed": "Avatar-Upload fehlgeschlagen, bitte versuchen Sie es erneut"
+    },
+    "format": "Eingabeformat ist falsch, bitte überprüfen und erneut versuchen",
+    "updateFailed": "Aktualisierung fehlgeschlagen, bitte versuchen Sie es später erneut"
+  },
+  "subscription": {
+    "free": "Kostenlos",
+    "lite": "Lite",
+    "pro": "Pro"
+  },
+  "orderTable": {
+    "orderId": "Bestell-ID",
+    "planInfo": "Plan-Informationen",
+    "amount": "Betrag",
+    "createdAt": "Erstellt am",
+    "paymentStatus": "Zahlungsstatus",
+    "unpaid": "Unbezahlt",
+    "paid": "Bezahlt",
+    "success": "Erfolgreich",
+    "failed": "Fehlgeschlagen",
+    "pending": "Ausstehend",
+    "cancelled": "Storniert",
+    "refunded": "Erstattet",
+    "noOrders": "Keine Bestellungen gefunden"
+  }
+}

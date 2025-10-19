@@ -1,0 +1,14 @@
+{
+  "prompt": "Prompt",
+  "download": "Télécharger",
+  "recreate": "Recréer",
+  "relatedImages": "Images Connexes",
+  "noRelatedImages": "Aucune image connexe",
+  "notFound": {
+    "breadcrumb": "Non Trouvé",
+    "title": "Image Non Trouvée",
+    "goHome": "Aller à l'Accueil"
+  },
+  "tags": "Étiquettes",
+  "details": "Détails de l'image du tatouage"
+}

@@ -1,0 +1,140 @@
+{
+  "homeTop": {
+    "badge": "🔥 Oltre {count}+ Tatuaggi Progettati con AI",
+    "title": "Generatore di Tatuaggi AI",
+    "subtitle": "Crea Tatuaggi Stupefacenti in Secondi",
+    "description": "Il nostro Generatore di Tatuaggi AI trasforma le tue idee in design realistici in 10 secondi. Veloce, creativo e preciso."
+  },
+  "createOnGo": {
+    "title": "Crea Tatuaggi in Movimento",
+    "description": "Accedi al nostro generatore di tatuaggi AI da qualsiasi dispositivo. Crea bellissimi design sia che tu sia a casa o in movimento.",
+    "appStore": {
+      "text1": "Scarica su",
+      "text2": "App Store"
+    },
+    "googlePlay": {
+      "text1": "Scaricalo su",
+      "text2": "Google Play"
+    },
+    "features": {
+      "feature1": {
+        "title": "Creazione Istantanea",
+        "description": "Genera design di tatuaggi istantaneamente sul tuo dispositivo mobile"
+      },
+      "feature2": {
+        "title": "Accesso Offline",
+        "description": "Accedi ai tuoi design salvati anche senza connessione internet"
+      },
+      "feature3": {
+        "title": "Sincronizzazione Cloud",
+        "description": "Sincronizza i tuoi design su tutti i tuoi dispositivi senza problemi"
+      }
+    }
+  },
+  "whatUserSaying": {
+    "title": "Cosa Dicono i Nostri Utenti",
+    "subtitle": "Storie reali di persone che usano il nostro Generatore di Tatuaggi AI dal primo inchiostro ai design professionali."
+  },
+  "hoverColorImage": {
+    "altText": "Pagina da Colorare",
+    "colorPreview": "Anteprima colore",
+    "toggleColorEffect": "Attiva/disattiva effetto colore"
+  },
+  "categoryGrid": {
+    "title": "Trai ispirazione dai design di tatuaggi",
+    "subtitle": "Scopri cosa può creare Tattooink.ai per te. Ogni design è realizzato in modo unico per i nostri utenti basandosi sulle loro idee.",
+    "seeMore": "Vedi più Tatuaggi"
+  },
+  "howToCreate": {
+    "title": "Il Tuo Tatuaggio in 3 Passaggi",
+    "step1": {
+      "step": "Passaggio 1",
+      "title": "Descrivi la Tua Idea di Tatuaggio",
+      "description": "Digita il tuo concetto (astratto o dettagliato) e lascia che l'AI inizi a creare."
+    },
+    "step2": {
+      "step": "Passaggio 2",
+      "title": "Personalizza lo Stile del Tuo Tatuaggio AI",
+      "description": "Scegli tra più stili, modifica i dettagli o carica una foto per l'anteprima sulla pelle."
+    },
+    "step3": {
+      "step": "Passaggio 3",
+      "title": "Salva il Tuo Design di Tatuaggio AI",
+      "description": "Vedilo in dettaglio realistico, fai le modifiche finali, poi scarica il tuo capolavoro."
+    }
+  },
+  "faq": {
+    "title": "Domande Frequenti",
+    "questions": {
+      "howItWorks": {
+        "question": "Come funziona il Generatore di Tatuaggi AI?",
+        "answer": "Digita la tua idea di tatuaggio o carica un'immagine, scegli uno stile e l'AI crea un design realistico che puoi visualizzare e scaricare istantaneamente."
+      },
+      "styles": {
+        "question": "Quali stili di design di tatuaggi sono disponibili?",
+        "answer": "Scegli tra arte lineare minimale, tradizionale, acquerello, geometrico, iper-realistico e altro ancora—così il tuo tatuaggio corrisponde alla tua visione."
+      },
+      "preview": {
+        "question": "Quanto è accurata l'anteprima sulla pelle del Generatore di Tatuaggi AI?",
+        "answer": "I nostri strumenti di anteprima AR e foto danno un aspetto quasi reale di posizionamento, dimensione e colore prima di decidere."
+      },
+      "commercial": {
+        "question": "Posso usare i design del Generatore di Tatuaggi AI commercialmente?",
+        "answer": "Sì, per scopi personali o commerciali. Raccomandiamo di confermare la fattibilità tecnica con il tuo tatuatore."
+      },
+      "mobileApp": {
+        "question": "C'è una versione app mobile?",
+        "answer": "Sì. L'app Generatore di Tatuaggi AI per iOS e Android ti permette di progettare, visualizzare e salvare tatuaggi in qualsiasi momento."
+      },
+      "editing": {
+        "question": "Posso modificare o raffinare il design del tatuaggio AI?",
+        "answer": "Assolutamente—modifica stile, dettagli e posizionamento finché non è perfetto."
+      }
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "Design di Tatuaggi AI Iper-Realistici",
+      "description": "Crea tatuaggi che sembrano fatti a mano da un artista professionista. Che siano linee minimaliste o pattern intricati, il nostro Generatore di Tatuaggi AI assicura dettagli realistici in ogni design, così si sente pronto per l'inchiostrazione.",
+      "buttonText": "Prova Ora"
+    },
+    "section2": {
+      "title": "Idee Infinite per Tatuaggi AI",
+      "description": "Senza ispirazione? Digita qualsiasi parola chiave o tema, e il nostro Generatore di Tatuaggi AI ti dà istantaneamente design di tatuaggi freschi e unici. Esplora nuovi stili, scopri combinazioni inaspettate e trova il concetto perfetto per il tuo prossimo pezzo.",
+      "buttonText": "Prova Ora"
+    },
+    "section3": {
+      "title": "Strumento di Anteprima Tatuaggio AI sulla Pelle",
+      "description": "Visualizza il tuo tatuaggio sulla tua pelle con AR o foto. Vedi posizionamento, dimensione e colore in secondi—assicurandoti di essere 100% sicuro prima che il vero inchiostro tocchi la tua pelle.",
+      "buttonText": "Prova Ora"
+    },
+    "examples": {
+      "example1": "Un tatuaggio terrificante, con un teschio e corna combinati"
+    }
+  },
+  "cta": {
+    "title": "Crea il Tuo Tatuaggio AI Ora",
+    "description": "Crea il tuo primo tatuaggio iper-realistico in secondi senza competenze necessarie. Solo la tua idea, il nostro Generatore di Tatuaggi AI e qualche clic.",
+    "tryNow": "Inizia a Creare"
+  },
+  "features": {
+    "title": "Perché Scegliere il Nostro Generatore di Tatuaggi AI",
+    "subtitle": "La tecnologia AI più avanzata per il design di tatuaggi",
+    "feature1": {
+      "title": "Veloce come un Fulmine",
+      "description": "Genera design di tatuaggi unici in soli 10 secondi"
+    },
+    "feature2": {
+      "title": "Alta Qualità",
+      "description": "Design potenziati dall'AI con dettagli e realismo stupefacenti"
+    },
+    "feature3": {
+      "title": "Creatività Illimitata",
+      "description": "Esplora possibilità di design infinite con la nostra AI"
+    },
+    "feature4": {
+      "title": "Facile da Usare",
+      "description": "Interfaccia semplice che chiunque può padroneggiare rapidamente"
+    }
+  }
+}

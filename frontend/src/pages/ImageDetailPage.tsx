@@ -362,6 +362,7 @@ const ImageDetailPage: React.FC = () => {
                 {/* Action Buttons */}
                 <div className="flex gap-3 mt-6">
                   <BaseButton
+                    width="w-[200px]"
                     variant="primary"
                     onClick={() => {
                       console.log('Recreate clicked');
@@ -370,6 +371,7 @@ const ImageDetailPage: React.FC = () => {
                     {tImage('recreate')}
                   </BaseButton>
                   <BaseButton
+                    width="w-[200px]"
                     variant="secondary"
                     onClick={() => handleDownload('png')}
                   >

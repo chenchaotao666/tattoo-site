@@ -437,7 +437,7 @@ const GenerateTextarea = ({
             <div className="flex items-center gap-3 flex-wrap">
               <BaseButton
                 variant="primary"
-                width={!showBorderGradient ? 'px-6' : 'w-[120px]'}
+                className="min-w-[120px]"
                 height="h-10"
                 fontSize="text-base"
                 onClick={handleGenerateClick}

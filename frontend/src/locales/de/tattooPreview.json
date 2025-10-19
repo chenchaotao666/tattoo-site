@@ -1,0 +1,57 @@
+{
+  "title": "Tattoo-Vorschau",
+  "toolbar": {
+    "eraser": "Radiergummi-Werkzeug",
+    "reset": "Zurücksetzen",
+    "export": "Exportieren"
+  },
+  "controlPanel": {
+    "title": "Kontrollfeld",
+    "imageUpload": "Bild-Upload",
+    "uploadBodyImage": "Körperbild hochladen",
+    "uploadTattooImage": "Tattoo-Bild hochladen",
+    "opacity": "Deckkraft",
+    "size": "Größe",
+    "rotation": "Rotation",
+    "contrast": "Kontrast",
+    "blackWhiteEffect": "Schwarz-Weiß-Effekt",
+    "blendEffect": "Mischeffekt",
+    "positionAdjust": "Positionsanpassung"
+  },
+  "compatibility": {
+    "warning": "System-Kompatibilitätswarnung",
+    "noWebgl": "WebGL nicht unterstützt",
+    "noMediapipe": "MediaPipe nicht unterstützt",
+    "noCanvas": "Canvas nicht unterstützt",
+    "noFile": "Dateivorgänge nicht unterstützt",
+    "recommendation": "Einige Funktionen funktionieren möglicherweise nicht ordnungsgemäß. Bitte verwenden Sie einen modernen Browser."
+  },
+  "preview": {
+    "title": "Erweiterte Tattoo-Vorschau-System",
+    "features": {
+      "title": "Erweiterte Funktionen:",
+      "mediapipe": "MediaPipe Körpersegmentierung - Präzise Hautoberflächenerkennung",
+      "webgl": "Three.js WebGL-Rendering - Hochleistungs-3D-Effekte",
+      "shaders": "Benutzerdefinierte Shader-Effekte - Realistische Hauttextur-Vermischung",
+      "realtime": "Echtzeit-Vorschau - Sofortiges visuelles Feedback",
+      "multiLayer": "Mehrschichtkomposition - Professionelle Bearbeitungsfähigkeiten",
+      "export": "Hochqualitäts-Export - Bereit für Beratung mit Tattoo-Künstler"
+    },
+    "instructions": {
+      "title": "Anwendung:",
+      "step1": "Laden Sie ein klares Körperbild hoch, das den Bereich zeigt, wo Sie das Tattoo wollen",
+      "step2": "Laden Sie Ihr Tattoo-Design-Bild hoch (vorzugsweise mit transparentem Hintergrund)",
+      "step3": "Passen Sie Position, Größe, Rotation und Deckkraft für perfekte Passform an",
+      "step4": "Verwenden Sie erweiterte Steuerelemente zur Feinabstimmung des Aussehens",
+      "step5": "Exportieren Sie die finale Vorschau zum Teilen mit Ihrem Tattoo-Künstler"
+    },
+    "technical": {
+      "title": "Technische Eigenschaften:",
+      "gpu": "GPU-beschleunigtes Rendering für flüssige Leistung",
+      "ml": "Maschinelles Lernen Körpererkennung",
+      "precision": "Sub-Pixel-Präzisionspositionierung",
+      "formats": "Unterstützung für mehrere Bildformate (PNG, JPG, WebP)",
+      "responsive": "Responsives Design für alle Gerätegrößen"
+    }
+  }
+}

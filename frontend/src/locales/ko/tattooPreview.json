@@ -1,0 +1,57 @@
+{
+  "title": "타투 미리보기",
+  "toolbar": {
+    "eraser": "지우개 도구",
+    "reset": "초기화",
+    "export": "내보내기"
+  },
+  "controlPanel": {
+    "title": "제어판",
+    "imageUpload": "이미지 업로드",
+    "uploadBodyImage": "몸 이미지 업로드",
+    "uploadTattooImage": "타투 이미지 업로드",
+    "opacity": "투명도",
+    "size": "크기",
+    "rotation": "회전",
+    "contrast": "대비",
+    "blackWhiteEffect": "흑백 효과",
+    "blendEffect": "블렌드 효과",
+    "positionAdjust": "위치 조정"
+  },
+  "compatibility": {
+    "warning": "시스템 호환성 경고",
+    "noWebgl": "WebGL이 지원되지 않습니다",
+    "noMediapipe": "MediaPipe가 지원되지 않습니다",
+    "noCanvas": "Canvas가 지원되지 않습니다",
+    "noFile": "파일 작업이 지원되지 않습니다",
+    "recommendation": "일부 기능이 제대로 작동하지 않을 수 있습니다. 최신 브라우저를 사용해 주세요."
+  },
+  "preview": {
+    "title": "고급 타투 미리보기 시스템",
+    "features": {
+      "title": "고급 기능:",
+      "mediapipe": "MediaPipe 신체 분할 - 정확한 피부 영역 인식",
+      "webgl": "Three.js WebGL 렌더링 - 고성능 3D 효과",
+      "shaders": "커스텀 셰이더 효과 - 현실적인 피부 텍스처 블렌딩",
+      "realtime": "실시간 미리보기 - 즉시 시각적 피드백",
+      "multiLayer": "다중 레이어 합성 - 전문적인 편집 기능",
+      "export": "고품질 내보내기 - 타투 아티스트 상담 준비"
+    },
+    "instructions": {
+      "title": "사용 방법:",
+      "step1": "타투를 원하는 부위를 보여주는 명확한 몸 이미지를 업로드하세요",
+      "step2": "타투 디자인 이미지를 업로드하세요 (투명 배경 권장)",
+      "step3": "완벽하게 맞도록 위치, 크기, 회전, 투명도를 조정하세요",
+      "step4": "고급 컨트롤을 사용하여 모양을 세밀하게 조정하세요",
+      "step5": "최종 미리보기를 내보내서 타투 아티스트와 공유하세요"
+    },
+    "technical": {
+      "title": "기술적 특징:",
+      "gpu": "부드러운 성능을 위한 GPU 가속 렌더링",
+      "ml": "머신러닝 신체 인식",
+      "precision": "서브픽셀 정밀도 위치 지정",
+      "formats": "다양한 이미지 형식 지원 (PNG, JPG, WebP)",
+      "responsive": "모든 기기 크기에 대응하는 반응형 디자인"
+    }
+  }
+}

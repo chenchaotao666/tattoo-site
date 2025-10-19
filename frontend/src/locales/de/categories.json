@@ -1,0 +1,21 @@
+{
+  "breadcrumb": {
+    "home": "Startseite",
+    "categories": "Kostenlose Tattoo-Bilder"
+  },
+  "title": "{count} Kategorien zum Erkunden",
+  "search": {
+    "placeholder": "Kategorie zum Suchen eingeben",
+    "button": "Suchen"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "Keine Ergebnisse gefunden",
+      "description": "Keine Kategorien gefunden, die Ihrer Suche entsprechen."
+    },
+    "noCategories": {
+      "title": "Keine Kategorien gefunden",
+      "description": "Kategorien werden geladen. Bitte warten Sie einen Moment."
+    }
+  }
+}

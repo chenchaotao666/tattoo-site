@@ -27,7 +27,7 @@ const CreateOnGo: React.FC<CreateOnGoProps> = ({ data }) => {
   return (
     <div className="relative w-[1099px] h-[1057px]">
       {/* Main Title */}
-      <h2 className="absolute left-[308px] top-[-8px] text-center text-[#ECECEC] text-[56px] font-inter font-bold capitalize break-words">
+      <h2 className="absolute left-1/2 transform -translate-x-1/2 top-[-8px] text-center text-[#ECECEC] text-[56px] font-inter font-bold capitalize whitespace-nowrap">
         {data.title}
       </h2>
       

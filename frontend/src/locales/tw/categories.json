@@ -1,0 +1,21 @@
+{
+  "breadcrumb": {
+    "home": "首頁",
+    "categories": "免費紋身圖片"
+  },
+  "title": "{count}個類別可供探索",
+  "search": {
+    "placeholder": "輸入要搜索的類別",
+    "button": "搜索"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "未找到結果",
+      "description": "未找到符合您搜索的類別。"
+    },
+    "noCategories": {
+      "title": "未找到類別",
+      "description": "類別正在載入中。請稍候片刻。"
+    }
+  }
+}

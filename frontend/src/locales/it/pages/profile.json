@@ -1,0 +1,96 @@
+{
+  "title": "Profilo",
+  "subtitle": "Gestisci le informazioni e le impostazioni del tuo account",
+  "loading": "Caricamento...",
+  "avatar": "Avatar",
+  "credits": "Crediti",
+  "userType": {
+    "free": "Utente Gratuito",
+    "lite": "Utente Lite",
+    "pro": "Utente Pro"
+  },
+  "sections": {
+    "basicInfo": "Informazioni di Base",
+    "changePassword": "Cambia Password",
+    "passwordHint": "Lascia vuoti i seguenti campi se non vuoi cambiare la password",
+    "orderHistory": "Cronologia Ordini"
+  },
+  "fields": {
+    "username": "Nome Utente",
+    "email": "Indirizzo Email",
+    "currentPassword": "Password Attuale",
+    "newPassword": "Nuova Password",
+    "confirmPassword": "Conferma Nuova Password"
+  },
+  "placeholders": {
+    "username": "Inserisci il tuo nome utente",
+    "currentPassword": "Inserisci la tua password attuale",
+    "newPassword": "Inserisci nuova password (almeno 6 caratteri)",
+    "confirmPassword": "Inserisci di nuovo la nuova password"
+  },
+  "hints": {
+    "emailReadonly": "L'indirizzo email non può essere modificato"
+  },
+  "buttons": {
+    "logout": "Esci",
+    "cancel": "Annulla",
+    "save": "Salva Modifiche",
+    "changePlan": "Cambia Piano",
+    "cancelSubscription": "Annulla Abbonamento"
+  },
+  "messages": {
+    "success": "Profilo aggiornato con successo!",
+    "loginRequired": "Effettua il login per accedere al tuo profilo",
+    "loadUserFailed": "Impossibile caricare le informazioni utente, aggiorna la pagina e riprova",
+    "networkError": "Errore di rete, controlla la tua connessione e riprova",
+    "loadOrdersFailed": "Impossibile caricare la cronologia ordini",
+    "confirmCancelSubscription": "Sei sicuro di voler annullare il tuo abbonamento?",
+    "subscriptionCancelled": "Abbonamento annullato",
+    "cancelSubscriptionFailed": "Impossibile annullare l'abbonamento, riprova più tardi"
+  },
+  "errors": {
+    "username": {
+      "required": "Inserisci un nome utente",
+      "minLength": "Il nome utente deve essere di almeno 2 caratteri",
+      "maxLength": "Il nome utente non può superare i 20 caratteri",
+      "exists": "Questo nome utente è già utilizzato"
+    },
+    "password": {
+      "currentRequired": "Inserisci la tua password attuale",
+      "newRequired": "Inserisci una nuova password",
+      "minLength": "La nuova password deve essere di almeno 6 caratteri",
+      "maxLength": "La nuova password non può superare i 50 caratteri",
+      "confirmRequired": "Conferma la tua nuova password",
+      "confirmMismatch": "Le due nuove password non corrispondono",
+      "samePassword": "La nuova password non può essere uguale a quella attuale",
+      "currentIncorrect": "La password attuale è incorretta"
+    },
+    "avatar": {
+      "fileType": "Seleziona un file immagine",
+      "fileSize": "La dimensione dell'immagine non può superare i 5MB",
+      "uploadFailed": "Caricamento avatar fallito, riprova"
+    },
+    "format": "Il formato di input è incorretto, controlla e riprova",
+    "updateFailed": "Aggiornamento fallito, riprova più tardi"
+  },
+  "subscription": {
+    "free": "Gratuito",
+    "lite": "Lite",
+    "pro": "Pro"
+  },
+  "orderTable": {
+    "orderId": "ID Ordine",
+    "planInfo": "Info Piano",
+    "amount": "Importo",
+    "createdAt": "Creato il",
+    "paymentStatus": "Stato Pagamento",
+    "unpaid": "Non Pagato",
+    "paid": "Pagato",
+    "success": "Successo",
+    "failed": "Fallito",
+    "pending": "In Attesa",
+    "cancelled": "Annullato",
+    "refunded": "Rimborsato",
+    "noOrders": "Nessun ordine trovato"
+  }
+}

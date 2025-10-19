@@ -1,0 +1,140 @@
+{
+  "homeTop": {
+    "badge": "🔥 Mais de {count}+ Tatuagens Criadas com IA",
+    "title": "Gerador de Tatuagem IA",
+    "subtitle": "Crie Tatuagens Incríveis em Segundos",
+    "description": "Nosso Gerador de Tatuagem IA transforma suas ideias em designs realistas em 10 segundos. Rápido, criativo e preciso."
+  },
+  "createOnGo": {
+    "title": "Crie Tatuagens em Qualquer Lugar",
+    "description": "Acesse nosso gerador de tatuagem IA de qualquer dispositivo. Crie designs bonitos esteja você em casa ou em movimento.",
+    "appStore": {
+      "text1": "Baixar na",
+      "text2": "App Store"
+    },
+    "googlePlay": {
+      "text1": "Disponível no",
+      "text2": "Google Play"
+    },
+    "features": {
+      "feature1": {
+        "title": "Criação Instantânea",
+        "description": "Gere designs de tatuagem instantaneamente no seu dispositivo móvel"
+      },
+      "feature2": {
+        "title": "Acesso Offline",
+        "description": "Acesse seus designs salvos mesmo sem conexão com a internet"
+      },
+      "feature3": {
+        "title": "Sincronização na Nuvem",
+        "description": "Sincronize seus designs em todos os seus dispositivos perfeitamente"
+      }
+    }
+  },
+  "whatUserSaying": {
+    "title": "O Que Nossos Usuários Estão Dizendo",
+    "subtitle": "Histórias reais de pessoas usando nosso Gerador de Tatuagem IA desde primeira tinta até designs profissionais."
+  },
+  "hoverColorImage": {
+    "altText": "Página para Colorir",
+    "colorPreview": "Prévia de cor",
+    "toggleColorEffect": "Alternar efeito de cor"
+  },
+  "categoryGrid": {
+    "title": "Inspire-se com designs de tatuagem",
+    "subtitle": "Descubra o que o Tattooink.ai pode criar para você. Cada design é único e criado para nossos usuários baseado em suas ideias.",
+    "seeMore": "Ver mais Tatuagens"
+  },
+  "howToCreate": {
+    "title": "Sua Tatuagem em 3 Passos",
+    "step1": {
+      "step": "Passo 1",
+      "title": "Descreva Sua Ideia de Tatuagem",
+      "description": "Digite seu conceito (abstrato ou detalhado) e deixe a IA começar a criar."
+    },
+    "step2": {
+      "step": "Passo 2",
+      "title": "Personalize o Estilo da Sua Tatuagem IA",
+      "description": "Escolha entre múltiplos estilos, ajuste detalhes ou envie uma foto para visualizar na pele."
+    },
+    "step3": {
+      "step": "Passo 3",
+      "title": "Salve Seu Design de Tatuagem IA",
+      "description": "Veja em detalhes realistas, faça ajustes finais e baixe sua obra-prima."
+    }
+  },
+  "faq": {
+    "title": "Perguntas Frequentes",
+    "questions": {
+      "howItWorks": {
+        "question": "Como funciona o Gerador de Tatuagem IA?",
+        "answer": "Digite sua ideia de tatuagem ou envie uma imagem, escolha um estilo e a IA cria um design realista que você pode visualizar e baixar instantaneamente."
+      },
+      "styles": {
+        "question": "Quais estilos de design de tatuagem estão disponíveis?",
+        "answer": "Escolha entre arte minimalista de linha, tradicional, aquarela, geométrico, hiper-realista e mais—para que sua tatuagem corresponda à sua visão."
+      },
+      "preview": {
+        "question": "Quão precisa é a prévia de pele do Gerador de Tatuagem IA?",
+        "answer": "Nossas ferramentas de prévia AR e foto oferecem uma aparência quase real de posicionamento, tamanho e cor antes de você se comprometer."
+      },
+      "commercial": {
+        "question": "Posso usar designs do Gerador de Tatuagem IA comercialmente?",
+        "answer": "Sim, para fins pessoais ou comerciais. Recomendamos confirmar a viabilidade técnica com seu tatuador."
+      },
+      "mobileApp": {
+        "question": "Existe uma versão de aplicativo móvel?",
+        "answer": "Sim. O aplicativo Gerador de Tatuagem IA para iOS e Android permite projetar, visualizar e salvar tatuagens a qualquer momento."
+      },
+      "editing": {
+        "question": "Posso editar ou refinar o design de tatuagem IA?",
+        "answer": "Absolutamente—ajuste estilo, detalhes e posicionamento até ficar perfeito."
+      }
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "Designs de Tatuagem IA Hiper-Realistas",
+      "description": "Crie tatuagens que parecem feitas à mão por um artista profissional. Sejam linhas minimalistas ou padrões intrincados, nosso Gerador de Tatuagem IA garante detalhes realistas em cada design, para que pareça pronto para tatuar.",
+      "buttonText": "Experimente Agora"
+    },
+    "section2": {
+      "title": "Ideias Infinitas de Tatuagem IA",
+      "description": "Sem inspiração? Digite qualquer palavra-chave ou tema, e nosso Gerador de Tatuagem IA instantaneamente lhe dá designs de tatuagem frescos e únicos. Explore novos estilos, descubra combinações inesperadas e encontre o conceito perfeito para sua próxima peça.",
+      "buttonText": "Experimente Agora"
+    },
+    "section3": {
+      "title": "Ferramenta de Prévia de Tatuagem IA na Pele",
+      "description": "Visualize sua tatuagem na sua pele com AR ou foto. Veja posicionamento, tamanho e cor em segundos—garantindo que você esteja 100% confiante antes da tinta real tocar sua pele.",
+      "buttonText": "Experimente Agora"
+    },
+    "examples": {
+      "example1": "Uma tatuagem aterrorizante, com uma caveira e chifres combinados"
+    }
+  },
+  "cta": {
+    "title": "Crie Sua Tatuagem IA Agora",
+    "description": "Crie sua primeira tatuagem hiper-realista em segundos sem nenhuma habilidade necessária. Apenas sua ideia, nosso Gerador de Tatuagem IA e alguns cliques.",
+    "tryNow": "Começar a Criar"
+  },
+  "features": {
+    "title": "Por Que Escolher Nosso Gerador de Tatuagem IA",
+    "subtitle": "A tecnologia IA mais avançada para design de tatuagem",
+    "feature1": {
+      "title": "Super Rápido",
+      "description": "Gere designs únicos de tatuagem em apenas 10 segundos"
+    },
+    "feature2": {
+      "title": "Alta Qualidade",
+      "description": "Designs alimentados por IA com detalhes impressionantes e realismo"
+    },
+    "feature3": {
+      "title": "Criatividade Ilimitada",
+      "description": "Explore possibilidades infinitas de design com nossa IA"
+    },
+    "feature4": {
+      "title": "Fácil de Usar",
+      "description": "Interface simples que qualquer um pode dominar rapidamente"
+    }
+  }
+}

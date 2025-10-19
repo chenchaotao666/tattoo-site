@@ -1,0 +1,253 @@
+{
+  "textToImage": {
+    "title": "Text zu Tattoo",
+    "description": "Erstellen Sie kostenlos hochwertige Tattoo-Designs mit unserem KI-Tattoo-Generator. Erwecken Sie Ihre Ideen mit KI-erstellten Tattoo-Kunstwerken zum Leben."
+  },
+  "imageToImage": {
+    "title": "Bild zu Tattoo",
+    "description": "Laden Sie Ihr Bild hoch und verwandeln Sie Ihr Foto in Sekunden in ein erstaunliches Tattoo-Design und entfesseln Sie Ihre Kreativität."
+  },
+  "tabs": {
+    "textToImage": "Text zu Bild",
+    "imageToImage": "Bild zu Bild"
+  },
+  "generating": {
+    "title": "Generierung...",
+    "description": "Generierung...",
+    "pleaseWait": "Bitte warten, KI generiert Tattoo-Designs für Sie"
+  },
+  "error": {
+    "generationFailed": "Generierung fehlgeschlagen, bitte versuchen Sie es erneut",
+    "tryAgain": "Bitte versuchen Sie es erneut"
+  },
+  "actions": {
+    "generate": "Generieren",
+    "regenerate": "Neu generieren",
+    "download": "Herunterladen",
+    "delete": "Löschen",
+    "report": "Melden",
+    "clear": "Löschen",
+    "upload": "Bild hochladen",
+    "moreOptions": "Weitere Optionen"
+  },
+  "leftSidebar": {
+    "style": "Stil",
+    "color": "Farbe",
+    "quantity": "Anzahl",
+    "noStyle": "KEIN Stil",
+    "colorful": "Farbenfroh",
+    "blackAndWhite": "Schwarz & Weiß"
+  },
+  "formats": {
+    "png": "PNG",
+    "pdf": "PDF"
+  },
+  "examples": {
+    "title": "Beispiel",
+    "change": "Ändern",
+    "loading": "Wird geladen...",
+    "noExamples": "Keine Beispielbilder",
+    "recreate": "Neu erstellen",
+    "textExamples": {
+      "crossAndRose": "Tattoos eines Kreuzes und einer Rose am Arm",
+      "roseAndSkull": "Ein Tattoo einer Rose und eines Schädels auf dem Rücken",
+      "englishWrist": "Es gibt ein englisches Tattoo am Handgelenk"
+    }
+  },
+  "prompt": {
+    "title": "Eingabe",
+    "placeholder": "Was möchten Sie erstellen?",
+    "suggestions": "Stil-Vorschläge",
+    "refreshSuggestions": "Vorschläge aktualisieren",
+    "clear": "Eingabe löschen",
+    "generateWithAI": "Mit KI verbessern",
+    "ideas": "Ideen",
+    "required": "Bitte geben Sie eine Eingabe ein, um Malseiten zu generieren"
+  },
+  "upload": {
+    "title": "Bild",
+    "dragDrop": "Bild hier ziehen und ablegen oder klicken zum Hochladen",
+    "selectFile": "Datei auswählen",
+    "supportedFormats": "Unterstützt JPG-, PNG-, WEBP-Formate",
+    "clickToUpload": "Klicken zum Hochladen",
+    "required": "Bitte laden Sie ein Bild hoch, um Malseiten zu generieren"
+  },
+  "settings": {
+    "difficulty": "Schwierigkeitsgrad",
+    "ratio": "Seitenverhältnis",
+    "visibility": "Öffentliche Sichtbarkeit",
+    "private": "Privat",
+    "public": "Öffentlich",
+    "visibilityTip": "Wenn aktiviert, können Ihre generierten Bilder für andere Benutzer in der öffentlichen Galerie sichtbar sein. Wenn deaktiviert, können nur Sie Ihre generierten Bilder sehen."
+  },
+  "history": {
+    "title": "Generierungsverlauf",
+    "noHistory": "Kein Generierungsverlauf",
+    "loadMore": "Mehr laden"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "Löschen bestätigen",
+      "message": "Sind Sie sicher, dass Sie dieses Bild löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "confirm": "Löschen bestätigen",
+      "cancel": "Abbrechen"
+    }
+  },
+  "credits": {
+    "remaining": "Verbleibende Credits",
+    "required": "Benötigte Credits",
+    "insufficient": "Unzureichende Credits",
+    "recharge": "Credits aufladen"
+  },
+  "states": {
+    "noTextToImageYet": "Noch kein Text zu Bild",
+    "noImageToImageYet": "Noch kein Bild zu Bild"
+  },
+  "faq": {
+    "title": "Häufig gestellte Fragen",
+    "testimonials": {
+      "title": "Was Benutzer sagen"
+    },
+    "textFAQ": {
+      "0": {
+        "question": "Ist dieses Text-zu-Tattoo-Tool wirklich kostenlos?",
+        "answer": "Absolut! Unser Tool ist 100% kostenlos zu verwenden. Es gibt keine versteckten Gebühren, Abonnementkosten oder Limits für die Anzahl der Seiten, die Sie generieren können. Erstellen Sie nach Herzenslust."
+      },
+      "1": {
+        "question": "Welche Art von Eingaben kann ich in den Generator eingeben?",
+        "answer": "Sie können praktisch alles eingeben! Versuchen Sie einfache Beschreibungen wie 'eine glückliche Katze', detaillierte Szenen wie 'ein Drache, der über eine mittelalterliche Burg fliegt', oder kreative Kombinationen wie 'ein Roboter, der Pfannkuchen kocht'. Die KI funktioniert am besten mit klaren, beschreibenden Eingaben, die spezifizieren, was Sie in Ihrer Malseite sehen möchten."
+      },
+      "2": {
+        "question": "Kann ich die Bilder, die ich erstelle, für kommerzielle Zwecke verwenden?",
+        "answer": "Ja! Alle Malseiten, die Sie generieren, gehören Ihnen und können beliebig verwendet werden, einschließlich für kommerzielle Zwecke. Sie können sie drucken, teilen, verkaufen oder in Ihrem Geschäft ohne Einschränkungen oder Lizenzgebühren verwenden."
+      },
+      "3": {
+        "question": "Kann ich die Malseiten herunterladen und drucken?",
+        "answer": "Absolut! Jede Malseite kann in hochwertigem PNG- oder PDF-Format heruntergeladen werden. Sie sind für Standard-8,5x11-Zoll-Papier optimiert und drucken sich auf jedem Heimdrucker wunderschön. Die saubere, schwarze Linienkunst verwendet minimale Tinte und bietet gleichzeitig gestochen scharfe Details."
+      },
+      "4": {
+        "question": "Wie ist die Qualität der generierten Bilder?",
+        "answer": "Unsere KI generiert hochauflösende Malseiten mit sauberer, professioneller Linienkunst. Jedes Bild ist für den Druck optimiert mit klaren Umrissen, angemessenen Detailgraden und glatten Kurven, die perfekt zum Ausmalen mit Buntstiften, Markern oder Farbstiften sind."
+      },
+      "5": {
+        "question": "Ist dieses Tool sicher für meine Kinder?",
+        "answer": "Ja! Unser Tool ist vollständig kindersicher. Wir haben eingebaute Inhaltsfilter, die die Generierung von unangemessenen Inhalten verhindern. Die Benutzeroberfläche ist einfach und intuitiv, wodurch es für Kinder leicht zu verwenden ist, während Eltern sich über die Sicherheit des Inhalts sicher sein können."
+      },
+      "6": {
+        "question": "Was passiert, wenn jemand eine unangemessene Eingabe eingibt?",
+        "answer": "Unser fortschrittliches Inhaltsfiltersystem erkennt und blockiert automatisch unangemessene Eingaben. Wenn eine ungeeignete Eingabe eingegeben wird, bittet das System höflich den Benutzer, stattdessen eine andere, familienfreundliche Beschreibung zu versuchen. Dies hält die Plattform für Benutzer aller Altersgruppen sicher."
+      },
+      "7": {
+        "question": "Kann ich den Generator auf meinem Mobiltelefon oder Tablet verwenden?",
+        "answer": "Ja! Unser Generator ist vollständig responsiv und funktioniert perfekt auf Smartphones, Tablets und Desktop-Computern. Die Benutzeroberfläche passt sich an Ihre Bildschirmgröße an und macht es einfach, Malseiten von jedem Gerät mit Internetverbindung zu erstellen und herunterzuladen."
+      },
+      "8": {
+        "question": "Speichern Sie meine Eingaben oder die Bilder, die ich erstelle?",
+        "answer": "Ihre Privatsphäre ist uns wichtig. Obwohl wir Bilder möglicherweise vorübergehend für technische Zwecke speichern, speichern wir Ihre persönlichen Kreationen oder Eingaben nicht dauerhaft, es sei denn, Sie entscheiden sich ausdrücklich dafür, sie öffentlich zu teilen. Sie haben die volle Kontrolle über Ihre Inhalte und Datenschutzeinstellungen."
+      },
+      "9": {
+        "question": "Welche Sprachen unterstützt der Generator?",
+        "answer": "Derzeit funktioniert unser Generator am besten mit englischen Eingaben, kann aber Beschreibungen in mehreren Sprachen verstehen und verarbeiten, einschließlich Spanisch, Französisch, Deutsch und anderen. Für die besten Ergebnisse empfehlen wir die Verwendung einer klaren, einfachen Sprache, unabhängig davon, welche Sprache Sie wählen."
+      }
+    },
+    "questions": {
+      "howToStart": {
+        "question": "Wie beginne ich mit der Gestaltung meines Tattoos mit dem KI-Tattoo-Generator?",
+        "answer": "Geben Sie einfach Ihre Tattoo-Idee ein oder laden Sie ein Bild hoch, wählen Sie Ihren bevorzugten Stil und klicken Sie auf \"Generieren\", um Ihr individuelles Tattoo-Design in Sekunden zu sehen."
+      },
+      "styles": {
+        "question": "Kann ich verschiedene Tattoo-Stile im KI-Tool wählen?",
+        "answer": "Ja. Der KI-Tattoo-Generator bietet Stile wie traditionell, realistisch, Aquarell, geometrisch und minimalistisch, damit Sie die perfekte Passform finden können."
+      },
+      "arPreview": {
+        "question": "Wie genau ist die AR-Tattoo-Vorschau auf meiner Haut?",
+        "answer": "Unsere AR-Tattoo-Vorschau bietet einen nahezu realen Blick auf Platzierung, Größe und Farbe. Obwohl Beleuchtung und Hautton das Ergebnis beeinflussen können, ist es ein zuverlässiger Leitfaden für die Entscheidungsfindung."
+      },
+      "customize": {
+        "question": "Kann ich mein Tattoo nach der Generierung anpassen?",
+        "answer": "Absolut. Sie können Stil, Farbe, Größe und Details mit unseren Tattoo-Anpassungstools anpassen, bis Sie vollständig zufrieden sind."
+      },
+      "commercial": {
+        "question": "Kann ich das Tattoo-Design nach der Generierung kommerziell nutzen?",
+        "answer": "Ja. Alle Designs, die Sie mit dem KI-Tattoo-Generator erstellen, gehören Ihnen für persönliche oder kommerzielle Zwecke."
+      },
+      "mobileApp": {
+        "question": "Gibt es eine mobile App für den KI-Tattoo-Generator?",
+        "answer": "Ja. Die mobile Version ermöglicht es Ihnen, unterwegs Tattoos zu entwerfen, anzupassen und in der Vorschau anzuzeigen und bietet die gleichen Kernfunktionen wie die Web-App."
+      },
+      "experience": {
+        "question": "Brauche ich Design-Erfahrung, um den KI-Tattoo-Generator zu verwenden?",
+        "answer": "Überhaupt nicht. Das Tool ist anfängerfreundlich—geben Sie einfach Ihre Idee ein und lassen Sie das KI-Tattoo-Design-System den Rest erledigen."
+      },
+      "speed": {
+        "question": "Wie lange dauert es, ein Tattoo-Design zu erstellen?",
+        "answer": "Die meisten KI-Tattoo-Designs werden in unter 30 Sekunden generiert, sodass Sie mehrere Konzepte schnell erkunden können."
+      }
+    }
+  },
+  "tryNow": {
+    "text": {
+      "title": "Erstellen Sie jetzt Ihr KI-Tattoo",
+      "description": "Erstellen Sie Ihr erstes hyperrealistisches Tattoo in Sekunden ohne benötigte Fähigkeiten. Nur Ihre Idee, unser KI-Tattoo-Generator und ein paar Klicks.",
+      "buttonText": "Beginnen Sie zu erstellen"
+    },
+    "image": {
+      "title": "Bereit, Ihr Bild in eine Malseite zu verwandeln?",
+      "description": "Ob Sie ein Elternteil sind, der ein Familienfoto in eine spaßige Aktivität verwandelt, ein Künstler, der eine neue Komposition erkundet, oder einfach ein einzigartiges Geschenk erstellen möchte, unser Tool ist für Sie da. Beginnen Sie jetzt mit der Transformation Ihrer Lieblingsbilder und entfesseln Sie Ihren inneren Künstler!",
+      "buttonText": "Beginnen Sie zu erstellen"
+    }
+  },
+  "tattooIntroduction": {
+    "section1": {
+      "title": "Verwandeln Sie Ihre Kreativität in atemberaubende Tattoo-Kunst",
+      "description": "Haben Sie sich jemals gewünscht, dass Ihre Tattoo-Vision in Momenten von der Vorstellung zu hautfertigen Kunstwerken springen könnte? Mit dem KI-Tattoo-Generator geben Sie einfach Ihre Idee ein oder laden ein Bild hoch und sehen, wie es sich in Sekunden in ein detailliertes, professionelles Design verwandelt. Keine langen Wartezeiten, keine endlosen Überarbeitungen, nur sofortige Kreativität in greifbarer Nähe.",
+      "buttonText": "Jetzt ausprobieren"
+    },
+    "section2": {
+      "title": "Endlose Tattoo-Stile, ein mächtiges Tool",
+      "description": "Von feinen Linien-Minimalismus bis hin zu kühnem Traditionellem, von hyperrealistischer Schattierung bis hin zu sanften Aquarelleffekten—dieser KI-Tattoo-Generator hat alles für Sie. Experimentieren Sie mit japanischen Drachen-Ärmeln, winzigen Knöchel-Symbolen oder geometrischen Unterarm-Stücken. Erkunden, mischen und kombinieren Sie Stile, bis Sie das Design finden, das zu Ihnen spricht.",
+      "buttonText": "Jetzt ausprobieren"
+    },
+    "section3": {
+      "title": "Zum Teilen gemacht, bereit für die reale Welt",
+      "description": "Ihr Tattoo-Design sollte nicht nur auf dem Bildschirm großartig aussehen—es sollte in Ihr Leben passen. Laden Sie hochauflösende Bilder herunter, posten Sie sie in Ihren sozialen Kanälen oder senden Sie sie direkt an Ihren Tattoo-Künstler. Eingebaute intelligente Zuschneid- und Vorschaufunktionen zeigen Ihnen genau, wie es auf Ihrem Körper aussehen wird, bevor Sie sich festlegen.",
+      "buttonText": "Jetzt ausprobieren"
+    },
+    "examples": {
+      "example1": "Die Muster mechanischer Metallstrukturen"
+    }
+  },
+  "howToCreate": {
+    "title": "Wie man ein Tattoo erstellt",
+    "step1": {
+      "step": "Schritt 1",
+      "title": "Idee eingeben",
+      "description": "Geben Sie Ihr Konzept ein oder laden Sie ein Bild hoch—unser KI-Tattoo-Design-Tool beginnt sofort zu arbeiten."
+    },
+    "step2": {
+      "step": "Schritt 2",
+      "title": "Stil & Farbe auswählen",
+      "description": "Wählen Sie Ihren Lieblings-Tattoo-Stil und -Farbe, dann verfeinern Sie mit Tattoo-Anpassungstools."
+    },
+    "step3": {
+      "step": "Schritt 3",
+      "title": "Generieren & Speichern",
+      "description": "Klicken Sie auf \"Generieren\", um Ihr Design zu erstellen, dann speichern Sie das Bild oder bearbeiten Sie es, bis es perfekt ist."
+    }
+  },
+  "cta": {
+    "title": "Erstellen Sie jetzt Ihr KI-Tattoo",
+    "description": "Erstellen Sie Ihr erstes hyperrealistisches Tattoo in Sekunden ohne benötigte Fähigkeiten. Nur Ihre Idee, unser KI-Tattoo-Generator und ein paar Klicks.",
+    "buttonText": "Beginnen Sie zu erstellen"
+  },
+  "seo": {
+    "generate": {
+      "title": "Kostenloser KI-Tattoo-Generator: Benutzerdefinierte Designs, Stile & AR-Vorschau",
+      "description": "Erfahren Sie, wie Sie Ihr perfektes Tattoo in 3 einfachen Schritten erstellen. Unser KI-Tool ermöglicht es Ihnen, unbegrenzte Designs zu generieren, endlose Stile anzupassen und es auf Ihrer Haut zu betrachten, bevor Sie sich festlegen. Holen Sie sich Ihr hochauflösendes Tattoo-Design bereit für Ihren Künstler.",
+      "keywords": "kostenloser KI-Tattoo-Generator, benutzerdefinierte Tattoo-Designs, AR-Tattoo-Vorschau, unbegrenzte Designs, hohe Auflösung"
+    }
+  },
+  "premium": {
+    "feature": "Premium-Funktion"
+  }
+}

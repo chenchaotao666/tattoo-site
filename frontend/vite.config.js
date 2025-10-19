@@ -12,7 +12,7 @@ async function getDynamicRoutes() {
         const dynamicRoutes = await fetchDynamicRoutes();
 
         // 支持的语言
-        const languages = ['en', 'zh'];
+        const languages = ['en', 'zh', 'ja', 'ko', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'tw'];
         const allRoutes = [];
 
         // 为每个动态路由生成多语言版本
@@ -114,7 +114,7 @@ const staticRoutesConfig = [
 
 // 生成多语言静态路由
 function generateStaticRoutes() {
-    const languages = ['en', 'zh'];
+    const languages = ['en', 'zh', 'ja', 'ko', 'es', 'fr', 'de', 'it', 'pt', 'ru', 'tw'];
     const routes = [];
 
     staticRoutesConfig.forEach(routeConfig => {
@@ -169,18 +169,17 @@ export default defineConfig(async () => {
                             '/',
                             '/en/',
                             '/zh/',
-                            // '/de/',
-                            // '/tr/',
-                            // '/it/',
-                            // '/es/',
-                            // '/fr/',
-                            // '/pt/',
+                            '/ja/',
+                            '/ko/',
+                            '/es/',
+                            '/de/',
+                            '/it/',
+                            '/fr/',
+                            '/pt/',
+                            '/ru/',
+                            '/tw/',
                             // '/nn/',
                             // '/ar/',
-                            // '/ja/',
-                            // '/ko/',
-                            // '/tw/',
-                            // '/ru/',
                             // '/nl/',
                             // '/sv/',
                             // '/hi/'

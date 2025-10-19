@@ -2,11 +2,21 @@
 export interface LocalizedText {
   en: string;
   zh: string;
+  ja: string;
+  ko: string;
+  es: string;
+  ru: string;
+  tw: string;
 }
 
 export interface MultilingualText {
   en: string;
   zh: string;
+  ja: string;
+  ko: string;
+  es: string;
+  ru: string;
+  tw: string;
 }
 
 // 语言类型 - 扩展为支持任意语言代码

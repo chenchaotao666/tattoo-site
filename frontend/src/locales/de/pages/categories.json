@@ -1,0 +1,51 @@
+{
+  "title": "{count} Kategorien zum Erkunden",
+  "loading": "Wird geladen...",
+  "viewAllCategories": "Alle Kategorien anzeigen",
+  "breadcrumb": {
+    "home": "Startseite",
+    "categories": "Kostenlose Tattoo-Bilder"
+  },
+  "search": {
+    "placeholder": "Kategorien suchen",
+    "button": "Suchen"
+  },
+  "emptyState": {
+    "noResults": {
+      "title": "Keine Ergebnisse gefunden",
+      "description": "Keine Kategorien gefunden, die Ihrer Suche entsprechen."
+    },
+    "noCategories": {
+      "title": "Keine Kategorien gefunden",
+      "description": "Kategorien werden geladen, bitte warten Sie einen Moment."
+    }
+  },
+  "detail": {
+    "pageTitle": "{count} {category} Tattoo-Designs",
+    "loading": "Kategoriedetails werden geladen...",
+    "notFound": {
+      "title": "Kategorie nicht gefunden",
+      "description": "Die Kategorie, die Sie suchen, existiert nicht oder wurde entfernt.",
+      "backButton": "Zurück zu den Kategorien"
+    },
+    "generatePrompt": {
+      "placeholder": "Geben Sie das Tattoo-Design ein, das Sie erstellen möchten"
+    },
+    "generateSection": {
+      "title": "Erstellen Sie Ihr personalisiertes KI-{category}-Tattoo-Design"
+    },
+    "categoryIntro": {
+      "imageCount": "Wir haben {count} {category} Tattoo-Designs verfügbar!",
+      "description": "Erkunden Sie unsere Sammlung von {category} Tattoo-Designs, die von KI erstellt wurden. Jedes Design ist einzigartig und kann nach Ihren Wünschen angepasst werden.",
+      "downloadInfo": "Alle {category} Tattoo-Designs stehen zum Download und zur Nutzung zur Verfügung."
+    }
+  },
+  "createSection": {
+    "title": "Versuchen Sie, Ihr eigenes Tattoo zu erstellen"
+  },
+  "tryNow": {
+    "title": "Erstellen Sie jetzt Ihr KI-Tattoo",
+    "description": "Erstellen Sie Ihr erstes hyperrealistisches Tattoo in Sekunden ohne benötigte Fähigkeiten. Nur Ihre Idee, unser KI-Tattoo-Generator und ein paar Klicks.",
+    "button": "Beginnen Sie zu erstellen"
+  }
+}

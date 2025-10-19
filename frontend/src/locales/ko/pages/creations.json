@@ -1,0 +1,58 @@
+{
+  "title": "내 창작물",
+  "description": "생성한 모든 컬러링 페이지 보기 및 관리",
+  "filters": {
+    "all": "전체",
+    "textToImage": "텍스트에서 이미지로",
+    "imageToImage": "이미지에서 이미지로"
+  },
+  "emptyState": {
+    "title": "아직 창작물이 없습니다",
+    "description": "아직 컬러링 페이지를 만들지 않았습니다",
+    "createButton": "첫 번째 창작물 만들기"
+  },
+  "actions": {
+    "delete": "삭제",
+    "report": "신고",
+    "download": "다운로드"
+  },
+  "dialogs": {
+    "deleteConfirm": {
+      "title": "삭제 확인",
+      "message": "정말로 이 창작물을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+      "confirm": "삭제 확인",
+      "cancel": "취소"
+    },
+    "report": {
+      "title": "이미지 신고",
+      "placeholder": "이 이미지의 문제점을 설명해 주세요...",
+      "submit": "신고",
+      "cancel": "취소"
+    }
+  },
+  "messages": {
+    "deleteSuccess": "삭제 성공",
+    "deleteFailed": "삭제에 실패했습니다. 나중에 다시 시도해 주세요",
+    "reportSuccess": "신고가 제출되었습니다",
+    "reportFailed": "신고에 실패했습니다. 나중에 다시 시도해 주세요",
+    "reportContentRequired": "신고 내용을 입력해 주세요",
+    "loadFailed": "이미지 로딩에 실패했습니다. 나중에 다시 시도해 주세요"
+  },
+  "loading": {
+    "initial": "로딩 중...",
+    "more": "더 불러오는 중..."
+  },
+  "detail": {
+    "imageGenerator": "이미지 생성기",
+    "prompt": "프롬프트",
+    "copy": "복사",
+    "style": "스타일",
+    "color": "색상",
+    "noStyle": "스타일 없음",
+    "colorful": "컬러풀",
+    "blackAndWhite": "흑백",
+    "recreate": "재생성",
+    "creation": "창작물",
+    "batchImage": "배치 이미지"
+  }
+}

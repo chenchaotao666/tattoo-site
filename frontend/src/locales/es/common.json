@@ -1,0 +1,128 @@
+{
+  "buttons": {
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "download": "Descargar",
+    "upload": "Subir",
+    "search": "Buscar",
+    "retry": "Reintentar",
+    "close": "Cerrar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "submit": "Enviar",
+    "reset": "Restablecer",
+    "generate": "Generar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "refresh": "Actualizar",
+    "clear": "Limpiar",
+    "copy": "Copiar",
+    "share": "Compartir",
+    "print": "Imprimir",
+    "viewMore": "Ver Más",
+    "loadMore": "Cargar Más",
+    "showAll": "Mostrar Todo",
+    "hideAll": "Ocultar Todo"
+  },
+  "seo": {
+    "home": {
+      "title": "Generador de Tatuajes con IA | Crear Tatuajes Realistas con Vista Previa AR",
+      "description": "Convierte tu idea de tatuaje en un diseño hiperrealista en segundos. Nuestra herramienta de IA ofrece estilos infinitos y te permite previsualizarlo en tu piel con AR, para que puedas decidir con 100% de confianza. ¡Pruébalo gratis ahora!",
+      "keywords": "generador de tatuajes IA, creador de tatuajes realistas, vista previa tatuajes AR, diseños de tatuajes personalizados, tatuaje gratis"
+    },
+    "generate": {
+      "title": "Generador de Tatuajes IA Gratis: Diseños Personalizados, Estilos y Vista Previa AR",
+      "description": "Descubre cómo crear tu tatuaje perfecto en 3 simples pasos. Nuestra herramienta de IA te permite generar diseños ilimitados, personalizar estilos infinitos y previsualizarlo en tu piel antes de decidirte. Obtén tu diseño de tatuaje en alta resolución listo para tu artista.",
+      "keywords": "generador de tatuajes IA gratis, diseños de tatuajes personalizados, diseños de tatuajes ilimitados, alta resolución"
+    },
+    "categories": {
+      "title": "Ideas y Estilos de Tatuajes IA | Explora Cientos de Diseños Únicos",
+      "description": "Encuentra tu próxima inspiración de tatuaje en nuestra galería generada por IA. Navega por cientos de diseños en estilos como Japonés, Minimalista, Acuarela y Tribal. ¿Ves una idea que te gusta? Personalízala al instante con nuestro Generador de Tatuajes IA. ¡Descubre tu estilo perfecto hoy!",
+      "keywords": "ideas de tatuajes, estilos de tatuajes, tatuajes japoneses, tatuajes minimalistas, tatuajes acuarela"
+    },
+    "creations": {
+      "title": "Galería de Tatuajes IA - Creaciones de Usuarios e Inspiración",
+      "description": "Explora increíbles tatuajes generados por IA creados por nuestra comunidad. Inspírate y descubre nuevas ideas para tu próximo proyecto de tatuaje.",
+      "keywords": "galería de tatuajes IA, creaciones de tatuajes de usuarios, inspiración de tatuajes, diseños de tatuajes comunitarios"
+    },
+    "pricing": {
+      "title": "Precios del Generador de Tatuajes IA | Planes Flexibles y Acceso Completo",
+      "description": "Encuentra el plan perfecto para nuestro Generador de Tatuajes IA. Obtén diseños ilimitados, descargas en alta resolución y acceso completo desde solo $12.99. ¡Elige tu plan y comienza a crear hoy!",
+      "keywords": "precios generador tatuajes, suscripción tatuajes IA, características premium tatuajes, ilimitado"
+    },
+    "profile": {
+      "title": "Perfil - Gestión de Cuenta",
+      "description": "Gestiona la información y configuración de tu cuenta. Actualiza nombre de usuario, contraseña, avatar y otra información personal.",
+      "keywords": "gestión de perfil, configuración de cuenta, perfil de usuario, cambio de contraseña, subida de avatar"
+    }
+  },
+  "status": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "failed": "Falló",
+    "completed": "Completado",
+    "pending": "Pendiente",
+    "processing": "Procesando",
+    "cancelled": "Cancelado",
+    "timeout": "Tiempo agotado",
+    "connecting": "Conectando...",
+    "uploading": "Subiendo...",
+    "downloading": "Descargando...",
+    "generating": "Generando...",
+    "saving": "Guardando..."
+  },
+  "messages": {
+    "noData": "No hay datos disponibles",
+    "noResults": "No se encontraron resultados",
+    "networkError": "Error de conexión de red",
+    "serverError": "Error del servidor",
+    "unknownError": "Error desconocido",
+    "operationSuccess": "Operación exitosa",
+    "operationFailed": "Operación fallida",
+    "saveSuccess": "Guardado exitosamente",
+    "deleteSuccess": "Eliminado exitosamente",
+    "updateSuccess": "Actualizado exitosamente",
+    "uploadSuccess": "Subido exitosamente",
+    "downloadSuccess": "Descargado exitosamente",
+    "copySuccess": "Copiado exitosamente",
+    "shareSuccess": "Compartido exitosamente",
+    "pleaseWait": "Por favor, espere...",
+    "processing": "Procesando, por favor espere...",
+    "confirmDelete": "¿Está seguro de que desea eliminar?",
+    "confirmAction": "¿Está seguro de que desea realizar esta acción?",
+    "unsavedChanges": "Tiene cambios sin guardar. ¿Está seguro de que desea salir?",
+    "orderHistoryNotAvailable": "La función de historial de pedidos aún no está disponible",
+    "loadOrdersFailed": "Error al cargar el historial de pedidos",
+    "loadUserFailed": "Error al cargar la información del usuario, por favor actualice la página e intente de nuevo",
+    "loginRequired": "Por favor, inicie sesión para acceder a su perfil"
+  },
+  "blog": {
+    "title": "Blog",
+    "by": "Por",
+    "author": "Por",
+    "publishedOn": "Publicado el",
+    "readMore": "Leer Más",
+    "backToBlog": "Volver al Blog",
+    "totalArticles": "Total {count} artículos",
+    "noPosts": "No hay publicaciones de blog disponibles",
+    "notFound": "Artículo no encontrado",
+    "notFoundMessage": "El artículo que está buscando no existe.",
+    "errorLoading": "Error al cargar el artículo",
+    "errorMessage": "Error al cargar el artículo. Por favor, inténtelo de nuevo.",
+    "seo": {
+      "title": "Blog de Ideas e Inspiración de Tatuajes IA | Tattooinkai",
+      "description": "Tu fuente definitiva para inspiración de tatuajes. Explora cientos de diseños generados por IA, lee guías sobre cada estilo y obtén consejos de expertos para tu próxima obra de arte. ¡Encuentra tu idea perfecta con Tattooinkai!",
+      "keywords": "blog de ideas de tatuajes, inspiración de tatuajes, diseños de tatuajes IA, guías de estilos de tatuajes, consejos expertos de tatuajes"
+    }
+  },
+  "tryNow": {
+    "title": "Crea Tu Tatuaje IA Ahora",
+    "description": "Crea tu primer tatuaje hiperrealista en segundos sin necesidad de habilidades. Solo tu idea, nuestro Generador de Tatuajes IA y unos pocos clics.",
+    "tryNow": "Comenzar a Crear"
+  }
+}

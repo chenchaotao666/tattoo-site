@@ -11,6 +11,8 @@ import enPricing from '../locales/en/pages/pricing.json';
 import enCategories from '../locales/en/pages/categories.json';
 import enCreations from '../locales/en/pages/creations.json';
 import enProfile from '../locales/en/pages/profile.json';
+import enTattooPreview from '../locales/en/tattooPreview.json';
+import enCategoriesRoot from '../locales/en/categories.json';
 
 import zhCommon from '../locales/zh/common.json';
 import zhNavigation from '../locales/zh/navigation.json';
@@ -22,6 +24,125 @@ import zhPricing from '../locales/zh/pages/pricing.json';
 import zhCategories from '../locales/zh/pages/categories.json';
 import zhCreations from '../locales/zh/pages/creations.json';
 import zhProfile from '../locales/zh/pages/profile.json';
+import zhTattooPreview from '../locales/zh/tattooPreview.json';
+import zhCategoriesRoot from '../locales/zh/categories.json';
+
+import jaCommon from '../locales/ja/common.json';
+import jaNavigation from '../locales/ja/navigation.json';
+import jaComponents from '../locales/ja/components.json';
+import jaImage from '../locales/ja/image.json';
+import jaHome from '../locales/ja/home.json';
+import jaGenerate from '../locales/ja/pages/generate.json';
+import jaPricing from '../locales/ja/pages/pricing.json';
+import jaCategories from '../locales/ja/pages/categories.json';
+import jaCreations from '../locales/ja/pages/creations.json';
+import jaProfile from '../locales/ja/pages/profile.json';
+import jaTattooPreview from '../locales/ja/tattooPreview.json';
+import jaCategoriesRoot from '../locales/ja/categories.json';
+
+import koCommon from '../locales/ko/common.json';
+import koNavigation from '../locales/ko/navigation.json';
+import koComponents from '../locales/ko/components.json';
+import koImage from '../locales/ko/image.json';
+import koHome from '../locales/ko/home.json';
+import koGenerate from '../locales/ko/pages/generate.json';
+import koPricing from '../locales/ko/pages/pricing.json';
+import koCategories from '../locales/ko/pages/categories.json';
+import koCreations from '../locales/ko/pages/creations.json';
+import koProfile from '../locales/ko/pages/profile.json';
+import koTattooPreview from '../locales/ko/tattooPreview.json';
+import koCategoriesRoot from '../locales/ko/categories.json';
+
+import twCommon from '../locales/tw/common.json';
+import twNavigation from '../locales/tw/navigation.json';
+import twComponents from '../locales/tw/components.json';
+import twImage from '../locales/tw/image.json';
+import twHome from '../locales/tw/home.json';
+import twGenerate from '../locales/tw/pages/generate.json';
+import twPricing from '../locales/tw/pages/pricing.json';
+import twCategories from '../locales/tw/pages/categories.json';
+import twCreations from '../locales/tw/pages/creations.json';
+import twProfile from '../locales/tw/pages/profile.json';
+import twTattooPreview from '../locales/tw/tattooPreview.json';
+import twCategoriesRoot from '../locales/tw/categories.json';
+
+import esCommon from '../locales/es/common.json';
+import esNavigation from '../locales/es/navigation.json';
+import esComponents from '../locales/es/components.json';
+import esImage from '../locales/es/image.json';
+import esHome from '../locales/es/home.json';
+import esGenerate from '../locales/es/pages/generate.json';
+import esPricing from '../locales/es/pages/pricing.json';
+import esCategories from '../locales/es/pages/categories.json';
+import esCreations from '../locales/es/pages/creations.json';
+import esProfile from '../locales/es/pages/profile.json';
+import esTattooPreview from '../locales/es/tattooPreview.json';
+import esCategoriesRoot from '../locales/es/categories.json';
+
+import frCommon from '../locales/fr/common.json';
+import frNavigation from '../locales/fr/navigation.json';
+import frComponents from '../locales/fr/components.json';
+import frImage from '../locales/fr/image.json';
+import frHome from '../locales/fr/home.json';
+import frGenerate from '../locales/fr/pages/generate.json';
+import frPricing from '../locales/fr/pages/pricing.json';
+import frCategories from '../locales/fr/pages/categories.json';
+import frCreations from '../locales/fr/pages/creations.json';
+import frProfile from '../locales/fr/pages/profile.json';
+import frTattooPreview from '../locales/fr/tattooPreview.json';
+import frCategoriesRoot from '../locales/fr/categories.json';
+
+import deCommon from '../locales/de/common.json';
+import deNavigation from '../locales/de/navigation.json';
+import deComponents from '../locales/de/components.json';
+import deImage from '../locales/de/image.json';
+import deHome from '../locales/de/home.json';
+import deGenerate from '../locales/de/pages/generate.json';
+import dePricing from '../locales/de/pages/pricing.json';
+import deCategories from '../locales/de/pages/categories.json';
+import deCreations from '../locales/de/pages/creations.json';
+import deProfile from '../locales/de/pages/profile.json';
+import deTattooPreview from '../locales/de/tattooPreview.json';
+import deCategoriesRoot from '../locales/de/categories.json';
+
+import itCommon from '../locales/it/common.json';
+import itNavigation from '../locales/it/navigation.json';
+import itComponents from '../locales/it/components.json';
+import itImage from '../locales/it/image.json';
+import itHome from '../locales/it/home.json';
+import itGenerate from '../locales/it/pages/generate.json';
+import itPricing from '../locales/it/pages/pricing.json';
+import itCategories from '../locales/it/pages/categories.json';
+import itCreations from '../locales/it/pages/creations.json';
+import itProfile from '../locales/it/pages/profile.json';
+import itTattooPreview from '../locales/it/tattooPreview.json';
+import itCategoriesRoot from '../locales/it/categories.json';
+
+import ptCommon from '../locales/pt/common.json';
+import ptNavigation from '../locales/pt/navigation.json';
+import ptComponents from '../locales/pt/components.json';
+import ptImage from '../locales/pt/image.json';
+import ptHome from '../locales/pt/home.json';
+import ptGenerate from '../locales/pt/pages/generate.json';
+import ptPricing from '../locales/pt/pages/pricing.json';
+import ptCategories from '../locales/pt/pages/categories.json';
+import ptCreations from '../locales/pt/pages/creations.json';
+import ptProfile from '../locales/pt/pages/profile.json';
+import ptTattooPreview from '../locales/pt/tattooPreview.json';
+import ptCategoriesRoot from '../locales/pt/categories.json';
+
+import ruCommon from '../locales/ru/common.json';
+import ruNavigation from '../locales/ru/navigation.json';
+import ruComponents from '../locales/ru/components.json';
+import ruImage from '../locales/ru/image.json';
+import ruHome from '../locales/ru/home.json';
+import ruGenerate from '../locales/ru/pages/generate.json';
+import ruPricing from '../locales/ru/pages/pricing.json';
+import ruCategories from '../locales/ru/pages/categories.json';
+import ruCreations from '../locales/ru/pages/creations.json';
+import ruProfile from '../locales/ru/pages/profile.json';
+import ruTattooPreview from '../locales/ru/tattooPreview.json';
+import ruCategoriesRoot from '../locales/ru/categories.json';
 
 // 翻译资源接口
 interface TranslationModule {
@@ -47,6 +168,8 @@ const translationModules: TranslationCache = {
     categories: enCategories,
     creations: enCreations,
     profile: enProfile,
+    tattooPreview: enTattooPreview,
+    categoriesRoot: enCategoriesRoot,
   },
   zh: {
     common: zhCommon,
@@ -59,6 +182,134 @@ const translationModules: TranslationCache = {
     categories: zhCategories,
     creations: zhCreations,
     profile: zhProfile,
+    tattooPreview: zhTattooPreview,
+    categoriesRoot: zhCategoriesRoot,
+  },
+  ja: {
+    common: jaCommon,
+    navigation: jaNavigation,
+    components: jaComponents,
+    image: jaImage,
+    home: jaHome,
+    generate: jaGenerate,
+    pricing: jaPricing,
+    categories: jaCategories,
+    creations: jaCreations,
+    profile: jaProfile,
+    tattooPreview: jaTattooPreview,
+    categoriesRoot: jaCategoriesRoot,
+  },
+  ko: {
+    common: koCommon,
+    navigation: koNavigation,
+    components: koComponents,
+    image: koImage,
+    home: koHome,
+    generate: koGenerate,
+    pricing: koPricing,
+    categories: koCategories,
+    creations: koCreations,
+    profile: koProfile,
+    tattooPreview: koTattooPreview,
+    categoriesRoot: koCategoriesRoot,
+  },
+  tw: {
+    common: twCommon,
+    navigation: twNavigation,
+    components: twComponents,
+    image: twImage,
+    home: twHome,
+    generate: twGenerate,
+    pricing: twPricing,
+    categories: twCategories,
+    creations: twCreations,
+    profile: twProfile,
+    tattooPreview: twTattooPreview,
+    categoriesRoot: twCategoriesRoot,
+  },
+  es: {
+    common: esCommon,
+    navigation: esNavigation,
+    components: esComponents,
+    image: esImage,
+    home: esHome,
+    generate: esGenerate,
+    pricing: esPricing,
+    categories: esCategories,
+    creations: esCreations,
+    profile: esProfile,
+    tattooPreview: esTattooPreview,
+    categoriesRoot: esCategoriesRoot,
+  },
+  fr: {
+    common: frCommon,
+    navigation: frNavigation,
+    components: frComponents,
+    image: frImage,
+    home: frHome,
+    generate: frGenerate,
+    pricing: frPricing,
+    categories: frCategories,
+    creations: frCreations,
+    profile: frProfile,
+    tattooPreview: frTattooPreview,
+    categoriesRoot: frCategoriesRoot,
+  },
+  de: {
+    common: deCommon,
+    navigation: deNavigation,
+    components: deComponents,
+    image: deImage,
+    home: deHome,
+    generate: deGenerate,
+    pricing: dePricing,
+    categories: deCategories,
+    creations: deCreations,
+    profile: deProfile,
+    tattooPreview: deTattooPreview,
+    categoriesRoot: deCategoriesRoot,
+  },
+  it: {
+    common: itCommon,
+    navigation: itNavigation,
+    components: itComponents,
+    image: itImage,
+    home: itHome,
+    generate: itGenerate,
+    pricing: itPricing,
+    categories: itCategories,
+    creations: itCreations,
+    profile: itProfile,
+    tattooPreview: itTattooPreview,
+    categoriesRoot: itCategoriesRoot,
+  },
+  pt: {
+    common: ptCommon,
+    navigation: ptNavigation,
+    components: ptComponents,
+    image: ptImage,
+    home: ptHome,
+    generate: ptGenerate,
+    pricing: ptPricing,
+    categories: ptCategories,
+    creations: ptCreations,
+    profile: ptProfile,
+    tattooPreview: ptTattooPreview,
+    categoriesRoot: ptCategoriesRoot,
+  },
+  ru: {
+    common: ruCommon,
+    navigation: ruNavigation,
+    components: ruComponents,
+    image: ruImage,
+    home: ruHome,
+    generate: ruGenerate,
+    pricing: ruPricing,
+    categories: ruCategories,
+    creations: ruCreations,
+    profile: ruProfile,
+    tattooPreview: ruTattooPreview,
+    categoriesRoot: ruCategoriesRoot,
   },
 };
 

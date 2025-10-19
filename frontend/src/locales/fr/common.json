@@ -1,0 +1,128 @@
+{
+  "buttons": {
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "download": "Télécharger",
+    "upload": "Téléverser",
+    "search": "Rechercher",
+    "retry": "Réessayer",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "submit": "Soumettre",
+    "reset": "Réinitialiser",
+    "generate": "Générer",
+    "create": "Créer",
+    "update": "Mettre à jour",
+    "refresh": "Actualiser",
+    "clear": "Effacer",
+    "copy": "Copier",
+    "share": "Partager",
+    "print": "Imprimer",
+    "viewMore": "Voir Plus",
+    "loadMore": "Charger Plus",
+    "showAll": "Tout Afficher",
+    "hideAll": "Tout Masquer"
+  },
+  "seo": {
+    "home": {
+      "title": "Générateur de Tatouages IA | Créer des Tatouages Réalistes avec Prévisualisation AR",
+      "description": "Transformez votre idée de tatouage en un design hyperréaliste en secondes. Notre outil IA offre des styles infinis et vous permet de le prévisualiser sur votre peau avec AR, pour que vous puissiez vous engager avec 100% de confiance. Essayez-le gratuitement maintenant !",
+      "keywords": "générateur de tatouages IA, créateur de tatouages réalistes, prévisualisation tatouages AR, designs de tatouages personnalisés, tatouage gratuit"
+    },
+    "generate": {
+      "title": "Générateur de Tatouages IA Gratuit : Designs Personnalisés, Styles & Prévisualisation AR",
+      "description": "Découvrez comment créer votre tatouage parfait en 3 étapes simples. Notre outil IA vous permet de générer des designs illimités, personnaliser des styles infinis, et le prévisualiser sur votre peau avant de vous engager. Obtenez votre design de tatouage haute résolution prêt pour votre artiste.",
+      "keywords": "générateur de tatouages IA gratuit, designs de tatouages personnalisés, designs de tatouages illimités, haute résolution"
+    },
+    "categories": {
+      "title": "Idées et Styles de Tatouages IA | Explorez des Centaines de Designs Uniques",
+      "description": "Trouvez votre prochaine inspiration de tatouage dans notre galerie générée par IA. Parcourez des centaines de designs dans des styles comme Japonais, Minimaliste, Aquarelle, et Tribal. Vous voyez une idée que vous aimez ? Personnalisez-la instantanément avec notre Générateur de Tatouages IA. Découvrez votre style parfait aujourd'hui !",
+      "keywords": "idées de tatouages, styles de tatouages, tatouages japonais, tatouages minimalistes, tatouages aquarelle"
+    },
+    "creations": {
+      "title": "Galerie de Tatouages IA - Créations d'Utilisateurs & Inspiration",
+      "description": "Explorez d'incroyables tatouages générés par IA créés par notre communauté. Inspirez-vous et découvrez de nouvelles idées pour votre prochain projet de tatouage.",
+      "keywords": "galerie de tatouages IA, créations de tatouages d'utilisateurs, inspiration de tatouages, designs de tatouages communautaires"
+    },
+    "pricing": {
+      "title": "Tarifs du Générateur de Tatouages IA | Plans Flexibles & Accès Complet",
+      "description": "Trouvez le plan parfait pour notre Générateur de Tatouages IA. Obtenez des designs illimités, des téléchargements haute résolution, et un accès complet à partir de seulement 12,99 $. Choisissez votre plan et commencez à créer aujourd'hui !",
+      "keywords": "tarifs générateur tatouages, abonnement tatouages IA, fonctionnalités premium tatouages, illimité"
+    },
+    "profile": {
+      "title": "Profil - Gestion du Compte",
+      "description": "Gérez les informations et paramètres de votre compte. Mettez à jour nom d'utilisateur, mot de passe, avatar et autres informations personnelles.",
+      "keywords": "gestion de profil, paramètres de compte, profil utilisateur, changement de mot de passe, téléversement d'avatar"
+    }
+  },
+  "status": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "failed": "Échec",
+    "completed": "Terminé",
+    "pending": "En attente",
+    "processing": "Traitement",
+    "cancelled": "Annulé",
+    "timeout": "Délai dépassé",
+    "connecting": "Connexion...",
+    "uploading": "Téléversement...",
+    "downloading": "Téléchargement...",
+    "generating": "Génération...",
+    "saving": "Enregistrement..."
+  },
+  "messages": {
+    "noData": "Aucune donnée disponible",
+    "noResults": "Aucun résultat trouvé",
+    "networkError": "Échec de la connexion réseau",
+    "serverError": "Erreur du serveur",
+    "unknownError": "Erreur inconnue",
+    "operationSuccess": "Opération réussie",
+    "operationFailed": "Opération échouée",
+    "saveSuccess": "Enregistré avec succès",
+    "deleteSuccess": "Supprimé avec succès",
+    "updateSuccess": "Mis à jour avec succès",
+    "uploadSuccess": "Téléversé avec succès",
+    "downloadSuccess": "Téléchargé avec succès",
+    "copySuccess": "Copié avec succès",
+    "shareSuccess": "Partagé avec succès",
+    "pleaseWait": "Veuillez patienter...",
+    "processing": "Traitement en cours, veuillez patienter...",
+    "confirmDelete": "Êtes-vous sûr de vouloir supprimer ?",
+    "confirmAction": "Êtes-vous sûr de vouloir effectuer cette action ?",
+    "unsavedChanges": "Vous avez des modifications non enregistrées. Êtes-vous sûr de vouloir partir ?",
+    "orderHistoryNotAvailable": "La fonctionnalité d'historique des commandes n'est pas encore disponible",
+    "loadOrdersFailed": "Échec du chargement de l'historique des commandes",
+    "loadUserFailed": "Échec du chargement des informations utilisateur, veuillez actualiser la page et réessayer",
+    "loginRequired": "Veuillez vous connecter pour accéder à votre profil"
+  },
+  "blog": {
+    "title": "Blog",
+    "by": "Par",
+    "author": "Par",
+    "publishedOn": "Publié le",
+    "readMore": "Lire Plus",
+    "backToBlog": "Retour au Blog",
+    "totalArticles": "Total {count} articles",
+    "noPosts": "Aucun article de blog disponible",
+    "notFound": "Article non trouvé",
+    "notFoundMessage": "L'article que vous recherchez n'existe pas.",
+    "errorLoading": "Erreur lors du chargement de l'article",
+    "errorMessage": "Échec du chargement de l'article. Veuillez réessayer.",
+    "seo": {
+      "title": "Blog d'Idées et d'Inspiration de Tatouages IA | Tattooinkai",
+      "description": "Votre source ultime d'inspiration de tatouages. Explorez des centaines de designs générés par IA, lisez des guides sur chaque style, et obtenez des conseils d'experts pour votre prochaine œuvre d'art. Trouvez votre idée parfaite avec Tattooinkai !",
+      "keywords": "blog d'idées de tatouages, inspiration de tatouages, designs de tatouages IA, guides de styles de tatouages, conseils d'experts en tatouages"
+    }
+  },
+  "tryNow": {
+    "title": "Créez Votre Tatouage IA Maintenant",
+    "description": "Créez votre premier tatouage hyperréaliste en secondes sans compétences nécessaires. Juste votre idée, notre Générateur de Tatouages IA, et quelques clics.",
+    "tryNow": "Commencer à Créer"
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "dialog": {
+    "confirmDelete": "정말로 이 항목을 삭제하시겠습니까?",
+    "delete": "삭제",
+    "cancel": "취소",
+    "close": "닫기",
+    "processing": "처리 중...",
+    "notice": "알림"
+  },
+  "googleLogin": {
+    "continueWith": "Google로 계속하기",
+    "loading": "로딩 중...",
+    "error": "Google 로그인이 로드되지 않았습니다",
+    "configError": "VITE_GOOGLE_CLIENT_ID 환경 변수를 설정해 주세요"
+  },
+  "noData": {
+    "message": "데이터를 찾을 수 없습니다",
+    "altText": "데이터 없음"
+  },
+  "backToTop": {
+    "title": "맨 위로",
+    "altText": "맨 위로 스크롤"
+  },
+  "loading": {
+    "general": "로딩 중...",
+    "pleaseWait": "잠시만 기다려 주세요..."
+  },
+  "error": {
+    "general": "오류가 발생했습니다",
+    "tryAgain": "다시 시도",
+    "somethingWrong": "문제가 발생했습니다",
+    "generationFailed": "생성 실패",
+    "networkError": "네트워크 오류가 발생했습니다",
+    "serverError": "서버 오류"
+  },
+  "imageGrid": {
+    "noResults": "이미지를 찾을 수 없습니다",
+    "loadingImages": "이미지 로딩 중...",
+    "errorLoading": "이미지 로딩 오류"
+  },
+  "generateCenter": {
+    "title": "AI 타투 생성기",
+    "description": "AI로 독특한 타투 디자인을 손쉽게 만드세요. 스타일을 맞춤 설정하고, 무한한 옵션을 탐색하며, 아이디어를 즉시 미리 보세요.",
+    "generationFailed": "생성 실패",
+    "generatedTattooAlt": "생성된 타투 디자인",
+    "generatedAlt": "생성된 이미지",
+    "generatedTattoo": "생성된 타투 디자인",
+    "downloadAll": "모두 다운로드"
+  },
+  "generateSidebar": {
+    "style": "스타일",
+    "color": "색상",
+    "quantity": "수량",
+    "image": "이미지",
+    "images": "이미지",
+    "prompt": "프롬프트",
+    "uploadImage": "이미지 업로드",
+    "generate": "생성",
+    "clear": "지우기",
+    "premiumFeature": "프리미엄 기능"
+  },
+  "pricing": {
+    "buyNow": "지금 구매",
+    "popular": "인기",
+    "save": "{discount} 절약"
+  },
+  "generateTextarea": {
+    "descriptionPrompt": "타투 아이디어를 설명하세요",
+    "placeholder": "타투 디자인 설명을 입력하세요...",
+    "random": "랜덤",
+    "output": "결과",
+    "outputs": "결과들",
+    "noStyle": "스타일 없음",
+    "colorful": "컬러풀",
+    "blackAndWhite": "흑백",
+    "create": "생성",
+    "generate": "생성"
+  },
+  "styleSelector": {
+    "selectStyle": "스타일 선택",
+    "noStyle": "스타일 없음"
+  },
+  "moreMenu": {
+    "report": "신고",
+    "share": "공유",
+    "shareToX": "X에 공유",
+    "shareToFacebook": "Facebook에 공유",
+    "delete": "삭제",
+    "deleteSuccess": "성공적으로 삭제되었습니다",
+    "partialDeleteSuccess": "{count}개의 {imageText}가 성공적으로 삭제되었습니다",
+    "deleteError": "삭제에 실패했습니다. 다시 시도해 주세요"
+  },
+  "categoryCard": {
+    "viewAllTattoos": "모든 타투 보기"
+  },
+  "categoryMenus": {
+    "inspirationText": "무한한 타투 영감을 위한 {count} 개의 디자인",
+    "viewAll": "모두 보기"
+  }
+}

@@ -16,14 +16,15 @@ const BaseButton: React.FC<BaseButtonProps> = ({
   children,
   onClick,
   variant = 'primary',
-  width = 'w-[200px]',
+  width,
   height = 'h-[60px]',
   fontSize = 'text-xl',
   disabled = false,
   className = '',
   style
 }) => {
-  const baseClasses = `${width} ${height} px-4 rounded-lg flex justify-center items-center transition-colors`;
+  const finalWidth = width || 'w-fit';
+  const baseClasses = `${finalWidth} ${height} px-6 rounded-lg flex justify-center items-center transition-colors`;
   
   const variantClasses = {
     primary: 'bg-[#98FF59] hover:bg-[#B3FF7A] text-[#161616] font-bold',

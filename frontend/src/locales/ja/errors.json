@@ -1,0 +1,33 @@
+{
+  "auth": {
+    "invalidCredentials": "メールまたはパスワードが無効です",
+    "accountNotFound": "アカウントが見つかりません",
+    "emailAlreadyExists": "メールはすでに登録されています",
+    "usernameAlreadyExists": "ユーザー名はすでに使用されています",
+    "emailNotRegistered": "メールが登録されていません",
+    "sendEmailFailed": "メール送信に失敗しました",
+    "forgotPasswordFailed": "パスワードリセットに失敗しました",
+    "registrationFailed": "登録に失敗しました",
+    "googleLoginFailed": "Googleログインに失敗しました"
+  },
+  "validation": {
+    "required": "この項目は必須です",
+    "emailInvalid": "有効なメールアドレスを入力してください",
+    "passwordTooShort": "パスワードは6文字以上である必要があります",
+    "passwordMismatch": "パスワードが一致しません",
+    "invalidFormat": "無効な形式です",
+    "minLength": "{min}文字以上である必要があります",
+    "maxLength": "{max}文字を超えることはできません"
+  },
+  "network": {
+    "connectionFailed": "ネットワーク接続に失敗しました",
+    "serverError": "サーバーエラー",
+    "timeout": "リクエストタイムアウト",
+    "unknownError": "不明なエラー"
+  },
+  "general": {
+    "somethingWentWrong": "何か問題が発生しました",
+    "tryAgainLater": "後でもう一度お試しください",
+    "contactSupport": "サポートにお問い合わせください"
+  }
+}

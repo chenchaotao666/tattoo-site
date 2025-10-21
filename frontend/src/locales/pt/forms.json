@@ -1,0 +1,49 @@
+{
+  "auth": {
+    "loginTitle": "Login",
+    "loginToYourAccount": "Entre na sua conta",
+    "loginButton": "Entrar",
+    "registerTitle": "Registro",
+    "registerYourAccount": "Crie sua conta",
+    "registerButton": "Criar conta",
+    "registerSuccess": "Registro realizado com sucesso! Faça login na sua conta.",
+    "noAccount": "Ainda não tem uma conta?",
+    "hasAccount": "Já tem uma conta?",
+    "loginHere": "Entre aqui",
+    "rememberMe": "Lembrar de mim",
+    "forgotPassword": "Esqueceu sua senha?",
+    "resetPasswordTitle": "Redefinir senha",
+    "resetYourPassword": "Redefina sua senha",
+    "sendResetEmail": "Enviar email de redefinição",
+    "backToLogin": "Voltar ao login",
+    "rememberPassword": "Lembra da sua senha?",
+    "orDivider": "Ou continue com",
+    "emailSent": "Email enviado",
+    "resetEmailSentTo": "Um email de redefinição de senha foi enviado para:",
+    "checkEmailInstructions": "Verifique seu email e clique no link para redefinir sua senha.",
+    "resendEmail": "Reenviar email"
+  },
+  "fields": {
+    "username": "Nome de usuário",
+    "email": "Email",
+    "emailAddress": "Endereço de email",
+    "password": "Senha",
+    "confirmPassword": "Confirmar senha"
+  },
+  "placeholders": {
+    "username": "Digite seu nome de usuário",
+    "email": "Digite seu email",
+    "emailAddress": "Digite seu endereço de email",
+    "password": "Digite sua senha",
+    "confirmPassword": "Confirme sua senha"
+  },
+  "validation": {
+    "required": "Este campo é obrigatório",
+    "emailInvalid": "Por favor, digite um endereço de email válido",
+    "passwordTooShort": "A senha deve ter pelo menos {min} caracteres",
+    "passwordMismatch": "As senhas não coincidem",
+    "minLength": "Deve ter pelo menos {min} caracteres",
+    "maxLength": "Não pode exceder {max} caracteres",
+    "invalidFormat": "Formato inválido"
+  }
+}

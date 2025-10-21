@@ -6,7 +6,7 @@ import { ApiError } from '../utils/apiUtils';
 import GoogleLoginButton from '../components/common/GoogleLoginButton';
 import SEOHead from '../components/common/SEOHead';
 import PasswordInput from '../components/ui/PasswordInput';
-import { createLanguageAwarePath } from '../utils/navigationUtils';
+import { createLanguageAwarePath, navigateWithLanguage } from '../utils/navigationUtils';
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -100,7 +100,7 @@ const LoginPage: React.FC = () => {
       
       // 登录成功后重定向
       const from = location.state?.from?.pathname || '/';
-      navigate(from, { replace: true });
+      navigateWithLanguage(navigate, from, { replace: true });
       
     } catch (error) {
       console.error('Login error:', error);

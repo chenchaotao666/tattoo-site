@@ -110,12 +110,21 @@ export const getCurrentLanguagePrefix = (): string => {
  */
 export const createLanguageAwarePath = (path: string): string => {
   const languagePrefix = getCurrentLanguagePrefix();
-  
+
   // 确保路径以/开头
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  
-  // 如果有语言前缀，添加到路径前
-  return languagePrefix ? `${languagePrefix}${cleanPath}` : cleanPath;
+
+  // 如果有语言前缀
+  if (languagePrefix) {
+    // 如果路径是根路径'/'，只返回语言前缀（不带尾随斜杠）
+    if (cleanPath === '/') {
+      return languagePrefix;
+    }
+    // 其他路径正常添加语言前缀
+    return `${languagePrefix}${cleanPath}`;
+  }
+
+  return cleanPath;
 };
 
 /**

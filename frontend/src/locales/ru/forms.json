@@ -1,0 +1,49 @@
+{
+  "auth": {
+    "loginTitle": "Вход",
+    "loginToYourAccount": "Войдите в свой аккаунт",
+    "loginButton": "Войти",
+    "registerTitle": "Регистрация",
+    "registerYourAccount": "Создайте свой аккаунт",
+    "registerButton": "Создать аккаунт",
+    "registerSuccess": "Регистрация прошла успешно! Войдите в свой аккаунт.",
+    "noAccount": "Еще нет аккаунта?",
+    "hasAccount": "Уже есть аккаунт?",
+    "loginHere": "Войдите здесь",
+    "rememberMe": "Запомнить меня",
+    "forgotPassword": "Забыли пароль?",
+    "resetPasswordTitle": "Сброс пароля",
+    "resetYourPassword": "Сбросьте свой пароль",
+    "sendResetEmail": "Отправить письмо для сброса",
+    "backToLogin": "Вернуться к входу",
+    "rememberPassword": "Вспомнили пароль?",
+    "orDivider": "Или продолжите с",
+    "emailSent": "Письмо отправлено",
+    "resetEmailSentTo": "Письмо для сброса пароля отправлено на:",
+    "checkEmailInstructions": "Проверьте свою почту и перейдите по ссылке для сброса пароля.",
+    "resendEmail": "Отправить письмо повторно"
+  },
+  "fields": {
+    "username": "Имя пользователя",
+    "email": "Email",
+    "emailAddress": "Адрес электронной почты",
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль"
+  },
+  "placeholders": {
+    "username": "Введите имя пользователя",
+    "email": "Введите ваш email",
+    "emailAddress": "Введите адрес электронной почты",
+    "password": "Введите пароль",
+    "confirmPassword": "Подтвердите пароль"
+  },
+  "validation": {
+    "required": "Это поле обязательно",
+    "emailInvalid": "Пожалуйста, введите действительный адрес электронной почты",
+    "passwordTooShort": "Пароль должен содержать не менее {min} символов",
+    "passwordMismatch": "Пароли не совпадают",
+    "minLength": "Должно содержать не менее {min} символов",
+    "maxLength": "Не может превышать {max} символов",
+    "invalidFormat": "Неверный формат"
+  }
+}

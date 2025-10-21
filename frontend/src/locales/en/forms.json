@@ -1,0 +1,49 @@
+{
+  "auth": {
+    "loginTitle": "Login",
+    "loginToYourAccount": "Sign in to your account",
+    "loginButton": "Sign in",
+    "registerTitle": "Register",
+    "registerYourAccount": "Create your account",
+    "registerButton": "Create account",
+    "registerSuccess": "Registration successful! Please log in to your account.",
+    "noAccount": "Don't have an account yet?",
+    "hasAccount": "Already have an account?",
+    "loginHere": "Sign in here",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot your password?",
+    "resetPasswordTitle": "Reset Password",
+    "resetYourPassword": "Reset your password",
+    "sendResetEmail": "Send reset email",
+    "backToLogin": "Back to login",
+    "rememberPassword": "Remember your password?",
+    "orDivider": "Or continue with",
+    "emailSent": "Email Sent",
+    "resetEmailSentTo": "A password reset email has been sent to:",
+    "checkEmailInstructions": "Please check your email and click the link to reset your password.",
+    "resendEmail": "Resend email"
+  },
+  "fields": {
+    "username": "Username",
+    "email": "Email",
+    "emailAddress": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password"
+  },
+  "placeholders": {
+    "username": "Enter your username",
+    "email": "Enter your email",
+    "emailAddress": "Enter your email address",
+    "password": "Enter your password",
+    "confirmPassword": "Confirm your password"
+  },
+  "validation": {
+    "required": "This field is required",
+    "emailInvalid": "Please enter a valid email address",
+    "passwordTooShort": "Password must be at least {min} characters",
+    "passwordMismatch": "Passwords do not match",
+    "minLength": "Must be at least {min} characters",
+    "maxLength": "Cannot exceed {max} characters",
+    "invalidFormat": "Invalid format"
+  }
+}

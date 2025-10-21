@@ -13,6 +13,8 @@ import enCreations from '../locales/en/pages/creations.json';
 import enProfile from '../locales/en/pages/profile.json';
 import enTattooPreview from '../locales/en/tattooPreview.json';
 import enCategoriesRoot from '../locales/en/categories.json';
+import enForms from '../locales/en/forms.json';
+import enErrors from '../locales/en/errors.json';
 
 import zhCommon from '../locales/zh/common.json';
 import zhNavigation from '../locales/zh/navigation.json';
@@ -26,6 +28,8 @@ import zhCreations from '../locales/zh/pages/creations.json';
 import zhProfile from '../locales/zh/pages/profile.json';
 import zhTattooPreview from '../locales/zh/tattooPreview.json';
 import zhCategoriesRoot from '../locales/zh/categories.json';
+import zhForms from '../locales/zh/forms.json';
+import zhErrors from '../locales/zh/errors.json';
 
 import jaCommon from '../locales/ja/common.json';
 import jaNavigation from '../locales/ja/navigation.json';
@@ -39,6 +43,8 @@ import jaCreations from '../locales/ja/pages/creations.json';
 import jaProfile from '../locales/ja/pages/profile.json';
 import jaTattooPreview from '../locales/ja/tattooPreview.json';
 import jaCategoriesRoot from '../locales/ja/categories.json';
+import jaForms from '../locales/ja/forms.json';
+import jaErrors from '../locales/ja/errors.json';
 
 import koCommon from '../locales/ko/common.json';
 import koNavigation from '../locales/ko/navigation.json';
@@ -52,6 +58,8 @@ import koCreations from '../locales/ko/pages/creations.json';
 import koProfile from '../locales/ko/pages/profile.json';
 import koTattooPreview from '../locales/ko/tattooPreview.json';
 import koCategoriesRoot from '../locales/ko/categories.json';
+import koForms from '../locales/ko/forms.json';
+import koErrors from '../locales/ko/errors.json';
 
 import twCommon from '../locales/tw/common.json';
 import twNavigation from '../locales/tw/navigation.json';
@@ -65,6 +73,8 @@ import twCreations from '../locales/tw/pages/creations.json';
 import twProfile from '../locales/tw/pages/profile.json';
 import twTattooPreview from '../locales/tw/tattooPreview.json';
 import twCategoriesRoot from '../locales/tw/categories.json';
+import twForms from '../locales/tw/forms.json';
+import twErrors from '../locales/tw/errors.json';
 
 import esCommon from '../locales/es/common.json';
 import esNavigation from '../locales/es/navigation.json';
@@ -78,6 +88,8 @@ import esCreations from '../locales/es/pages/creations.json';
 import esProfile from '../locales/es/pages/profile.json';
 import esTattooPreview from '../locales/es/tattooPreview.json';
 import esCategoriesRoot from '../locales/es/categories.json';
+import esForms from '../locales/es/forms.json';
+import esErrors from '../locales/es/errors.json';
 
 import frCommon from '../locales/fr/common.json';
 import frNavigation from '../locales/fr/navigation.json';
@@ -91,6 +103,8 @@ import frCreations from '../locales/fr/pages/creations.json';
 import frProfile from '../locales/fr/pages/profile.json';
 import frTattooPreview from '../locales/fr/tattooPreview.json';
 import frCategoriesRoot from '../locales/fr/categories.json';
+import frForms from '../locales/fr/forms.json';
+import frErrors from '../locales/fr/errors.json';
 
 import deCommon from '../locales/de/common.json';
 import deNavigation from '../locales/de/navigation.json';
@@ -104,6 +118,8 @@ import deCreations from '../locales/de/pages/creations.json';
 import deProfile from '../locales/de/pages/profile.json';
 import deTattooPreview from '../locales/de/tattooPreview.json';
 import deCategoriesRoot from '../locales/de/categories.json';
+import deForms from '../locales/de/forms.json';
+import deErrors from '../locales/de/errors.json';
 
 import itCommon from '../locales/it/common.json';
 import itNavigation from '../locales/it/navigation.json';
@@ -117,6 +133,8 @@ import itCreations from '../locales/it/pages/creations.json';
 import itProfile from '../locales/it/pages/profile.json';
 import itTattooPreview from '../locales/it/tattooPreview.json';
 import itCategoriesRoot from '../locales/it/categories.json';
+import itForms from '../locales/it/forms.json';
+import itErrors from '../locales/it/errors.json';
 
 import ptCommon from '../locales/pt/common.json';
 import ptNavigation from '../locales/pt/navigation.json';
@@ -130,6 +148,8 @@ import ptCreations from '../locales/pt/pages/creations.json';
 import ptProfile from '../locales/pt/pages/profile.json';
 import ptTattooPreview from '../locales/pt/tattooPreview.json';
 import ptCategoriesRoot from '../locales/pt/categories.json';
+import ptForms from '../locales/pt/forms.json';
+import ptErrors from '../locales/pt/errors.json';
 
 import ruCommon from '../locales/ru/common.json';
 import ruNavigation from '../locales/ru/navigation.json';
@@ -143,6 +163,8 @@ import ruCreations from '../locales/ru/pages/creations.json';
 import ruProfile from '../locales/ru/pages/profile.json';
 import ruTattooPreview from '../locales/ru/tattooPreview.json';
 import ruCategoriesRoot from '../locales/ru/categories.json';
+import ruForms from '../locales/ru/forms.json';
+import ruErrors from '../locales/ru/errors.json';
 
 // 翻译资源接口
 interface TranslationModule {
@@ -170,6 +192,8 @@ const translationModules: TranslationCache = {
     profile: enProfile,
     tattooPreview: enTattooPreview,
     categoriesRoot: enCategoriesRoot,
+    forms: enForms,
+    errors: enErrors,
   },
   zh: {
     common: zhCommon,
@@ -184,6 +208,8 @@ const translationModules: TranslationCache = {
     profile: zhProfile,
     tattooPreview: zhTattooPreview,
     categoriesRoot: zhCategoriesRoot,
+    forms: zhForms,
+    errors: zhErrors,
   },
   ja: {
     common: jaCommon,
@@ -198,6 +224,8 @@ const translationModules: TranslationCache = {
     profile: jaProfile,
     tattooPreview: jaTattooPreview,
     categoriesRoot: jaCategoriesRoot,
+    forms: jaForms,
+    errors: jaErrors,
   },
   ko: {
     common: koCommon,
@@ -212,6 +240,8 @@ const translationModules: TranslationCache = {
     profile: koProfile,
     tattooPreview: koTattooPreview,
     categoriesRoot: koCategoriesRoot,
+    forms: koForms,
+    errors: koErrors,
   },
   tw: {
     common: twCommon,
@@ -226,6 +256,8 @@ const translationModules: TranslationCache = {
     profile: twProfile,
     tattooPreview: twTattooPreview,
     categoriesRoot: twCategoriesRoot,
+    forms: twForms,
+    errors: twErrors,
   },
   es: {
     common: esCommon,
@@ -240,6 +272,8 @@ const translationModules: TranslationCache = {
     profile: esProfile,
     tattooPreview: esTattooPreview,
     categoriesRoot: esCategoriesRoot,
+    forms: esForms,
+    errors: esErrors,
   },
   fr: {
     common: frCommon,
@@ -254,6 +288,8 @@ const translationModules: TranslationCache = {
     profile: frProfile,
     tattooPreview: frTattooPreview,
     categoriesRoot: frCategoriesRoot,
+    forms: frForms,
+    errors: frErrors,
   },
   de: {
     common: deCommon,
@@ -268,6 +304,8 @@ const translationModules: TranslationCache = {
     profile: deProfile,
     tattooPreview: deTattooPreview,
     categoriesRoot: deCategoriesRoot,
+    forms: deForms,
+    errors: deErrors,
   },
   it: {
     common: itCommon,
@@ -282,6 +320,8 @@ const translationModules: TranslationCache = {
     profile: itProfile,
     tattooPreview: itTattooPreview,
     categoriesRoot: itCategoriesRoot,
+    forms: itForms,
+    errors: itErrors,
   },
   pt: {
     common: ptCommon,
@@ -296,6 +336,8 @@ const translationModules: TranslationCache = {
     profile: ptProfile,
     tattooPreview: ptTattooPreview,
     categoriesRoot: ptCategoriesRoot,
+    forms: ptForms,
+    errors: ptErrors,
   },
   ru: {
     common: ruCommon,
@@ -310,6 +352,8 @@ const translationModules: TranslationCache = {
     profile: ruProfile,
     tattooPreview: ruTattooPreview,
     categoriesRoot: ruCategoriesRoot,
+    forms: ruForms,
+    errors: ruErrors,
   },
 };
 

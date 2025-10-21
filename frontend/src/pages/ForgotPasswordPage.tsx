@@ -88,7 +88,7 @@ const ForgotPasswordPage: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-[#E6E6E6] mr-[20px]">
             <img src="/imgs/logo.svg" alt="Logo" className="h-15 w-auto mr-2" style={{height: '60px', width: '50px'}} />
-            <span className="text-2xl font-bold text-[#E6E6E6]">ColorPage</span>
+            <span className="text-2xl font-bold text-[#E6E6E6] ml-2">AI Tattoo</span>
           </Link>
 
           {/* Success Card */}
@@ -101,16 +101,16 @@ const ForgotPasswordPage: React.FC = () => {
                   </svg>
                 </div>
                 <h1 className="mb-6 text-xl font-bold leading-tight tracking-tight text-[#E6E6E6] md:text-2xl">
-                  邮件已发送
+                  {tForms('auth.emailSent', '邮件已发送')}
                 </h1>
                 <p className="mb-4 text-sm text-gray-400">
-                  重置密码的邮件已发送到：
+                  {tForms('auth.resetEmailSentTo', '重置密码的邮件已发送到：')}
                 </p>
                 <p className="mb-6 text-sm font-medium text-blue-600">
                   {email}
                 </p>
                 <p className="mb-8 text-sm text-gray-400">
-                  请检查您的邮箱并点击邮件中的链接来重置密码。
+                  {tForms('auth.checkEmailInstructions', '请检查您的邮箱并点击邮件中的链接来重置密码。')}
                 </p>
                 
                 {/* 返回登录按钮 */}
@@ -131,7 +131,7 @@ const ForgotPasswordPage: React.FC = () => {
                   }}
                   className="text-sm font-medium text-blue-600 hover:underline"
                 >
-                  重新发送邮件
+                  {tForms('auth.resendEmail', '重新发送邮件')}
                 </button>
               </div>
             </div>

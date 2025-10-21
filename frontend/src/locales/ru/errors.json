@@ -1,0 +1,33 @@
+{
+  "auth": {
+    "invalidCredentials": "Неверный email или пароль",
+    "accountNotFound": "Аккаунт не найден",
+    "emailAlreadyExists": "Email уже зарегистрирован",
+    "usernameAlreadyExists": "Имя пользователя уже занято",
+    "emailNotRegistered": "Email не зарегистрирован",
+    "sendEmailFailed": "Не удалось отправить письмо",
+    "forgotPasswordFailed": "Не удалось сбросить пароль",
+    "registrationFailed": "Регистрация не удалась",
+    "googleLoginFailed": "Не удалось войти через Google"
+  },
+  "validation": {
+    "required": "Это поле обязательно",
+    "emailInvalid": "Пожалуйста, введите действительный адрес электронной почты",
+    "passwordTooShort": "Пароль должен содержать не менее 6 символов",
+    "passwordMismatch": "Пароли не совпадают",
+    "invalidFormat": "Неверный формат",
+    "minLength": "Должно содержать не менее {min} символов",
+    "maxLength": "Не может превышать {max} символов"
+  },
+  "network": {
+    "connectionFailed": "Сбой сетевого подключения",
+    "serverError": "Ошибка сервера",
+    "timeout": "Время ожидания запроса истекло",
+    "unknownError": "Неизвестная ошибка"
+  },
+  "general": {
+    "somethingWentWrong": "Что-то пошло не так",
+    "tryAgainLater": "Пожалуйста, попробуйте позже",
+    "contactSupport": "Пожалуйста, обратитесь в службу поддержки"
+  }
+}

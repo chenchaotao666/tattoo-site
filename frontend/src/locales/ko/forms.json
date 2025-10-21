@@ -1,0 +1,49 @@
+{
+  "auth": {
+    "loginTitle": "로그인",
+    "loginToYourAccount": "계정에 로그인",
+    "loginButton": "로그인",
+    "registerTitle": "회원가입",
+    "registerYourAccount": "계정 만들기",
+    "registerButton": "계정 만들기",
+    "registerSuccess": "회원가입이 완료되었습니다! 계정에 로그인해주세요.",
+    "noAccount": "아직 계정이 없으신가요?",
+    "hasAccount": "이미 계정이 있으신가요?",
+    "loginHere": "여기서 로그인",
+    "rememberMe": "로그인 상태 유지",
+    "forgotPassword": "비밀번호를 잊으셨나요?",
+    "resetPasswordTitle": "비밀번호 재설정",
+    "resetYourPassword": "비밀번호 재설정",
+    "sendResetEmail": "재설정 이메일 보내기",
+    "backToLogin": "로그인으로 돌아가기",
+    "rememberPassword": "비밀번호가 기억나셨나요?",
+    "orDivider": "또는 다음으로 계속",
+    "emailSent": "이메일 전송됨",
+    "resetEmailSentTo": "비밀번호 재설정 이메일이 전송되었습니다:",
+    "checkEmailInstructions": "이메일을 확인하고 링크를 클릭하여 비밀번호를 재설정해주세요.",
+    "resendEmail": "이메일 다시 보내기"
+  },
+  "fields": {
+    "username": "사용자명",
+    "email": "이메일",
+    "emailAddress": "이메일 주소",
+    "password": "비밀번호",
+    "confirmPassword": "비밀번호 확인"
+  },
+  "placeholders": {
+    "username": "사용자명을 입력하세요",
+    "email": "이메일을 입력하세요",
+    "emailAddress": "이메일 주소를 입력하세요",
+    "password": "비밀번호를 입력하세요",
+    "confirmPassword": "비밀번호를 확인하세요"
+  },
+  "validation": {
+    "required": "이 필드는 필수입니다",
+    "emailInvalid": "유효한 이메일 주소를 입력해주세요",
+    "passwordTooShort": "비밀번호는 최소 {min}자 이상이어야 합니다",
+    "passwordMismatch": "비밀번호가 일치하지 않습니다",
+    "minLength": "최소 {min}자 이상이어야 합니다",
+    "maxLength": "{max}자를 초과할 수 없습니다",
+    "invalidFormat": "잘못된 형식입니다"
+  }
+}

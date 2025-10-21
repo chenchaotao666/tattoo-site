@@ -1,0 +1,49 @@
+{
+  "auth": {
+    "loginTitle": "Connexion",
+    "loginToYourAccount": "Connectez-vous à votre compte",
+    "loginButton": "Se connecter",
+    "registerTitle": "Inscription",
+    "registerYourAccount": "Créez votre compte",
+    "registerButton": "Créer un compte",
+    "registerSuccess": "Inscription réussie ! Veuillez vous connecter à votre compte.",
+    "noAccount": "Vous n'avez pas encore de compte ?",
+    "hasAccount": "Vous avez déjà un compte ?",
+    "loginHere": "Connectez-vous ici",
+    "rememberMe": "Se souvenir de moi",
+    "forgotPassword": "Mot de passe oublié ?",
+    "resetPasswordTitle": "Réinitialiser le mot de passe",
+    "resetYourPassword": "Réinitialisez votre mot de passe",
+    "sendResetEmail": "Envoyer l'email de réinitialisation",
+    "backToLogin": "Retour à la connexion",
+    "rememberPassword": "Vous vous souvenez de votre mot de passe ?",
+    "orDivider": "Ou continuer avec",
+    "emailSent": "Email envoyé",
+    "resetEmailSentTo": "Un email de réinitialisation de mot de passe a été envoyé à :",
+    "checkEmailInstructions": "Veuillez vérifier votre email et cliquer sur le lien pour réinitialiser votre mot de passe.",
+    "resendEmail": "Renvoyer l'email"
+  },
+  "fields": {
+    "username": "Nom d'utilisateur",
+    "email": "Email",
+    "emailAddress": "Adresse email",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe"
+  },
+  "placeholders": {
+    "username": "Entrez votre nom d'utilisateur",
+    "email": "Entrez votre email",
+    "emailAddress": "Entrez votre adresse email",
+    "password": "Entrez votre mot de passe",
+    "confirmPassword": "Confirmez votre mot de passe"
+  },
+  "validation": {
+    "required": "Ce champ est obligatoire",
+    "emailInvalid": "Veuillez entrer une adresse email valide",
+    "passwordTooShort": "Le mot de passe doit contenir au moins {min} caractères",
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "minLength": "Doit contenir au moins {min} caractères",
+    "maxLength": "Ne peut pas dépasser {max} caractères",
+    "invalidFormat": "Format invalide"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "auth": {
+    "invalidCredentials": "Invalid email or password",
+    "accountNotFound": "Account not found",
+    "emailAlreadyExists": "Email is already registered",
+    "usernameAlreadyExists": "Username is already taken",
+    "emailNotRegistered": "Email is not registered",
+    "sendEmailFailed": "Failed to send email",
+    "forgotPasswordFailed": "Password reset failed",
+    "registrationFailed": "Registration failed",
+    "googleLoginFailed": "Google login failed"
+  },
+  "validation": {
+    "required": "This field is required",
+    "emailInvalid": "Please enter a valid email address",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "passwordMismatch": "Passwords do not match",
+    "invalidFormat": "Invalid format",
+    "minLength": "Must be at least {min} characters",
+    "maxLength": "Cannot exceed {max} characters"
+  },
+  "network": {
+    "connectionFailed": "Network connection failed",
+    "serverError": "Server error",
+    "timeout": "Request timeout",
+    "unknownError": "Unknown error"
+  },
+  "general": {
+    "somethingWentWrong": "Something went wrong",
+    "tryAgainLater": "Please try again later",
+    "contactSupport": "Please contact support"
+  }
+}

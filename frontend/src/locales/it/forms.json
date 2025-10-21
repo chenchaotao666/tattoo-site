@@ -1,0 +1,49 @@
+{
+  "auth": {
+    "loginTitle": "Accesso",
+    "loginToYourAccount": "Accedi al tuo account",
+    "loginButton": "Accedi",
+    "registerTitle": "Registrazione",
+    "registerYourAccount": "Crea il tuo account",
+    "registerButton": "Crea account",
+    "registerSuccess": "Registrazione completata! Accedi al tuo account.",
+    "noAccount": "Non hai ancora un account?",
+    "hasAccount": "Hai già un account?",
+    "loginHere": "Accedi qui",
+    "rememberMe": "Ricordami",
+    "forgotPassword": "Password dimenticata?",
+    "resetPasswordTitle": "Reimposta password",
+    "resetYourPassword": "Reimposta la tua password",
+    "sendResetEmail": "Invia email di reimpostazione",
+    "backToLogin": "Torna all'accesso",
+    "rememberPassword": "Ti ricordi la password?",
+    "orDivider": "O continua con",
+    "emailSent": "Email inviata",
+    "resetEmailSentTo": "Un'email di reimpostazione password è stata inviata a:",
+    "checkEmailInstructions": "Controlla la tua email e clicca sul link per reimpostare la password.",
+    "resendEmail": "Invia di nuovo email"
+  },
+  "fields": {
+    "username": "Nome utente",
+    "email": "Email",
+    "emailAddress": "Indirizzo email",
+    "password": "Password",
+    "confirmPassword": "Conferma password"
+  },
+  "placeholders": {
+    "username": "Inserisci il tuo nome utente",
+    "email": "Inserisci la tua email",
+    "emailAddress": "Inserisci il tuo indirizzo email",
+    "password": "Inserisci la tua password",
+    "confirmPassword": "Conferma la tua password"
+  },
+  "validation": {
+    "required": "Questo campo è obbligatorio",
+    "emailInvalid": "Inserisci un indirizzo email valido",
+    "passwordTooShort": "La password deve avere almeno {min} caratteri",
+    "passwordMismatch": "Le password non corrispondono",
+    "minLength": "Deve avere almeno {min} caratteri",
+    "maxLength": "Non può superare {max} caratteri",
+    "invalidFormat": "Formato non valido"
+  }
+}

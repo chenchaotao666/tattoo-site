@@ -1,0 +1,33 @@
+{
+  "auth": {
+    "invalidCredentials": "Email o contraseña inválidos",
+    "accountNotFound": "Cuenta no encontrada",
+    "emailAlreadyExists": "El email ya está registrado",
+    "usernameAlreadyExists": "El nombre de usuario ya está en uso",
+    "emailNotRegistered": "El email no está registrado",
+    "sendEmailFailed": "Error al enviar el email",
+    "forgotPasswordFailed": "Error al restablecer la contraseña",
+    "registrationFailed": "Error en el registro",
+    "googleLoginFailed": "Error en el inicio de sesión con Google"
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "emailInvalid": "Por favor ingresa una dirección de email válida",
+    "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "invalidFormat": "Formato inválido",
+    "minLength": "Debe tener al menos {min} caracteres",
+    "maxLength": "No puede exceder {max} caracteres"
+  },
+  "network": {
+    "connectionFailed": "Error de conexión de red",
+    "serverError": "Error del servidor",
+    "timeout": "Tiempo de espera agotado",
+    "unknownError": "Error desconocido"
+  },
+  "general": {
+    "somethingWentWrong": "Algo salió mal",
+    "tryAgainLater": "Por favor intenta de nuevo más tarde",
+    "contactSupport": "Por favor contacta al soporte"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "auth": {
+    "loginTitle": "ログイン",
+    "loginToYourAccount": "アカウントにサインイン",
+    "loginButton": "サインイン",
+    "registerTitle": "会員登録",
+    "registerYourAccount": "アカウントを作成",
+    "registerButton": "アカウント作成",
+    "registerSuccess": "登録が完了しました！アカウントにログインしてください。",
+    "noAccount": "まだアカウントをお持ちでないですか？",
+    "hasAccount": "すでにアカウントをお持ちですか？",
+    "loginHere": "こちらからサインイン",
+    "rememberMe": "ログイン状態を保持",
+    "forgotPassword": "パスワードを忘れましたか？",
+    "resetPasswordTitle": "パスワードリセット",
+    "resetYourPassword": "パスワードをリセット",
+    "sendResetEmail": "リセットメールを送信",
+    "backToLogin": "ログインに戻る",
+    "rememberPassword": "パスワードを思い出しましたか？",
+    "orDivider": "または以下で続行",
+    "emailSent": "メール送信完了",
+    "resetEmailSentTo": "パスワードリセットメールを以下に送信しました：",
+    "checkEmailInstructions": "メールをご確認いただき、リンクをクリックしてパスワードをリセットしてください。",
+    "resendEmail": "メールを再送信"
+  },
+  "fields": {
+    "username": "ユーザー名",
+    "email": "メール",
+    "emailAddress": "メールアドレス",
+    "password": "パスワード",
+    "confirmPassword": "パスワード確認"
+  },
+  "placeholders": {
+    "username": "ユーザー名を入力",
+    "email": "メールを入力",
+    "emailAddress": "メールアドレスを入力",
+    "password": "パスワードを入力",
+    "confirmPassword": "パスワードを確認"
+  },
+  "validation": {
+    "required": "この項目は必須です",
+    "emailInvalid": "有効なメールアドレスを入力してください",
+    "passwordTooShort": "パスワードは{min}文字以上である必要があります",
+    "passwordMismatch": "パスワードが一致しません",
+    "minLength": "{min}文字以上である必要があります",
+    "maxLength": "{max}文字を超えることはできません",
+    "invalidFormat": "無効な形式です"
+  }
+}

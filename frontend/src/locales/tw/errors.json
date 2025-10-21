@@ -1,0 +1,33 @@
+{
+  "auth": {
+    "invalidCredentials": "無效的電子郵件或密碼",
+    "accountNotFound": "找不到帳戶",
+    "emailAlreadyExists": "電子郵件已經註冊",
+    "usernameAlreadyExists": "使用者名稱已被使用",
+    "emailNotRegistered": "電子郵件未註冊",
+    "sendEmailFailed": "發送郵件失敗",
+    "forgotPasswordFailed": "密碼重設失敗",
+    "registrationFailed": "註冊失敗",
+    "googleLoginFailed": "Google 登入失敗"
+  },
+  "validation": {
+    "required": "此欄位為必填",
+    "emailInvalid": "請輸入有效的電子郵件地址",
+    "passwordTooShort": "密碼必須至少包含 6 個字符",
+    "passwordMismatch": "密碼不符",
+    "invalidFormat": "格式無效",
+    "minLength": "必須至少包含 {min} 個字符",
+    "maxLength": "不能超過 {max} 個字符"
+  },
+  "network": {
+    "connectionFailed": "網路連線失敗",
+    "serverError": "伺服器錯誤",
+    "timeout": "請求逾時",
+    "unknownError": "未知錯誤"
+  },
+  "general": {
+    "somethingWentWrong": "發生了一些問題",
+    "tryAgainLater": "請稍後再試",
+    "contactSupport": "請聯絡客服"
+  }
+}

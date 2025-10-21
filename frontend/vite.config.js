@@ -81,18 +81,6 @@ const staticRoutesConfig = [
         multilang: true
     },
     {
-        path: '/register',
-        priority: 0.4,
-        changefreq: 'monthly',
-        multilang: true
-    },
-    {
-        path: '/login',
-        priority: 0.4,
-        changefreq: 'monthly',
-        multilang: true
-    },
-    {
         path: '/privacy-policy',
         priority: 0.3,
         changefreq: 'yearly',
@@ -188,7 +176,8 @@ export default defineConfig(async () => {
                             '/api/auth/',
                             '/api/admin/',
                             '/api/user/',
-                            '/api/upload/'
+                            '/api/upload/',
+                            '/login'
                         ]
                     }
                 ],

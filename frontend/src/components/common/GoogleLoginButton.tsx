@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { navigateWithLanguage } from '../../utils/navigationUtils';
 
 interface GoogleLoginButtonProps {
   rememberMe?: boolean;
@@ -100,23 +101,27 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
   const [isGoogleLoaded, setIsGoogleLoaded] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleCredentialResponse = async (response: any) => {
+  const handleCredentialResponse = useCallback(async (response: any) => {
+    console.log('📱 Google credential response received:', response);
     try {
       setIsLoading(false);
       const token = response.credential;
+      console.log('🔑 Google token received, attempting login...');
       await googleLogin(token, rememberMe);
+      console.log('✅ Google login successful');
 
       // 登录成功，跳转到首页或之前的页面
       const redirectTo = location.state?.from?.pathname || '/';
-      navigate(redirectTo, { replace: true });
+      console.log('🚀 Redirecting to:', redirectTo);
+      navigateWithLanguage(navigate, redirectTo, { replace: true });
     } catch (error) {
-      console.error('Google login failed:', error);
+      console.error('❌ Google login failed:', error);
       setIsLoading(false);
       if (onError) {
         onError(error as Error);
       }
     }
-  };
+  }, [googleLogin, rememberMe, navigate, location.state, onError]);
 
   const handleGoogleLogin = () => {
     if (!window.google?.accounts?.id) {
@@ -161,28 +166,31 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
       try {
         // 检查脚本是否已加载
         if (!window.google?.accounts?.id) {
+          console.log('🔄 Loading Google script for locale:', getGoogleLocale(language));
           await reloadGoogleScript(getGoogleLocale(language));
         }
 
         // 初始化Google Sign-In
         if (window.google?.accounts?.id) {
+          console.log('🚀 Initializing Google Sign-In with callback...');
           window.google.accounts.id.initialize({
             client_id: clientId,
             callback: handleCredentialResponse,
             auto_select: false,
             cancel_on_tap_outside: true,
           });
+          console.log('✅ Google Sign-In initialized successfully');
         }
 
         setIsGoogleLoaded(true);
       } catch (error) {
-        console.error('Failed to load Google Sign-In:', error);
+        console.error('❌ Failed to load Google Sign-In:', error);
         setIsGoogleLoaded(false);
       }
     };
 
     loadGoogleScript();
-  }, [language]);
+  }, [language, handleCredentialResponse, t]);
 
 
   return (

@@ -130,6 +130,13 @@ function generateStaticRoutes() {
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => {
+    // 检查是否只生成sitemap
+    const isSitemapOnly = process.env.SITEMAP_ONLY === 'true';
+
+    if (isSitemapOnly) {
+        console.log('🗺️  Running in sitemap-only mode...');
+    }
+
     // 获取所有路由（静态 + 动态）
     const staticRoutesWithI18n = generateStaticRoutes();
     const dynamicRoutesWithI18n = await getDynamicRoutes();
@@ -147,7 +154,27 @@ export default defineConfig(async () => {
     console.log(`📊 Generated ${allRoutes.length} routes, after deduplication: ${finalRoutes.length} unique routes`);
 
     return {
-        plugins: [
+        plugins: isSitemapOnly ? [
+            // Sitemap-only模式：只加载sitemap插件
+            sitemapPlugin({
+                hostname: 'https://aitattoo.art',
+                dynamicRoutes: finalRoutes.map(route => route.url),
+                exclude: [], // 明确排除自动路由扫描
+                outDir: 'dist',
+                extensions: [], // 不自动扫描文件
+                changefreq: finalRoutes.reduce((acc, route) => {
+                    acc[route.url] = route.changefreq;
+                    return acc;
+                }, {}),
+                priority: finalRoutes.reduce((acc, route) => {
+                    acc[route.url] = route.priority;
+                    return acc;
+                }, {}),
+                lastmod: new Date(),
+                generateRobotsTxt: false // sitemap-only模式不生成robots.txt
+            })
+        ] : [
+            // 正常模式：加载所有插件
             react(),
             generateRobotsTxt({
                 policies: [
@@ -207,7 +234,19 @@ export default defineConfig(async () => {
             }
         },
         base: '/',
-        build: {
+        build: isSitemapOnly ? {
+            // Sitemap-only模式：最小化构建
+            outDir: 'dist',
+            write: false, // 不写入构建文件，只让插件生成sitemap
+            emptyOutDir: false, // 不清空输出目录
+            rollupOptions: {
+                input: 'src/main.tsx', // 提供一个入口文件，但不写入
+                output: {
+                    entryFileNames: '[name].js' // 简化输出
+                }
+            }
+        } : {
+            // 正常模式：完整构建配置
             outDir: 'dist',
             sourcemap: false,
             assetsDir: 'assets',

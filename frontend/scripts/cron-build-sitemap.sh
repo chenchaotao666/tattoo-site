@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 简单的周期构建脚本 - 通过 npm run build 重新生成 sitemap
+# 简单的周期构建脚本 - 通过 npm run sitemap:generate 重新生成 sitemap
 # 建议添加到 crontab 中：
 # 每12小时执行一次: 0 */12 * * * /path/to/cron-build-sitemap.sh
 
@@ -22,7 +22,7 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" | tee -a "$LOG_FILE"
 }
 
-log "🕐 Starting sitemap update via build process"
+log "🕐 Starting sitemap update via sitemap:generate"
 
 # 切换到项目目录
 cd "$PROJECT_DIR" || {
@@ -41,10 +41,10 @@ if ! command -v npm &> /dev/null; then
     exit 1
 fi
 
-# 构建项目（这会触发 sitemap 生成）
-log "🔨 Running npm run build to regenerate sitemap..."
-if npm run build >> "$LOG_FILE" 2>&1; then
-    log "✅ Build completed successfully - sitemap updated"
+# 生成 sitemap（快速模式，无需完整构建）
+log "🔨 Running npm run sitemap:generate to regenerate sitemap..."
+if npm run sitemap:generate >> "$LOG_FILE" 2>&1; then
+    log "✅ Sitemap generation completed successfully - sitemap updated"
 
     # 检查生成的文件
     if [[ -f "dist/sitemap.xml" ]]; then
@@ -54,6 +54,6 @@ if npm run build >> "$LOG_FILE" 2>&1; then
 
     log "🎉 Sitemap update completed"
 else
-    log "❌ Build failed - sitemap not updated"
+    log "❌ Sitemap generation failed - sitemap not updated"
     exit 1
 fi

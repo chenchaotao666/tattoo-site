@@ -6,8 +6,8 @@ set -euo pipefail
 
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROJECT_NAME="tattoo-site-frontend"
-CRON_COMMAND="0 3 * * 0 cd $PROJECT_DIR && npm run sitemap:build # $PROJECT_NAME"
-CRON_COMMENT="# Auto-generate sitemap for $PROJECT_NAME every Sunday at 3am"
+CRON_COMMAND="0 3 */3 * * cd $PROJECT_DIR && npm run sitemap:build # $PROJECT_NAME"
+CRON_COMMENT="# Auto-generate sitemap for $PROJECT_NAME every 3 days at 3am"
 
 echo "🕐 Installing sitemap cron job..."
 
@@ -35,7 +35,7 @@ echo "➕ Adding new cron job..."
 
 echo "✅ Sitemap cron job installed successfully!"
 echo "📋 Job details:"
-echo "   Schedule: Every Sunday at 3:00 AM"
+echo "   Schedule: Every 3 days at 3:00 AM"
 echo "   Command:  $CRON_COMMAND"
 echo ""
 echo "📊 Current cron jobs for this project:"

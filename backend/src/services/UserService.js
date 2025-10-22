@@ -340,6 +340,107 @@ class UserService extends BaseService {
             throw new Error(`Add credits and subscription failed: ${error.message}`);
         }
     }
+
+    // Google OAuth 登录
+    async googleLogin(idToken) {
+        const { OAuth2Client } = require('google-auth-library');
+        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+        try {
+            // 验证 Google ID Token
+            const ticket = await client.verifyIdToken({
+                idToken: idToken,
+                audience: process.env.GOOGLE_CLIENT_ID,
+            });
+
+            const payload = ticket.getPayload();
+            const { sub: googleId, email, name, picture } = payload;
+
+            if (!email) {
+                throw new Error('Google账户必须有邮箱地址');
+            }
+
+            // 检查用户是否已存在（通过邮箱或Google ID）
+            let user = await this.model.findByEmail(email);
+
+            if (!user) {
+                // 新用户，创建账户
+                const { v4: uuidv4 } = require('uuid');
+
+                // 从邮箱生成用户名（如果没有name的话）
+                const username = name || email.split('@')[0];
+
+                // 确保用户名唯一
+                let finalUsername = username;
+                let counter = 1;
+                while (await this.model.findByUsername(finalUsername)) {
+                    finalUsername = `${username}${counter}`;
+                    counter++;
+                }
+
+                const currentTime = new Date();
+                const newUserData = {
+                    id: uuidv4(),
+                    username: finalUsername,
+                    email: email,
+                    passwordHash: null,
+                    avatarUrl: picture || null,
+                    role: 'google',
+                    level: 'free',
+                    refreshToken: null,
+                    resetPasswordToken: null,
+                    firstlogintAt: currentTime,
+                    createdAt: currentTime,
+                    updatedAt: currentTime
+                };
+
+                user = await this.model.create(newUserData);
+
+                // 为新用户赠送 2 积分
+                if (this.rechargeModel) {
+                    try {
+                        const welcomeRecharge = {
+                            id: uuidv4(),
+                            userId: user.id,
+                            orderId: null,
+                            amount: 0.00,
+                            currency: 'USD',
+                            status: 'success',
+                            method: 'system',
+                            planCode: 'welcome',
+                            creditsAdded: 2,
+                            chargeType: 'Credit',
+                            duration: 0,
+                            monthlyCredit: 0,
+                            gift_month: '',
+                            validDays: 365,
+                            expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+                            remainingCredits: 2,
+                            createdAt: new Date(),
+                            updatedAt: new Date()
+                        };
+
+                        await this.rechargeModel.create(welcomeRecharge);
+                        console.log(`Welcome credits granted to Google user ${user.id}: 2 credits`);
+                    } catch (creditError) {
+                        console.error('Failed to grant welcome credits:', creditError);
+                    }
+                }
+            }
+
+            return this.processUserData(user);
+        } catch (error) {
+            console.error('Google OAuth login error:', error);
+            if (error.message.includes('Token used too early') || error.message.includes('Token used too late')) {
+                throw new Error('Google登录凭证已过期，请重试');
+            } else if (error.message.includes('Invalid token')) {
+                throw new Error('无效的Google登录凭证');
+            } else if (error.message.includes('Wrong number of segments')) {
+                throw new Error('Google登录凭证格式错误');
+            }
+            throw new Error(`Google登录失败: ${error.message}`);
+        }
+    }
 }
 
 module.exports = UserService;

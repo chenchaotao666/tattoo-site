@@ -23,21 +23,50 @@ function createUserRoutes(app) {
         try {
             const { email, password } = req.body;
             const user = await userService.loginUser(email, password);
-            
+
             // 生成JWT tokens
             const { accessToken, refreshToken } = generateTokens(user);
-            
+
             const loginResponse = {
                 user: user,
                 accessToken: accessToken,
                 refreshToken: refreshToken,
                 expiresIn: '7d'
             };
-            
+
             res.json(userService.formatResponse(true, loginResponse, 'Login successful'));
         } catch (error) {
             console.error('User login error:', error);
             const statusCode = error.message.includes('Invalid') ? 401 : 500;
+            res.status(statusCode).json(userService.formatResponse(false, null, error.message));
+        }
+    });
+
+    // POST /api/auth/google - Google OAuth 登录
+    router.post('/auth/google', validateBody(['token']), async (req, res) => {
+        try {
+            const { token } = req.body;
+            console.log('🔑 Received Google OAuth login request');
+
+            const user = await userService.googleLogin(token);
+            console.log('✅ Google OAuth login successful for user:', user.email);
+
+            // 生成JWT tokens
+            const { accessToken, refreshToken } = generateTokens(user);
+
+            const loginResponse = {
+                user: user,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+                expiresIn: '7d'
+            };
+
+            res.json(userService.formatResponse(true, loginResponse, 'Google login successful'));
+        } catch (error) {
+            console.error('❌ Google OAuth login error:', error);
+            const statusCode = error.message.includes('Google账户必须有邮箱地址') ||
+                              error.message.includes('Google登录凭证') ||
+                              error.message.includes('无效的Google登录凭证') ? 400 : 500;
             res.status(statusCode).json(userService.formatResponse(false, null, error.message));
         }
     });

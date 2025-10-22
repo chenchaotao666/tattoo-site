@@ -9,6 +9,7 @@ export interface User {
   avatar: string | null;
   credits: number;
   level: 'free' | 'lite' | 'pro';
+  role?: 'normal' | 'google' | 'admin';
   createdAt: string;
   updatedAt?: string;
 }
@@ -133,7 +134,7 @@ export class UserService {
    */
   static async googleLogin(token: string, rememberMe: boolean = true): Promise<LoginResponse> {
     try {
-      const loginData = await ApiUtils.post<{user: User, accessToken: string, refreshToken: string, expiresIn: string}>('/api/auth/google', { token });
+      const loginData = await ApiUtils.post<{user: User, accessToken: string, refreshToken: string, expiresIn: string}>('/api/users/auth/google', { token });
 
       console.log('Google loginData: ', loginData);
       
@@ -310,7 +311,7 @@ export class UserService {
       const user = await this.getCurrentUser();
       if (!user) return false;
       
-      return user.membershipLevel === 'lite' || user.membershipLevel === 'pro';
+      return user.level === 'lite' || user.level === 'pro';
     } catch (error) {
       return false;
     }

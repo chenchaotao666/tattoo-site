@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { PricingService, OrderInfo } from '../services/pricingService';
@@ -15,7 +15,6 @@ const ProfilePage: React.FC = () => {
   const { t } = useAsyncTranslation('profile');
   const { t: tCommon } = useAsyncTranslation('common');
   const navigate = useNavigate();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const { user: authUser, refreshUser, logout, isLoading: authLoading } = useAuth();
   
   const [user, setUser] = useState<typeof authUser>(null);
@@ -31,8 +30,6 @@ const ProfilePage: React.FC = () => {
   const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [isLoadingOrders, setIsLoadingOrders] = useState(true);
   const [successMessage, setSuccessMessage] = useState('');
-  const [avatarPreview, setAvatarPreview] = useState<string>('');
-  const [selectedAvatarFile, setSelectedAvatarFile] = useState<File | null>(null);
   const [isPasswordSectionOpen, setIsPasswordSectionOpen] = useState(false);
 
   const loadUserProfile = async () => {
@@ -50,7 +47,6 @@ const ProfilePage: React.FC = () => {
         ...prev,
         username: authUser.username
       }));
-      setAvatarPreview(authUser.avatar || '');
     } catch (error) {
       console.error('Failed to load user profile:', error);
       setErrors({ general: t('messages.loadUserFailed') });
@@ -207,41 +203,6 @@ const ProfilePage: React.FC = () => {
     }
   };
 
-  // 处理头像选择
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-      setErrors({ avatar: t('errors.avatar.fileType') });
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      setErrors({ avatar: t('errors.avatar.fileSize') });
-      return;
-    }
-
-    setSelectedAvatarFile(file);
-    
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      setAvatarPreview(e.target?.result as string);
-    };
-    reader.readAsDataURL(file);
-
-    if (errors.avatar) {
-      setErrors(prev => ({
-        ...prev,
-        avatar: ''
-      }));
-    }
-  };
-
-  // 触发文件选择
-  const triggerFileSelect = () => {
-    fileInputRef.current?.click();
-  };
 
 
   // 处理表单提交
@@ -266,10 +227,6 @@ const ProfilePage: React.FC = () => {
         await UserService.updateUser(updateData);
       }
 
-      if (selectedAvatarFile) {
-        await UserService.uploadAvatar(selectedAvatarFile);
-      }
-
       await refreshUser();
 
       setFormData(prev => ({
@@ -278,7 +235,6 @@ const ProfilePage: React.FC = () => {
         newPassword: '',
         confirmPassword: ''
       }));
-      setSelectedAvatarFile(null);
 
       setSuccessMessage(t('messages.success'));
     } catch (error) {
@@ -294,9 +250,6 @@ const ProfilePage: React.FC = () => {
             break;
           case '1003':
             setErrors({ general: t('errors.format') });
-            break;
-          case '3001':
-            setErrors({ avatar: t('errors.avatar.uploadFailed') });
             break;
           default:
             setErrors({ general: error.message || t('errors.updateFailed') });
@@ -354,28 +307,18 @@ const ProfilePage: React.FC = () => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
               {/* 用户基本信息 */}
               <div className="flex items-center gap-4">
-                <div className="relative">
-                  {avatarPreview || user?.avatar ? (
+                <div>
+                  {user?.avatar ? (
                     <img
                       className="w-16 h-16 rounded-full object-cover"
-                      src={avatarPreview || user?.avatar || '/imgs/default-avatar.svg'}
+                      src={user.avatar}
                       alt={t('avatar')}
                     />
                   ) : (
-                    <div className="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white text-2xl font-bold">
+                    <div className="w-16 h-16 rounded-full bg-[#12B89B] flex items-center justify-center text-white text-2xl font-bold">
                       {user?.username ? user.username.charAt(0).toUpperCase() : 'U'}
                     </div>
                   )}
-                  <button
-                    type="button"
-                    onClick={triggerFileSelect}
-                    className="absolute inset-0 w-full h-full rounded-full bg-[#030414] bg-opacity-50 flex items-center justify-center text-white opacity-0 hover:opacity-100 transition-opacity"
-                  >
-                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </button>
                 </div>
                 <div>
                   <h2 className="text-xl font-semibold" style={{color: '#98FF59'}}>{user?.username}</h2>
@@ -493,11 +436,6 @@ const ProfilePage: React.FC = () => {
               </div>
             )}
 
-            {errors.avatar && (
-              <div className="rounded-md p-4" style={{backgroundColor: '#4a1a1a'}}>
-                <div className="text-sm" style={{color: '#ff6b6b'}}>{errors.avatar}</div>
-              </div>
-            )}
             {/* 用户名 */}
             <div>
               <label htmlFor="username" className="block text-sm font-medium" style={{color: '#CCCCCC'}}>
@@ -548,7 +486,8 @@ const ProfilePage: React.FC = () => {
               </div>
             </div>
 
-            {/* 密码修改 - 可折叠 */}
+            {/* 密码修改 - 可折叠 (仅非Google用户显示) */}
+            {user?.role !== 'google' && (
             <div className="border rounded-lg" style={{borderColor: '#404040'}}>
               <button
                 type="button"
@@ -643,6 +582,7 @@ const ProfilePage: React.FC = () => {
                 </div>
               )}
             </div>
+            )}
 
             {/* 按钮组 */}
             <div className="flex justify-between pt-6 border-t" style={{borderColor: '#404040'}}>
@@ -660,7 +600,7 @@ const ProfilePage: React.FC = () => {
               <div className="flex space-x-3">
                 <BaseButton
                   variant="secondary"
-                  onClick={() => navigate(-1)}
+                  onClick={() => navigateWithLanguage(navigate, '/')}
                   width="w-auto"
                   height="h-[40px]"
                   fontSize="text-base"
@@ -694,13 +634,6 @@ const ProfilePage: React.FC = () => {
                 </BaseButton>
               </div>
             </div>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleAvatarChange}
-              className="hidden"
-            />
           </form>
         </div>
         </div>

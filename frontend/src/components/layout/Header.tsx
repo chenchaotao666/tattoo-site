@@ -37,14 +37,14 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
     
     // 如果没有邮箱信息，不显示头像
     if (!user?.email) {
-      return null;
+      return '';
     }
     
     if (user.email.toLowerCase().endsWith('@gmail.com')) {
       return googleDefaultAvatar;
     }
     
-    return defaultAvatar;
+    return '';
   };
 
   // 生成带语言前缀的链接
@@ -329,7 +329,11 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
                       alt="头像"
                     />
                   ) : (
-                    <div className="w-6 h-6 rounded-full bg-transparent"></div>
+                    user?.username ? (
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[#12B89B] text-white text-xs font-bold" >
+                        {user?.username ? user.username.charAt(0).toUpperCase() : 'U'}
+                      </div>
+                    ) : (<div className="w-6 h-6 rounded-full flex items-center justify-center" ></div>)
                   )}
                   <svg 
                     className={`w-5 h-5 transition-all duration-200 text-white group-hover:text-[var(--hover-color)] ${isUserDropdownOpen ? 'rotate-180' : ''}`} 
@@ -473,7 +477,11 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
                           alt="头像"
                         />
                       ) : (
-                        <div className="w-full h-full rounded-full bg-transparent"></div>
+                        user?.username ? (
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[#12B89B] text-white text-xs font-bold" >
+                            {user?.username ? user.username.charAt(0).toUpperCase() : 'U'}
+                          </div>
+                        ) : (<div className="w-6 h-6 rounded-full flex items-center justify-center" ></div>)
                       )}
                     </div>
                     <div className="ml-3">

@@ -8,11 +8,12 @@ import { handleCategoryClick } from '../../utils/categoryUtils';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 
 const logo = '/imgs/logo.svg';
-const socialIcon1 = '/imgs/footer/Link → SVG-1.svg';
-const socialIcon2 = '/imgs/footer/Link → SVG-2.svg';
-const socialIcon3 = '/imgs/footer/Link → SVG-3.svg';
-const socialIcon4 = '/imgs/footer/Link → SVG-4.svg';
-const socialIcon5 = '/imgs/footer/Link → SVG-5.svg';
+const socialIcon1 = '/imgs/footer/Link → pinteres.svg';
+const socialIcon2 = '/imgs/footer/Link → instagram.svg';
+const socialIcon3 = '/imgs/footer/Link → x.svg';
+const socialIcon4 = '/imgs/footer/Link → youtube.svg';
+const socialIcon5 = '/imgs/footer/Link → tiktok.svg';
+
 
 // Interface for footer links section
 interface FooterSectionProps {
@@ -122,11 +123,23 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
 
   const socialIcons = [
     socialIcon1,
-    socialIcon2, 
+    socialIcon2,
     socialIcon3,
     socialIcon4,
     socialIcon5
   ];
+
+  const socialLinks = [
+    'https://pin.it/6NdatdNmR',
+    'https://www.instagram.com/aitattoo_art/',
+    'https://x.com/AITattooArt',
+    'https://youtube.com/@aitattooart?si=yhxwYBVuMHPjGcE_',
+    'https://www.tiktok.com/@stoneink_tattoo?'
+  ];
+
+  const handleSocialClick = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="w-full bg-[#030414] py-8 lg:py-[60px]">
@@ -158,11 +171,12 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
             </div>
             <div className="flex items-center gap-4">
               {socialIcons.map((icon, index) => (
-                <img 
-                  key={index} 
-                  src={icon} 
-                  alt={`Social icon ${index + 1}`} 
+                <img
+                  key={index}
+                  src={icon}
+                  alt={`Social icon ${index + 1}`}
                   className="w-5 h-5 sm:w-6 sm:h-6 hover:opacity-80 transition-opacity duration-200 cursor-pointer"
+                  onClick={() => handleSocialClick(socialLinks[index])}
                 />
               ))}
             </div>
@@ -206,11 +220,12 @@ const Footer: React.FC<FooterProps> = ({ categories, categoriesLoading }) => {
             </div>
             <div className="flex items-center gap-5">
               {socialIcons.map((icon, index) => (
-                <img 
-                  key={index} 
-                  src={icon} 
-                  alt={`Social icon ${index + 1}`} 
+                <img
+                  key={index}
+                  src={icon}
+                  alt={`Social icon ${index + 1}`}
                   className="w-6 h-6 hover:opacity-80 transition-opacity duration-200 cursor-pointer"
+                  onClick={() => handleSocialClick(socialLinks[index])}
                 />
               ))}
             </div>

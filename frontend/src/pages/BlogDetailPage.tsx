@@ -63,11 +63,9 @@ const BlogDetailPage = () => {
       return;
     }
 
-    // 如果已有文章数据（从BlogPage传递过来的），则不需要重新请求
-    if (!article) {
-      fetchPost(slug);
-    }
-  }, [slug, navigate, language, article]);
+    // 当语言切换时，需要重新获取对应语言的文章内容
+    fetchPost(slug);
+  }, [slug, navigate, language]);
 
 
   return (

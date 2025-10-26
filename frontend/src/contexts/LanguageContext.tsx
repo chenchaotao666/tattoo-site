@@ -35,6 +35,7 @@ interface LanguageProviderProps {
 const getInitialLanguage = (): Language => {
   // 1. 优先从URL路径检测语言
   const currentPath = window.location.pathname;
+
   if (currentPath.startsWith('/zh')) {
     return 'zh';
   } else if (currentPath.startsWith('/ja')) {
@@ -56,13 +57,13 @@ const getInitialLanguage = (): Language => {
   } else if (currentPath.startsWith('/ru')) {
     return 'ru';
   }
-  
+
   // 2. 其次使用保存的语言偏好
   const savedLanguage = getSavedLanguage();
   if (savedLanguage) {
     return savedLanguage;
   }
-  
+
   // 3. 最后检测浏览器语言
   const detectedLanguage = detectBrowserLanguage();
   saveLanguagePreference(detectedLanguage); // 保存检测到的语言
@@ -163,7 +164,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     if (navigate) {
       console.log('🚀 Using React Router navigation to:', newPath);
       navigate(newPath, { replace: true });
-      setLanguageState(lang);
+      // 移除 setLanguageState(lang) - 让 LanguageSyncProvider 处理状态同步
       setIsLoading(false);
     } else {
       console.log('⚠️ Fallback to page reload for:', newPath);
@@ -186,7 +187,6 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   // 内部setState，用于URL路径同步，不触发页面跳转
   const __internal_setState = (lang: Language) => {
     if (lang !== language) {
-      console.log('🔄 LanguageProvider: __internal_setState from', language, 'to', lang);
       setLanguageState(lang);
       saveLanguagePreference(lang);
     }

@@ -33,7 +33,7 @@ import { redirectToHomeIfNeeded } from './navigationUtils';
 // API 配置 - 连接到外部后端服务
 const API_BASE_URL = import.meta.env.MODE === 'development'
   ? import.meta.env.VITE_API_BASE_URL // 开发环境使用代理
-  : 'https://aitattoo.art'; // 生产环境使用完整域名，确保 Google 爬虫能正确访问
+  : import.meta.env.VITE_API_BASE_URL; // 生产环境使用完整域名，确保 Google 爬虫能正确访问
 
 /**
  * 通用 API 请求工具类

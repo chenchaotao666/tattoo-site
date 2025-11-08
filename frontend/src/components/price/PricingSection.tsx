@@ -4,7 +4,8 @@ import { Button } from '../ui/Button';
 import GenerateFAQ, { FAQData } from '../common/GenerateFAQ';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAsyncTranslation } from '../../contexts/LanguageContext';
-import PaypalPayment from './PaypalPayment';
+import { PricingService } from '../../services/pricingService';
+import { useToast } from '../../contexts/ToastContext';
 import PricingCard from './PricingCard';
 import TryNow from '../common/TryNow';
 import { createLanguageAwarePath, navigateWithLanguage } from '../../utils/navigationUtils';
@@ -116,6 +117,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
   const { t, translations } = useAsyncTranslation('pricing');
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
+  const { showSuccessToast, showErrorToast } = useToast();
 
   // FAQ 数据
   const pricingFAQData: FAQData[] = translations?.section?.planFAQ || [
@@ -147,12 +149,10 @@ const PricingSection: React.FC<PricingSectionProps> = ({
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successCredits] = useState(0);
-  const [currentPlan, setCurrentPlan] = useState<string>('');
-  const [currentPlanCode, setCurrentPlanCode] = useState<string>('');
-  const [showPaypalPayment, setShowPaypalPayment] = useState(false);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   // 处理购买按钮点击
-  const handleBuyClick = (planTitle: string) => {
+  const handleBuyClick = async (planTitle: string) => {
     if (!isAuthenticated) {
       navigateWithLanguage(navigate, '/login');
       return;
@@ -160,35 +160,78 @@ const PricingSection: React.FC<PricingSectionProps> = ({
 
     // 获取计划配置
     const config = planConfigs[planTitle as keyof typeof planConfigs];
-    if (config) {
-      setCurrentPlan(planTitle);
-      setCurrentPlanCode(config.code);
-      setShowPaypalPayment(true);
+    if (!config) {
+      showErrorToast(t('payment.errors.invalidPlan') || '无效的套餐选择');
+      return;
+    }
+
+    try {
+      setIsProcessingPayment(true);
+
+      console.log(`[Payment] Creating order for plan: ${config.code}, credits: ${config.credits}`);
+
+      // 创建 Creem 支付订单
+      const orderResponse = await PricingService.createOrder({
+        planCode: config.code as 'day7' | 'day14' | 'day30',
+        method: 'creem',
+        chargeType: 'Credit'
+      });
+
+      console.log(`[Payment] Order created successfully:`, orderResponse);
+
+      // 验证必需的响应字段
+      if (!orderResponse.paymentUrl || !orderResponse.creemSessionId) {
+        console.error('[Payment] Missing required fields in response:', orderResponse);
+        throw new Error('服务器响应缺少必需字段：paymentUrl 或 creemSessionId');
+      }
+
+      // 保存订单信息到 localStorage，用于支付回调处理
+      const pendingPayment = {
+        orderId: orderResponse.id,
+        sessionId: orderResponse.creemSessionId,
+        planTitle: planTitle,
+        credits: config.credits,
+        amount: config.price,
+        timestamp: Date.now()
+      };
+
+      localStorage.setItem('pendingCreemPayment', JSON.stringify(pendingPayment));
+      console.log(`[Payment] Stored pending payment info:`, pendingPayment);
+
+      // 跳转到 Creem 支付页面
+      console.log(`[Payment] Redirecting to: ${orderResponse.paymentUrl}`);
+      window.location.href = orderResponse.paymentUrl;
+
+    } catch (error: any) {
+      console.error('[Payment] Failed to create Creem payment:', error);
+
+      let errorMessage = t('payment.errors.paymentFailed') || '支付创建失败，请重试';
+
+      // 根据错误类型提供更具体的错误信息
+      if (error.code) {
+        switch (error.code) {
+          case '1020':
+            errorMessage = t('payment.errors.orderCreationFailed') || '创建订单失败';
+            break;
+          case 'NETWORK_ERROR':
+            errorMessage = t('payment.errors.networkError') || '网络连接失败，请检查网络';
+            break;
+          case 'AUTH_ERROR':
+            errorMessage = t('payment.errors.authError') || '身份验证失败，请重新登录';
+            break;
+          default:
+            errorMessage = error.message || errorMessage;
+        }
+      } else {
+        errorMessage = error.message || errorMessage;
+      }
+
+      showErrorToast(errorMessage);
+    } finally {
+      setIsProcessingPayment(false);
     }
   };
 
-  // 处理返回套餐按钮点击
-  const handleBackToPricing = () => {
-    setShowPaypalPayment(false);
-  };
-
-  // 获取当前计划的积分数
-  const getCurrentCredits = () => {
-    const config = planConfigs[currentPlan as keyof typeof planConfigs];
-    return config ? config.credits : 0;
-  };
-
-  // 获取当前计划的天数
-  const getCurrentDays = () => {
-    const config = planConfigs[currentPlan as keyof typeof planConfigs];
-    return config ? config.days : 0;
-  };
-
-  // 获取当前计划的价格
-  const getCurrentPrice = () => {
-    const config = planConfigs[currentPlan as keyof typeof planConfigs];
-    return config ? config.price.toFixed(2) : '';
-  };
 
   // 处理开始创作按钮点击
   const handleStartCreating = () => {
@@ -242,17 +285,8 @@ const PricingSection: React.FC<PricingSectionProps> = ({
         )}
 
         {/* 内容容器 */}
-        <div className="relative w-full max-w-[1450px] h-[719px] mx-auto overflow-hidden">
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: showPaypalPayment ? 'translateX(-50%)' : 'translateX(0%)',
-              width: '200%'
-            }}
-          >
-            {/* 定价内容面板 */}
-            <div className="w-1/2 flex-shrink-0 px-8">
-              <div className="flex flex-col items-center">
+        <div className="relative w-full max-w-[1450px] mx-auto">
+          <div className="flex flex-col items-center px-8">
 
                 {/* Pricing Cards - 3 cards layout */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 justify-items-center w-full max-w-[1170px]">
@@ -280,6 +314,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                         popular={isPopular}
                         features={getFeatures(plan.code)}
                         onBuyClick={() => handleBuyClick(planKey)}
+                        isLoading={isProcessingPayment}
                       />
                     );
                   })}
@@ -311,21 +346,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                     <span className="text-gray-600">{t('section.paymentMethods.oneTimePayment') || 'One-time Payment'}</span>
                   </div>
                 </div>
-              </div>
             </div>
-
-            {/* PayPal Payment Component */}
-            <div className="w-1/2 flex-shrink-0">
-              <PaypalPayment
-                onBack={handleBackToPricing}
-                planTitle={currentPlan}
-                credits={getCurrentCredits()}
-                days={getCurrentDays()}
-                totalPrice={getCurrentPrice()}
-                planCode={currentPlanCode}
-              />
-            </div>
-          </div>
         </div>
 
         {/* FAQ Section - 可选 */}

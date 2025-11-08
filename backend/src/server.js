@@ -77,7 +77,7 @@ app.use('/api/posts', createPostRoutes(app));
 app.use('/api/recharges', createRechargeRoutes(app));
 app.use('/api/reports', createReportRoutes(app));
 app.use('/api/payment', createPaymentRoutes(app));
-app.use('/api/webhook', createWebhookRoutes(app));
+app.use('/api/creem', createWebhookRoutes(app));
 
 // MinIO图片访问路由
 app.get('/images/*', async (req, res) => {

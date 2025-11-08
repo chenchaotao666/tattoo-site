@@ -96,7 +96,26 @@
       "paypalError": "PayPal支付出现错误，请重试",
       "cardError": "信用卡支付出现错误，请重试",
       "processingFailed": "支付处理失败，请重试",
-      "tryAgainLater": "请稍后重试"
+      "tryAgainLater": "请稍后重试",
+      "invalidPlan": "无效的套餐选择",
+      "verificationFailed": "支付验证失败"
+    },
+    "creem": {
+      "title": "Creem支付",
+      "description": "使用Creem安全快速支付",
+      "payNow": "使用Creem支付",
+      "securityNote": "您的支付信息受到Creem高级安全保护"
+    },
+    "verifying": "验证支付状态...",
+    "pleaseWait": "请稍候，我们正在验证您的支付...",
+    "cancelled": "支付已取消",
+    "error": {
+      "title": "支付失败",
+      "tryAgain": "返回重试"
+    },
+    "cancelled": {
+      "title": "支付已取消",
+      "returnToPricing": "返回选择套餐"
     }
   },
   "security": {

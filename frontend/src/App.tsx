@@ -19,6 +19,7 @@ import RefundPolicyPage from './pages/RefundPolicyPage';
 import BlogPage from './pages/BlogPage';
 import BlogDetailPage from './pages/BlogDetailPage';
 import TattooPreviewPage from './pages/TattooPreviewPage';
+import CreemPaymentCallbackPage from './pages/CreemPaymentCallbackPage';
 import ScrollToTop from './components/common/ScrollToTop';
 import TopLoadingBar from './components/ui/TopLoadingBar';
 import Toast from './components/ui/Toast';
@@ -68,6 +69,7 @@ function AppContent() {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/preview" element={<TattooPreviewPage />} />
+        <Route path="/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 中文路由（/zh 前缀） */}
         <Route path="/zh" element={<HomePage />} />
@@ -91,6 +93,7 @@ function AppContent() {
         <Route path="/zh/blog" element={<BlogPage />} />
         <Route path="/zh/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/zh/preview" element={<TattooPreviewPage />} />
+        <Route path="/zh/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 日语路由（/ja 前缀） */}
         <Route path="/ja" element={<HomePage />} />
@@ -114,6 +117,7 @@ function AppContent() {
         <Route path="/ja/blog" element={<BlogPage />} />
         <Route path="/ja/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/ja/preview" element={<TattooPreviewPage />} />
+        <Route path="/ja/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 韩语路由（/ko 前缀） */}
         <Route path="/ko" element={<HomePage />} />
@@ -137,6 +141,7 @@ function AppContent() {
         <Route path="/ko/blog" element={<BlogPage />} />
         <Route path="/ko/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/ko/preview" element={<TattooPreviewPage />} />
+        <Route path="/ko/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 繁体中文路由（/tw 前缀） */}
         <Route path="/tw" element={<HomePage />} />
@@ -160,6 +165,7 @@ function AppContent() {
         <Route path="/tw/blog" element={<BlogPage />} />
         <Route path="/tw/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/tw/preview" element={<TattooPreviewPage />} />
+        <Route path="/tw/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 西班牙语路由（/es 前缀） */}
         <Route path="/es" element={<HomePage />} />
@@ -183,6 +189,7 @@ function AppContent() {
         <Route path="/es/blog" element={<BlogPage />} />
         <Route path="/es/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/es/preview" element={<TattooPreviewPage />} />
+        <Route path="/es/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 法语路由（/fr 前缀） */}
         <Route path="/fr" element={<HomePage />} />
@@ -206,6 +213,7 @@ function AppContent() {
         <Route path="/fr/blog" element={<BlogPage />} />
         <Route path="/fr/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/fr/preview" element={<TattooPreviewPage />} />
+        <Route path="/fr/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 德语路由（/de 前缀） */}
         <Route path="/de" element={<HomePage />} />
@@ -229,6 +237,7 @@ function AppContent() {
         <Route path="/de/blog" element={<BlogPage />} />
         <Route path="/de/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/de/preview" element={<TattooPreviewPage />} />
+        <Route path="/de/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 意大利语路由（/it 前缀） */}
         <Route path="/it" element={<HomePage />} />
@@ -252,6 +261,7 @@ function AppContent() {
         <Route path="/it/blog" element={<BlogPage />} />
         <Route path="/it/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/it/preview" element={<TattooPreviewPage />} />
+        <Route path="/it/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 葡萄牙语路由（/pt 前缀） */}
         <Route path="/pt" element={<HomePage />} />
@@ -275,6 +285,7 @@ function AppContent() {
         <Route path="/pt/blog" element={<BlogPage />} />
         <Route path="/pt/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/pt/preview" element={<TattooPreviewPage />} />
+        <Route path="/pt/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
 
         {/* 俄语路由（/ru 前缀） */}
         <Route path="/ru" element={<HomePage />} />
@@ -298,6 +309,7 @@ function AppContent() {
         <Route path="/ru/blog" element={<BlogPage />} />
         <Route path="/ru/blog/:slug" element={<BlogDetailPage />} />
         <Route path="/ru/preview" element={<TattooPreviewPage />} />
+        <Route path="/ru/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
       </Routes>
       </LanguageSyncProvider>
       <Toast

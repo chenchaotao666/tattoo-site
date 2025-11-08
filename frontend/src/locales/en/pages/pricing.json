@@ -96,7 +96,26 @@
       "paypalError": "PayPal payment error, please try again",
       "cardError": "Card payment error, please try again",
       "processingFailed": "Payment processing failed, please try again",
-      "tryAgainLater": "Please try again later"
+      "tryAgainLater": "Please try again later",
+      "invalidPlan": "Invalid plan selection",
+      "verificationFailed": "Payment verification failed"
+    },
+    "creem": {
+      "title": "Creem Payment",
+      "description": "Secure and fast payment with Creem",
+      "payNow": "Pay with Creem",
+      "securityNote": "Your payment information is protected by Creem's advanced security"
+    },
+    "verifying": "Verifying payment status...",
+    "pleaseWait": "Please wait, we are verifying your payment...",
+    "cancelled": "Payment cancelled",
+    "error": {
+      "title": "Payment Failed",
+      "tryAgain": "Try Again"
+    },
+    "cancelled": {
+      "title": "Payment Cancelled",
+      "returnToPricing": "Return to Pricing"
     }
   },
   "security": {

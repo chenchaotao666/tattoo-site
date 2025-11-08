@@ -32,6 +32,7 @@ interface PricingCardProps {
   discount?: string;
   features: string[];
   onBuyClick?: () => void;
+  isLoading?: boolean;
 }
 
 const PricingCard = ({
@@ -43,7 +44,8 @@ const PricingCard = ({
   originalPrice,
   discount,
   features,
-  onBuyClick
+  onBuyClick,
+  isLoading = false
 }: PricingCardProps) => {
   const { t } = useAsyncTranslation('components');
   return (
@@ -120,22 +122,38 @@ const PricingCard = ({
               variant="primary"
               width="w-full"
               height="h-[60px]"
+              disabled={isLoading}
               onClick={() => {
-                if (onBuyClick) onBuyClick();
+                if (onBuyClick && !isLoading) onBuyClick();
               }}
             >
-              {t('pricing.buyNow')}
+              {isLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>{t('pricing.processing') || 'Processing...'}</span>
+                </div>
+              ) : (
+                t('pricing.buyNow')
+              )}
             </BaseButton>
           ) : (
             <BaseButton
               variant="secondary"
               width="w-full"
               height="h-[60px]"
+              disabled={isLoading}
               onClick={() => {
-                if (onBuyClick) onBuyClick();
+                if (onBuyClick && !isLoading) onBuyClick();
               }}
             >
-              {t('pricing.buyNow')}
+              {isLoading ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-[#030414] border-t-transparent rounded-full animate-spin"></div>
+                  <span>{t('pricing.processing') || 'Processing...'}</span>
+                </div>
+              ) : (
+                t('pricing.buyNow')
+              )}
             </BaseButton>
           )}
         </div>

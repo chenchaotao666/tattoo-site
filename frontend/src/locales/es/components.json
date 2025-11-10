@@ -62,7 +62,8 @@
   "pricing": {
     "buyNow": "Comprar Ahora",
     "popular": "Popular",
-    "save": "Ahorrar {discount}"
+    "save": "Ahorrar {discount}",
+    "processing": "Procesando..."
   },
   "generateTextarea": {
     "descriptionPrompt": "Describe tu idea de tatuaje",

@@ -33,7 +33,7 @@ const CreemPaymentCallbackPage: React.FC = () => {
         const pendingPaymentStr = localStorage.getItem('pendingCreemPayment');
         if (!pendingPaymentStr) {
           console.warn('[PaymentCallback] No pending payment found in localStorage');
-          throw new Error('未找到待处理的支付信息，请重新发起支付');
+          throw new Error(t('payment.errors.noPendingPayment') || '未找到待处理的支付信息，请重新发起支付');
         }
 
         let pendingPayment;
@@ -42,7 +42,7 @@ const CreemPaymentCallbackPage: React.FC = () => {
           console.log('[PaymentCallback] Pending payment info:', pendingPayment);
         } catch (parseError) {
           console.error('[PaymentCallback] Failed to parse pending payment:', parseError);
-          throw new Error('支付信息格式错误，请重新发起支付');
+          throw new Error(t('payment.errors.invalidPaymentFormat') || '支付信息格式错误，请重新发起支付');
         }
 
         // 检查支付信息是否过期（超过30分钟）
@@ -53,14 +53,14 @@ const CreemPaymentCallbackPage: React.FC = () => {
         if (paymentAge > MAX_PAYMENT_AGE) {
           console.warn('[PaymentCallback] Payment session expired:', paymentAge / 1000 / 60, 'minutes');
           localStorage.removeItem('pendingCreemPayment');
-          throw new Error('支付会话已过期，请重新发起支付');
+          throw new Error(t('payment.errors.sessionExpired') || '支付会话已过期，请重新发起支付');
         }
 
         // 检查支付是否被取消
         if (paymentStatus === 'cancelled' || error === 'cancelled') {
           console.log('[PaymentCallback] Payment was cancelled by user');
           setStatus('cancelled');
-          setMessage(t('payment.cancelled') || '支付已取消');
+          setMessage(t('payment.cancelled.title') || '支付已取消');
           localStorage.removeItem('pendingCreemPayment');
           return;
         }
@@ -68,14 +68,14 @@ const CreemPaymentCallbackPage: React.FC = () => {
         // 检查是否有其他错误
         if (error && error !== 'cancelled') {
           console.error('[PaymentCallback] Payment error from URL:', error);
-          throw new Error(`支付过程中发生错误：${error}`);
+          throw new Error(t('payment.errors.paymentError', undefined, { error }) || `支付过程中发生错误：${error}`);
         }
 
         // 验证 sessionId 是否匹配
         const targetSessionId = sessionId || pendingPayment.sessionId;
         if (!targetSessionId) {
           console.error('[PaymentCallback] No session ID available');
-          throw new Error('缺少支付会话ID');
+          throw new Error(t('payment.errors.missingSessionId') || '缺少支付会话ID');
         }
 
         if (sessionId && sessionId !== pendingPayment.sessionId) {
@@ -83,7 +83,7 @@ const CreemPaymentCallbackPage: React.FC = () => {
             urlSessionId: sessionId,
             storedSessionId: pendingPayment.sessionId
           });
-          throw new Error('支付会话ID不匹配，请重新发起支付');
+          throw new Error(t('payment.errors.sessionIdMismatch') || '支付会话ID不匹配，请重新发起支付');
         }
 
         console.log('[PaymentCallback] Verifying payment with sessionId:', targetSessionId);
@@ -125,14 +125,14 @@ const CreemPaymentCallbackPage: React.FC = () => {
         } else {
           // 支付失败
           console.error('[PaymentCallback] Payment verification failed:', verifyResponse);
-          throw new Error(verifyResponse.message || '支付验证失败');
+          throw new Error(verifyResponse.message || t('payment.errors.verificationFailed') || '支付验证失败');
         }
 
       } catch (error: any) {
         console.error('[PaymentCallback] Error during payment verification:', error);
         setStatus('error');
 
-        let errorMessage = '支付验证失败';
+        let errorMessage = t('payment.errors.verificationFailed') || '支付验证失败';
         if (error.code) {
           switch (error.code) {
             case '1025':
@@ -160,7 +160,7 @@ const CreemPaymentCallbackPage: React.FC = () => {
   }, []);
 
   const handleReturnToPricing = () => {
-    navigateWithLanguage(navigate, '/pricing');
+    navigateWithLanguage(navigate, '/price');
   };
 
   const handleGoToCreations = () => {

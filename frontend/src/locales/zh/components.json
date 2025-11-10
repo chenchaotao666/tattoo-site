@@ -62,7 +62,8 @@
   "pricing": {
     "buyNow": "立即购买",
     "popular": "热门",
-    "save": "节省 {discount}"
+    "save": "节省 {discount}",
+    "processing": "处理中..."
   },
   "generateTextarea": {
     "descriptionPrompt": "描述您的纹身创意",

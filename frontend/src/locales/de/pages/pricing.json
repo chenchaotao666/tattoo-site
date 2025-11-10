@@ -96,7 +96,32 @@
       "paypalError": "PayPal-Zahlungsfehler, bitte versuchen Sie es erneut",
       "cardError": "Kartenzahlungsfehler, bitte versuchen Sie es erneut",
       "processingFailed": "Zahlungsverarbeitung fehlgeschlagen, bitte versuchen Sie es erneut",
-      "tryAgainLater": "Bitte versuchen Sie es später erneut"
+      "tryAgainLater": "Bitte versuchen Sie es später erneut",
+      "invalidPlan": "Ungültige Planauswahl",
+      "verificationFailed": "Zahlungsverifizierung fehlgeschlagen",
+      "noPendingPayment": "Keine ausstehenden Zahlungsinformationen gefunden, bitte initiieren Sie die Zahlung erneut",
+      "invalidPaymentFormat": "Ungültiges Zahlungsinformationsformat, bitte initiieren Sie die Zahlung erneut",
+      "sessionExpired": "Die Zahlungssitzung ist abgelaufen, bitte initiieren Sie die Zahlung erneut",
+      "paymentError": "Ein Fehler ist während der Zahlung aufgetreten: {{error}}",
+      "missingSessionId": "Fehlende Zahlungssitzungs-ID",
+      "sessionIdMismatch": "Die Zahlungssitzungs-ID stimmt nicht überein, bitte initiieren Sie die Zahlung erneut",
+      "networkError": "Netzwerkverbindung fehlgeschlagen, bitte überprüfen Sie Ihr Netzwerk"
+    },
+    "creem": {
+      "title": "Creem-Zahlung",
+      "description": "Sichere und schnelle Zahlung mit Creem",
+      "payNow": "Mit Creem bezahlen",
+      "securityNote": "Ihre Zahlungsinformationen sind durch Creems erweiterte Sicherheit geschützt"
+    },
+    "verifying": "Zahlungsstatus wird überprüft...",
+    "pleaseWait": "Bitte warten Sie, wir überprüfen Ihre Zahlung...",
+    "error": {
+      "title": "Zahlung Fehlgeschlagen",
+      "tryAgain": "Erneut Versuchen"
+    },
+    "cancelled": {
+      "title": "Zahlung Storniert",
+      "returnToPricing": "Zurück zu Preisen"
     }
   },
   "security": {

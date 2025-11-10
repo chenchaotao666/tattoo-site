@@ -98,7 +98,14 @@
       "processingFailed": "支付处理失败，请重试",
       "tryAgainLater": "请稍后重试",
       "invalidPlan": "无效的套餐选择",
-      "verificationFailed": "支付验证失败"
+      "verificationFailed": "支付验证失败",
+      "noPendingPayment": "未找到待处��的支付信息，请重新发起支付",
+      "invalidPaymentFormat": "支付信息格式错误，请重新发起支付",
+      "sessionExpired": "支付会话已过期，请重新发起支付",
+      "paymentError": "支付过程中发生错误：{{error}}",
+      "missingSessionId": "缺少支付会话ID",
+      "sessionIdMismatch": "支付会话ID不匹配，请重新发起支付",
+      "networkError": "网络连接失败，请检查网络"
     },
     "creem": {
       "title": "Creem支付",
@@ -108,7 +115,6 @@
     },
     "verifying": "验证支付状态...",
     "pleaseWait": "请稍候，我们正在验证您的支付...",
-    "cancelled": "支付已取消",
     "error": {
       "title": "支付失败",
       "tryAgain": "返回重试"

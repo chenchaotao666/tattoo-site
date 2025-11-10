@@ -96,7 +96,32 @@
       "paypalError": "PayPal決済でエラーが発生しました。再試行してください",
       "cardError": "クレジットカード決済でエラーが発生しました。再試行してください",
       "processingFailed": "決済処理に失敗しました。再試行してください",
-      "tryAgainLater": "後でもう一度お試しください"
+      "tryAgainLater": "後でもう一度お試しください",
+      "invalidPlan": "無効なプラン選択",
+      "verificationFailed": "決済確認に失敗しました",
+      "noPendingPayment": "保留中の決済情報が見つかりません。決済を再度開始してください",
+      "invalidPaymentFormat": "決済情報の形式が無効です。決済を再度開始してください",
+      "sessionExpired": "決済セッションが期限切れです。決済を再度開始してください",
+      "paymentError": "決済中にエラーが発生しました：{{error}}",
+      "missingSessionId": "決済セッションIDが不足しています",
+      "sessionIdMismatch": "決済セッションIDが一致しません。決済を再度開始してください",
+      "networkError": "ネットワーク接続に失敗しました。ネットワークを確認してください"
+    },
+    "creem": {
+      "title": "Creem決済",
+      "description": "Creemで安全で高速な決済",
+      "payNow": "Creemで支払う",
+      "securityNote": "お客様の決済情報はCreemの高度なセキュリティで保護されています"
+    },
+    "verifying": "決済状況を確認中...",
+    "pleaseWait": "お待ちください。決済を確認しています...",
+    "error": {
+      "title": "決済失敗",
+      "tryAgain": "再試行"
+    },
+    "cancelled": {
+      "title": "決済がキャンセルされました",
+      "returnToPricing": "料金プランに戻る"
     }
   },
   "security": {

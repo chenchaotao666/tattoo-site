@@ -62,7 +62,8 @@
   "pricing": {
     "buyNow": "지금 구매",
     "popular": "인기",
-    "save": "{discount} 절약"
+    "save": "{discount} 절약",
+    "processing": "처리 중..."
   },
   "generateTextarea": {
     "descriptionPrompt": "타투 아이디어를 설명하세요",

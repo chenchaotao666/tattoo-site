@@ -98,7 +98,14 @@
       "processingFailed": "Payment processing failed, please try again",
       "tryAgainLater": "Please try again later",
       "invalidPlan": "Invalid plan selection",
-      "verificationFailed": "Payment verification failed"
+      "verificationFailed": "Payment verification failed",
+      "noPendingPayment": "No pending payment information found, please initiate payment again",
+      "invalidPaymentFormat": "Invalid payment information format, please initiate payment again",
+      "sessionExpired": "Payment session has expired, please initiate payment again",
+      "paymentError": "Error occurred during payment: {{error}}",
+      "missingSessionId": "Missing payment session ID",
+      "sessionIdMismatch": "Payment session ID mismatch, please initiate payment again",
+      "networkError": "Network connection failed, please check your network"
     },
     "creem": {
       "title": "Creem Payment",
@@ -108,7 +115,6 @@
     },
     "verifying": "Verifying payment status...",
     "pleaseWait": "Please wait, we are verifying your payment...",
-    "cancelled": "Payment cancelled",
     "error": {
       "title": "Payment Failed",
       "tryAgain": "Try Again"

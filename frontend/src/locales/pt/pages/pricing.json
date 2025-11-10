@@ -96,7 +96,32 @@
       "paypalError": "Erro de pagamento PayPal, por favor tente novamente",
       "cardError": "Erro de pagamento com cartão, por favor tente novamente",
       "processingFailed": "Processamento de pagamento falhou, por favor tente novamente",
-      "tryAgainLater": "Por favor tente novamente mais tarde"
+      "tryAgainLater": "Por favor tente novamente mais tarde",
+      "invalidPlan": "Seleção de plano inválida",
+      "verificationFailed": "Verificação de pagamento falhou",
+      "noPendingPayment": "Nenhuma informação de pagamento pendente encontrada, por favor inicie o pagamento novamente",
+      "invalidPaymentFormat": "Formato de informação de pagamento inválido, por favor inicie o pagamento novamente",
+      "sessionExpired": "A sessão de pagamento expirou, por favor inicie o pagamento novamente",
+      "paymentError": "Ocorreu um erro durante o pagamento: {{error}}",
+      "missingSessionId": "ID de sessão de pagamento ausente",
+      "sessionIdMismatch": "O ID da sessão de pagamento não confere, por favor inicie o pagamento novamente",
+      "networkError": "Conexão de rede falhou, por favor verifique sua rede"
+    },
+    "creem": {
+      "title": "Pagamento Creem",
+      "description": "Pagamento seguro e rápido com Creem",
+      "payNow": "Pagar com Creem",
+      "securityNote": "Suas informações de pagamento estão protegidas pela segurança avançada do Creem"
+    },
+    "verifying": "Verificando status do pagamento...",
+    "pleaseWait": "Aguarde por favor, estamos verificando seu pagamento...",
+    "error": {
+      "title": "Pagamento Falhou",
+      "tryAgain": "Tentar Novamente"
+    },
+    "cancelled": {
+      "title": "Pagamento Cancelado",
+      "returnToPricing": "Voltar aos Preços"
     }
   },
   "security": {

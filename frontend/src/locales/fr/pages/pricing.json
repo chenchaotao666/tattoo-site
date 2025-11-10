@@ -96,7 +96,32 @@
       "paypalError": "Erreur de paiement PayPal, veuillez réessayer",
       "cardError": "Erreur de paiement par carte, veuillez réessayer",
       "processingFailed": "Échec du traitement du paiement, veuillez réessayer",
-      "tryAgainLater": "Veuillez réessayer plus tard"
+      "tryAgainLater": "Veuillez réessayer plus tard",
+      "invalidPlan": "Sélection de plan invalide",
+      "verificationFailed": "La vérification du paiement a échoué",
+      "noPendingPayment": "Aucune information de paiement en attente trouvée, veuillez initier le paiement à nouveau",
+      "invalidPaymentFormat": "Format d'information de paiement invalide, veuillez initier le paiement à nouveau",
+      "sessionExpired": "La session de paiement a expiré, veuillez initier le paiement à nouveau",
+      "paymentError": "Une erreur s'est produite pendant le paiement: {{error}}",
+      "missingSessionId": "ID de session de paiement manquant",
+      "sessionIdMismatch": "L'ID de session de paiement ne correspond pas, veuillez initier le paiement à nouveau",
+      "networkError": "La connexion réseau a échoué, veuillez vérifier votre réseau"
+    },
+    "creem": {
+      "title": "Paiement Creem",
+      "description": "Paiement sécurisé et rapide avec Creem",
+      "payNow": "Payer avec Creem",
+      "securityNote": "Vos informations de paiement sont protégées par la sécurité avancée de Creem"
+    },
+    "verifying": "Vérification du statut de paiement...",
+    "pleaseWait": "Veuillez patienter, nous vérifions votre paiement...",
+    "error": {
+      "title": "Paiement Échoué",
+      "tryAgain": "Réessayer"
+    },
+    "cancelled": {
+      "title": "Paiement Annulé",
+      "returnToPricing": "Retour aux Prix"
     }
   },
   "security": {

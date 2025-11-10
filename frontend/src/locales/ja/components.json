@@ -62,7 +62,8 @@
   "pricing": {
     "buyNow": "今すぐ購入",
     "popular": "人気",
-    "save": "{discount} 節約"
+    "save": "{discount} 節約",
+    "processing": "処理中..."
   },
   "generateTextarea": {
     "descriptionPrompt": "タトゥーのアイデアを説明してください",

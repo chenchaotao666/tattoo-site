@@ -96,7 +96,32 @@
       "paypalError": "PayPal 결제 오류입니다. 다시 시도해 주세요",
       "cardError": "카드 결제 오류입니다. 다시 시도해 주세요",
       "processingFailed": "결제 처리에 실패했습니다. 다시 시도해 주세요",
-      "tryAgainLater": "나중에 다시 시도해 주세요"
+      "tryAgainLater": "나중에 다시 시도해 주세요",
+      "invalidPlan": "유효하지 않은 플랜 선택",
+      "verificationFailed": "결제 확인에 실패했습니다",
+      "noPendingPayment": "대기 중인 결제 정보를 찾을 수 없습니다. 결제를 다시 시작해 주세요",
+      "invalidPaymentFormat": "결제 정보 형식이 유효하지 않습니다. 결제를 다시 시작해 주세요",
+      "sessionExpired": "결제 세션이 만료되었습니다. 결제를 다시 시작해 주세요",
+      "paymentError": "결제 중 오류가 발생했습니다: {{error}}",
+      "missingSessionId": "결제 세션 ID가 누락되었습니다",
+      "sessionIdMismatch": "결제 세션 ID가 일치하지 않습니다. 결제를 다시 시작해 주세요",
+      "networkError": "네트워크 연결에 실패했습니다. 네트워크를 확인해 주세요"
+    },
+    "creem": {
+      "title": "Creem 결제",
+      "description": "Creem으로 안전하고 빠른 결제",
+      "payNow": "Creem으로 결제",
+      "securityNote": "결제 정보는 Creem의 고급 보안으로 보호됩니다"
+    },
+    "verifying": "결제 상태 확인 중...",
+    "pleaseWait": "잠시만 기다려 주세요. 결제를 확인하고 있습니다...",
+    "error": {
+      "title": "결제 실패",
+      "tryAgain": "다시 시도"
+    },
+    "cancelled": {
+      "title": "결제가 취소됨",
+      "returnToPricing": "요금제로 돌아가기"
     }
   },
   "security": {

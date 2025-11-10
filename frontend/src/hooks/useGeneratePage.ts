@@ -655,12 +655,6 @@ export const useGeneratePage = (
 
   // 刷新创意建议
   const refreshIdeaSuggestions = useCallback(() => {
-    // 如果没有全量数据，尝试重新加载
-    if (state.allIdeas.length === 0) {
-      loadIdeaSuggestions();
-      return;
-    }
-
     try {
       // 从已存储的全量数据中重新随机选择
       const shuffled = [...state.allIdeas].sort(() => 0.5 - Math.random());

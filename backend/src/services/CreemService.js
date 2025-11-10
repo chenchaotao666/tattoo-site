@@ -42,7 +42,7 @@ class CreemService {
     /**
      * 创建 Creem checkout session - 基于真实的 Creem API
      */
-    async createCheckoutSession(planCode, requestId = null, successUrl = null) {
+    async createCheckoutSession(planCode, requestId = null, successUrl = null, userEmail = null) {
         try {
             // 获取对应套餐的产品ID
             const productId = this.productIds[planCode];
@@ -61,6 +61,10 @@ class CreemService {
 
             if (successUrl) {
                 checkoutData.success_url = successUrl;
+            }
+
+            if (userEmail) {
+                checkoutData.customer_email = userEmail;
             }
 
             // 注意: Creem API 不支持 webhook_url 和 cancel_url 参数
@@ -131,13 +135,14 @@ class CreemService {
      * @deprecated 使用 createCheckoutSession 代替
      */
     async createPaymentSession(orderData) {
-        const { orderId, planCode } = orderData;
+        const { orderId, planCode, userEmail } = orderData;
 
         // 使用新的 checkout API
         const result = await this.createCheckoutSession(
             planCode,
             orderId,
-            this.successUrl
+            this.successUrl,
+            userEmail
         );
 
         // 返回兼容格式

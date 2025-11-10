@@ -429,16 +429,6 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
             </div>
           )}
 
-          {/* 调色板图标 */}
-          <div className="pr-3">
-            <Link 
-              to={createLocalizedLink("/image-coloring-page")}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 flex items-center justify-center"
-            >
-              <img src={colorPaletteIcon} alt="Image Coloring Page" className="w-6 h-6" />
-            </Link>
-          </div>
-
           {/* 汉堡菜单按钮 */}
           <div className="pr-4">
             <button
@@ -597,15 +587,6 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
                 onClick={handleMobileLinkClick}
               >
                 {navT('menu.inspiration', 'Inspiration')}
-              </Link>
-            </div>
-            <div className="border-b border-gray-200">
-              <Link 
-                to={createLocalizedLink("/image-coloring-page")} 
-                className={`block px-3 py-3 text-sm font-normal text-gray-700 hover:text-[${colors.special.highlight}] hover:bg-gray-50 transition-colors duration-200`}
-                onClick={handleMobileLinkClick}
-              >
-                {navT('menu.imageColoringPage', 'Image Coloring Page')}
               </Link>
             </div>
             <div className="border-b border-gray-200">

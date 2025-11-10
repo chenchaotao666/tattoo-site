@@ -109,7 +109,7 @@ const CreemPaymentCallbackPage: React.FC = () => {
 
           // 3秒后跳转到创作页面
           setTimeout(() => {
-            navigateWithLanguage(navigate, '/text-coloring-page');
+            navigateWithLanguage(navigate, '/create');
           }, 3000);
 
         } else if (verifyResponse.status === 'PENDING') {
@@ -157,14 +157,14 @@ const CreemPaymentCallbackPage: React.FC = () => {
     };
 
     handlePaymentCallback();
-  }, [searchParams, refreshUser]);
+  }, []);
 
   const handleReturnToPricing = () => {
     navigateWithLanguage(navigate, '/pricing');
   };
 
   const handleGoToCreations = () => {
-    navigateWithLanguage(navigate, '/text-coloring-page');
+    navigateWithLanguage(navigate, '/create');
   };
 
   return (

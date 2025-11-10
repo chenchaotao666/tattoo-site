@@ -51,8 +51,6 @@ function AppContent() {
         <Route path="/" element={<HomePage />} />
         <Route path="/price" element={<PricingPage />} />
         <Route path="/create" element={<GeneratePage />} />
-        <Route path="/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -75,8 +73,6 @@ function AppContent() {
         <Route path="/zh" element={<HomePage />} />
         <Route path="/zh/price" element={<PricingPage />} />
         <Route path="/zh/create" element={<GeneratePage />} />
-        <Route path="/zh/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/zh/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/zh/categories" element={<CategoriesPage />} />
         <Route path="/zh/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/zh/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -99,8 +95,6 @@ function AppContent() {
         <Route path="/ja" element={<HomePage />} />
         <Route path="/ja/price" element={<PricingPage />} />
         <Route path="/ja/create" element={<GeneratePage />} />
-        <Route path="/ja/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/ja/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/ja/categories" element={<CategoriesPage />} />
         <Route path="/ja/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/ja/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -123,8 +117,6 @@ function AppContent() {
         <Route path="/ko" element={<HomePage />} />
         <Route path="/ko/price" element={<PricingPage />} />
         <Route path="/ko/create" element={<GeneratePage />} />
-        <Route path="/ko/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/ko/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/ko/categories" element={<CategoriesPage />} />
         <Route path="/ko/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/ko/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -147,8 +139,6 @@ function AppContent() {
         <Route path="/tw" element={<HomePage />} />
         <Route path="/tw/price" element={<PricingPage />} />
         <Route path="/tw/create" element={<GeneratePage />} />
-        <Route path="/tw/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/tw/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/tw/categories" element={<CategoriesPage />} />
         <Route path="/tw/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/tw/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -171,8 +161,6 @@ function AppContent() {
         <Route path="/es" element={<HomePage />} />
         <Route path="/es/price" element={<PricingPage />} />
         <Route path="/es/create" element={<GeneratePage />} />
-        <Route path="/es/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/es/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/es/categories" element={<CategoriesPage />} />
         <Route path="/es/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/es/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -195,8 +183,6 @@ function AppContent() {
         <Route path="/fr" element={<HomePage />} />
         <Route path="/fr/price" element={<PricingPage />} />
         <Route path="/fr/create" element={<GeneratePage />} />
-        <Route path="/fr/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/fr/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/fr/categories" element={<CategoriesPage />} />
         <Route path="/fr/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/fr/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -219,8 +205,6 @@ function AppContent() {
         <Route path="/de" element={<HomePage />} />
         <Route path="/de/price" element={<PricingPage />} />
         <Route path="/de/create" element={<GeneratePage />} />
-        <Route path="/de/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/de/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/de/categories" element={<CategoriesPage />} />
         <Route path="/de/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/de/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -243,8 +227,6 @@ function AppContent() {
         <Route path="/it" element={<HomePage />} />
         <Route path="/it/price" element={<PricingPage />} />
         <Route path="/it/create" element={<GeneratePage />} />
-        <Route path="/it/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/it/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/it/categories" element={<CategoriesPage />} />
         <Route path="/it/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/it/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -267,8 +249,6 @@ function AppContent() {
         <Route path="/pt" element={<HomePage />} />
         <Route path="/pt/price" element={<PricingPage />} />
         <Route path="/pt/create" element={<GeneratePage />} />
-        <Route path="/pt/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/pt/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/pt/categories" element={<CategoriesPage />} />
         <Route path="/pt/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/pt/categories/:categoryId/:imageId" element={<ImageDetailPage />} />
@@ -291,8 +271,6 @@ function AppContent() {
         <Route path="/ru" element={<HomePage />} />
         <Route path="/ru/price" element={<PricingPage />} />
         <Route path="/ru/create" element={<GeneratePage />} />
-        <Route path="/ru/text-coloring-page" element={<GeneratePage />} />
-        <Route path="/ru/image-coloring-page" element={<GeneratePage/>} />
         <Route path="/ru/categories" element={<CategoriesPage />} />
         <Route path="/ru/categories/:categoryId" element={<CategoriesDetailPage />} />
         <Route path="/ru/categories/:categoryId/:imageId" element={<ImageDetailPage />} />

@@ -38,8 +38,7 @@ export const isPublicPath = (path: string): boolean => {
     '/forgot-password', 
     '/reset-password',
     '/price',
-    '/text-coloring-page',
-    '/image-coloring-page',
+    '/create',
     '/blog'
   ];
   

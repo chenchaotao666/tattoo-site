@@ -72,7 +72,8 @@ class PaymentService extends BaseService {
             // 创建Creem支付会话
             const creemSession = await this.creemService.createPaymentSession({
                 orderId: uuidv4(), // 生成临时订单ID
-                planCode: planCode
+                planCode: planCode,
+                userEmail: user.email
             });
 
             // 计算积分过期时间

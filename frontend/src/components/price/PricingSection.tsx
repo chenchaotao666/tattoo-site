@@ -236,7 +236,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({
   // 处理开始创作按钮点击
   const handleStartCreating = () => {
     setShowSuccessModal(false);
-    navigate('/text-coloring-page');
+    navigate('/create');
   };
 
   // Features for pricing plans

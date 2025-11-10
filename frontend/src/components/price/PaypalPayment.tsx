@@ -65,7 +65,7 @@ const PaypalPayment: React.FC<PaypalPaymentProps> = ({
         // 延迟跳转，让用户看到成功消息
         setTimeout(() => {
           onBack();
-          navigate('/text-coloring-page');
+          navigate('/create');
         }, 5000);
       } else {
         showErrorToast(t('payment.errors.processingFailed'));

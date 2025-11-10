@@ -415,6 +415,8 @@ function createPaymentRoutes(app) {
             // 验证Creem支付状态
             const verifyResult = await paymentService.creemService.verifyPayment(sessionId);
 
+            console.log(`[PaymentRoutes] verifyResult:`, verifyResult);
+
             // 如果支付成功，更新记录并添加积分
             if (verifyResult.status === 'COMPLETED' && recharge.status !== 'success') {
                 await models.Recharge.updateById(recharge.id, {

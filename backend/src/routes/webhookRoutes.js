@@ -328,6 +328,7 @@ function createWebhookRoutes(app) {
 
             console.log(`[CreemWebhook] Received webhook request`);
             console.log(`[CreemWebhook] Headers:`, headers);
+            console.log(`[CreemWebhook] body:`, body);
 
             // 解析 webhook 事件数据
             let eventData;
@@ -351,6 +352,8 @@ function createWebhookRoutes(app) {
                     message: 'Invalid body format'
                 });
             }
+
+            console.log(`[CreemWebhook] eventData:`, eventData);
 
             const eventType = eventData.type;
             const eventId = eventData.id;

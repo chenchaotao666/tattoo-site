@@ -14,9 +14,9 @@ class CreemService {
             : 'https://api.creem.io';
 
         // 回调URL配置
-        this.successUrl = process.env.CREEM_SUCCESS_URL || 'https://your-domain.com/payment/creem/callback?status=success';
-        this.cancelUrl = process.env.CREEM_CANCEL_URL || 'https://your-domain.com/payment/creem/callback?status=cancelled';
-        this.webhookUrl = process.env.CREEM_WEBHOOK_URL || 'https://your-domain.com/api/webhooks/creem';
+        this.successUrl = process.env.CREEM_SUCCESS_URL || 'https://aitattoo.art/payment/creem/callback?status=success';
+        this.cancelUrl = process.env.CREEM_CANCEL_URL || 'https://aitattoo.art/payment/creem/callback?status=cancelled';
+        this.webhookUrl = process.env.CREEM_WEBHOOK_URL || 'https://aitattoo.art/api/webhooks/creem';
 
         // 产品ID配置 - 需要在 Creem 控制台预先创建产品
         this.productIds = {

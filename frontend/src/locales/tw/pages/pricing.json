@@ -96,7 +96,32 @@
       "paypalError": "PayPal付款錯誤，請重試",
       "cardError": "銀行卡付款錯誤，請重試",
       "processingFailed": "付款處理失敗，請重試",
-      "tryAgainLater": "請稍後重試"
+      "tryAgainLater": "請稍後重試",
+      "invalidPlan": "無效的方案選擇",
+      "verificationFailed": "付款驗證失敗",
+      "noPendingPayment": "未找到待處理的付款資訊，請重新發起付款",
+      "invalidPaymentFormat": "付款資訊格式錯誤，請重新發起付款",
+      "sessionExpired": "付款會話已過期，請重新發起付款",
+      "paymentError": "付款過程中發生錯誤：{{error}}",
+      "missingSessionId": "缺少付款會話ID",
+      "sessionIdMismatch": "付款會話ID不匹配，請重新發起付款",
+      "networkError": "網路連線失敗，請檢查網路"
+    },
+    "creem": {
+      "title": "Creem付款",
+      "description": "使用Creem安全快速付款",
+      "payNow": "使用Creem付款",
+      "securityNote": "您的付款資訊受到Creem高級安全保護"
+    },
+    "verifying": "驗證付款狀態...",
+    "pleaseWait": "請稍候，我們正在驗證您的付款...",
+    "error": {
+      "title": "付款失敗",
+      "tryAgain": "返回重試"
+    },
+    "cancelled": {
+      "title": "付款已取消",
+      "returnToPricing": "返回選擇方案"
     }
   },
   "security": {

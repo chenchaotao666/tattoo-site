@@ -99,7 +99,7 @@
       "tryAgainLater": "请稍后重试",
       "invalidPlan": "无效的套餐选择",
       "verificationFailed": "支付验证失败",
-      "noPendingPayment": "未找到待处��的支付信息，请重新发起支付",
+      "noPendingPayment": "未找到待处理的支付信息，请重新发起支付",
       "invalidPaymentFormat": "支付信息格式错误，请重新发起支付",
       "sessionExpired": "支付会话已过期，请重新发起支付",
       "paymentError": "支付过程中发生错误：{{error}}",

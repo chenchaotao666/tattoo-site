@@ -64,12 +64,14 @@ class CreemService {
             }
 
             if (userEmail) {
-                checkoutData.customer_email = userEmail;
+                checkoutData.customer = {
+                    email: userEmail
+                };
             }
 
-            // 注意: Creem API 不支持 webhook_url 和 cancel_url 参数
-            // webhook 需要在 Creem 控制台中配置
-            // cancel_url 不被支持
+            // 注意: Creem API 不支持以下参数:
+            // - webhook_url (需要在 Creem 控制台中配置)
+            // - cancel_url (不被支持)
 
             const headers = {
                 'Content-Type': 'application/json',

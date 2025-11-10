@@ -32,10 +32,10 @@ class CreemWebhookService {
             console.log(`[CreemWebhook] Starting handlePaymentCompleted`);
             console.log(`[CreemWebhook] Event data:`, JSON.stringify(eventData, null, 2));
 
-            const sessionId = eventData.session_id;
-            const transactionId = eventData.transaction_id;
-            const amount = eventData.amount;
-            const currency = eventData.currency;
+            const sessionId = eventData.id;
+            const transactionId = eventData.order.transaction;
+            const amount = eventData.order.amount;
+            const currency = eventData.order.currency;
 
             console.log(`[CreemWebhook] Extracted info - sessionId: ${sessionId}, transactionId: ${transactionId}, amount: ${amount} ${currency}`);
 
@@ -282,7 +282,7 @@ class CreemWebhookService {
             console.log(`Processing Creem webhook event: ${eventType}`);
 
             switch (eventType) {
-                case 'payment.completed':
+                case 'checkout.completed':
                     await this.handlePaymentCompleted(eventData);
                     break;
 
@@ -355,7 +355,7 @@ function createWebhookRoutes(app) {
 
             console.log(`[CreemWebhook] eventData:`, eventData);
 
-            const eventType = eventData.type;
+            const eventType = eventData.eventType;
             const eventId = eventData.id;
             const signature = headers['x-creem-signature'];
             const timestamp = headers['x-creem-timestamp'];
@@ -379,7 +379,7 @@ function createWebhookRoutes(app) {
             }
 
             // 处理 webhook 事件
-            await creemWebhookService.processWebhookEvent(eventType, eventData.data);
+            await creemWebhookService.processWebhookEvent(eventType, eventData.object);
 
             // 返回成功响应
             res.status(200).json({

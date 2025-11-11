@@ -242,6 +242,32 @@ const ImageDetailPage: React.FC = () => {
     }
   };
 
+  const handleRecreateClick = () => {
+    if (!image) return;
+
+    // 从图片数据中提取生成参数
+    const prompt = getLocalizedText(image.prompt || image.description, language) || '';
+
+    // 构建生成数据，参照 CreationDetail 的 handleRecreateClick
+    const generateData = {
+      prompt: prompt.trim(),
+      outputs: 1, // 默认生成1张图片
+      color: image.isColor ? 'colorful' : 'blackwhite',
+      style: image.styleId ? {
+        id: image.styleId,
+        name: image.styleTitle || { en: '', zh: '' },
+        description: { en: '', zh: '' },
+        slug: image.styleId,
+        imageUrl: undefined
+      } : null,
+      enhance: true, // 默认开启增强
+      visibility: image.isPublic ? 'public' : 'private'
+    };
+
+    // 导航到create页面，通过state传递数据
+    navigateWithLanguage(navigate, '/create', { state: generateData });
+  };
+
   // 获取面包屑路径（即使图片还在加载也可以显示基础面包屑）
   const getBreadcrumbPathEarly = (): BreadcrumbItem[] => {
     // 只有当category被设置时，才显示分类面包屑
@@ -364,9 +390,7 @@ const ImageDetailPage: React.FC = () => {
                   <BaseButton
                     width="w-[200px]"
                     variant="primary"
-                    onClick={() => {
-                      console.log('Recreate clicked');
-                    }}
+                    onClick={handleRecreateClick}
                   >
                     {tImage('recreate')}
                   </BaseButton>

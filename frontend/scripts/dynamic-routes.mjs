@@ -112,6 +112,27 @@ function getEnglishNameFromCategory(displayName) {
   return convertDisplayNameToPath(englishName);
 }
 
+// 工具函数：将图片标题转换为SEO友好的URL路径（参考imageUtils.ts中的convertTitleToPath）
+function convertImageTitleToPath(title) {
+  if (!title) return '';
+
+  // 处理LocalizedText对象
+  let titleString = '';
+  if (typeof title === 'string') {
+    titleString = title;
+  } else if (title && typeof title === 'object') {
+    titleString = title.en || title.zh || '';
+  }
+
+  return titleString
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '') // 移除特殊字符
+    .replace(/\s+/g, '-') // 空格替换为短划线
+    .replace(/-+/g, '-') // 多个短划线合并为一个
+    .replace(/^-+|-+$/g, '') // 移除开头和结尾的短划线
+    .trim();
+}
+
 // API请求函数
 async function apiRequest(endpoint, options = {}) {
   try {
@@ -157,11 +178,32 @@ export async function getDynamicRoutes() {
       console.log(`Found ${categories.length} categories`);
 
       // 添加分类详情页
-      categories.forEach(category => {
+      for (const category of categories) {
         // 使用SEO友好的英文名称作为路径参数
         const seoName = getEnglishNameFromCategory(category.displayName || category.display_name || category.name || '');
         if (seoName && seoName.length > 0) {
           dynamicRoutes.push(`/categories/${seoName}`);
+
+          // 获取该分类下的图片并添加图片路径
+          try {
+            const categoryId = category.categoryId || category.id;
+            if (categoryId) {
+              const images = await apiRequest(`/api/images?categoryId=${categoryId}`);
+              if (images && Array.isArray(images)) {
+                console.log(`Found ${images.length} images in category "${seoName}"`);
+                images.forEach(image => {
+                  // 从图片标题生成SEO友好的路径，参考imageUtils.ts中的方法
+                  const imageTitle = image.slug || image.name || '';
+                  const imagePath = convertImageTitleToPath(imageTitle);
+                  if (imagePath && imagePath.length > 0) {
+                    dynamicRoutes.push(`/categories/${seoName}/${imagePath}`);
+                  }
+                });
+              }
+            }
+          } catch (error) {
+            console.warn(`Failed to fetch images for category ${seoName}:`, error.message);
+          }
         } else {
           // 降级使用categoryId
           const fallbackParam = category.categoryId || category.name || category.id;
@@ -170,7 +212,7 @@ export async function getDynamicRoutes() {
             dynamicRoutes.push(`/categories/${fallbackParam}`);
           }
         }
-      });
+      }
     } else {
       console.warn('No categories data received from API');
     }

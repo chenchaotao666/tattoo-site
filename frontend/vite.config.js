@@ -204,7 +204,9 @@ export default defineConfig(async () => {
                             '/api/admin/',
                             '/api/user/',
                             '/api/upload/',
-                            '/login'
+                            '/login',
+                            '/search/',
+                            '/parking.php'
                         ]
                     }
                 ],

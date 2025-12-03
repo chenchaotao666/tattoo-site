@@ -216,9 +216,9 @@ const HomePage = () => {
           <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
             <CreateOnGo data={createOnGoData} />
           </div>
-          <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
+          {/* <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
             <WhatUserSaying data={whatUserSayingData} />
-          </div>
+          </div> */}
           <div className="bg-[#030414] flex justify-center py-16 lg:py-20">
             <HowToCreate
               title={t('howToCreate.title')}

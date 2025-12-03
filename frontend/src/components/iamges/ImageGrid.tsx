@@ -44,12 +44,29 @@ const ImageGrid: React.FC<ImageGridProps> = ({
 
   return (
     <div className="w-full bg-[#030414]" data-image-grid-version="v1.0">
-      {/* Grid Layout */}
+      {/* 桌面端网格布局 */}
       <div className="hidden lg:block">
         <div className="relative">
           <div className="grid grid-cols-4 gap-6 justify-center max-w-fit mx-auto">
             {images.map((image, index) => (
               <div key={`${image.id}-desktop-${index}`}>
+                <ImageCard
+                  image={image}
+                  onClick={() => handleImageClick(image)}
+                  showPrompt={showPrompt}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 手机端网格布局 - 一行两列 */}
+      <div className="block lg:hidden">
+        <div className="relative">
+          <div className="grid grid-cols-2 gap-4 max-w-fit mx-auto px-4">
+            {images.map((image, index) => (
+              <div key={`${image.id}-mobile-${index}`}>
                 <ImageCard
                   image={image}
                   onClick={() => handleImageClick(image)}

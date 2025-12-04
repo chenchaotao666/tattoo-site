@@ -205,11 +205,11 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
         canonicalUrl={`${window.location.origin}/creations`}
       />
       <div className="min-h-screen bg-[#030414]">
-        <div className="mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
           {/* 页面标题 */}
           <div className="mb-8">
-            <div className="mx-auto" style={{ width: '1184px' }}>
-              <h1 style={{ color: '#ECECEC', fontSize: '20px', fontFamily: 'Inter', fontWeight: 700, wordWrap: 'break-word', textAlign: 'left' }}>
+            <div className="max-w-7xl mx-auto">
+              <h1 className="text-white text-xl lg:text-2xl font-bold font-inter text-left px-4 lg:px-0">
                 {t('title')}
               </h1>
             </div>
@@ -217,7 +217,7 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
 
           {/* 错误提示 */}
           {error && (
-            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            <div className="mb-6 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mx-4 lg:mx-0">
               {error}
             </div>
           )}
@@ -257,32 +257,32 @@ const CreationsPage: React.FC<CreationsPageProps> = () => {
       {/* 举报对话框 */}
       {showReportDialog && (
         <div className="fixed inset-0 bg-[#030414] bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
+          <div className="bg-white rounded-lg max-w-md w-full mx-4 p-4 sm:p-6">
             <h3 className="text-lg font-medium text-gray-900 mb-4">{t('dialogs.report.title')}</h3>
             <textarea
               value={reportContent}
               onChange={(e) => setReportContent(e.target.value)}
               placeholder={t('dialogs.report.placeholder')}
-              className="w-full h-32 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full h-24 sm:h-32 p-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
               maxLength={500}
             />
             <div className="text-right text-xs text-gray-500 mt-1">
               {reportContent.length}/500
             </div>
-            <div className="flex gap-3 mt-6">
+            <div className="flex flex-col sm:flex-row gap-3 mt-4 sm:mt-6">
               <button
                 onClick={() => {
                   setShowReportDialog(null);
                   setReportContent('');
                 }}
-                className="flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors"
+                className="w-full sm:flex-1 bg-gray-100 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors text-sm sm:text-base"
               >
                 {t('dialogs.report.cancel')}
               </button>
               <button
                 onClick={() => showReportDialog && handleReport(showReportDialog)}
                 disabled={!reportContent.trim() || submittingReport}
-                className="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full sm:flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 {t('dialogs.report.submit')}
               </button>

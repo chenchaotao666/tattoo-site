@@ -183,11 +183,13 @@
       "day30": "究極のクリエイティブ自由度"
     },
     "features": {
-      "unlimitedGenerations": "無制限テキストからタトゥー生成",
-      "fullAccess7": "7日間フルアクセス権",
-      "fullAccess14": "14日間フルアクセス権",
-      "fullAccess30": "30日間フルアクセス権",
-      "proCredits": "プロクレジット",
+      "credits20": "20クレジットを取得",
+      "credits40": "40クレジットを取得",
+      "credits80": "80クレジットを取得",
+      "validFor7Days": "7日間有効",
+      "validFor14Days": "14日間有効",
+      "validFor30Days": "30日間有効",
+      "multipleGeneration": "同時に複数のタトゥーを生成",
       "highResDownloads": "高解像度ダウンロード",
       "prioritySupport": "優先サポート"
     },

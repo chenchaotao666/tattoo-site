@@ -183,11 +183,13 @@
       "day30": "궁극적인 창작 자유도"
     },
     "features": {
-      "unlimitedGenerations": "무제한 텍스트에서 타투로 생성",
-      "fullAccess7": "7일 전체 액세스",
-      "fullAccess14": "14일 전체 액세스",
-      "fullAccess30": "30일 전체 액세스",
-      "proCredits": "프로 크레딧",
+      "credits20": "20크레딧 획득",
+      "credits40": "40크레딧 획득",
+      "credits80": "80크레딧 획득",
+      "validFor7Days": "7일간 유효",
+      "validFor14Days": "14일간 유효",
+      "validFor30Days": "30일간 유효",
+      "multipleGeneration": "동시에 여러 타투 생성",
       "highResDownloads": "고해상도 다운로드",
       "prioritySupport": "우선 지원"
     },

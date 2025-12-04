@@ -183,11 +183,13 @@
       "day30": "終極創意自由"
     },
     "features": {
-      "unlimitedGenerations": "無限文字轉刺青生成",
-      "fullAccess7": "7天完整存取",
-      "fullAccess14": "14天完整存取",
-      "fullAccess30": "30天完整存取",
-      "proCredits": "專業點數",
+      "credits20": "獲得20積分",
+      "credits40": "獲得40積分",
+      "credits80": "獲得80積分",
+      "validFor7Days": "7天內有效",
+      "validFor14Days": "14天內有效",
+      "validFor30Days": "30天內有效",
+      "multipleGeneration": "可同時生成多張刺青",
       "highResDownloads": "高解析度下載",
       "prioritySupport": "優先客服"
     },

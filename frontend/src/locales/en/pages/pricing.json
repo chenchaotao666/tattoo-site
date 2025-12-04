@@ -183,11 +183,13 @@
       "day30": "Ultimate creative freedom"
     },
     "features": {
-      "unlimitedGenerations": "Unlimited text-to-tattoo generations",
-      "fullAccess7": "7 days full access",
-      "fullAccess14": "14 days full access",
-      "fullAccess30": "30 days full access",
-      "proCredits": "Pro Credits",
+      "credits20": "Get 20 Credits",
+      "credits40": "Get 40 Credits",
+      "credits80": "Get 80 Credits",
+      "validFor7Days": "Valid for 7 days",
+      "validFor14Days": "Valid for 14 days",
+      "validFor30Days": "Valid for 30 days",
+      "multipleGeneration": "Generate multiple tattoos simultaneously",
       "highResDownloads": "High-resolution downloads",
       "prioritySupport": "Priority Support"
     },

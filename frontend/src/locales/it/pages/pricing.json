@@ -183,11 +183,13 @@
       "day30": "Libertà creativa definitiva"
     },
     "features": {
-      "unlimitedGenerations": "Generazioni testo-a-tatuaggio illimitate",
-      "fullAccess7": "7 giorni accesso completo",
-      "fullAccess14": "14 giorni accesso completo",
-      "fullAccess30": "30 giorni accesso completo",
-      "proCredits": "Crediti Pro",
+      "credits20": "Ottieni 20 crediti",
+      "credits40": "Ottieni 40 crediti",
+      "credits80": "Ottieni 80 crediti",
+      "validFor7Days": "Valido per 7 giorni",
+      "validFor14Days": "Valido per 14 giorni",
+      "validFor30Days": "Valido per 30 giorni",
+      "multipleGeneration": "Genera più tatuaggi contemporaneamente",
       "highResDownloads": "Download ad alta risoluzione",
       "prioritySupport": "Supporto Prioritario"
     },

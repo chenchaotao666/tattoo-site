@@ -183,11 +183,13 @@
       "day30": "Ultimative kreative Freiheit"
     },
     "features": {
-      "unlimitedGenerations": "Unbegrenzte Text-zu-Tattoo-Generierungen",
-      "fullAccess7": "7 Tage Vollzugriff",
-      "fullAccess14": "14 Tage Vollzugriff",
-      "fullAccess30": "30 Tage Vollzugriff",
-      "proCredits": "Pro-Credits",
+      "credits20": "20 Credits erhalten",
+      "credits40": "40 Credits erhalten",
+      "credits80": "80 Credits erhalten",
+      "validFor7Days": "7 Tage gültig",
+      "validFor14Days": "14 Tage gültig",
+      "validFor30Days": "30 Tage gültig",
+      "multipleGeneration": "Mehrere Tattoos gleichzeitig generieren",
       "highResDownloads": "Hochauflösende Downloads",
       "prioritySupport": "Prioritätssupport"
     },

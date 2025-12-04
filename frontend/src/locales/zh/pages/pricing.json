@@ -183,11 +183,13 @@
       "day30": "终极创意自由"
     },
     "features": {
-      "unlimitedGenerations": "无限文本转纹身生成",
-      "fullAccess7": "7天完整访问权限",
-      "fullAccess14": "14天完整访问权限",
-      "fullAccess30": "30天完整访问权限",
-      "proCredits": "专业积分",
+      "credits20": "获得20积分",
+      "credits40": "获得40积分",
+      "credits80": "获得80积分",
+      "validFor7Days": "7天内有效",
+      "validFor14Days": "14天内有效",
+      "validFor30Days": "30天内有效",
+      "multipleGeneration": "可同时生成多张纹身",
       "highResDownloads": "高分辨率下载",
       "prioritySupport": "优先支持"
     },

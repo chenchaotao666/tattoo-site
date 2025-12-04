@@ -512,9 +512,10 @@ const GeneratePage: React.FC = () => {
       />
 
       <div className="flex flex-col bg-[#030414] relative">
-        <div className="flex flex-col lg:flex-row bg-[#030414] relative">
-        {/* Left Sidebar - 移动端隐藏，桌面端显示 */}
-        <div className="hidden lg:block w-[600px] bg-[#19191F] h-[calc(100vh-70px)] relative rounded-r-2xl overflow-hidden">
+        {/* 桌面端布局 */}
+        <div className="hidden lg:flex lg:flex-row bg-[#030414] relative">
+        {/* Left Sidebar - 桌面端显示 */}
+        <div className="w-[600px] bg-[#19191F] h-[calc(100vh-70px)] relative rounded-r-2xl overflow-hidden">
           <GenerateLeftSidebar
             prompt={prompt}
             selectedColor={selectedColor}
@@ -545,7 +546,7 @@ const GeneratePage: React.FC = () => {
         </div>
 
         {/* 桌面端中间内容区域 */}
-        <div className="hidden lg:flex lg:flex-1 lg:h-[calc(100vh-70px)]">
+        <div className="flex-1 h-[calc(100vh-70px)]">
           <GenerateCenterSidebar
             mode="text"
             error={error}
@@ -564,7 +565,7 @@ const GeneratePage: React.FC = () => {
         </div>
 
         {/* Right Sidebar - Generated Images - 桌面端显示 */}
-        <div className="hidden lg:block h-[calc(100vh-70px)]">
+        <div className="h-[calc(100vh-70px)]">
           <GenerateRightSidebar
             images={filteredGeneratedImages}
             selectedImageId={currentSelectedImage}
@@ -579,33 +580,92 @@ const GeneratePage: React.FC = () => {
         </div>
 
         </div>
+
+        {/* 手机端布局 */}
+        <div className="lg:hidden bg-[#030414] min-h-screen">
+          <div className="max-w-lg mx-auto px-4 py-6">
+            {/* 手机端左侧栏内容 - 输入控制区 */}
+            <div className="bg-[#19191F] rounded-2xl p-4 mb-6">
+              <GenerateLeftSidebar
+                prompt={prompt}
+                selectedColor={selectedColor}
+                selectedQuantity={selectedQuantity}
+                selectedStyle={selectedStyle}
+                inputError={inputError}
+                publicVisibility={publicVisibility}
+                isGenerating={isGenerating}
+                error={error}
+                ideaSuggestions={ideaSuggestions}
+                styles={styles}
+                showStyleSelector={showStyleSelector}
+                user={user}
+                setShowPricingModal={setShowPricingModal}
+                promptInputRef={promptInputRef}
+                handlePromptChange={handlePromptChange}
+                handleClearPrompt={handleClearPrompt}
+                handleStyleSuggestionClick={handleStyleSuggestionClick}
+                handleRefreshIdeaSuggestions={handleRefreshIdeaSuggestions}
+                handleVisibilityToggle={handleVisibilityToggle}
+                handleGenerate={handleGenerate}
+                setSelectedColor={setSelectedColor}
+                setSelectedQuantity={setSelectedQuantity}
+                setSelectedStyle={setSelectedStyle}
+                setInputError={setInputError}
+                setShowStyleSelector={setShowStyleSelector}
+              />
+            </div>
+
+            {/* 手机端中间内容区域 - 主要显示区（包含历史图片） */}
+            <div className="mb-6 bg-[#030414] rounded-2xl overflow-hidden">
+              <GenerateCenterSidebar
+                mode="text"
+                error={error}
+                currentSelectedImage={currentSelectedImage}
+                isGenerating={isGenerating}
+                generationProgress={generationProgress}
+                generatedImages={filteredGeneratedImages}
+                hasGenerationHistory={hasGenerationHistory}
+                isInitialDataLoaded={isInitialDataLoaded}
+                dynamicImageDimensions={dynamicImageDimensions}
+                setDynamicImageDimensions={setDynamicImageDimensions}
+                onDownload={handleDownload}
+                onImagesDeleted={handleImagesDeleted}
+                onImageSelect={handleImageSelectWithTabMemory}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* TextToColoringPage and WhyChoose components - Full width below main layout */}
       <div className="w-full bg-[#030414]">
           {/* TattooIntroduction component */}
-          <TattooIntroduction data={tattooIntroductionData} />
+          <div className="px-4 sm:px-6 lg:px-8">
+            <TattooIntroduction data={tattooIntroductionData} />
+          </div>
 
           {/* HowToCreate component */}
-          <div className="flex justify-center py-20 bg-[#030414]">
-            <HowToCreate 
+          <div className="flex justify-center py-10 lg:py-20 bg-[#030414] px-4 sm:px-6 lg:px-8">
+            <HowToCreate
               title={tattooHowToCreateData.title}
               steps={tattooHowToCreateData.steps}
             />
           </div>
 
           {/* GenerateFAQ component */}
-          <div className="py-20 bg-[#030414]">
-            <GenerateFAQ faqData={textFAQData} />
+          <div className="py-10 lg:py-20 bg-[#030414] px-4 sm:px-6 lg:px-8">
+            <GenerateFAQ faqData={textFAQData} title={t('faq.title')}/>
           </div>
 
           {/* TryNow component */}
-          <TryNow
-            title={t('cta.title')}
-            description={t('cta.description')}
-            buttonText={t('cta.buttonText')}
-            onButtonClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          />
+          <div className="px-4 sm:px-6 lg:px-8">
+            <TryNow
+              title={t('cta.title')}
+              description={t('cta.description')}
+              buttonText={t('cta.buttonText')}
+              onButtonClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            />
+          </div>
         </div>
     </Layout>
 
@@ -613,15 +673,19 @@ const GeneratePage: React.FC = () => {
     {showPricingModal && (
       <div className="fixed inset-0 bg-white z-[9999] overflow-y-auto overflow-x-hidden transition-all duration-300 ease-in-out" style={{ overscrollBehavior: 'contain' }}>
         {/* Close Button */}
-        <CloseButton onClick={() => setShowPricingModal(false)} />
-        
+        <div className="relative">
+          <CloseButton onClick={() => setShowPricingModal(false)} />
+        </div>
+
         {/* Full Screen Pricing Section */}
-        <PricingSection 
-          showTitle={true}
-          showFAQ={true}
-          showCTA={true}
-          titleH1={false}
-        />
+        <div className="px-4 sm:px-6 lg:px-8">
+          <PricingSection
+            showTitle={true}
+            showFAQ={true}
+            showCTA={true}
+            titleH1={false}
+          />
+        </div>
       </div>
     )}
     </>

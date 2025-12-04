@@ -61,10 +61,10 @@ const ImageGrid: React.FC<ImageGridProps> = ({
         </div>
       </div>
 
-      {/* 手机端网格布局 - 一行两列 */}
+      {/* 手机端网格布局 - 一列 */}
       <div className="block lg:hidden">
         <div className="relative">
-          <div className="grid grid-cols-2 gap-4 max-w-fit mx-auto px-4">
+          <div className="grid grid-cols-1 gap-4 max-w-fit mx-auto px-4">
             {images.map((image, index) => (
               <div key={`${image.id}-mobile-${index}`}>
                 <ImageCard

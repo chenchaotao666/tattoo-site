@@ -84,9 +84,11 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
 
   return (
     <div className="w-full bg-[#030414] py-16 lg:py-20">
-      <div className="max-w-[1170px] mx-auto px-4 flex justify-center">
-        <div style={{ width: '1170px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '160px', display: 'inline-flex' }}>
-          
+      {/* 桌面端布局 - 保持原有设计 */}
+      <div className="hidden lg:block">
+        <div className="max-w-[1170px] mx-auto px-4 flex justify-center">
+          <div style={{ width: '1170px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '160px', display: 'inline-flex' }}>
+
           {/* Row 1: Left Text + Right Image */}
           <div style={{ width: '1170px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             {/* Section 1 Text: Turn Your Creative into Stunning Tattoo Art */}
@@ -246,6 +248,182 @@ const TattooIntroduction: React.FC<TattooIntroductionProps> = ({ data }) => {
                   <img style={{ width: '210px', height: '210px', left: '230px', top: '133px', position: 'absolute', borderRadius: '16px' }} src={data.images[2]?.images?.[1] || "https://placehold.co/210x210"} alt="Tattoo design 2" />
                   <img style={{ width: '102.28px', height: '110.53px', left: '80.52px', top: '4.69px', position: 'absolute', transform: 'rotate(15deg)', transformOrigin: 'top left', opacity: '0.50' }} src="/imgs/generate-introduction/hand-drawn-arrow.svg" alt="Hand drawn arrow" />
                 </>
+              )}
+            </div>
+          </div>
+
+        </div>
+      </div>
+      </div>
+
+      {/* 移动端布局 - 分开显示文本和图片 */}
+      <div className="lg:hidden max-w-[1170px] mx-auto px-4">
+        <div className="w-full flex flex-col gap-12">
+
+          {/* Section 1 - 先Text后Images */}
+          <div className="flex flex-col gap-8">
+            {/* Section 1 Text */}
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-3">
+                <h2 className="text-2xl font-bold text-[#ECECEC]">
+                  {data.sections[0]?.title}
+                </h2>
+                <div className="text-base text-[#A5A5A5] leading-6">
+                  {data.sections[0]?.description}
+                </div>
+              </div>
+              <div>
+                <BaseButton
+                  variant="primary"
+                  height="h-[50px]"
+                  fontSize="text-lg"
+                  className="w-full"
+                  onClick={data.sections[0]?.onButtonClick}
+                >
+                  {data.sections[0]?.buttonText}
+                </BaseButton>
+              </div>
+            </div>
+
+            {/* Section 1 Images */}
+            <div className="flex flex-col gap-4">
+              <div className="border border-[#ECECEC] rounded-lg p-3 flex items-center gap-3">
+                <img className="w-6 h-6" src="/imgs/generate-introduction/star-2.png" alt="Star icon" />
+                <div className="text-white text-sm">
+                  {data.images[0]?.prompt || "The patterns of mechanical metal structures"}
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-2 h-40">
+                <img className="w-full h-full object-cover rounded-lg" src={data.images[0]?.images?.[0] || data.images[0]?.mainImage || "https://placehold.co/210x210"} alt="Tattoo design 1" />
+                <img className="w-full h-full object-cover rounded-lg" src={data.images[0]?.images?.[1] || data.images[0]?.mainImage || "https://placehold.co/210x210"} alt="Tattoo design 2" />
+                <img className="w-full h-full object-cover rounded-lg" src={data.images[0]?.images?.[2] || data.images[0]?.mainImage || "https://placehold.co/210x210"} alt="Tattoo design 3" />
+              </div>
+            </div>
+          </div>
+
+          {/* Section 2 - 先Images后Text */}
+          <div className="flex flex-col gap-8">
+            {/* Section 2 Images */}
+            <div className="h-[300px] flex justify-center items-center">
+              {data.images[1]?.images && data.images[1].images.length >= 5 ? (
+                <div className="relative w-[400px] h-[300px]">
+                  <ImageCarousel
+                    images={data.images[1].images}
+                    imageConfigs={section2CarouselConfig.map((config) => {
+                      // 400px容器的居中配置
+                      const desktopWidth = 670;
+                      const mobileWidth = 400;
+                      const scaledDesktopWidth = desktopWidth * 0.6; // 使用0.6缩放
+                      const centerOffset = (mobileWidth - scaledDesktopWidth) / 2;
+
+                      return {
+                        ...config,
+                        position: {
+                          ...config.position,
+                          width: String(Math.round(parseFloat(config.position.width) * 0.6)) + 'px',
+                          height: String(Math.round(parseFloat(config.position.height) * 0.6)) + 'px',
+                          left: String(Math.round(parseFloat(config.position.left) * 0.6 + centerOffset)) + 'px',
+                          top: String(Math.round(parseFloat(config.position.top) * 0.6 + 30)) + 'px',
+                          borderRadius: '10px',
+                        }
+                      };
+                    })}
+                    containerStyle={{ width: '400px', height: '300px' }}
+                    autoPlay={true}
+                    interval={4000}
+                    pauseOnHover={true}
+                  />
+                </div>
+              ) : (
+                /* 如果图片数量不足，显示静态布局 */
+                <div className="flex flex-col gap-4 h-full">
+                  <div className="grid grid-cols-2 gap-2 flex-1">
+                    <img className="w-full h-full object-cover rounded-lg" src={data.images[1]?.images?.[0] || "https://placehold.co/210x210"} alt="Tattoo style 1" />
+                    <img className="w-full h-full object-cover rounded-lg" src={data.images[1]?.images?.[1] || "https://placehold.co/210x210"} alt="Tattoo style 2" />
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 flex-1">
+                    <img className="w-full h-full object-cover rounded-lg" src={data.images[1]?.images?.[2] || "https://placehold.co/210x210"} alt="Tattoo style 3" />
+                    <img className="w-full h-full object-cover rounded-lg" src={data.images[1]?.images?.[3] || "https://placehold.co/210x210"} alt="Tattoo style 4" />
+                    <img className="w-full h-full object-cover rounded-lg" src={data.images[1]?.images?.[4] || "https://placehold.co/210x210"} alt="Tattoo style 5" />
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Section 2 Text */}
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-3">
+                <h2 className="text-2xl font-bold text-[#ECECEC]">
+                  {data.sections[1]?.title}
+                </h2>
+                <div className="text-base text-[#A5A5A5] leading-6">
+                  {data.sections[1]?.description}
+                </div>
+              </div>
+              <div>
+                <BaseButton
+                  variant="primary"
+                  height="h-[50px]"
+                  fontSize="text-lg"
+                  className="w-full"
+                  onClick={data.sections[1]?.onButtonClick}
+                >
+                  {data.sections[1]?.buttonText}
+                </BaseButton>
+              </div>
+            </div>
+          </div>
+
+          {/* Section 3 - 先Text后Images */}
+          <div className="flex flex-col gap-8">
+            {/* Section 3 Text */}
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-3">
+                <h2 className="text-2xl font-bold text-[#ECECEC]">
+                  {data.sections[2]?.title}
+                </h2>
+                <div className="text-base text-[#A5A5A5] leading-6">
+                  {data.sections[2]?.description}
+                </div>
+              </div>
+              <div>
+                <BaseButton
+                  variant="primary"
+                  height="h-[50px]"
+                  fontSize="text-lg"
+                  className="w-full"
+                  onClick={data.sections[2]?.onButtonClick}
+                >
+                  {data.sections[2]?.buttonText}
+                </BaseButton>
+              </div>
+            </div>
+
+            {/* Section 3 Images */}
+            <div className="h-[300px]">
+              {data.images[2]?.twoImageMode ? (
+                <div className="grid grid-cols-2 gap-2 h-full">
+                  <img className="w-full h-full object-cover rounded-lg" src={data.images[2]?.images?.[0] || "https://placehold.co/325x325"} alt="Tattoo design 1" />
+                  <img className="w-full h-full object-cover rounded-lg" src={data.images[2]?.images?.[1] || "https://placehold.co/325x325"} alt="Tattoo design 2" />
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4 h-full">
+                  {/* 社交分享图标 - 移动端版本 */}
+                  <div className="flex justify-center items-center gap-4 bg-[#26262D] rounded-lg p-3 h-16">
+                    <img className="w-6 h-6" src="/imgs/generate-introduction/link-1.png" alt="Social link 1" />
+                    <img className="w-6 h-6" src="/imgs/generate-introduction/link-2.png" alt="Social link 2" />
+                    <img className="w-6 h-6" src="/imgs/generate-introduction/link-3.png" alt="Social link 3" />
+                    <img className="w-6 h-6" src="/imgs/generate-introduction/link-4.png" alt="Social link 4" />
+                    <img className="w-6 h-6" src="/imgs/generate-introduction/link-5.png" alt="Social link 5" />
+                  </div>
+
+                  {/* 3张纹身图片 */}
+                  <div className="grid grid-cols-3 gap-2 flex-1">
+                    <img className="w-full h-full object-cover rounded-lg" src={data.images[2]?.images?.[0] || "https://placehold.co/210x210"} alt="Tattoo design 1" />
+                    <img className="w-full h-full object-cover rounded-lg" src={data.images[2]?.images?.[1] || "https://placehold.co/210x210"} alt="Tattoo design 2" />
+                    <img className="w-full h-full object-cover rounded-lg" src={data.images[2]?.images?.[2] || "https://placehold.co/210x210"} alt="Tattoo design 3" />
+                  </div>
+                </div>
               )}
             </div>
           </div>

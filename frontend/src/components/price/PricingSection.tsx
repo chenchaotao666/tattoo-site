@@ -244,27 +244,24 @@ const PricingSection: React.FC<PricingSectionProps> = ({
     switch (planKey) {
       case 'day7':
         return [
-          t('section.features.unlimitedGenerations') || 'Unlimited text-to-tattoo generations',
-          t('section.features.fullAccess7') || '7 days full access',
-          t('section.features.proCredits') || '20 Pro Credits',
-          t('section.features.highResDownloads') || 'High-resolution downloads',
-          t('section.features.prioritySupport') || 'Priority Support'
+          t('section.features.credits20') || '获得20积分',
+          t('section.features.validFor7Days') || '7天内有效',
+          t('section.features.multipleGeneration') || '可同时生成多张纹身',
+          t('section.features.prioritySupport') || '优先支持'
         ];
       case 'day14':
         return [
-          t('section.features.unlimitedGenerations') || 'Unlimited text-to-tattoo generations',
-          t('section.features.fullAccess14') || '14 days full access',
-          t('section.features.proCredits') || '40 Pro Credits',
-          t('section.features.highResDownloads') || 'High-resolution downloads',
-          t('section.features.prioritySupport') || 'Priority Support'
+          t('section.features.credits40') || '获得40积分',
+          t('section.features.validFor14Days') || '14天内有效',
+          t('section.features.multipleGeneration') || '可同时生成多张纹身',
+          t('section.features.prioritySupport') || '优先支持'
         ];
       case 'day30':
         return [
-          t('section.features.unlimitedGenerations') || 'Unlimited text-to-tattoo generations',
-          t('section.features.fullAccess30') || '30 days full access',
-          t('section.features.proCredits') || '80 Pro Credits',
-          t('section.features.highResDownloads') || 'High-resolution downloads',
-          t('section.features.prioritySupport') || 'Priority Support'
+          t('section.features.credits80') || '获得80积分',
+          t('section.features.validFor30Days') || '30天内有效',
+          t('section.features.multipleGeneration') || '可同时生成多张纹身',
+          t('section.features.prioritySupport') || '优先支持'
         ];
       default:
         return [];

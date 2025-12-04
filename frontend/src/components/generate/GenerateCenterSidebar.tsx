@@ -87,9 +87,9 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
   ];
 
   return (
-    <div className="flex-1 px-4 sm:px-6 lg:px-10 flex flex-col pt-4 lg:pb-36 relative bg-[#030414]">
-      {/* 图片内容区域 - 移动端固定高度，桌面端flex-1 */}
-      <div className="h-[390px] lg:flex-1 lg:h-auto flex flex-col justify-center">
+    <div className="lg:flex-1 px-4 sm:px-6 lg:px-10 flex flex-col pt-4 lg:pt-24 lg:relative bg-[#030414]">
+      {/* 图片内容区域 - 移动端自动高度，桌面端flex-1 */}
+      <div className="min-h-[390px] lg:flex-1 lg:h-auto flex flex-col justify-center">
         {/* 移动端为历史图片预留右侧空间 */}
         <div className="w-full">
           {error ? (
@@ -123,106 +123,143 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                         const currentImages = generatedImages;
                         const selectedImage = currentImages.find(img => img.id === currentSelectedImage);
                         const batchId = selectedImage?.batchId;
-                        
+
                         // 如果有批次ID，获取同批次的所有图片
-                        const batchImages = batchId 
+                        const batchImages = batchId
                           ? currentImages.filter(img => img.batchId === batchId)
                           : [selectedImage].filter(Boolean);
-                        
+
                         // 如果只有一张图片，按原来的方式显示
                         if (batchImages.length === 1) {
                           return (
-                            <div 
-                              className="bg-[#F2F3F5] rounded-2xl relative flex items-center justify-center transition-all duration-300 cursor-pointer"
-                              style={{ width: '600px', height: '600px' }}
-                              onClick={() => selectedImage?.tattooUrl && handleImageClick(selectedImage.tattooUrl)}
-                            >
-                              <img
-                                src={selectedImage?.tattooUrl}
-                                alt={componentT('generateCenter.generatedTattoo')}
-                                className="w-full h-full object-contain rounded-2xl"
-                              />
-                            </div>
-                          );
-                        }
-                        
-                        // 如果是批次图片（多张），显示2x2网格
-                        return (
-                          <div className="grid grid-cols-2 gap-4" style={{ width: '734px', height: '734px' }}>
-                            {batchImages.slice(0, 4).map((image, index) => (
-                              <div 
-                                key={image?.id || index} 
-                                className="relative cursor-pointer hover:opacity-90 transition-opacity"
-                                style={{ width: '360px', height: '360px', borderRadius: '16px' }}
-                                onClick={() => image?.tattooUrl && handleImageClick(image.tattooUrl)}
+                            <>
+                              {/* 移动端单张图片 */}
+                              <div
+                                className="bg-[#F2F3F5] rounded-2xl relative flex items-center justify-center transition-all duration-300 cursor-pointer w-full max-w-sm sm:max-w-md mx-auto aspect-square lg:hidden"
+                                onClick={() => selectedImage?.tattooUrl && handleImageClick(selectedImage.tattooUrl)}
                               >
-                                <img 
-                                  src={image?.tattooUrl || ''}
-                                  alt={componentT('generateCenter.generatedTattooAlt', undefined, { index: index + 1 })}
-                                  style={{ 
-                                    width: '360px', 
-                                    height: '360px', 
-                                    position: 'absolute',
-                                    left: '0px',
-                                    top: '0px',
-                                    borderRadius: '16px',
-                                    objectFit: 'cover'
-                                  }}
+                                <img
+                                  src={selectedImage?.tattooUrl}
+                                  alt={componentT('generateCenter.generatedTattoo')}
+                                  className="w-full h-full object-contain rounded-2xl"
                                 />
                               </div>
-                            ))}
-                          </div>
+
+                              {/* 桌面端单张图片 */}
+                              <div
+                                className="hidden lg:flex lg:items-center lg:justify-center bg-[#F2F3F5] rounded-2xl relative transition-all duration-300 cursor-pointer"
+                                style={{ width: '600px', height: '600px' }}
+                                onClick={() => selectedImage?.tattooUrl && handleImageClick(selectedImage.tattooUrl)}
+                              >
+                                <img
+                                  src={selectedImage?.tattooUrl}
+                                  alt={componentT('generateCenter.generatedTattoo')}
+                                  className="w-full h-full object-contain rounded-2xl"
+                                />
+                              </div>
+                            </>
+                          );
+                        }
+
+                        // 如果是批次图片（多张），显示2x2网格
+                        return (
+                          <>
+                            {/* 移动端布局 */}
+                            <div className="grid grid-cols-2 gap-2 sm:gap-4 w-full max-w-sm sm:max-w-md lg:hidden mx-auto">
+                              {batchImages.slice(0, 4).map((image, index) => (
+                                <div
+                                  key={image?.id || index}
+                                  className="relative cursor-pointer hover:opacity-90 transition-opacity aspect-square rounded-2xl overflow-hidden"
+                                  onClick={() => image?.tattooUrl && handleImageClick(image.tattooUrl)}
+                                >
+                                  <img
+                                    src={image?.tattooUrl || ''}
+                                    alt={componentT('generateCenter.generatedTattooAlt', undefined, { index: index + 1 })}
+                                    className="w-full h-full object-cover rounded-2xl"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+
+                            {/* 桌面端布局 */}
+                            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-4" style={{ width: '740px', height: '740px' }}>
+                              {batchImages.slice(0, 4).map((image, index) => (
+                                <div
+                                  key={image?.id || index}
+                                  className="relative cursor-pointer hover:opacity-90 transition-opacity"
+                                  style={{ width: '360px', height: '360px', borderRadius: '16px' }}
+                                  onClick={() => image?.tattooUrl && handleImageClick(image.tattooUrl)}
+                                >
+                                  <img
+                                    src={image?.tattooUrl || ''}
+                                    alt={componentT('generateCenter.generatedTattooAlt', undefined, { index: index + 1 })}
+                                    style={{
+                                      width: '360px',
+                                      height: '360px',
+                                      position: 'absolute',
+                                      left: '0px',
+                                      top: '0px',
+                                      borderRadius: '16px',
+                                      objectFit: 'cover'
+                                    }}
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </>
                         );
                       })()
                     ) : null}
                   </>
                 );
               })()}
-              
-              {/* Download and More Options - 只在有选中图片且不在生成过程中时显示 */}
-              {currentSelectedImage && !isGenerating && (() => {
+
+              {/* Download and More Options - 只在有选中图片时显示 */}
+              {currentSelectedImage && (() => {
                 // 判断是否为批次图片
                 const selectedImage = generatedImages.find(img => img.id === currentSelectedImage);
                 const batchId = selectedImage?.batchId;
-                const batchImages = batchId 
+                const batchImages = batchId
                   ? generatedImages.filter(img => img.batchId === batchId)
                   : [selectedImage].filter(Boolean);
                 const isBatch = batchImages.length > 1;
-                
+
                 return (
-                  <div className="flex flex-row gap-3 mt-6 px-4 sm:px-0 items-center justify-center">
-                    {isBatch ? (
-                      // 批次图片 - Download All + More Options
-                      <div className="flex items-center gap-3">
-                        {/* Download All Button */}
-                        <DownloadButton
-                          text={componentT('generateCenter.downloadAll')}
-                          onClick={() => onDownload('png', batchImages.map(img => img?.id).filter((id): id is string => Boolean(id)))}
-                        />
-                        
-                        {/* More Options Button */}
-                        <MoreMenu
-                          images={generatedImages}
-                          currentSelectedImage={currentSelectedImage}
-                          onImagesDeleted={onImagesDeleted}
-                        />
-                      </div>
-                    ) : (
-                      // 单张图片 - Download + More Options
-                      <div className="flex items-center gap-3">
-                        {/* Download Button */}
-                        <DownloadButton
-                          onClick={() => onDownload('png')}
-                        />
-                        
-                        {/* More Options Button */}
-                        <MoreMenu
-                          images={generatedImages}
-                          currentSelectedImage={currentSelectedImage}
-                          onImagesDeleted={onImagesDeleted}
-                        />
-                      </div>
-                    )}
+                  <div className="w-full mt-6 px-2 sm:px-4 lg:px-0">
+                    <div className="flex flex-col sm:flex-row gap-3 items-center justify-center max-w-md mx-auto">
+                      {isBatch ? (
+                        // 批次图片 - Download All + More Options
+                        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center">
+                          {/* Download All Button */}
+                          <DownloadButton
+                            text={componentT('generateCenter.downloadAll')}
+                            onClick={() => onDownload('png', batchImages.map(img => img?.id).filter((id): id is string => Boolean(id)))}
+                          />
+
+                          {/* More Options Button */}
+                          <MoreMenu
+                            images={generatedImages}
+                            currentSelectedImage={currentSelectedImage}
+                            onImagesDeleted={onImagesDeleted}
+                          />
+                        </div>
+                      ) : (
+                        // 单张图片 - Download + More Options
+                        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-center">
+                          {/* Download Button */}
+                          <DownloadButton
+                            onClick={() => onDownload('png')}
+                          />
+
+                          {/* More Options Button */}
+                          <MoreMenu
+                            images={generatedImages}
+                            currentSelectedImage={currentSelectedImage}
+                            onImagesDeleted={onImagesDeleted}
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })()}
@@ -248,14 +285,16 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
       
       {/* 移动端横向历史图片 - 浮动在外层容器下方 */}
       {(() => {
+        // 使用与 GenerateRightSidebar 相同的逻辑：过滤批次图片，只显示每批次的第一张
         const currentImages = generatedImages;
+
         return currentImages.length > 0 && (
           <div className="lg:hidden mt-4 px-4 sm:px-6">
             <div className="flex gap-3 overflow-x-auto scrollbar-hide pb-2">
               {currentImages.slice(0, 10).map((image, index) => {
                 // 如果有错误则不选中任何图片
                 const isSelected = !error && currentSelectedImage === image.id;
-                
+
                 return (
                   <div
                     key={image.id}
@@ -265,7 +304,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
                     style={{
                       ...getImageContainerSize(image, dynamicImageDimensions, setDynamicImageDimensions, {
                         maxWidth: 80,   // 移动端横向最大宽度80px
-                        maxHeight: 80,  // 移动端横向最大高度80px  
+                        maxHeight: 80,  // 移动端横向最大高度80px
                         minWidth: 60,   // 移动端横向最小宽度60px
                         minHeight: 60   // 移动端横向最小高度60px
                       })

@@ -184,10 +184,10 @@ const GenerateTextarea = ({
   }, []);
 
   return (
-    <div className={`w-full max-w-[1170px] ${className}`}>
+    <div className={`w-full max-w-[1170px] px-4 sm:px-0 ${className}`}>
       {/* Main Input Area */}
       <div 
-        className={`w-full ${!showBorderGradient ? 'h-[160px]' : 'h-[252px]'} ${!showBorderGradient ? 'rounded-lg' : 'rounded-2xl'} ${showBorderGradient ? 'p-[1px]' : ''} relative`}
+        className={`w-full ${!showBorderGradient ? 'h-[188px]' : 'h-[252px]'} ${!showBorderGradient ? 'rounded-lg' : 'rounded-2xl'} ${showBorderGradient ? 'p-[1px]' : ''} relative`}
         style={{
           background: showBorderGradient ? (safeColors.gradient?.primary || 'linear-gradient(90deg, #59FFD0 0%, #98FF59 100%)') : 'transparent',
           boxShadow: showBorderGradient ? '0 0 30px 8px rgba(89, 255, 207, 0.15), 0 0 60px 12px rgba(152, 255, 89, 0.1)' : 'none'
@@ -226,62 +226,62 @@ const GenerateTextarea = ({
             />
           </div>
 
-          {/* Options Row - Combined in one line */}
-          <div className={`flex items-center justify-between ${!showBorderGradient ? 'absolute bottom-4 left-4 right-4' : ''}`}>
+          {/* Options Row - Mobile-first responsive layout */}
+          <div className={`flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 absolute bottom-4 sm:bottom-4 left-4 right-4`}>
             {/* Options - Left side */}
-            <div className="flex items-center gap-3 flex-wrap">
-              <div 
-                className="h-10 px-3 py-2 bg-[#26262D] rounded-lg flex items-center gap-2 cursor-pointer hover:bg-[#2A2A31] transition-colors"
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+              <div
+                className="h-10 px-2 sm:px-3 py-2 bg-[#26262D] rounded-lg flex items-center gap-1 sm:gap-2 cursor-pointer hover:bg-[#2A2A31] transition-colors min-w-0 flex-shrink-0"
                 onClick={handleRandomClick}
               >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
                   <path d="M16.6667 13.75L18.3334 15.4167L16.6667 17.0833" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M16.6667 2.91669L18.3334 4.58335L16.6667 6.25002" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M18.3333 4.58331H15.4167C12.4251 4.58331 10 7.00844 10 9.99998C10 12.9915 12.4251 15.4166 15.4167 15.4166H18.3333" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinecap="round"/>
                   <path d="M1.66675 15.4166H4.58341C7.57496 15.4166 10.0001 12.9915 10.0001 9.99998C10.0001 7.00844 7.57496 4.58331 4.58341 4.58331H1.66675" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinecap="round"/>
                 </svg>
-                <span className="text-[#A5A5A5] text-base font-['Inter'] font-normal">{t('generateTextarea.random')}</span>
+                <span className="text-[#A5A5A5] text-sm sm:text-base font-['Inter'] font-normal">{t('generateTextarea.random')}</span>
               </div>
               
               {/* Quantity Selector Dropdown */}
               <div className="relative" ref={quantityDropdownRef}>
-                <div 
-                  className="h-10 px-3 py-2 bg-[#26262D] rounded-lg flex items-center gap-2 cursor-pointer hover:bg-[#2A2A31] transition-colors"
+                <div
+                  className="h-10 px-2 sm:px-3 py-2 bg-[#26262D] rounded-lg flex items-center gap-1 sm:gap-2 cursor-pointer hover:bg-[#2A2A31] transition-colors min-w-0 flex-shrink-0"
                   onClick={() => setShowQuantityDropdown(!showQuantityDropdown)}
                 >
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
                     <path fillRule="evenodd" clipRule="evenodd" d="M2.08325 4.16665C2.08325 3.70641 2.45635 3.33331 2.91659 3.33331H17.0833C17.5435 3.33331 17.9166 3.70641 17.9166 4.16665V15.8333C17.9166 16.2936 17.5435 16.6666 17.0833 16.6666H2.91659C2.45635 16.6666 2.08325 16.2936 2.08325 15.8333V4.16665Z" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
                     <path fillRule="evenodd" clipRule="evenodd" d="M6.04175 7.5C6.38691 7.5 6.66675 7.22017 6.66675 6.875C6.66675 6.52983 6.38691 6.25 6.04175 6.25C5.69658 6.25 5.41675 6.52983 5.41675 6.875C5.41675 7.22017 5.69658 7.5 6.04175 7.5Z" fill="#A5A5A5" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round"/>
                     <path d="M6.24992 10L8.33325 11.6667L10.8333 8.75L17.9166 14.1667V15.8333C17.9166 16.2936 17.5435 16.6667 17.0833 16.6667H2.91659C2.45635 16.6667 2.08325 16.2936 2.08325 15.8333V14.1667L6.24992 10Z" stroke="#A5A5A5" strokeWidth="1.66667" strokeLinejoin="round"/>
                   </svg>
-                  <span className="text-[#A5A5A5] text-base font-['Inter'] font-normal">
+                  <span className="text-[#A5A5A5] text-sm sm:text-base font-['Inter'] font-normal truncate">
                     {selectedQuantity} {selectedQuantity > 1 ? t('generateTextarea.outputs') : t('generateTextarea.output')}
                   </span>
-                  <svg className={`w-4 h-4 transition-transform ${showQuantityDropdown ? 'rotate-180' : ''}`} fill="none" stroke="#A5A5A5" viewBox="0 0 24 24">
+                  <svg className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform ${showQuantityDropdown ? 'rotate-180' : ''} flex-shrink-0`} fill="none" stroke="#A5A5A5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
-                
+
                 {/* Dropdown Menu */}
                 {showQuantityDropdown && (
-                  <div className="absolute top-full left-0 mt-1 bg-[#26262D] rounded-lg border border-[#393B42] shadow-lg z-50 min-w-full">
-                    <div 
+                  <div className="absolute top-full left-0 mt-1 bg-[#26262D] rounded-lg border border-[#393B42] shadow-lg z-50 min-w-[120px] w-auto right-0 sm:right-auto sm:w-auto sm:min-w-full">
+                    <div
                       className="px-3 py-2 hover:bg-[#393B42] cursor-pointer transition-colors flex items-center gap-2"
                       onClick={() => {
                         setSelectedQuantity(1);
                         setShowQuantityDropdown(false);
                       }}
                     >
-                      <span className="text-[#A5A5A5] text-base">1 {t('generateTextarea.output')}</span>
+                      <span className="text-[#A5A5A5] text-sm sm:text-base whitespace-nowrap">1 {t('generateTextarea.output')}</span>
                     </div>
-                    <div 
+                    <div
                       className="px-3 py-2 hover:bg-[#393B42] cursor-pointer transition-colors flex items-center gap-2"
                       onClick={() => {
                         setSelectedQuantity(4);
                         setShowQuantityDropdown(false);
                       }}
                     >
-                      <span className="text-[#A5A5A5] text-base">4 {t('generateTextarea.outputs')}</span>
+                      <span className="text-[#A5A5A5] text-sm sm:text-base whitespace-nowrap">4 {t('generateTextarea.outputs')}</span>
                     </div>
                   </div>
                 )}
@@ -289,49 +289,49 @@ const GenerateTextarea = ({
               
               {/* Style Selector */}
               <div className="relative" ref={styleSelectorRef}>
-                <div 
-                  className="h-10 px-3 py-2 bg-[#26262D] rounded-lg flex items-center gap-2 cursor-pointer hover:bg-[#2A2A31] transition-colors"
+                <div
+                  className="h-10 px-2 sm:px-3 py-2 bg-[#26262D] rounded-lg flex items-center gap-1 sm:gap-2 cursor-pointer hover:bg-[#2A2A31] transition-colors min-w-0 flex-shrink-0 max-w-[120px] sm:max-w-none"
                   onClick={() => setShowStyleSelector(!showStyleSelector)}
                 >
                   {/* Style Icon */}
-                  <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0">
+                  <div className="w-4 h-4 sm:w-5 sm:h-5 rounded flex items-center justify-center flex-shrink-0">
                     {selectedStyle ? (
-                      <img 
-                        src={selectedStyle.imageUrl ? UrlUtils.ensureAbsoluteUrl(selectedStyle.imageUrl) : ''} 
-                        alt="Style" 
-                        className="w-5 h-5 object-cover rounded" 
+                      <img
+                        src={selectedStyle.imageUrl ? UrlUtils.ensureAbsoluteUrl(selectedStyle.imageUrl) : ''}
+                        alt="Style"
+                        className="w-4 h-4 sm:w-5 sm:h-5 object-cover rounded"
                       />
                     ) : (
-                      <img 
-                        src="/imgs/generate-textarea/style.svg" 
-                        alt="No Style" 
-                        className="w-4 h-4" 
+                      <img
+                        src="/imgs/generate-textarea/style.svg"
+                        alt="No Style"
+                        className="w-3 h-3 sm:w-4 sm:h-4"
                       />
                     )}
                   </div>
-                  
+
                   {/* Style Text */}
-                  <span className="text-[#A5A5A5] text-base font-['Inter'] font-normal whitespace-nowrap">
+                  <span className="text-[#A5A5A5] text-sm sm:text-base font-['Inter'] font-normal truncate min-w-0">
                     {selectedStyle ? getLocalizedText(selectedStyle.name, language) : t('generateTextarea.noStyle')}
                   </span>
-                  
+
                   {/* Arrow Icon */}
-                  <svg className={`w-4 h-4 transition-transform ${showStyleSelector ? 'rotate-180' : ''}`} fill="none" stroke="#A5A5A5" viewBox="0 0 24 24">
+                  <svg className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform ${showStyleSelector ? 'rotate-180' : ''} flex-shrink-0`} fill="none" stroke="#A5A5A5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
 
                 {/* Dropdown Menu */}
                 {showStyleSelector && (
-                  <div 
-                    className="absolute top-full left-0 mt-1 bg-[#26262D] rounded-lg border border-[#393B42] shadow-lg z-50 min-w-full w-48 max-h-60 overflow-y-auto overflow-x-hidden style-dropdown-scrollbar"
+                  <div
+                    className="absolute top-full left-0 mt-1 bg-[#26262D] rounded-lg border border-[#393B42] shadow-lg z-50 w-48 sm:w-48 max-h-60 overflow-y-auto overflow-x-hidden style-dropdown-scrollbar right-0 sm:right-auto"
                     style={{
                       scrollBehavior: 'smooth',
                       overscrollBehavior: 'contain'
                     }}
                   >
                     {/* No Style Option */}
-                    <div 
+                    <div
                       className="px-3 py-2 hover:bg-[#393B42] cursor-pointer transition-colors flex items-center gap-2"
                       onClick={() => {
                         setSelectedStyle(null);
@@ -341,19 +341,19 @@ const GenerateTextarea = ({
                         setShowStyleSelector(false);
                       }}
                     >
-                      <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0">
-                        <img 
-                          src="/imgs/generate-textarea/style.svg" 
-                          alt="No Style" 
-                          className="w-4 h-4" 
+                      <div className="w-4 h-4 sm:w-5 sm:h-5 rounded flex items-center justify-center flex-shrink-0">
+                        <img
+                          src="/imgs/generate-textarea/style.svg"
+                          alt="No Style"
+                          className="w-3 h-3 sm:w-4 sm:h-4"
                         />
                       </div>
-                      <span className="text-[#A5A5A5] text-base">{t('generateTextarea.noStyle')}</span>
+                      <span className="text-[#A5A5A5] text-sm sm:text-base truncate">{t('generateTextarea.noStyle')}</span>
                     </div>
-                    
+
                     {/* Style Options */}
                     {styles.map((style) => (
-                      <div 
+                      <div
                         key={style.id}
                         className="px-3 py-2 hover:bg-[#393B42] cursor-pointer transition-colors flex items-center gap-2"
                         onClick={() => {
@@ -364,22 +364,22 @@ const GenerateTextarea = ({
                           setShowStyleSelector(false);
                         }}
                       >
-                        <div className="w-5 h-5 bg-[#393B42] rounded flex items-center justify-center flex-shrink-0">
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 bg-[#393B42] rounded flex items-center justify-center flex-shrink-0">
                           {style.imageUrl ? (
-                            <img 
-                              src={style.imageUrl ? UrlUtils.ensureAbsoluteUrl(style.imageUrl) : ''} 
-                              alt={getLocalizedText(style.name, language)} 
-                              className="w-5 h-5 object-cover rounded" 
+                            <img
+                              src={style.imageUrl ? UrlUtils.ensureAbsoluteUrl(style.imageUrl) : ''}
+                              alt={getLocalizedText(style.name, language)}
+                              className="w-4 h-4 sm:w-5 sm:h-5 object-cover rounded"
                             />
                           ) : (
-                            <img 
-                              src="/imgs/generate-textarea/style.svg" 
-                              alt="Style" 
-                              className="w-4 h-4" 
+                            <img
+                              src="/imgs/generate-textarea/style.svg"
+                              alt="Style"
+                              className="w-3 h-3 sm:w-4 sm:h-4"
                             />
                           )}
                         </div>
-                        <span className="text-[#A5A5A5] text-base whitespace-nowrap">
+                        <span className="text-[#A5A5A5] text-sm sm:text-base truncate">
                           {getLocalizedText(style.name, language)}
                         </span>
                       </div>
@@ -390,56 +390,55 @@ const GenerateTextarea = ({
               
               {/* Color Selector Dropdown */}
               <div className="relative" ref={colorDropdownRef}>
-                <div 
-                  className="h-10 px-3 py-2 bg-[#26262D] rounded-lg flex items-center gap-2 cursor-pointer hover:bg-[#2A2A31] transition-colors"
+                <div
+                  className="h-10 px-2 sm:px-3 py-2 bg-[#26262D] rounded-lg flex items-center gap-1 sm:gap-2 cursor-pointer hover:bg-[#2A2A31] transition-colors min-w-0 flex-shrink-0"
                   onClick={() => setShowColorDropdown(!showColorDropdown)}
                 >
-                  <img 
-                    src="/imgs/generate-textarea/color.svg" 
-                    alt="Color" 
-                    className="w-[18px] h-[18px]" 
+                  <img
+                    src="/imgs/generate-textarea/color.svg"
+                    alt="Color"
+                    className="w-4 h-4 sm:w-[18px] sm:h-[18px] flex-shrink-0"
                   />
-                  <span className="text-[#A5A5A5] text-base font-['Inter'] font-normal whitespace-nowrap">
+                  <span className="text-[#A5A5A5] text-sm sm:text-base font-['Inter'] font-normal truncate">
                     {selectedColor ? t('generateTextarea.colorful') : t('generateTextarea.blackAndWhite')}
                   </span>
-                  <svg className={`w-4 h-4 transition-transform ${showColorDropdown ? 'rotate-180' : ''}`} fill="none" stroke="#A5A5A5" viewBox="0 0 24 24">
+                  <svg className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform ${showColorDropdown ? 'rotate-180' : ''} flex-shrink-0`} fill="none" stroke="#A5A5A5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                   </svg>
                 </div>
-                
+
                 {/* Dropdown Menu */}
                 {showColorDropdown && (
-                  <div className="absolute top-full left-0 mt-1 bg-[#26262D] rounded-lg border border-[#393B42] shadow-lg z-50 min-w-full">
-                    <div 
+                  <div className="absolute top-full right-0 mt-1 bg-[#26262D] rounded-lg border border-[#393B42] shadow-lg z-50 min-w-[100px] w-auto">
+                    <div
                       className="px-3 py-2 hover:bg-[#393B42] cursor-pointer transition-colors flex items-center gap-2"
                       onClick={() => {
                         setSelectedColor(true);
                         setShowColorDropdown(false);
                       }}
                     >
-                      <span className="text-[#A5A5A5] text-base">{t('generateTextarea.colorful')}</span>
+                      <span className="text-[#A5A5A5] text-sm sm:text-base whitespace-nowrap">{t('generateTextarea.colorful')}</span>
                     </div>
-                    <div 
+                    <div
                       className="px-3 py-2 hover:bg-[#393B42] cursor-pointer transition-colors flex items-center gap-2"
                       onClick={() => {
                         setSelectedColor(false);
                         setShowColorDropdown(false);
                       }}
                     >
-                      <span className="text-[#A5A5A5] text-base whitespace-nowrap">{t('generateTextarea.blackAndWhite')}</span>
+                      <span className="text-[#A5A5A5] text-sm sm:text-base whitespace-nowrap">{t('generateTextarea.blackAndWhite')}</span>
                     </div>
                   </div>
                 )}
               </div>
             </div>
 
-            {/* Options - Right side */}
-            <div className="flex items-center gap-3 flex-wrap">
+            {/* Options - Right side - Desktop only */}
+            <div className="hidden sm:flex items-center gap-3 flex-wrap w-auto justify-end">
               <BaseButton
                 variant="primary"
-                className="min-w-[120px]"
+                className="min-w-[100px] sm:min-w-[120px] text-sm sm:text-base"
                 height="h-10"
-                fontSize="text-base"
                 onClick={handleGenerateClick}
               >
                 {!showBorderGradient ? t('generateTextarea.create') : t('generateTextarea.generate')}
@@ -447,6 +446,18 @@ const GenerateTextarea = ({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile Button - Outside border */}
+      <div className="block sm:hidden mt-4">
+        <BaseButton
+          variant="primary"
+          className="w-full text-base"
+          height="h-12"
+          onClick={handleGenerateClick}
+        >
+          {!showBorderGradient ? t('generateTextarea.create') : t('generateTextarea.generate')}
+        </BaseButton>
       </div>
     </div>
   );

@@ -25,7 +25,7 @@ const TryNow: React.FC<TryNowProps> = ({
 
         <div className="w-full flex justify-center items-center px-4 sm:px-6 py-12 lg:py-16 relative z-10">
           <div className="w-full flex flex-col justify-start items-center gap-4 sm:gap-6">
-          <h2 className="text-center text-[#ECECEC] text-2xl sm:text-3xl md:text-4xl lg:text-[56px] font-bold leading-tight sm:leading-[1.25] lg:leading-[67.2px] px-4 sm:px-0 capitalize">
+          <h2 className="text-center text-[#ECECEC] text-3xl sm:text-3xl md:text-4xl lg:text-[56px] font-bold leading-tight sm:leading-[1.25] lg:leading-[67.2px] px-4 sm:px-0 capitalize">
             {title}
           </h2>
           

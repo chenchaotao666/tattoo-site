@@ -179,8 +179,8 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
                 <BaseButton
                   onClick={handleShowMoreClick}
                   variant="secondary"
-                  width="w-auto"
-                  height="h-[50px]"
+                  width="w-[235px]"
+                  height="h-[60px]"
                   className="backdrop-blur-sm bg-[rgba(3,4,20,0.20)] border-[#ECECEC]"
                   style={{
                     paddingLeft: '24px',
@@ -194,7 +194,8 @@ const CategoryGrid: React.FC<CategoryGridProps> = ({
                     color: '#ECECEC',
                     fontSize: '16px',
                     fontFamily: 'Roboto',
-                    fontWeight: 500
+                    fontWeight: 500,
+                    whiteSpace: 'nowrap'
                   }}
                 >
                   {t('categoryGrid.seeMore')}

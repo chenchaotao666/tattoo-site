@@ -27,7 +27,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ items, className = '' }) => {
   };
 
   return (
-    <div className="max-w-[1183px] mx-auto py-6 lg:pt-10 lg:pb-8">
+    <div className="max-w-[1183px] mx-auto py-6 lg:pt-10 lg:pb-8 px-4 lg:px-0">
       <nav className={`flex items-center gap-2 max-w-full md:overflow-x-auto md:scrollbar-hide flex-wrap md:flex-nowrap ${className}`}>
       {items.map((item, index) => (
         <Fragment key={index}>

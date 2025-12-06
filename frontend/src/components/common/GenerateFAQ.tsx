@@ -76,8 +76,8 @@ const GenerateFAQ: React.FC<GenerateFAQProps> = ({
   return (
     <div className={`w-full max-w-[970px] mx-auto px-4 pb-[5rem] ${className}`}>
       {/* Header */}
-      <div className="text-center mb-16">
-        <h2 className="text-5xl font-bold text-[#ECECEC]">
+      <div className="text-center mb-8 md:mb-16">
+        <h2 className="text-3xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-[56px] font-bold text-[#ECECEC]">
           {title || t('faq.title')}
         </h2>
       </div>

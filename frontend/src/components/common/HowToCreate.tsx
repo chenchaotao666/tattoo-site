@@ -13,85 +13,33 @@ interface HowToCreateProps {
 
 const HowToCreate: React.FC<HowToCreateProps> = ({ title, steps }) => {
   return (
-    <div style={{ width: '1170px', minHeight: '367px', position: 'relative', borderRadius: '16px' }}>
-      <h2 className="absolute w-full top-0 text-center text-[#ECECEC] text-[56px] font-inter font-bold capitalize break-words">
+    <div className="w-full max-w-7xl mx-auto px-4 py-8 md:py-16">
+      {/* Title */}
+      <h2 className="text-center text-[#ECECEC] text-3xl md:text-3xl lg:text-[56px] font-inter font-bold capitalize mb-8 md:mb-16 break-words">
         {title}
       </h2>
-      
-      <div style={{
-        display: 'flex',
-        gap: '21px',
-        marginTop: '148px',
-        height: 'auto'
-      }}>
+
+      {/* Steps Container */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-[21px]">
         {steps.map((step, index) => (
           <div
             key={index}
-            style={{
-              width: '376px',
-              padding: '36px',
-              background: 'var(--zinc-500, #19191F)',
-              borderRadius: '16px',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              alignItems: 'flex-start',
-              gap: '10px',
-              display: 'flex',
-              flex: '1'
-            }}
+            className="bg-[#19191F] rounded-2xl p-6 md:p-8 lg:p-9 flex flex-col gap-6"
           >
-          <div style={{
-            width: '304px',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'flex-start',
-            gap: '24px',
-            display: 'flex'
-          }}>
-            <div style={{
-              width: '304px',
-              flexDirection: 'column',
-              justifyContent: 'flex-start',
-              alignItems: 'flex-start',
-              gap: '8px',
-              display: 'flex'
-            }}>
-              <div style={{
-                alignSelf: 'stretch',
-                color: 'var(--white-400, #A5A5A5)',
-                fontSize: '16px',
-                fontFamily: 'Inter',
-                fontWeight: '400',
-                wordWrap: 'break-word'
-              }}>
-                {step.step}
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-2">
+                <div className="text-[#A5A5A5] text-sm md:text-base font-inter font-normal break-words">
+                  {step.step}
+                </div>
+                <h3 className="text-[#ECECEC] text-lg md:text-xl font-inter font-medium capitalize break-words leading-tight">
+                  {step.title}
+                </h3>
               </div>
-              <h3 style={{
-                alignSelf: 'stretch',
-                color: 'var(--white-200, #ECECEC)',
-                fontSize: '20px',
-                fontFamily: 'Inter',
-                fontWeight: '500',
-                textTransform: 'capitalize',
-                wordWrap: 'break-word',
-                whiteSpace: 'normal'
-              }}>
-                {step.title}
-              </h3>
-            </div>
-            <div style={{
-              alignSelf: 'stretch',
-              color: 'var(--white-400, #A5A5A5)',
-              fontSize: '16px',
-              fontFamily: 'Inter',
-              fontWeight: '400',
-              lineHeight: '24px',
-              wordWrap: 'break-word'
-            }}>
-              {step.description}
+              <div className="text-[#A5A5A5] text-sm md:text-base font-inter font-normal leading-6 break-words">
+                {step.description}
+              </div>
             </div>
           </div>
-        </div>
         ))}
       </div>
     </div>

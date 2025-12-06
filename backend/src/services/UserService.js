@@ -341,6 +341,133 @@ class UserService extends BaseService {
         }
     }
 
+    // 忘记密码 - 发送重置邮件
+    async forgotPassword(email, emailService) {
+        try {
+            if (!email) {
+                throw new Error('Email is required');
+            }
+
+            if (!emailService) {
+                throw new Error('Email service is required');
+            }
+
+            // 查找用户
+            const user = await this.model.findByEmail(email.trim());
+            if (!user) {
+                throw new Error('Email not registered');
+            }
+
+            // 生成重置token（包含过期时间）
+            const crypto = require('crypto');
+            const tokenPart = crypto.randomBytes(32).toString('hex');
+            const expiryTimestamp = Date.now() + 60 * 60 * 1000; // 1小时后过期
+            const resetToken = `${tokenPart}:${expiryTimestamp}`;
+
+            // 保存token到数据库
+            const tokenSaved = await this.model.setResetPasswordToken(email, resetToken);
+            if (!tokenSaved) {
+                throw new Error('Failed to generate reset token');
+            }
+
+            // 发送重置密码邮件（只发送token部分，不包含时间戳）
+            const emailResult = await emailService.sendPasswordResetEmail(email, tokenPart, user.username);
+
+            if (!emailResult.success) {
+                throw new Error('Failed to send reset email');
+            }
+
+            return {
+                success: true,
+                message: 'Password reset email sent successfully',
+                messageId: emailResult.messageId
+            };
+
+        } catch (error) {
+            console.error('Forgot password error:', error);
+            throw new Error(`Forgot password failed: ${error.message}`);
+        }
+    }
+
+    // 验证重置token
+    async validateResetToken(resetToken) {
+        try {
+            if (!resetToken) {
+                throw new Error('Reset token is required');
+            }
+
+            // 查找包含此token的用户
+            const query = `SELECT * FROM users WHERE resetPasswordToken LIKE ?`;
+            const [rows] = await this.model.db.execute(query, [`${resetToken}:%`]);
+
+            if (rows.length === 0) {
+                throw new Error('Invalid or expired reset token');
+            }
+
+            const user = rows[0];
+            const fullToken = user.resetPasswordToken;
+
+            // 验证token（使用User模型的方法）
+            const validUser = await this.model.findByResetToken(fullToken);
+            if (!validUser) {
+                throw new Error('Invalid or expired reset token');
+            }
+
+            return {
+                success: true,
+                userId: user.id,
+                email: user.email
+            };
+
+        } catch (error) {
+            console.error('Validate reset token error:', error);
+            throw new Error(`Token validation failed: ${error.message}`);
+        }
+    }
+
+    // 重置密码
+    async resetPassword(resetToken, newPassword) {
+        try {
+            if (!resetToken || !newPassword) {
+                throw new Error('Reset token and new password are required');
+            }
+
+            if (newPassword.length < 6) {
+                throw new Error('Password must be at least 6 characters long');
+            }
+
+            // 查找包含此token的用户
+            const query = `SELECT * FROM users WHERE resetPasswordToken LIKE ?`;
+            const [rows] = await this.model.db.execute(query, [`${resetToken}:%`]);
+
+            if (rows.length === 0) {
+                throw new Error('Invalid or expired reset token');
+            }
+
+            const fullToken = rows[0].resetPasswordToken;
+
+            // 哈希新密码
+            const bcrypt = require('bcrypt');
+            const saltRounds = 10;
+            const newPasswordHash = await bcrypt.hash(newPassword, saltRounds);
+
+            // 更新密码并清除token
+            const success = await this.model.resetPasswordWithToken(fullToken, newPasswordHash);
+            if (!success) {
+                throw new Error('Failed to reset password');
+            }
+
+            return {
+                success: true,
+                message: 'Password reset successfully'
+            };
+
+        } catch (error) {
+            console.error('Reset password error:', error);
+            throw new Error(`Password reset failed: ${error.message}`);
+        }
+    }
+
     // Google OAuth 登录
     async googleLogin(idToken) {
         const { OAuth2Client } = require('google-auth-library');

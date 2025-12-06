@@ -2,6 +2,7 @@ const express = require('express');
 const { createModels } = require('../models');
 const UserService = require('../services/UserService');
 const CreditService = require('../services/CreditService');
+const EmailService = require('../services/EmailService');
 const { validateBody, validateUUID } = require('./baseRoutes');
 const { generateTokens, authenticateToken } = require('../middleware/auth');
 
@@ -13,10 +14,100 @@ function createUserRoutes(app) {
     const models = createModels(db);
     const userService = new UserService(models.User, null, models.Recharge);
     const creditService = new CreditService(models.Recharge, userService, models.CreditUsageLog);
+    const emailService = new EmailService();
     // Update userService with creditService after creditService is created
     userService.creditService = creditService;
 
     // 特定路由（必须在参数化路由之前定义）
+
+    // POST /api/users/forgot-password - 发送重置密码邮件
+    router.post('/forgot-password', validateBody(['email']), async (req, res) => {
+        try {
+            const { email } = req.body;
+            const result = await userService.forgotPassword(email, emailService);
+            res.json(userService.formatResponse(true, result, 'Password reset email sent successfully'));
+        } catch (error) {
+            console.error('Forgot password error:', error);
+            let statusCode = 500;
+            let errorCode = null;
+
+            // 根据错误类型设置状态码和错误代码
+            if (error.message.includes('Email not registered')) {
+                statusCode = 404;
+                errorCode = '1004'; // 邮箱未注册
+            } else if (error.message.includes('Failed to send reset email')) {
+                statusCode = 500;
+                errorCode = '1018'; // 发送邮件失败
+            } else if (error.message.includes('Email is required')) {
+                statusCode = 400;
+                errorCode = '1003'; // 格式不正确
+            }
+
+            const response = userService.formatResponse(false, null, error.message);
+            if (errorCode) {
+                response.errorCode = errorCode;
+            }
+
+            res.status(statusCode).json(response);
+        }
+    });
+
+    // POST /api/users/validate-reset-token - 验证重置token
+    router.post('/validate-reset-token', validateBody(['token']), async (req, res) => {
+        try {
+            const { token } = req.body;
+            const result = await userService.validateResetToken(token);
+            res.json(userService.formatResponse(true, result, 'Reset token is valid'));
+        } catch (error) {
+            console.error('Validate reset token error:', error);
+            let statusCode = 400;
+            let errorCode = null;
+
+            if (error.message.includes('Invalid or expired')) {
+                errorCode = '1019'; // Token已过期
+            } else if (error.message.includes('Reset token is required')) {
+                errorCode = '1003'; // 格式不正确
+            }
+
+            const response = userService.formatResponse(false, null, error.message);
+            if (errorCode) {
+                response.errorCode = errorCode;
+            }
+
+            res.status(statusCode).json(response);
+        }
+    });
+
+    // POST /api/users/reset-password - 重置密码
+    router.post('/reset-password', validateBody(['token', 'password']), async (req, res) => {
+        try {
+            const { token, password } = req.body;
+            const result = await userService.resetPassword(token, password);
+            res.json(userService.formatResponse(true, result, 'Password reset successfully'));
+        } catch (error) {
+            console.error('Reset password error:', error);
+            let statusCode = 400;
+            let errorCode = null;
+
+            if (error.message.includes('Invalid or expired')) {
+                if (error.message.includes('expired')) {
+                    errorCode = '1019'; // Token已过期
+                } else {
+                    errorCode = '1020'; // Token无效
+                }
+            } else if (error.message.includes('Password must be at least')) {
+                statusCode = 400;
+                errorCode = '1003'; // 格式不正确
+            }
+
+            const response = userService.formatResponse(false, null, error.message);
+            if (errorCode) {
+                response.errorCode = errorCode;
+            }
+
+            res.status(statusCode).json(response);
+        }
+    });
 
     // POST /api/users/login - 用户登录
     router.post('/login', validateBody(['email', 'password']), async (req, res) => {

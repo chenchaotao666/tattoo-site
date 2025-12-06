@@ -45,7 +45,8 @@
     "generatedTattooAlt": "生成的纹身设计",
     "generatedAlt": "生成的图片",
     "generatedTattoo": "生成的纹身设计",
-    "downloadAll": "下载全部"
+    "downloadAll": "下载全部",
+    "download": "下载"
   },
   "generateSidebar": {
     "style": "风格",

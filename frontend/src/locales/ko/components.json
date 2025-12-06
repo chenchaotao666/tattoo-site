@@ -45,7 +45,8 @@
     "generatedTattooAlt": "생성된 타투 디자인",
     "generatedAlt": "생성된 이미지",
     "generatedTattoo": "생성된 타투 디자인",
-    "downloadAll": "모두 다운로드"
+    "downloadAll": "모두 다운로드",
+    "download": "다운로드"
   },
   "generateSidebar": {
     "style": "스타일",

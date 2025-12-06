@@ -107,6 +107,79 @@ class User extends BaseModel {
             throw new Error(`Find users by level failed: ${error.message}`);
         }
     }
+
+    // 根据重置密码token查找用户
+    async findByResetToken(resetToken) {
+        try {
+            const query = `SELECT * FROM ${this.tableName} WHERE resetPasswordToken = ?`;
+            const [rows] = await this.db.execute(query, [resetToken]);
+            if (rows.length === 0) {
+                return null;
+            }
+
+            const user = rows[0];
+            // 从token中解析过期时间（格式：token:timestamp）
+            const tokenParts = resetToken.split(':');
+            if (tokenParts.length !== 2) {
+                return null; // token格式错误
+            }
+
+            const expiryTimestamp = parseInt(tokenParts[1]);
+            const now = Date.now();
+
+            // 检查是否过期（1小时 = 3600000毫秒）
+            if (now > expiryTimestamp) {
+                return null; // token已过期
+            }
+
+            return user;
+        } catch (error) {
+            throw new Error(`Find user by reset token failed: ${error.message}`);
+        }
+    }
+
+    // 设置重置密码token
+    async setResetPasswordToken(email, resetToken) {
+        try {
+            const query = `UPDATE ${this.tableName} SET resetPasswordToken = ? WHERE email = ?`;
+            const [result] = await this.db.execute(query, [resetToken, email]);
+            return result.affectedRows > 0;
+        } catch (error) {
+            throw new Error(`Set reset password token failed: ${error.message}`);
+        }
+    }
+
+    // 清除重置密码token
+    async clearResetPasswordToken(userId) {
+        try {
+            const query = `UPDATE ${this.tableName} SET resetPasswordToken = NULL WHERE id = ?`;
+            const [result] = await this.db.execute(query, [userId]);
+            return result.affectedRows > 0;
+        } catch (error) {
+            throw new Error(`Clear reset password token failed: ${error.message}`);
+        }
+    }
+
+    // 通过重置token更新密码
+    async resetPasswordWithToken(resetToken, newPasswordHash) {
+        try {
+            // 先验证token是否有效且未过期
+            const user = await this.findByResetToken(resetToken);
+            if (!user) {
+                return false; // token无效或已过期
+            }
+
+            const query = `
+                UPDATE ${this.tableName}
+                SET passwordHash = ?, resetPasswordToken = NULL
+                WHERE id = ?
+            `;
+            const [result] = await this.db.execute(query, [newPasswordHash, user.id]);
+            return result.affectedRows > 0;
+        } catch (error) {
+            throw new Error(`Reset password with token failed: ${error.message}`);
+        }
+    }
 }
 
 module.exports = User;

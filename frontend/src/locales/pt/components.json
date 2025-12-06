@@ -45,7 +45,8 @@
     "generatedTattooAlt": "Design de tatuagem gerado",
     "generatedAlt": "Imagem gerada",
     "generatedTattoo": "Design de tatuagem gerado",
-    "downloadAll": "Baixar Tudo"
+    "downloadAll": "Baixar Tudo",
+    "download": "Baixar"
   },
   "generateSidebar": {
     "style": "Estilo",

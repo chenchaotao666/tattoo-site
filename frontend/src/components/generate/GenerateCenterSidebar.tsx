@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BaseImage } from '../../services/imageService';
 import GenerateExample from './GenerateExample';
 import GenerateProgress from './GenerateProgress';
-import { getImageContainerSize } from '../../utils/imageUtils';
+import { getImageContainerSize, getDisplayImages } from '../../utils/imageUtils';
 import { useAsyncTranslation, useLanguage } from '../../contexts/LanguageContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import MoreMenu from './MoreMenu';
@@ -286,7 +286,7 @@ const GenerateCenterSidebar: React.FC<GenerateCenterSidebarProps> = ({
       {/* 移动端横向历史图片 - 浮动在外层容器下方 */}
       {(() => {
         // 使用与 GenerateRightSidebar 相同的逻辑：过滤批次图片，只显示每批次的第一张
-        const currentImages = generatedImages;
+        const currentImages = getDisplayImages(generatedImages);
 
         return currentImages.length > 0 && (
           <div className="lg:hidden mt-4 px-4 sm:px-6">

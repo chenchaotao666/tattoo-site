@@ -45,7 +45,8 @@
     "generatedTattooAlt": "生成されたタトゥーデザイン",
     "generatedAlt": "生成された画像",
     "generatedTattoo": "生成されたタトゥーデザイン",
-    "downloadAll": "すべてダウンロード"
+    "downloadAll": "すべてダウンロード",
+    "download": "ダウンロード"
   },
   "generateSidebar": {
     "style": "スタイル",

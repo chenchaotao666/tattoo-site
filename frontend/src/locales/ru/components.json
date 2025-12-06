@@ -45,7 +45,8 @@
     "generatedTattooAlt": "Сгенерированный дизайн тату",
     "generatedAlt": "Сгенерированное изображение",
     "generatedTattoo": "Сгенерированный дизайн тату",
-    "downloadAll": "Скачать все"
+    "downloadAll": "Скачать все",
+    "download": "Скачать"
   },
   "generateSidebar": {
     "style": "Стиль",

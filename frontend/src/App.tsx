@@ -23,8 +23,10 @@ import CreemPaymentCallbackPage from './pages/CreemPaymentCallbackPage';
 import ScrollToTop from './components/common/ScrollToTop';
 import TopLoadingBar from './components/ui/TopLoadingBar';
 import Toast from './components/ui/Toast';
+import LoginModal from './components/auth/LoginModal';
 import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import { ToastProvider, useToast } from './contexts/ToastContext';
+import { LoginModalProvider, useLoginModal } from './contexts/LoginModalContext';
 import { LanguageSyncProvider } from './components/common/LanguageSyncProvider';
 import { AuthProvider } from './contexts/AuthContext';
 import { UploadImageProvider } from './contexts/UploadImageContext';
@@ -35,6 +37,7 @@ import { LoadingProvider } from './contexts/LoadingContext';
 function AppContent() {
   const { language } = useLanguage();
   const { toast, hideToast } = useToast();
+  const { isLoginModalOpen, modalView, resetToken, closeLoginModal } = useLoginModal();
 
   // 动态更新HTML lang属性，帮助Google按钮自动选择正确语言
   React.useEffect(() => {
@@ -290,6 +293,16 @@ function AppContent() {
         <Route path="/ru/payment/creem/callback" element={<CreemPaymentCallbackPage />} />
       </Routes>
       </LanguageSyncProvider>
+
+      {/* 全局登录模态框 */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={closeLoginModal}
+        onSuccess={closeLoginModal}
+        initialView={modalView}
+        resetToken={resetToken}
+      />
+
       <Toast
         message={toast.message}
         type={toast.type}
@@ -305,15 +318,17 @@ function App() {
   return (
     <LanguageProvider>
       <ToastProvider>
-        <LoadingProvider>
-          <AuthProvider>
-            <UploadImageProvider>
-              <CategoriesProvider>
-                <AppContent />
-              </CategoriesProvider>
-            </UploadImageProvider>
-          </AuthProvider>
-        </LoadingProvider>
+        <LoginModalProvider>
+          <LoadingProvider>
+            <AuthProvider>
+              <UploadImageProvider>
+                <CategoriesProvider>
+                  <AppContent />
+                </CategoriesProvider>
+              </UploadImageProvider>
+            </AuthProvider>
+          </LoadingProvider>
+        </LoginModalProvider>
       </ToastProvider>
     </LanguageProvider>
   );

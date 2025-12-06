@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useLoginModal } from '../contexts/LoginModalContext';
 import { useAsyncTranslation } from '../contexts/LanguageContext';
 import { ApiError } from '../utils/apiUtils';
 import GoogleLoginButton from '../components/common/GoogleLoginButton';
 import SEOHead from '../components/common/SEOHead';
 import PasswordInput from '../components/ui/PasswordInput';
-import { createLanguageAwarePath } from '../utils/navigationUtils';
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
+  const { openLoginModal } = useLoginModal();
   const { t: tForms } = useAsyncTranslation('forms');
   const { t: tErrors } = useAsyncTranslation('errors');
   const [formData, setFormData] = useState({
@@ -327,9 +328,13 @@ const RegisterPage: React.FC = () => {
               {/* 登录链接 */}
               <p className="text-sm font-light text-center text-gray-400">
                 {tForms('auth.hasAccount', '已经有账户？')}{' '}
-                <Link to={createLanguageAwarePath("/login")} className="font-medium text-blue-600 hover:underline">
+                <button
+                  type="button"
+                  onClick={() => openLoginModal()}
+                  className="font-medium text-blue-600 hover:underline"
+                >
                   {tForms('auth.loginHere', '点击这里登录')}
-                </Link>
+                </button>
               </p>
             </form>
           </div>

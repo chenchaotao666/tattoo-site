@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage, Language, useAsyncTranslation } from '../../contexts/LanguageContext';
+import { useLoginModal } from '../../contexts/LoginModalContext';
 import { generateLanguagePath } from '../common/LanguageRouter';
 import { Category } from '../../services/categoriesService';
 import CategoryMenus from './CategoryMenus';
@@ -26,6 +27,7 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
   const { user, isAuthenticated, isLoading, logout } = useAuth();
   const { language, setLanguage, t } = useLanguage();
   const { t: navT } = useAsyncTranslation('navigation');
+  const { openLoginModal } = useLoginModal();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -394,12 +396,12 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
             </div>
           ) : !isLoading ? (
             /* 未登录状态 - 显示登录按钮 */
-            <Link
-              to={createLocalizedLink("/login")}
+            <button
+              onClick={openLoginModal}
               className="inline-flex items-center px-4 py-1 border border-white text-sm font-medium rounded-md text-white hover:bg-gray-800 transition-colors duration-200"
             >
               {navT('menu.login', 'Login')}
-            </Link>
+            </button>
           ) : (
             /* 加载状态 - 只在有token但正在验证时显示 */
             <div className="flex items-center gap-4">
@@ -649,13 +651,15 @@ const Header: React.FC<HeaderProps> = ({ categories, categoriesLoading }) => {
               </>
             ) : (
               <div>
-                <Link
-                  to={createLocalizedLink("/login")}
-                  className="block px-3 py-3 text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200"
-                  onClick={handleMobileLinkClick}
+                <button
+                  onClick={() => {
+                    openLoginModal();
+                    setIsMobileMenuOpen(false); // 关闭移动菜单
+                  }}
+                  className="block w-full text-left px-3 py-3 text-sm text-gray-800 hover:bg-gray-100 transition-colors duration-200"
                 >
                   {navT('menu.login', 'Login')}
-                </Link>
+                </button>
               </div>
             )}
           </div>

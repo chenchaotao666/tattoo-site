@@ -7,6 +7,7 @@ import { navigateWithLanguage } from '../../utils/navigationUtils';
 interface GoogleLoginButtonProps {
   rememberMe?: boolean;
   onError?: (error: Error) => void;
+  onSuccess?: () => void;
 }
 
 // 将应用语言映射到Google支持的locale
@@ -89,9 +90,10 @@ const reloadGoogleScript = (locale: string): Promise<void> => {
   });
 };
 
-const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({ 
-  rememberMe = true, 
-  onError 
+const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
+  rememberMe = true,
+  onError,
+  onSuccess
 }) => {
   const { googleLogin } = useAuth();
   const { language } = useLanguage();
@@ -104,8 +106,13 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
     try {
       const token = response.credential;
       await googleLogin(token, rememberMe);
-      
-      // 登录成功，跳转到首页或之前的页面
+
+      // 登录成功，调用成功回调
+      if (onSuccess) {
+        onSuccess();
+      }
+
+      // 跳转到首页或之前的页面
       const redirectTo = location.state?.from?.pathname || '/';
       navigateWithLanguage(navigate, redirectTo, { replace: true });
     } catch (error) {

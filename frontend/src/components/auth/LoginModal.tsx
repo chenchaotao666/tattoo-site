@@ -401,6 +401,10 @@ const LoginModal: React.FC<LoginModalProps> = ({
         onError={(error) => {
           setErrors({ general: error.message || tErrors('auth.googleLoginFailed', 'Google登录失败') });
         }}
+        onSuccess={() => {
+          onSuccess?.();
+          onClose();
+        }}
       />
 
       <div className="flex items-center py-3 my-4 text-sm text-[#C8C8C8] before:flex-1 before:border-t before:border-[#393B42] before:me-6 after:flex-1 after:border-t after:border-[#393B42] after:ms-6">
@@ -544,6 +548,10 @@ const LoginModal: React.FC<LoginModalProps> = ({
           rememberMe={false}
           onError={(error) => {
             setErrors({ general: error.message || tErrors('auth.googleLoginFailed', 'Google登录失败') });
+          }}
+          onSuccess={() => {
+            onSuccess?.();
+            onClose();
           }}
         />
       </div>

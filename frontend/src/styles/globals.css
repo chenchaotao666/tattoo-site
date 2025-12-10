@@ -105,22 +105,3 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #6B7280;
 }
-
-/* Google Sign-In button styles */
-/* Force Google button to take full width */
-.google-login-container iframe,
-.google-login-container div[role="button"],
-.google-login-container .abcRioButton,
-.google-login-container [data-idomelements] {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-/* Ensure the Google button container takes full width */
-.google-login-container {
-  width: 100% !important;
-  display: flex !important;
-  justify-content: center !important;
-}

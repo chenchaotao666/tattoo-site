@@ -173,12 +173,10 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
         console.log('📋 Initializing Google Sign-In with options:', initializeOptions);
         window.google.accounts.id.initialize(initializeOptions);
 
-        // 渲染按钮 - 设置固定宽度确保占满容器
-        const containerWidth = buttonRef.current.offsetWidth || 350;
+        // 渲染按钮 - Google API 只支持像素宽度，不支持百分比
         const renderOptions = {
           theme: "outline" as const,
           size: "large" as const,
-          // width: containerWidth.toString(), // 设置宽度为容器宽度
           text: "signin_with" as const,
           shape: "rectangular" as const,
           locale: finalLocale,

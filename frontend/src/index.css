@@ -688,7 +688,7 @@ body.mobile-menu-open {
   margin: 0 !important;
 }
 
-.google-login-container .haAclf {
+.google-login-container iframe body .haAclf {
   display: block !important;
   padding: 2px 0 !important;
 }

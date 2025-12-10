@@ -29,9 +29,9 @@ interface GenerateTextareaProps {
   showDescriptionLabel?: boolean;
 }
 
-const GenerateTextarea = ({ 
-  onGenerate, 
-  className = "", 
+const GenerateTextarea = ({
+  onGenerate,
+  className = "",
   onStyleChange,
   showBorderGradient = true,
   showDescriptionLabel = true
@@ -83,7 +83,7 @@ const GenerateTextarea = ({
         enhance: true,
         visibility: 'private'
       };
-      
+
       // 导航到create页面，通过state传递数据
       navigateWithLanguage(navigate, '/create', { state: generateData });
     }

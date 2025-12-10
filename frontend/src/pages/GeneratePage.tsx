@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import useGeneratePage from '../hooks/useGeneratePage';
 import { useAuth } from '../contexts/AuthContext';
@@ -14,20 +13,17 @@ import PricingSection from '../components/price/PricingSection';
 import GenerateRightSidebar from '../components/generate/GenerateRightSidebar';
 import GenerateLeftSidebar from '../components/generate/GenerateLeftSidebar';
 import GenerateCenterSidebar from '../components/generate/GenerateCenterSidebar';
+import LoginModal from '../components/auth/LoginModal';
 
 import SEOHead from '../components/common/SEOHead';
 import { useAsyncTranslation, useLanguage } from '../contexts/LanguageContext';
-import { navigateWithLanguage } from '../utils/navigationUtils';
 
 const GeneratePage: React.FC = () => {
   // 获取语言和翻译函数
   const { language } = useLanguage();
   const { t } = useAsyncTranslation('generate');
 
-  
-  // 获取导航函数
-  const navigate = useNavigate();
-  
+
   // 获取用户认证状态和刷新函数
   const { user, isAuthenticated, isLoading, refreshUser } = useAuth();
   
@@ -45,6 +41,9 @@ const GeneratePage: React.FC = () => {
 
   // 控制定价弹窗的显示
   const [showPricingModal, setShowPricingModal] = React.useState(false);
+
+  // 控制登录弹窗的显示
+  const [showLoginModal, setShowLoginModal] = React.useState(false);
 
   // 处理弹窗显示时的滚动
   React.useEffect(() => {
@@ -425,7 +424,7 @@ const GeneratePage: React.FC = () => {
   const handleGenerate = async () => {
     // 1. 检查用户是否已登录
     if (!isAuthenticated) {
-      navigateWithLanguage(navigate, '/login');
+      setShowLoginModal(true);
       return;
     }
 
@@ -688,6 +687,17 @@ const GeneratePage: React.FC = () => {
         </div>
       </div>
     )}
+
+    {/* Login Modal */}
+    <LoginModal
+      isOpen={showLoginModal}
+      onClose={() => setShowLoginModal(false)}
+      onSuccess={() => {
+        setShowLoginModal(false);
+        // 登录成功后继续执行生成操作
+        handleGenerate();
+      }}
+    />
     </>
   );
 };

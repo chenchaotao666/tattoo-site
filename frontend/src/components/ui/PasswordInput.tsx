@@ -41,11 +41,11 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         placeholder={placeholder}
         autoComplete="off"
         data-lpignore="true"
-        className={`w-full px-3 py-3 pr-12 text-sm border rounded-lg focus:outline-none [&:-webkit-autofill]:!bg-[#131317] [&:-webkit-autofill]:!text-[#CCCCCC] [&:-webkit-autofill]:!border-[#666666] [&:-webkit-autofill:hover]:!bg-[#131317] [&:-webkit-autofill:focus]:!bg-[#131317] [&:-webkit-autofill:active]:!bg-[#131317] ${className}`}
+        className={`w-full px-3 py-3 pr-12 text-sm border rounded-lg focus:outline-none [&:-webkit-autofill]:!bg-[#26262D] [&:-webkit-autofill]:!text-[#ECECEC] [&:-webkit-autofill]:!border-[#393B42] [&:-webkit-autofill:hover]:!bg-[#26262D] [&:-webkit-autofill:focus]:!bg-[#26262D] [&:-webkit-autofill:active]:!bg-[#26262D] ${className}`}
         style={{
-          backgroundColor: '#131317',
-          borderColor: error ? '#98FF59' : '#666666',
-          color: '#CCCCCC'
+          backgroundColor: '#26262D',
+          borderColor: error ? '#98FF59' : '#393B42',
+          color: '#ECECEC'
         }}
       />
 
@@ -54,12 +54,12 @@ const PasswordInput: React.FC<PasswordInputProps> = ({
         type="button"
         onClick={togglePasswordVisibility}
         className="absolute right-3 top-1/2 transform -translate-y-1/2 focus:outline-none"
-        style={{color: '#666666'}}
+        style={{color: '#393B42'}}
         onMouseEnter={(e) => {
           e.currentTarget.style.color = '#98FF59';
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.color = '#666666';
+          e.currentTarget.style.color = '#393B42';
         }}
       >
         {showPassword ? (

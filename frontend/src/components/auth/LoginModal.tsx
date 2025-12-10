@@ -389,7 +389,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
         <h1 className="text-xl font-bold text-[#E6E6E6]">
           {tForms('auth.loginToYourAccount', '登录您的账号')}
         </h1>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-200 transition-colors">
+        <button onClick={onClose} className="text-[#C8C8C8] hover:text-[#ECECEC] transition-colors">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -403,7 +403,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
         }}
       />
 
-      <div className="flex items-center py-3 my-4 text-sm text-gray-400 before:flex-1 before:border-t before:border-gray-600 before:me-6 after:flex-1 after:border-t after:border-gray-600 after:ms-6">
+      <div className="flex items-center py-3 my-4 text-sm text-[#C8C8C8] before:flex-1 before:border-t before:border-[#393B42] before:me-6 after:flex-1 after:border-t after:border-[#393B42] after:ms-6">
         {tForms('auth.orDivider', '或使用')}
       </div>
 
@@ -437,9 +437,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
             onChange={handleLoginInputChange}
             className="w-full px-3 py-3 text-sm border rounded-lg focus:outline-none"
             style={{
-              backgroundColor: '#131317',
-              borderColor: errors.email ? '#98FF59' : '#666666',
-              color: '#CCCCCC'
+              backgroundColor: '#26262D',
+              borderColor: errors.email ? '#98FF59' : '#393B42',
+              color: '#ECECEC'
             }}
             placeholder={tForms('placeholders.email', '请输入邮箱')}
           />
@@ -475,25 +475,28 @@ const LoginModal: React.FC<LoginModalProps> = ({
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                className="w-4 h-4 bg-[#26262D] border-[#393B42] rounded text-[#98FF59] focus:ring-[#98FF59] focus:ring-2 focus:ring-opacity-50 accent-[#98FF59]"
+                style={{
+                  accentColor: '#98FF59'
+                }}
               />
               <span className="ml-2 text-sm text-[#E6E6E6]">{tForms('auth.rememberMe', '记住密码')}</span>
             </label>
           </div>
-          <button
+          {/* <button
             type="button"
             onClick={() => setCurrentView('forgotPassword')}
-            className="text-sm font-medium text-blue-600 hover:underline"
+            className="font-medium hover:underline" style={{color: '#98FF59'}}
           >
             {tForms('auth.forgotPassword', '忘记密码？')}
-          </button>
+          </button> */}
         </div>
 
         <div className="mb-6">
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full text-black bg-[#98FF59] hover:bg-[#B3FF7A] font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <div className="flex items-center justify-center">
@@ -508,12 +511,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
           </button>
         </div>
 
-        <p className="text-sm font-light text-center text-gray-400">
+        <p className="text-sm font-light text-center text-[#C8C8C8]">
           {tForms('auth.noAccount', '还没有账户？')}{' '}
           <button
             type="button"
             onClick={() => setCurrentView('register')}
-            className="font-medium text-blue-600 hover:underline"
+            className="font-medium hover:underline"
+            style={{color: '#98FF59'}}
           >
             {tForms('auth.registerButton', '注册')}
           </button>
@@ -528,21 +532,23 @@ const LoginModal: React.FC<LoginModalProps> = ({
         <h1 className="text-xl font-bold text-[#E6E6E6]">
           {tForms('auth.registerYourAccount', '注册您的账号')}
         </h1>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-200 transition-colors">
+        <button onClick={onClose} className="text-[#C8C8C8] hover:text-[#ECECEC] transition-colors">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>
 
-      <GoogleLoginButton
-        rememberMe={false}
-        onError={(error) => {
-          setErrors({ general: error.message || tErrors('auth.googleLoginFailed', 'Google登录失败') });
-        }}
-      />
+      <div className="google-login-container">
+        <GoogleLoginButton
+          rememberMe={false}
+          onError={(error) => {
+            setErrors({ general: error.message || tErrors('auth.googleLoginFailed', 'Google登录失败') });
+          }}
+        />
+      </div>
 
-      <div className="flex items-center py-3 my-2 text-sm text-gray-400 before:flex-1 before:border-t before:border-gray-600 before:me-6 after:flex-1 after:border-t after:border-gray-600 after:ms-6">
+      <div className="flex items-center py-3 my-2 text-sm text-[#C8C8C8] before:flex-1 before:border-t before:border-[#393B42] before:me-6 after:flex-1 after:border-t after:border-[#393B42] after:ms-6">
         {tForms('auth.orDivider', '或使用')}
       </div>
 
@@ -566,9 +572,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
             onChange={handleRegisterInputChange}
             className="w-full px-3 py-3 text-sm border rounded-lg focus:outline-none"
             style={{
-              backgroundColor: '#131317',
-              borderColor: errors.username ? '#98FF59' : '#666666',
-              color: '#CCCCCC'
+              backgroundColor: '#26262D',
+              borderColor: errors.username ? '#98FF59' : '#393B42',
+              color: '#ECECEC'
             }}
             placeholder={tForms('placeholders.username', '请输入用户名')}
           />
@@ -592,9 +598,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
             onChange={handleRegisterInputChange}
             className="w-full px-3 py-3 text-sm border rounded-lg focus:outline-none"
             style={{
-              backgroundColor: '#131317',
-              borderColor: errors.email ? '#98FF59' : '#666666',
-              color: '#CCCCCC'
+              backgroundColor: '#26262D',
+              borderColor: errors.email ? '#98FF59' : '#393B42',
+              color: '#ECECEC'
             }}
             placeholder={tForms('placeholders.email', '请输入邮箱')}
           />
@@ -649,7 +655,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full text-black bg-[#98FF59] hover:bg-[#B3FF7A] font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <div className="flex items-center justify-center">
@@ -664,12 +670,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
           </button>
         </div>
 
-        <p className="text-sm font-light text-center text-gray-400">
+        <p className="text-sm font-light text-center text-[#C8C8C8]">
           {tForms('auth.hasAccount', '已经有账户？')}{' '}
           <button
             type="button"
             onClick={() => setCurrentView('login')}
-            className="font-medium text-blue-600 hover:underline"
+            className="font-medium hover:underline"
+            style={{color: '#98FF59'}}
           >
             {tForms('auth.loginHere', '点击这里登录')}
           </button>
@@ -684,7 +691,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
         <h1 className="text-xl font-bold text-[#E6E6E6]">
           {tForms('auth.resetYourPassword', '重置密码')}
         </h1>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-200 transition-colors">
+        <button onClick={onClose} className="text-[#C8C8C8] hover:text-[#ECECEC] transition-colors">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -711,9 +718,9 @@ const LoginModal: React.FC<LoginModalProps> = ({
             onChange={handleForgotPasswordInputChange}
             className="w-full px-3 py-3 text-sm border rounded-lg focus:outline-none"
             style={{
-              backgroundColor: '#131317',
-              borderColor: errors.email ? '#98FF59' : '#666666',
-              color: '#CCCCCC'
+              backgroundColor: '#26262D',
+              borderColor: errors.email ? '#98FF59' : '#393B42',
+              color: '#ECECEC'
             }}
             placeholder={tForms('placeholders.emailAddress', '请输入您的邮箱地址')}
           />
@@ -728,7 +735,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full text-black bg-[#98FF59] hover:bg-[#B3FF7A] font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <div className="flex items-center justify-center">
@@ -743,12 +750,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
           </button>
         </div>
 
-        <p className="text-sm font-light text-center text-gray-400">
+        <p className="text-sm font-light text-center text-[#C8C8C8]">
           {tForms('auth.rememberPassword', '记住密码？')}{' '}
           <button
             type="button"
             onClick={() => setCurrentView('login')}
-            className="font-medium text-blue-600 hover:underline"
+            className="font-medium hover:underline"
+            style={{color: '#98FF59'}}
           >
             {tForms('auth.backToLogin', '返回登录')}
           </button>
@@ -763,7 +771,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
         <h1 className="text-xl font-bold text-[#E6E6E6]">
           {tForms('auth.emailSent', '邮件已发送')}
         </h1>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-200 transition-colors">
+        <button onClick={onClose} className="text-[#C8C8C8] hover:text-[#ECECEC] transition-colors">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -776,20 +784,20 @@ const LoginModal: React.FC<LoginModalProps> = ({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
           </svg>
         </div>
-        <p className="mb-4 text-sm text-gray-400">
+        <p className="mb-4 text-sm text-[#C8C8C8]">
           {tForms('auth.resetEmailSentTo', '重置密码的邮件已发送到：')}
         </p>
-        <p className="mb-6 text-sm font-medium text-blue-600">
+        <p className="mb-6 text-sm font-medium text-lime-300">
           {sentEmail}
         </p>
-        <p className="mb-8 text-sm text-gray-400">
+        <p className="mb-8 text-sm text-[#C8C8C8]">
           {tForms('auth.checkEmailInstructions', '请检查您的邮箱并点击邮件中的链接来重置密码。')}
         </p>
 
         <div className="mb-6">
           <button
             onClick={() => setCurrentView('login')}
-            className="w-full inline-flex justify-center text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            className="w-full inline-flex justify-center text-black bg-[#98FF59] hover:bg-[#B3FF7A] focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           >
             {tForms('auth.backToLogin', '返回登录')}
           </button>
@@ -824,7 +832,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             <h1 className="text-xl font-bold text-[#E6E6E6]">
               {tForms('auth.linkInvalid', '链接无效')}
             </h1>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-200 transition-colors">
+            <button onClick={onClose} className="text-[#C8C8C8] hover:text-[#ECECEC] transition-colors">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -832,14 +840,14 @@ const LoginModal: React.FC<LoginModalProps> = ({
           </div>
 
           <div className="text-center">
-            <p className="mb-8 text-sm text-gray-400">
+            <p className="mb-8 text-sm text-[#C8C8C8]">
               {tForms('auth.linkInvalidDesc', '此重置链接已过期或无效，请重新申请')}
             </p>
 
             <div className="mb-6">
               <button
                 onClick={() => setCurrentView('forgotPassword')}
-                className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="w-full text-black bg-[#98FF59] hover:bg-[#B3FF7A] focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 {tForms('auth.requestNewReset', '重新申请重置')}
               </button>
@@ -847,7 +855,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
 
             <button
               onClick={() => setCurrentView('login')}
-              className="text-sm font-medium text-blue-600 hover:underline"
+              className="text-sm font-medium text-lime-300 hover:underline"
             >
               {tForms('auth.backToLogin', '返回登录')}
             </button>
@@ -862,14 +870,14 @@ const LoginModal: React.FC<LoginModalProps> = ({
           <h1 className="text-xl font-bold text-[#E6E6E6]">
             {tForms('auth.resetPasswordTitle', '重置密码')}
           </h1>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-200 transition-colors">
+          <button onClick={onClose} className="text-[#C8C8C8] hover:text-[#ECECEC] transition-colors">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <p className="mb-8 text-sm text-gray-400">
+        <p className="mb-8 text-sm text-[#C8C8C8]">
           {tForms('auth.resetPasswordDesc', '请输入您的新密码')}
         </p>
 
@@ -924,11 +932,11 @@ const LoginModal: React.FC<LoginModalProps> = ({
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full text-black bg-[#98FF59] hover:bg-[#B3FF7A] focus:ring-4 focus:outline-none focus:ring-lime-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
@@ -939,12 +947,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
             </button>
           </div>
 
-          <p className="text-sm font-light text-center text-gray-400">
+          <p className="text-sm font-light text-center text-[#C8C8C8]">
             {tForms('auth.rememberPassword', '记住密码？')}{' '}
             <button
               type="button"
               onClick={() => setCurrentView('login')}
-              className="font-medium text-blue-600 hover:underline"
+              className="font-medium hover:underline"
+            style={{color: '#98FF59'}}
             >
               {tForms('auth.backToLogin', '返回登录')}
             </button>
@@ -960,7 +969,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
         <h1 className="text-xl font-bold text-[#E6E6E6]">
           {tForms('auth.resetSuccess', '重置成功')}
         </h1>
-        <button onClick={onClose} className="text-gray-400 hover:text-gray-200 transition-colors">
+        <button onClick={onClose} className="text-[#C8C8C8] hover:text-[#ECECEC] transition-colors">
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -973,7 +982,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <p className="mb-8 text-sm text-gray-400">
+        <p className="mb-8 text-sm text-[#C8C8C8]">
           {tForms('auth.resetSuccessDesc', '您的密码已成功重置，现在可以使用新密码登录')}
         </p>
 
@@ -1000,7 +1009,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
         onClick={onClose}
       >
         <div
-          className={`bg-[#161622] border border-gray-700 rounded-lg shadow-xl w-full max-w-md max-h-[80vh] overflow-y-auto transition-all duration-200 ease-out ${
+          className={`bg-[#26262D] border border-[#393B42] rounded-lg shadow-xl w-full max-w-md max-h-[80vh] overflow-y-auto transition-all duration-200 ease-out ${
             isOpen && isAnimating
               ? 'opacity-100 scale-100 translate-y-0'
               : 'opacity-0 scale-95 -translate-y-4'

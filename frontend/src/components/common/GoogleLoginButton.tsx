@@ -165,11 +165,11 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
         console.log('📋 Initializing Google Sign-In with options:', initializeOptions);
         window.google.accounts.id.initialize(initializeOptions);
 
-        // 渲染按钮
-        const renderOptions = { 
-          theme: "outline" as const, 
+        // 渲染按钮 - Google API 只支持像素宽度，不支持百分比
+        const renderOptions = {
+          theme: "outline" as const,
           size: "large" as const,
-          width: "400",
+          // width: "350", // 必须是数字字符串，不能是百分比
           text: "signin_with" as const,
           shape: "rectangular" as const,
           locale: finalLocale,
@@ -188,15 +188,15 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
 
     // 延迟执行，确保DOM准备就绪
     const timer = setTimeout(initializeGoogleButton, 500);
-    
+
     return () => clearTimeout(timer);
-  }, [language]); // 依赖语言变化，重新渲染按钮
+  }, [language]); // 只依赖语言变化
 
   return (
-    <div className="w-full relative" style={{ minHeight: '44px' }}>
-      <div 
-        ref={buttonRef} 
-        className={`w-full flex justify-center transition-opacity duration-200 ${
+    <div className="w-full relative overflow-hidden" style={{ minHeight: '44px' }}>
+      <div
+        ref={buttonRef}
+        className={`w-full justify-center transition-opacity duration-200 ${
           isGoogleLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       ></div>

@@ -21,7 +21,8 @@
     "emailSent": "E-Mail gesendet",
     "resetEmailSentTo": "Eine Passwort-Reset-E-Mail wurde gesendet an:",
     "checkEmailInstructions": "Bitte überprüfen Sie Ihre E-Mails und klicken Sie auf den Link, um Ihr Passwort zurückzusetzen.",
-    "resendEmail": "E-Mail erneut senden"
+    "resendEmail": "E-Mail erneut senden",
+    "loadingGoogle": "Google-Anmeldung wird geladen..."
   },
   "fields": {
     "username": "Benutzername",

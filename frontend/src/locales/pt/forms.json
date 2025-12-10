@@ -21,7 +21,8 @@
     "emailSent": "Email enviado",
     "resetEmailSentTo": "Um email de redefinição de senha foi enviado para:",
     "checkEmailInstructions": "Verifique seu email e clique no link para redefinir sua senha.",
-    "resendEmail": "Reenviar email"
+    "resendEmail": "Reenviar email",
+    "loadingGoogle": "Carregando login do Google..."
   },
   "fields": {
     "username": "Nome de usuário",

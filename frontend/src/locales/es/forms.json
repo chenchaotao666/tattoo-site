@@ -21,7 +21,8 @@
     "emailSent": "Email enviado",
     "resetEmailSentTo": "Se ha enviado un email de restablecimiento de contraseña a:",
     "checkEmailInstructions": "Por favor revisa tu email y haz clic en el enlace para restablecer tu contraseña.",
-    "resendEmail": "Reenviar email"
+    "resendEmail": "Reenviar email",
+    "loadingGoogle": "Cargando inicio de sesión de Google..."
   },
   "fields": {
     "username": "Nombre de usuario",

@@ -21,7 +21,8 @@
     "emailSent": "Email envoyé",
     "resetEmailSentTo": "Un email de réinitialisation de mot de passe a été envoyé à :",
     "checkEmailInstructions": "Veuillez vérifier votre email et cliquer sur le lien pour réinitialiser votre mot de passe.",
-    "resendEmail": "Renvoyer l'email"
+    "resendEmail": "Renvoyer l'email",
+    "loadingGoogle": "Chargement de la connexion Google..."
   },
   "fields": {
     "username": "Nom d'utilisateur",

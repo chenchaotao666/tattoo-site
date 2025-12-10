@@ -21,7 +21,8 @@
     "emailSent": "이메일 전송됨",
     "resetEmailSentTo": "비밀번호 재설정 이메일이 전송되었습니다:",
     "checkEmailInstructions": "이메일을 확인하고 링크를 클릭하여 비밀번호를 재설정해주세요.",
-    "resendEmail": "이메일 다시 보내기"
+    "resendEmail": "이메일 다시 보내기",
+    "loadingGoogle": "Google 로그인 로딩 중..."
   },
   "fields": {
     "username": "사용자명",

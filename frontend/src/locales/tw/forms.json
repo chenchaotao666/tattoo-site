@@ -21,7 +21,8 @@
     "emailSent": "郵件已發送",
     "resetEmailSentTo": "密碼重設郵件已發送至：",
     "checkEmailInstructions": "請檢查您的郵件並點擊連結重設密碼。",
-    "resendEmail": "重新發送郵件"
+    "resendEmail": "重新發送郵件",
+    "loadingGoogle": "正在載入Google登入..."
   },
   "fields": {
     "username": "使用者名稱",

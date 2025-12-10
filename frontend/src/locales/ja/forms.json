@@ -21,7 +21,8 @@
     "emailSent": "メール送信完了",
     "resetEmailSentTo": "パスワードリセットメールを以下に送信しました：",
     "checkEmailInstructions": "メールをご確認いただき、リンクをクリックしてパスワードをリセットしてください。",
-    "resendEmail": "メールを再送信"
+    "resendEmail": "メールを再送信",
+    "loadingGoogle": "Googleログインを読み込み中..."
   },
   "fields": {
     "username": "ユーザー名",

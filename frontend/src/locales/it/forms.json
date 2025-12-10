@@ -21,7 +21,8 @@
     "emailSent": "Email inviata",
     "resetEmailSentTo": "Un'email di reimpostazione password è stata inviata a:",
     "checkEmailInstructions": "Controlla la tua email e clicca sul link per reimpostare la password.",
-    "resendEmail": "Invia di nuovo email"
+    "resendEmail": "Invia di nuovo email",
+    "loadingGoogle": "Caricamento accesso Google..."
   },
   "fields": {
     "username": "Nome utente",

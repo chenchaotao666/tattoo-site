@@ -21,7 +21,8 @@
     "emailSent": "邮件已发送",
     "resetEmailSentTo": "重置密码的邮件已发送到：",
     "checkEmailInstructions": "请检查您的邮箱并点击邮件中的链接来重置密码。",
-    "resendEmail": "重新发送邮件"
+    "resendEmail": "重新发送邮件",
+    "loadingGoogle": "正在加载Google登录..."
   },
   "fields": {
     "username": "用户名",

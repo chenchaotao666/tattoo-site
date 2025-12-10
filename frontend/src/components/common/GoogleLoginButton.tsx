@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage, useAsyncTranslation } from '../../contexts/LanguageContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 
@@ -97,6 +97,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
 }) => {
   const { googleLogin } = useAuth();
   const { language } = useLanguage();
+  const { t } = useAsyncTranslation('forms');
   const navigate = useNavigate();
   const location = useLocation();
   const buttonRef = useRef<HTMLDivElement>(null);
@@ -172,11 +173,12 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
         console.log('📋 Initializing Google Sign-In with options:', initializeOptions);
         window.google.accounts.id.initialize(initializeOptions);
 
-        // 渲染按钮 - Google API 只支持像素宽度，不支持百分比
+        // 渲染按钮 - 设置固定宽度确保占满容器
+        const containerWidth = buttonRef.current.offsetWidth || 350;
         const renderOptions = {
           theme: "outline" as const,
           size: "large" as const,
-          // width: "350", // 必须是数字字符串，不能是百分比
+          // width: containerWidth.toString(), // 设置宽度为容器宽度
           text: "signin_with" as const,
           shape: "rectangular" as const,
           locale: finalLocale,
@@ -200,19 +202,22 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
   }, [language]); // 只依赖语言变化
 
   return (
-    <div className="w-full relative overflow-hidden" style={{ minHeight: '44px' }}>
+    <div className="w-full relative overflow-hidden google-login-container" style={{ minHeight: '44px' }}>
       <div
         ref={buttonRef}
         className={`w-full justify-center transition-opacity duration-200 ${
           isGoogleLoaded ? 'opacity-100' : 'opacity-0'
         }`}
+        style={{
+          minWidth: '100%'
+        }}
       ></div>
       
       {/* 加载状态 - 使用绝对定位避免抖动 */}
       {!isGoogleLoaded && (
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center text-gray-500 text-sm">
-            正在加载Google登录...
+            {t('auth.loadingGoogle', '正在加载Google登录...')}
           </div>
         </div>
       )}

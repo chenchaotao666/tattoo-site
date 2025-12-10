@@ -21,7 +21,8 @@
     "emailSent": "Email Sent",
     "resetEmailSentTo": "A password reset email has been sent to:",
     "checkEmailInstructions": "Please check your email and click the link to reset your password.",
-    "resendEmail": "Resend email"
+    "resendEmail": "Resend email",
+    "loadingGoogle": "Loading Google login..."
   },
   "fields": {
     "username": "Username",

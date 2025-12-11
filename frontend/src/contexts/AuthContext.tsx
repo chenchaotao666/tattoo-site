@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { UserService, User } from '../services/userService';
 import { tokenRefreshService } from '../services/tokenRefreshService';
-import { redirectToHomeIfNeeded, createLanguageAwarePath } from '../utils/navigationUtils';
+import { redirectToHomeIfNeeded, createLanguageAwarePath, navigateWithLanguage } from '../utils/navigationUtils';
+import WelcomeModal from '../components/auth/WelcomeModal';
 
 interface AuthContextType {
   user: User | null;
@@ -31,6 +32,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   });
   // 单独维护认证状态，基于token存在而不是用户数据存在
   const [isAuthenticated, setIsAuthenticated] = useState(() => UserService.isLoggedIn());
+  // 添加首次登录欢迎弹窗状态
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
 
   // 检查用户是否已登录
   useEffect(() => {
@@ -115,32 +118,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const login = async (email: string, password: string, rememberMe: boolean = true) => {
-    await UserService.login({ email, password }, rememberMe);
+    const loginResponse = await UserService.login({ email, password }, rememberMe);
     // 登录成功后立即设置认证状态
     setIsAuthenticated(true);
-    
+
     // 登录成功后获取用户信息
     const userData = await UserService.getCurrentUser();
     setUser(userData);
-    
+
     // 登录成功后启动token自动刷新服务
     if (userData) {
       tokenRefreshService.start();
     }
+
+    // 检查是否是首次登录
+    // if (loginResponse.isFirstLogin) {
+      setShowWelcomeModal(true);
+    // }
   };
 
   const googleLogin = async (token: string, rememberMe: boolean = true) => {
-    await UserService.googleLogin(token, rememberMe);
+    const loginResponse = await UserService.googleLogin(token, rememberMe);
     // 登录成功后立即设置认证状态
     setIsAuthenticated(true);
-    
+
     // 登录成功后获取用户信息，与普通登录保持一致
     const userData = await UserService.getCurrentUser();
     setUser(userData);
-    
+
     // 登录成功后启动token自动刷新服务
     if (userData) {
       tokenRefreshService.start();
+    }
+
+    // 检查是否是首次登录
+    if (loginResponse.isFirstLogin) {
+      setShowWelcomeModal(true);
     }
   };
 
@@ -226,6 +239,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   return (
     <AuthContext.Provider value={value}>
       {children}
+      {/* 首次登录欢迎弹窗 */}
+      <WelcomeModal
+        isOpen={showWelcomeModal}
+        onClose={() => setShowWelcomeModal(false)}
+        onTryNow={() => {
+          // 创建一个模拟的 navigate 函数用于 navigateWithLanguage
+          const mockNavigate = (fullPath: string, options?: any) => {
+            if (options?.state) {
+              // 如果有 state 数据，暂时存储在 sessionStorage 中
+              sessionStorage.setItem('generateData', JSON.stringify(options.state));
+            }
+            window.location.href = fullPath;
+          };
+
+          // 使用 navigateWithLanguage 进行导航
+          navigateWithLanguage(mockNavigate, '/create');
+        }}
+        username={user?.username}
+      />
     </AuthContext.Provider>
   );
 };

@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage, useAsyncTranslation } from '../../contexts/LanguageContext';
+import { useAuth } from '../../contexts/AuthContext';
 import { getLocalizedText } from '../../utils/textUtils';
 import { navigateWithLanguage } from '../../utils/navigationUtils';
 import { UrlUtils } from '../../utils/urlUtils';
 import { Style } from '../../hooks/useGeneratePage';
 import { colors } from '../../styles/colors';
 import BaseButton from '../ui/BaseButton';
+import LoginModal from '../auth/LoginModal';
 
 // Fallback colors in case import fails
 const fallbackColors = {
@@ -44,8 +46,10 @@ const GenerateTextarea = ({
   const [showStyleSelector, setShowStyleSelector] = useState(false);
   const [styles, setStyles] = useState<Style[]>([]);
   const [selectedStyle, setSelectedStyle] = useState<Style | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
   const { language } = useLanguage();
   const { t } = useAsyncTranslation('components');
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   
   const quantityDropdownRef = useRef<HTMLDivElement>(null);
@@ -71,6 +75,12 @@ const GenerateTextarea = ({
   `;
 
   const handleGenerateClick = () => {
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      setShowLoginModal(true);
+      return;
+    }
+
     if (onGenerate) {
       onGenerate();
     } else {
@@ -459,6 +469,17 @@ const GenerateTextarea = ({
           {!showBorderGradient ? t('generateTextarea.create') : t('generateTextarea.generate')}
         </BaseButton>
       </div>
+
+      {/* Login Modal */}
+      <LoginModal
+        isOpen={showLoginModal}
+        onClose={() => setShowLoginModal(false)}
+        onSuccess={() => {
+          setShowLoginModal(false);
+          // After successful login, retry the generate click
+          handleGenerateClick();
+        }}
+      />
     </div>
   );
 };

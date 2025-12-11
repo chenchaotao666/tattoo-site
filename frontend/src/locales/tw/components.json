@@ -97,5 +97,11 @@
   "categoryMenus": {
     "inspirationText": "{count}個設計，提供無盡的紋身靈感",
     "viewAll": "查看全部"
+  },
+  "welcome": {
+    "getCredit": "獲得積分",
+    "description": "新用戶首次登入可獲得2個積分，快來試試我們的AI工具吧。",
+    "creditUsage": "1積分 = 1張AI紋身圖片",
+    "tryNow": "立即試用"
   }
 }

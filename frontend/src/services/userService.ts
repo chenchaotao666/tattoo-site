@@ -33,6 +33,7 @@ export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
   expiresIn: string;
+  isFirstLogin?: boolean;  // 添加首次登录标识
 }
 
 // 用户信息更新请求
@@ -106,7 +107,7 @@ export class UserService {
    */
   static async login(data: LoginRequest, rememberMe: boolean = true): Promise<LoginResponse> {
     try {
-      const loginData = await ApiUtils.post<{user: User, accessToken: string, refreshToken: string, expiresIn: string}>('/api/users/login', data);
+      const loginData = await ApiUtils.post<{user: User, accessToken: string, refreshToken: string, expiresIn: string, isFirstLogin?: boolean}>('/api/users/login', data);
 
       // 保存令牌，根据rememberMe决定存储方式
       ApiUtils.setTokens({
@@ -114,12 +115,13 @@ export class UserService {
         refreshToken: loginData.refreshToken,
         expiresIn: loginData.expiresIn,
       }, rememberMe);
-      
+
       return {
         user: loginData.user,
         accessToken: loginData.accessToken,
         refreshToken: loginData.refreshToken,
-        expiresIn: loginData.expiresIn
+        expiresIn: loginData.expiresIn,
+        isFirstLogin: loginData.isFirstLogin
       };
     } catch (error) {
       if (error instanceof ApiError) {
@@ -134,22 +136,23 @@ export class UserService {
    */
   static async googleLogin(token: string, rememberMe: boolean = true): Promise<LoginResponse> {
     try {
-      const loginData = await ApiUtils.post<{user: User, accessToken: string, refreshToken: string, expiresIn: string}>('/api/users/auth/google', { token });
+      const loginData = await ApiUtils.post<{user: User, accessToken: string, refreshToken: string, expiresIn: string, isFirstLogin?: boolean}>('/api/users/auth/google', { token });
 
       console.log('Google loginData: ', loginData);
-      
+
       // 保存令牌，根据rememberMe决定存储方式
       ApiUtils.setTokens({
         accessToken: loginData.accessToken,
         refreshToken: loginData.refreshToken,
         expiresIn: loginData.expiresIn,
       }, rememberMe);
-   
+
       return {
         user: loginData.user,
         accessToken: loginData.accessToken,
         refreshToken: loginData.refreshToken,
-        expiresIn: loginData.expiresIn
+        expiresIn: loginData.expiresIn,
+        isFirstLogin: loginData.isFirstLogin
       };
     } catch (error) {
       if (error instanceof ApiError) {

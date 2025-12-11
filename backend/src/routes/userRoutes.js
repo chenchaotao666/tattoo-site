@@ -122,7 +122,8 @@ function createUserRoutes(app) {
                 user: user,
                 accessToken: accessToken,
                 refreshToken: refreshToken,
-                expiresIn: '7d'
+                expiresIn: '7d',
+                isFirstLogin: user.isFirstLogin
             };
 
             res.json(userService.formatResponse(true, loginResponse, 'Login successful'));

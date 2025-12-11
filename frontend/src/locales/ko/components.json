@@ -98,5 +98,11 @@
   "categoryMenus": {
     "inspirationText": "무한한 타투 영감을 위한 {count} 개의 디자인",
     "viewAll": "모두 보기"
+  },
+  "welcome": {
+    "getCredit": "크레딧 받기",
+    "description": "신규 사용자는 첫 로그인 시 2크레딧을 받습니다. AI 도구를 사용해 보세요.",
+    "creditUsage": "1크레딧 = AI 타투 이미지 1장",
+    "tryNow": "지금 시도"
   }
 }

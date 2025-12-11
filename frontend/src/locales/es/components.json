@@ -98,5 +98,11 @@
   "categoryMenus": {
     "inspirationText": "{count} diseños para inspiración infinita de tatuajes",
     "viewAll": "Ver Todo"
+  },
+  "welcome": {
+    "getCredit": "Obtener Créditos",
+    "description": "Los nuevos usuarios reciben 2 créditos en su primer inicio de sesión, así que prueba nuestras herramientas de IA.",
+    "creditUsage": "1 crédito = 1 imagen de tatuaje con IA",
+    "tryNow": "Probar Ahora"
   }
 }

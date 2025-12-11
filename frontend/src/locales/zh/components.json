@@ -98,5 +98,11 @@
   "categoryMenus": {
     "inspirationText": "{count} 个设计，为您提供无限纹身灵感",
     "viewAll": "查看全部"
+  },
+  "welcome": {
+    "getCredit": "获得积分",
+    "description": "新用户首次登录可获得2个积分，快来试试我们的AI工具吧。",
+    "creditUsage": "1积分 = 1张AI纹身图片",
+    "tryNow": "立即试用"
   }
 }

@@ -98,5 +98,11 @@
   "categoryMenus": {
     "inspirationText": "{count} designs for endless tattoo inspiration",
     "viewAll": "View All"
+  },
+  "welcome": {
+    "getCredit": "Get Credit",
+    "description": "New users receive 2 credits upon their first login, so go ahead and try out our AI tools.",
+    "creditUsage": "1 credit = 1 AI tattoo image",
+    "tryNow": "Try Now"
   }
 }

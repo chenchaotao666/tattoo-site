@@ -98,5 +98,11 @@
   "categoryMenus": {
     "inspirationText": "{count} Designs für endlose Tattoo-Inspiration",
     "viewAll": "Alle anzeigen"
+  },
+  "welcome": {
+    "getCredit": "Credits erhalten",
+    "description": "Neue Nutzer erhalten bei der ersten Anmeldung 2 Credits, probieren Sie unsere KI-Tools aus.",
+    "creditUsage": "1 Credit = 1 KI-Tattoo-Bild",
+    "tryNow": "Jetzt ausprobieren"
   }
 }

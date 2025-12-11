@@ -98,5 +98,11 @@
   "categoryMenus": {
     "inspirationText": "{count} design per ispirazione infinita sui tatuaggi",
     "viewAll": "Visualizza tutto"
+  },
+  "welcome": {
+    "getCredit": "Ottieni Crediti",
+    "description": "I nuovi utenti ricevono 2 crediti al primo accesso, prova i nostri strumenti AI.",
+    "creditUsage": "1 credito = 1 immagine tatuaggio AI",
+    "tryNow": "Prova Ora"
   }
 }

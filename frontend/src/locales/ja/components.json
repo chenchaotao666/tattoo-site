@@ -98,5 +98,11 @@
   "categoryMenus": {
     "inspirationText": "{count} 個のデザインで無限のタトゥーインスピレーション",
     "viewAll": "すべて見る"
+  },
+  "welcome": {
+    "getCredit": "クレジット獲得",
+    "description": "新規ユーザーは初回ログイン時に2クレジットを獲得できます。ぜひAIツールをお試しください。",
+    "creditUsage": "1クレジット = AIタトゥー画像1枚",
+    "tryNow": "今すぐ試す"
   }
 }

@@ -253,13 +253,28 @@ class UserService extends BaseService {
 
             // 使用模型的 verifyPassword 方法进行验证
             const user = await this.model.verifyPassword(email, password);
-            
+
             if (!user) {
                 throw new Error('Invalid email or password');
             }
 
-            // 处理用户数据并返回
-            return this.processUserData(user);
+            // 检查是否是首次登录
+            let isFirstLogin = false;
+            if (!user.firstlogintAt) {
+                isFirstLogin = true;
+                // 更新首次登录时间
+                await this.model.updateById(user.id, {
+                    firstlogintAt: new Date(),
+                    updatedAt: new Date()
+                });
+            }
+
+            // 处理用户数据并返回，包含首次登录标识
+            const processedUser = this.processUserData(user);
+            return {
+                ...processedUser,
+                isFirstLogin
+            };
         } catch (error) {
             throw new Error(`Login failed: ${error.message}`);
         }
@@ -489,9 +504,11 @@ class UserService extends BaseService {
 
             // 检查用户是否已存在（通过邮箱或Google ID）
             let user = await this.model.findByEmail(email);
+            let isFirstLogin = false;
 
             if (!user) {
                 // 新用户，创建账户
+                isFirstLogin = true;
                 const { v4: uuidv4 } = require('uuid');
 
                 // 从邮箱生成用户名（如果没有name的话）
@@ -553,9 +570,23 @@ class UserService extends BaseService {
                         console.error('Failed to grant welcome credits:', creditError);
                     }
                 }
+            } else {
+                // 现有用户，检查是否是首次登录
+                if (!user.firstlogintAt) {
+                    isFirstLogin = true;
+                    // 更新首次登录时间
+                    await this.model.updateById(user.id, {
+                        firstlogintAt: new Date(),
+                        updatedAt: new Date()
+                    });
+                }
             }
 
-            return this.processUserData(user);
+            const processedUser = this.processUserData(user);
+            return {
+                ...processedUser,
+                isFirstLogin
+            };
         } catch (error) {
             console.error('Google OAuth login error:', error);
             if (error.message.includes('Token used too early') || error.message.includes('Token used too late')) {

@@ -200,7 +200,7 @@ const GoogleLoginButton: React.FC<GoogleLoginButtonProps> = ({
   }, [language]); // 只依赖语言变化
 
   return (
-    <div className="w-full relative overflow-hidden google-login-container" style={{ minHeight: '44px' }}>
+    <div className="w-full relative overflow-hidden google-login-container" style={{ height: '44px' }}>
       <div
         ref={buttonRef}
         className={`w-full justify-center transition-opacity duration-200 ${

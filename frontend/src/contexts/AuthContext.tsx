@@ -132,9 +132,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     // 检查是否是首次登录
-    // if (loginResponse.isFirstLogin) {
+    if (loginResponse.isFirstLogin) {
       setShowWelcomeModal(true);
-    // }
+    }
   };
 
   const googleLogin = async (token: string, rememberMe: boolean = true) => {

@@ -14,6 +14,8 @@ interface ShaderUniforms {
   
   // 变换参数
   overlayScale: number;
+  overlayScaleX: number;    // 独立的X轴缩放
+  overlayScaleY: number;    // 独立的Y轴缩放
   overlayRotation: number;
   overlayOffset: [number, number];
   overlayOpacity: number;
@@ -109,6 +111,8 @@ class TattooShader {
       uniform sampler2D eraseMap;
       
       uniform float overlayScale;
+      uniform float overlayScaleX;      // 独立的X轴缩放
+      uniform float overlayScaleY;      // 独立的Y轴缩放
       uniform float overlayRotation;
       uniform vec2 overlayOffset;
       uniform float perspectiveK;
@@ -143,9 +147,12 @@ class TattooShader {
           translatedUv.x * sinTheta + translatedUv.y * cosTheta
         );
 
-        // 旋转后应用缩放
+        // 旋转后应用独立的X和Y轴缩放
         vec2 scaledUv = vec2(rotatedUv.x * overlayAspectRatio, rotatedUv.y);
-        vec2 finalUv = scaledUv / overlayScale + 0.5;
+        vec2 finalUv = vec2(
+          scaledUv.x / (overlayScale * overlayScaleX),
+          scaledUv.y / (overlayScale * overlayScaleY)
+        ) + 0.5;
 
         // 采样纹身纹理
         vec4 overlay = vec4(0.0);
@@ -220,6 +227,8 @@ class TattooShader {
       eraseMap: { value: this.createDummyTexture() },
       
       overlayScale: { value: 1.0 },
+      overlayScaleX: { value: 1.0 },        // 添加默认的X轴缩放
+      overlayScaleY: { value: 1.0 },        // 添加默认的Y轴缩放
       overlayRotation: { value: 0.0 },
       overlayOffset: { value: new THREE.Vector2(0, 0) },
       overlayOpacity: { value: 0.8 },

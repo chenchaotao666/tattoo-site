@@ -20,6 +20,8 @@ interface TattooEngineConfig {
 interface TattooSettings {
   opacity: number;
   scale: number;
+  scaleX: number;  // 宽度缩放
+  scaleY: number;  // 高度缩放
   rotation: number;
   offsetX: number;
   offsetY: number;
@@ -64,12 +66,14 @@ class TattooEngine {
     
     // 初始化默认设置
     this.settings = {
-      opacity: 0.8,
-      scale: 0.1, // 默认小尺寸
+      opacity: 1.0,
+      scale: 0.5,        // 增加默认缩放，让纹身更容易看见
+      scaleX: 1.0,
+      scaleY: 1.0,
       rotation: 0,
       offsetX: 0,
       offsetY: 0,
-      contrast: 1.3,
+      contrast: 1.0,
       blackAndWhite: false,
       multiplyEffect: true
     };
@@ -83,7 +87,7 @@ class TattooEngine {
     const sceneConfig: SceneConfig = {
       width: config.width,
       height: config.height,
-      backgroundColor: 0xf8f9fa,
+      backgroundColor: 0x000000, // 使用黑色背景，或者透明
       antialias: true,
       alpha: true
     };
@@ -212,7 +216,7 @@ class TattooEngine {
   /**
    * 加载纹身图像
    */
-  async loadTattooImage(imageUrl: string): Promise<void> {
+  async loadTattooImage(imageUrl: string, removeBackground: boolean = false): Promise<void> {
     try {
       this.setProcessing(true);
 
@@ -220,21 +224,25 @@ class TattooEngine {
       const metadata = await this.imageProcessor.getImageMetadata(imageUrl);
       console.log('Tattoo image metadata:', metadata);
 
-      // 自动去除纹身图片背景
+      // 根据参数决定是否去除纹身图片背景
       let processedImageUrl = imageUrl;
-      console.log('自动处理纹身图片去除背景...');
-      try {
-        processedImageUrl = await this.imageProcessor.smartRemoveBackground(imageUrl);
-        console.log('纹身背景去除成功');
-      } catch (error) {
-        console.warn('背景去除失败，使用原图:', error);
-        processedImageUrl = imageUrl;
+      if (removeBackground) {
+        console.log('处理纹身图片去除背景...');
+        try {
+          processedImageUrl = await this.imageProcessor.smartRemoveBackground(imageUrl);
+          console.log('纹身背景去除成功');
+        } catch (error) {
+          console.warn('背景去除失败，使用原图:', error);
+          processedImageUrl = imageUrl;
+        }
+      } else {
+        console.log('保持纹身原图，不去除背景');
       }
 
       // 保存资源
       this.assets.originalTattooImage = imageUrl; // 保存原始URL
       this.assets.tattooImage = processedImageUrl;
-      
+
       // 保存原始和当前纹身图像的宽高比
       this.assets.originalTattooAspectRatio = metadata.aspectRatio;
       this.assets.tattooAspectRatio = metadata.aspectRatio;
@@ -286,6 +294,8 @@ class TattooEngine {
         eraseMap: textures.eraseMap || null,
         
         overlayScale: this.settings.scale,
+        overlayScaleX: this.settings.scaleX,    // 添加独立的X轴缩放
+        overlayScaleY: this.settings.scaleY,    // 添加独立的Y轴缩放
         overlayRotation: this.settings.rotation * Math.PI / 180, // 将角度转换为弧度
         overlayOffset: [this.settings.offsetX, this.settings.offsetY],
         overlayOpacity: this.assets.tattooImage ? this.settings.opacity : 0.0,
@@ -301,13 +311,7 @@ class TattooEngine {
         includeBase: true,
         showEraseEffect: !!this.assets.eraseMap
       };
-      
-      console.log('着色器uniforms参数:', {
-        overlayScale: uniforms.overlayScale,
-        overlayAspectRatio: uniforms.overlayAspectRatio,
-        overlayOpacity: uniforms.overlayOpacity,
-        settings: this.settings
-      });
+    
 
       // 创建着色器材质
       const material = this.shader.createShaderMaterial(uniforms);
@@ -321,14 +325,6 @@ class TattooEngine {
   }
 
   /**
-   * 获取原始纹身图像URL
-   */
-  private getOriginalTattooImageUrl(): string | null {
-    return this.assets.originalTattooImage || null;
-  }
-
-
-  /**
    * 更新纹身设置
    */
   updateSettings(newSettings: Partial<TattooSettings>): void {
@@ -340,6 +336,8 @@ class TattooEngine {
     
     if (newSettings.opacity !== undefined) shaderUniforms.overlayOpacity = newSettings.opacity;
     if (newSettings.scale !== undefined) shaderUniforms.overlayScale = newSettings.scale;
+    if (newSettings.scaleX !== undefined) shaderUniforms.overlayScaleX = newSettings.scaleX;
+    if (newSettings.scaleY !== undefined) shaderUniforms.overlayScaleY = newSettings.scaleY;
     if (newSettings.rotation !== undefined) shaderUniforms.overlayRotation = newSettings.rotation * Math.PI / 180;
     if (newSettings.offsetX !== undefined || newSettings.offsetY !== undefined) {
       shaderUniforms.overlayOffset = [this.settings.offsetX, this.settings.offsetY];
@@ -411,12 +409,14 @@ class TattooEngine {
    */
   resetSettings(): void {
     this.updateSettings({
-      opacity: 0.8,
-      scale: 0.1,
+      opacity: 1.0,
+      scale: 0.36,
+      scaleX: 1.0,
+      scaleY: 1.0,
       rotation: 0,
       offsetX: 0,
       offsetY: 0,
-      contrast: 1.3,
+      contrast: 1.0,
       blackAndWhite: false,
       multiplyEffect: true
     });

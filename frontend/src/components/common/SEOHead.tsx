@@ -57,6 +57,17 @@ const SEOHead: React.FC<SEOHeadProps> = ({
     // 设置语言
     document.documentElement.lang = language;
 
+    // 设置robots标签 - 当语言为tw或zh时添加noindex
+    if (language === 'tw' || language === 'zh') {
+      updateOrCreateMeta('robots', 'noindex, follow');
+    } else {
+      // 移除noindex限制，允许索引
+      const robotsMeta = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
+      if (robotsMeta) {
+        robotsMeta.remove();
+      }
+    }
+
     // 设置Open Graph标签
     if (ogTitle) {
       updateOrCreateMeta('og:title', ogTitle, true);

@@ -67,7 +67,7 @@ class TattooEngine {
     // 初始化默认设置
     this.settings = {
       opacity: 1.0,
-      scale: 0.5,        // 增加默认缩放，让纹身更容易看见
+      scale: 1.0,        // 修复：使用1.0让图片占满canvas
       scaleX: 1.0,
       scaleY: 1.0,
       rotation: 0,
@@ -197,6 +197,7 @@ class TattooEngine {
       this.assets.baseImage = imageUrl;
       this.assets.bodyMask = bodyMask;
       this.assets.depthMap = depthMap;
+      this.assets.baseImageRatio = metadata.aspectRatio;
 
       // 创建3D平面
       this.scene.createBasePlane(metadata.aspectRatio);
@@ -245,7 +246,7 @@ class TattooEngine {
 
       // 保存原始和当前纹身图像的宽高比
       this.assets.originalTattooAspectRatio = metadata.aspectRatio;
-      this.assets.tattooAspectRatio = metadata.aspectRatio;
+      this.assets.tattooAspectRatio = metadata.aspectRatio; // 保持纹身图片的原始宽高比
 
       // 更新着色器
       await this.updateShaderMaterial();
@@ -300,6 +301,7 @@ class TattooEngine {
         overlayOffset: [this.settings.offsetX, this.settings.offsetY],
         overlayOpacity: this.assets.tattooImage ? this.settings.opacity : 0.0,
         overlayAspectRatio: this.assets.tattooAspectRatio || 1.0,
+        baseImageAspectRatio: this.assets.baseImageRatio || 1.0, // 传递BaseImage宽高比
         overlayContrast: this.settings.contrast,
         overlayBlackAndWhite: this.settings.blackAndWhite,
         applyMultiplyEffect: this.settings.multiplyEffect,
@@ -410,7 +412,7 @@ class TattooEngine {
   resetSettings(): void {
     this.updateSettings({
       opacity: 1.0,
-      scale: 0.36,
+      scale: 1.0,  // 修复：使用1.0让图片占满canvas
       scaleX: 1.0,
       scaleY: 1.0,
       rotation: 0,

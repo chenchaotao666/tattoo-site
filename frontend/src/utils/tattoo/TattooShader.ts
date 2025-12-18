@@ -20,6 +20,7 @@ interface ShaderUniforms {
   overlayOffset: [number, number];
   overlayOpacity: number;
   overlayAspectRatio: number;
+  baseImageAspectRatio: number; // BaseImage宽高比，用于补偿几何体变形
   
   // 深度和透视参数
   depthStrength: number;
@@ -118,6 +119,7 @@ class TattooShader {
       uniform float perspectiveK;
       uniform float overlayOpacity;
       uniform float overlayAspectRatio;
+      uniform float baseImageAspectRatio;
       uniform float hintOutsideSegment;
       uniform float overlayContrast;
       
@@ -127,7 +129,19 @@ class TattooShader {
       uniform bool showEraseEffect;
 
       void main() {
-        // 调整UV坐标以考虑偏移
+        // 首先补偿BaseImage宽高比对标准正方形几何体的影响
+        vec2 compensatedUv = vUv;
+
+        // 对于BaseImage显示，需要根据其宽高比调整UV
+        if (baseImageAspectRatio > 1.0) {
+          // BaseImage更宽，在Y轴方向缩放UV
+          compensatedUv.y = (vUv.y - 0.5) * baseImageAspectRatio + 0.5;
+        } else if (baseImageAspectRatio < 1.0) {
+          // BaseImage更高，在X轴方向缩放UV
+          compensatedUv.x = (vUv.x - 0.5) / baseImageAspectRatio + 0.5;
+        }
+
+        // 对于纹身图片，使用原始UV，不受BaseImage影响
         vec2 centeredUv = vUv - 0.5;
 
         // 首先应用透视缩放
@@ -147,11 +161,10 @@ class TattooShader {
           translatedUv.x * sinTheta + translatedUv.y * cosTheta
         );
 
-        // 旋转后应用独立的X和Y轴缩放
-        vec2 scaledUv = vec2(rotatedUv.x * overlayAspectRatio, rotatedUv.y);
+        // 旋转后应用独立的X和Y轴缩放，移除overlayAspectRatio的干扰
         vec2 finalUv = vec2(
-          scaledUv.x / (overlayScale * overlayScaleX),
-          scaledUv.y / (overlayScale * overlayScaleY)
+          rotatedUv.x / (overlayScale * overlayScaleX),
+          rotatedUv.y / (overlayScale * overlayScaleY)
         ) + 0.5;
 
         // 采样纹身纹理
@@ -170,14 +183,14 @@ class TattooShader {
         // 应用对比度
         overlay.rgb = (overlay.rgb - 0.5) * overlayContrast + 0.5;
 
-        // 采样基础纹理
+        // 采样基础纹理 - 使用补偿后的UV
         vec4 base = vec4(1.0, 1.0, 1.0, 1.0); // 默认白色
         if (includeBase) {
-          base = texture2D(baseTexture, vUv);
+          base = texture2D(baseTexture, compensatedUv);
         }
 
-        // 采样分割遮罩
-        vec4 seg = texture2D(segmentationMap, vUv);
+        // 采样分割遮罩 - 使用补偿后的UV
+        vec4 seg = texture2D(segmentationMap, compensatedUv);
         float mask = seg.a;
 
         // 如果启用擦除效果
@@ -233,6 +246,7 @@ class TattooShader {
       overlayOffset: { value: new THREE.Vector2(0, 0) },
       overlayOpacity: { value: 0.8 },
       overlayAspectRatio: { value: 1.0 },
+      baseImageAspectRatio: { value: 1.0 },
       
       depthStrength: { value: 0.3 },
       maxDepthOpaque: { value: 0.0 },

@@ -35,14 +35,15 @@ class ThreeScene {
   private renderer: THREE.WebGLRenderer;
   private container: HTMLElement | null = null;
   private animationId: number | null = null;
-  
+
   // 场景对象
   private meshRef: THREE.Mesh | null = null;
   private materialRef: THREE.ShaderMaterial | null = null;
-  
+
   // 配置
   private config: SceneConfig;
   private isInitialized: boolean = false;
+  private baseImageAspectRatio: number = 1.0;
 
   constructor(config: SceneConfig) {
     this.config = {
@@ -171,30 +172,20 @@ class ThreeScene {
    * 创建基础平面
    */
   createBasePlane(imageAspectRatio: number): void {
-    // 计算平面尺寸，让其填满视口
-    // 根据图像宽高比，选择适合的尺寸
-    const viewportWidth = this.config.width;
-    const viewportHeight = this.config.height;
-    
-    let planeWidth, planeHeight;
-    
-    if (imageAspectRatio < viewportWidth / viewportHeight) {
-      // 图像更高，以高度为准
-      planeHeight = viewportHeight * 0.9; // 90% 的视口高度
-      planeWidth = planeHeight * imageAspectRatio;
-    } else {
-      // 图像更宽，以宽度为准
-      planeWidth = viewportWidth * 0.9; // 90% 的视口宽度  
-      planeHeight = planeWidth / imageAspectRatio;
-    }
+    // 使用标准正方形几何体，避免BaseImage宽高比影响纹身显示
+    // 图片的宽高比处理将在着色器中完成
+    const size = Math.max(this.config.width, this.config.height);
 
-    // 创建几何体
-    const geometry = this.createPlane(planeWidth, planeHeight);
+    // 创建标准正方形几何体
+    const geometry = this.createPlane(size, size);
+
+    // 保存BaseImage的宽高比信息供着色器使用
+    this.baseImageAspectRatio = imageAspectRatio;
 
     // 创建基础材质（稍后会被着色器材质替换）
-    const material = new THREE.MeshBasicMaterial({ 
+    const material = new THREE.MeshBasicMaterial({
       transparent: true,
-      opacity: 0 
+      opacity: 0
     });
 
     // 创建网格
@@ -274,6 +265,13 @@ class ThreeScene {
    */
   getMaterial(): THREE.ShaderMaterial | null {
     return this.materialRef;
+  }
+
+  /**
+   * 获取BaseImage宽高比
+   */
+  getBaseImageAspectRatio(): number {
+    return this.baseImageAspectRatio;
   }
 
   /**

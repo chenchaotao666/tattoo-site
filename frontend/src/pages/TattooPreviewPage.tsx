@@ -50,7 +50,7 @@ const TattooPreviewPage: React.FC = () => {
   // 3D模式的设置
   const [settings, setSettings] = useState<TattooSettings>({
     ...DEFAULT_SETTINGS,
-    scale: 0.18,       // 增加默认scale值，让纹身变小
+    scale: 0.14,       // 增加默认scale值，让纹身变小
     scaleX: 1.0,      // 默认宽度缩放
     scaleY: 1.0,      // 默认高度缩放
     opacity: 1.0     // 默认opacity为100%
@@ -130,7 +130,7 @@ const TattooPreviewPage: React.FC = () => {
   const resetAllSettings = () => {
     const defaultSettings = {
       ...DEFAULT_SETTINGS,
-      scale: 0.18,       // 与其他地方保持一致，让纹身变小
+      scale: 0.14,       // 与其他地方保持一致，让纹身变小
       scaleX: 1.0,     // 默认宽度缩放
       scaleY: 1.0,     // 默认高度缩放
       opacity: 1.0,    // 默认opacity为100%
